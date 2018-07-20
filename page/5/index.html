@@ -311,6 +311,731 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/HttpServletResponse对象介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/HttpServletResponse对象介绍/" itemprop="url">
+                  javaweb (五 )
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>Web服务器收到客户端的http请求，会针对每一次请求，分别创建一个用于代表请求的request对象、和代表响应的response对象。</li>
+<li>request和response对象即然代表请求和响应，那我们要获取客户机提交过来的数据，只需要找request对象就行了。要向客户机输出数据，只需要找response对象就行了。</li>
+</ul>
+<h3 id="HttpServletResponse对象介绍"><a href="#HttpServletResponse对象介绍" class="headerlink" title="HttpServletResponse对象介绍"></a>HttpServletResponse对象介绍</h3><p>HttpServletResponse对象代表服务器的响应。这个对象中封装了向客户端发送数据、发送响应头，发送响应状态码的方法。查看HttpServletResponse的API，可以看到这些相关的方法。</p>
+<h4 id="负责向客户端-浏览器-发送数据的相关方法"><a href="#负责向客户端-浏览器-发送数据的相关方法" class="headerlink" title="负责向客户端(浏览器)发送数据的相关方法"></a>负责向客户端(浏览器)发送数据的相关方法</h4><p><img src="/img/response.png" alt=""></p>
+<h4 id="负责向客户端-浏览器-发送响应头的相关方法"><a href="#负责向客户端-浏览器-发送响应头的相关方法" class="headerlink" title="负责向客户端(浏览器)发送响应头的相关方法"></a>负责向客户端(浏览器)发送响应头的相关方法</h4><p><img src="/img/response1.png" alt=""><br><img src="/img/response2.png" alt=""></p>
+<h4 id="负责向客户端-浏览器-发送响应状态码的相关方法"><a href="#负责向客户端-浏览器-发送响应状态码的相关方法" class="headerlink" title="负责向客户端(浏览器)发送响应状态码的相关方法"></a>负责向客户端(浏览器)发送响应状态码的相关方法</h4><p><img src="/img/response3.png" alt=""></p>
+<h4 id="响应状态码的常量"><a href="#响应状态码的常量" class="headerlink" title="响应状态码的常量"></a>响应状态码的常量</h4><p>　HttpServletResponse定义了很多状态码的常量(具体可以查看Servlet的API)，当需要向客户端发送响应状态码时，可以使用这些常量，避免了直接写数字，常见的状态码对应的常量：<br><em>状态码404对应的常量</em><br><img src="/img/response4.png" alt=""><br><em>状态码200对应的常量</em><br><img src="/img/response5.png" alt=""><br><em>状态码500对应的常量</em><br><img src="/img/response6.png" alt=""></p>
+<h3 id="HttpServletResponse对象常见应用"><a href="#HttpServletResponse对象常见应用" class="headerlink" title="HttpServletResponse对象常见应用"></a>HttpServletResponse对象常见应用</h3><h4 id="使用OutputStream流向客户端浏览器输出中文数据"><a href="#使用OutputStream流向客户端浏览器输出中文数据" class="headerlink" title="使用OutputStream流向客户端浏览器输出中文数据"></a>使用OutputStream流向客户端浏览器输出中文数据</h4><p>使用OutputStream流输出中文注意问题：在服务器端，数据是以哪个码表输出的，那么就要控制客户端浏览器以相应的码表打开，比如：outputStream.write(“刘俭梅”.getBytes(“UTF-8”));使用OutputStream流向客户端浏览器输出中文，以UTF-8的编码进行输出，此时就要控制客户端浏览器以UTF-8的编码打开，否则显示的时候就会出现中文乱码，那么在服务器端如何控制客户端浏览器以以UTF-8的编码显示数据呢？可以通过设置响应头控制浏览器的行为，例如：response.setHeader(“content-type”, “text/html;charset=UTF-8”);通过设置响应头控制浏览器以UTF-8的编码显示数据。<br>范例：使用OutputStream流向客户端浏览器输出”刘俭梅”这三个汉字<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo1&quot;)</span><br><span class="line">public class ResponseDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;刘俭梅&quot;;</span><br><span class="line">        //获取OutputStream输出流</span><br><span class="line">        OutputStream outputStream = response.getOutputStream();</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        //将字符转换成字节数组，指定以UTF-8编码进行转换</span><br><span class="line">        byte[] dataByteArr = data.getBytes(&quot;UTF-8&quot;);</span><br><span class="line">        outputStream.write(dataByteArr);//使用OutputStream流向客户端输出字节数组</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><img src="/img/ResponseDemo.png" alt=""></p>
+<h4 id="使用PrintWriter流向客户端浏览器输出中文数据"><a href="#使用PrintWriter流向客户端浏览器输出中文数据" class="headerlink" title="使用PrintWriter流向客户端浏览器输出中文数据"></a>使用PrintWriter流向客户端浏览器输出中文数据</h4><p>2.2、使用PrintWriter流向客户端浏览器输出中文数据<br>使用PrintWriter流输出中文注意问题：<br>　　在获取PrintWriter输出流之前首先使用”response.setCharacterEncoding(charset)”设置字符以什么样的编码输出到浏览器，如：response.setCharacterEncoding(“UTF-8”);设置将字符以”UTF-8”编码输出到客户端浏览器，然后再使用response.getWriter();获取PrintWriter输出流，这两个步骤不能颠倒，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">response.setCharacterEncoding(&quot;UTF-8&quot;);//设置将字符以&quot;UTF-8&quot;编码输出到客户端浏览器</span><br><span class="line">PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">/**PrintWriter out = response.getWriter();这句代码必须放在*response.setCharacterEncoding(&quot;UTF-8&quot;);之后</span><br><span class="line">*否则response.setCharacterEncoding(&quot;UTF-8&quot;)这行代码的设置将无效，浏览器显示的时候还是乱码*/</span><br></pre></td></tr></table></figure></p>
+<p>然后再使用response.setHeader(“content-type”, “text/html;charset=字符编码”);设置响应头，控制浏览器以指定的字符编码编码进行显示，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>复制代码<br>范例：使用PrintWriter流向客户端浏览器输出”刘俭梅”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo1&quot;)</span><br><span class="line">public class ResponseDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;刘俭梅&quot;;</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);//设置将字符以&quot;UTF-8&quot;编码输出到客户端浏览器</span><br><span class="line">        PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">        out.write(data);//使用PrintWriter流向客户端输出字符</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当需要向浏览器输出字符数据时，使用PrintWriter比较方便，省去了将字符转换成字节数组那一步。</p>
+<h4 id="使用OutputStream或者PrintWriter向客户端浏览器输出数字"><a href="#使用OutputStream或者PrintWriter向客户端浏览器输出数字" class="headerlink" title="使用OutputStream或者PrintWriter向客户端浏览器输出数字"></a>使用OutputStream或者PrintWriter向客户端浏览器输出数字</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo1&quot;)</span><br><span class="line">public class ResponseDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        outputOneByOutputStream(response);//使用OutputStream输出1到客户端浏览器</span><br><span class="line">        outputOneByPrintWriter(response);//使用PrintWriter输出1到客户端浏览器</span><br><span class="line">        String data = &quot;刘俭梅&quot;;</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);//设置将字符以&quot;UTF-8&quot;编码输出到客户端浏览器</span><br><span class="line">        PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">        out.write(data);//使用PrintWriter流向客户端输出字符</span><br><span class="line">        //获取OutputStream输出流</span><br><span class="line">        OutputStream outputStream = response.getOutputStream();</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        //将字符转换成字节数组，指定以UTF-8编码进行转换</span><br><span class="line">        byte[] dataByteArr = data.getBytes(&quot;UTF-8&quot;);</span><br><span class="line">        outputStream.write(dataByteArr);//使用OutputStream流向客户端输出字节数组</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 使用PrintWriter流输出数字1</span><br><span class="line">     * @param response</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    private void outputOneByPrintWriter(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span><br><span class="line">        PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">        out.write(&quot;使用PrintWriter流输出数字1：&quot;);</span><br><span class="line">        out.write(1 + &quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 使用OutputStream流输出数字1</span><br><span class="line">     *</span><br><span class="line">     * @param response</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    private void outputOneByOutputStream(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        OutputStream outputStream = response.getOutputStream();</span><br><span class="line">        outputStream.write(&quot;使用OutputStream流输出数字1：&quot;.getBytes(&quot;UTF-8&quot;));</span><br><span class="line">        outputStream.write((1 + &quot;&quot;).getBytes());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>1+””这一步是将数字1和一个空字符串相加，这样处理之后，数字1就变成了字符串1了，然后再将字符串1转换成字节数组使用OutputStream进行输出</li>
+</ul>
+<h5 id="在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。"><a href="#在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。" class="headerlink" title="在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。"></a>在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。</h5><h5 id="如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出"><a href="#如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出" class="headerlink" title="如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出"></a>如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出</h5>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Handler/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/Handler/" itemprop="url">
+                  Handler
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Handler"><a href="#Handler" class="headerlink" title="Handler"></a>Handler</h3><p>作者博客：<a href="https://blog.csdn.net/ClAndEllen/article/details/79343538" target="_blank" rel="noopener">https://blog.csdn.net/ClAndEllen/article/details/79343538</a></p>
+<h4 id="1-什么是Handler？"><a href="#1-什么是Handler？" class="headerlink" title="1.什么是Handler？"></a>1.什么是Handler？</h4><p>  Handler是可以通过发送和处理Message和Runnable对象来关联相应线程的MessageQueue。通常我们认为它是一种异步机制。</p>
+<ul>
+<li>a.可以让对应的Message和Runnable在未来的某个时间点进行相应的处理。</li>
+<li>b.让自己想要的耗时操作在子线程中完成，让更新UI的操作在主线程中完成，而子线程与主线程之间的通信就是靠Handler来完成。</li>
+</ul>
+<h4 id="2-Handler的使用方法"><a href="#2-Handler的使用方法" class="headerlink" title="2.Handler的使用方法"></a>2.Handler的使用方法</h4><ul>
+<li><p>a.post(Runnable)</p>
+</li>
+<li><p>b.sendMessage(Message)</p>
+</li>
+</ul>
+<h4 id="3-Handler内部的实现机制"><a href="#3-Handler内部的实现机制" class="headerlink" title="3.Handler内部的实现机制"></a>3.Handler内部的实现机制</h4><p>  Handler机制也可叫异步消息机制，它主要由4个部分组成：<strong>Message,Handler,MessageQueue,Looper,</strong>在上面我们已经接触到了Message和Handler,接下来我们对4个成员进行着重的了解：</p>
+<p><strong>1.Message</strong><br>  Message是在线程之间传递的消息，它可以在内部携带少量的信息，用于在不同线程之间交换数据。使用Message的arg1和arg2便可携带int数据，使用obj便可携带Object类型数据。</p>
+<p><strong>2.Handler</strong><br>  Handler顾名思义就是处理者的意思，它只要用于在子线程发送消息对象Message,在UI线程处理消息对象Message，在子线程调用sendMessage方法发送消息对象Message，而发送的消息经过一系列地辗转之后最终会被传递到Handler的handleMessage方法中,最终在handleMessage方法中消息对象Message被处理。</p>
+<p><strong>3.MessageQueue</strong><br>  MessageQueue就是消息队列的意思,它只要用于存放所有通过Handler发送过来的消息。这部分消息会一直存放于消息队列当中，等待被处理。每个线程中只会有一个MessageQueue对象，请牢记这句话。其实从字面上就可以看出，MessageQueue底层数据结构是队列，而且这个队列只存放Message对象。</p>
+<p><strong>4.Looper</strong><br>  Looper是每个线程中的MessageQueue的管家，调用Looper的loop()方法后，就会进入到一个无限循环当中，然后每当MesssageQueue中存在一条消息，Looper就会将这条消息取出，并将它传递到Handler的handleMessage()方法中。每个线程只有一个Looper对象。</p>
+<p>  了解了上述Handler机制的4个成员后，我们再来把思路理一遍：首先在UI线程我们创建了一个Handler实例对象，无论是匿名内部类还是自定义类生成的Handler实例对象，我们都需要对handleMessage方法进行重写，在handleMessage方法中我们可以通过参数msg来写接受消息过后UIi线程的逻辑处理，接着我们创建子线程，在子线程中需要更新UI的时候，新建一个Message对象，并且将消息的数据记录在这个消息对象Message的内部，比如arg1,arg2,obj等，然后通过前面的Handler实例对象调用sendMessge方法把这个Message实例对象发送出去，之后这个消息会被存放于MessageQueue中等待被处理，此时MessageQueue的管家Looper正在不停的把MessageQueue存在的消息取出来，通过回调dispatchMessage方法将消息传递给Handler的handleMessage方法，最终前面提到的消息会被Looper从MessageQueue中取出来传递给handleMessage方法，最终得到处理。这就是Handler机制整个的工作流程，怎么样？你懂了吗？看看下面的图你就更懂了：<br><img src="/img/handler1.png" alt=""></p>
+<h4 id="4-Handler引起的内存泄漏以及解决方法"><a href="#4-Handler引起的内存泄漏以及解决方法" class="headerlink" title="4.Handler引起的内存泄漏以及解决方法"></a>4.Handler引起的内存泄漏以及解决方法</h4><p>原因：<strong>非静态内部类持有外部类的匿名引用，导致外部activity无法得到释放。</strong></p>
+<p>解决方法：handler内部持有外部的弱引用，并把handler改为<strong>静态内部类</strong>，<strong>在activity的onDestory()中调用handler的removeCallback()方法。</strong></p>
+<h4 id="Handler的产生背景"><a href="#Handler的产生背景" class="headerlink" title="Handler的产生背景"></a>Handler的产生背景</h4><p>  开启子线程进行耗时操作，多次创建和销毁子线程是很耗费资源的，但是木有关系，谷歌考虑了这点为我们专门开发出了HandlerThread机制，那么它有什么特点呢？请看下面：</p>
+<h4 id="HandlerThread是什么？"><a href="#HandlerThread是什么？" class="headerlink" title="HandlerThread是什么？"></a>HandlerThread是什么？</h4><p>  本质：Handler + Thread + Looper，是一个Thread内部有Looper。当你被面试官问道HandlerThread是什么，有何特点，那么你应该这么回答：</p>
+<p>  a.HandlerThread本质上是一个线程类，它继承了Thread。</p>
+<p>  b.HandlerThread有自己内部的Looper对象，可以进行Looper循环。</p>
+<p>  c.通过获取HandlerThread的Looper对象传递给Handler对象，可以在handlerMessage方法中执行异步任务。</p>
+<p>  d.优点是不会有堵塞，减少对性能的消耗，缺点是不能进行多任务的处理，需要等待进行处理，处理效率较低。</p>
+<p>  e.与线程池注重并发不同，HandlerThread是一个串行队列，HandlerThread背后只有一个线程。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/广播/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/广播/" itemprop="url">
+                  Broadcast
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h3><h4 id="1-1-定义"><a href="#1-1-定义" class="headerlink" title="1.1 定义"></a>1.1 定义</h4><p>  在Android中，它是一种广泛运用在应用程序之间传输信息的机制，Android中我们发送广播内容是一个Intent,这个Intent中可以携带我们要发送的数据。</p>
+<h4 id="1-2-广播的使用场景"><a href="#1-2-广播的使用场景" class="headerlink" title="1.2 广播的使用场景"></a>1.2 广播的使用场景</h4><ul>
+<li><p>a.同一app内有多个进程的不同组件之间的消息通信。</p>
+</li>
+<li><p>b.不同app之间的组件之间消息的通信。</p>
+</li>
+</ul>
+<h4 id="1-3-广播的种类"><a href="#1-3-广播的种类" class="headerlink" title="1.3 广播的种类"></a>1.3 广播的种类</h4><p>  <strong>标准广播：</strong>context.sendBroadcast(Intent)方法发送的广播，不可被拦截</p>
+<p>  <strong>有序广播：</strong>context.sendOrderBroadcast(Intent)方法发送的广播，可被拦截</p>
+<p>  <strong>本地广播：</strong>localBroadcastManager.sendBroadcast(Intent)，只在app内传播</p>
+<h3 id="广播接收器"><a href="#广播接收器" class="headerlink" title="广播接收器"></a>广播接收器</h3><p>  广播接收器是专门用来接收广播信息的，它可分为<strong>静态注册</strong>和<strong>动态注册</strong>：</p>
+<p>  <strong>静态注册：</strong>注册完成一直在运行。</p>
+<p>  首先你要创建一个广播接收器类，实例代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class BootCompleteReceiver extends BroadcastReceiver &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onReceive(Context context, Intent intent) &#123;</span><br><span class="line">        Toast.makeText(context, &quot;Boot Complete&quot;, Toast.LENGTH_LONG).show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>  代码非常简单，我们只是在onReceive()方法中使用Toast弹出一段信息提示信息。<br>另外，静态的广播接收器一定要在AndroidManifest.xml文件中注册才可以使用，AndroidManifest.xml文件中注册静态广播代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">       package=&quot;com.example.broadcasttest&quot;</span><br><span class="line">       android:versionCode=&quot;1&quot;</span><br><span class="line">       android:versionName=&quot;1.0&quot; &gt;</span><br><span class="line">       ……</span><br><span class="line">      &lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot; /&gt;</span><br><span class="line">      &lt;uses-permission android:name=&quot;android.permission.RECEIVE_BOOT_COMPLETED&quot; /&gt;</span><br><span class="line"></span><br><span class="line">      &lt;application</span><br><span class="line">           android:allowBackup=&quot;true&quot;</span><br><span class="line">           android:icon=&quot;@drawable/ic_launcher&quot;</span><br><span class="line">           android:label=&quot;@string/app_name&quot;</span><br><span class="line">           android:theme=&quot;@style/AppTheme&quot; &gt;</span><br><span class="line">           ……</span><br><span class="line"></span><br><span class="line">           &lt;receiver </span><br><span class="line">               android:name=&quot;.BootCompleteReceiver&quot; &gt;</span><br><span class="line">               &lt;intent-filter&gt;</span><br><span class="line">                   &lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot; /&gt;</span><br><span class="line">               &lt;/intent-filter&gt;</span><br><span class="line">           &lt;/receiver&gt;</span><br><span class="line">      &lt;/application&gt;</span><br><span class="line">&lt;/manifest&gt;</span><br></pre></td></tr></table></figure></p>
+<p>  可以看到，标签内出现了一个新的标签，所有静态的广播接收器都是在这里进行注册的。它的用法其实和标签非常相似，也是通过android:name来指定具体注册哪一个广播接收器，而enabled和exported属性则是根据我们刚才勾选的状态自动生成的，也可以自己添加，没有就自己添加嘛！</p>
+<p>  <strong>动态注册：</strong>跟随Activity的生命周期。</p>
+<p>  如何创建一个广播接收器呢？其实就需要新建一个类，让它继承自BroadcastReceiver,并重写父类的onReceive()方法就行了。这样有广播到来时，onReceive()方法就会得到执行，具体的逻辑就可以在这个方法中处理。来个简单的例子来理解以下，如何监听网络变化呢？其实就是新建一个广播接收器去接收来自系统网络变化的广播即可，代码如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity&#123;</span><br><span class="line"></span><br><span class="line">    private IntentFilter intentFilter;</span><br><span class="line"></span><br><span class="line">    private NetWorkChangeReceiver netWorkChangeReceiver;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState)&#123;</span><br><span class="line">        super.Oncreata(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        intentFilter = new IntentFilter();</span><br><span class="line">        intentFilter.addAction(&quot;android.net.conn.CONNECTIVITY_CHANGE&quot;);</span><br><span class="line">        networkChangeReceiver = new NetWorkChangeReceiver();</span><br><span class="line">        registerReceiver(networkChangeReceiver, intentFilter);//注册广播接收器</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Overrid</span><br><span class="line">    protected void onDestroy()&#123;</span><br><span class="line">        unregisterReceiver(networkChangeReceiver);//一定要记得取消广播接收器的注册</span><br><span class="line">        super.onDestroy();</span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    class NetworkChangeReceiver extends BroadcastReceiver&#123;//广播接收器类</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onReceiver(Context context,Intent intent)&#123;</span><br><span class="line"></span><br><span class="line">            //这里需要权限，需要在AndroidManifest.xml中进行网络访问权限申请:</span><br><span class="line">            //&lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot;/&gt;</span><br><span class="line">            ConnectivityManager connectionManager = (ConnectivityManager)</span><br><span class="line">            getSystemService(Context.CONNECTIVITY_SERVICE);</span><br><span class="line">            NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();</span><br><span class="line"></span><br><span class="line">            if (networkInfo != null &amp;&amp; networkInfo.isAvailable()) &#123;</span><br><span class="line"></span><br><span class="line">                  //有网</span><br><span class="line">                  Toast.makeText(context, &quot;network is available&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line"></span><br><span class="line">            &#125; else &#123;</span><br><span class="line"></span><br><span class="line">                  //无网</span><br><span class="line">                  Toast.makeText(context, &quot;network is unavailable&quot;,</span><br><span class="line">                  Toast.LENGTH_SHORT).show();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>  动态注册广播接收器的优点以及缺点：动态注册的广播接收器可以自由地控制注册与注销，在灵活性方面有很大优势，但是它也存在着一个缺点，即必须要在程序启动之后才能接收到广播，因为注册的逻辑是写在onCreate()方法中的。那么有没有广播能在程序未启动的情况下就能接收到广播呢？静态注册的广播接收器就可以做到。</p>
+<h3 id="广播内部实现机制"><a href="#广播内部实现机制" class="headerlink" title="广播内部实现机制"></a>广播内部实现机制</h3><ul>
+<li><p>a.自定义广播接收者BroadcastReceiver,并且重写onReceiver()方法。</p>
+</li>
+<li><p>b.通过Binder机制向AMS(Activity Manager Service)进行注册。</p>
+</li>
+<li><p>c.广播发送者通过Binder机制向AMS发送广播。</p>
+</li>
+<li><p>d.AMS查找符合条件(IntentFilter/Permission等)的BroadcastReceiver，将广播发送到相应的BroadcastReceiver(一般情况下是Activity)的消息队列中。</p>
+</li>
+<li><p>e.消息循环执行拿到此广播，回调BroadcastReceiver中的onReceiver()方法。</p>
+</li>
+</ul>
+<h3 id="本地广播"><a href="#本地广播" class="headerlink" title="本地广播"></a>本地广播</h3><p>  本地广播的发送和注册广播接收器都需要使用到LocalBroadcastManager类，如下所示为本地广播的发送和本地广播接收器注册的代码：</p>
+<p>  <strong>本地广播的发送：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static void sendLocalBroadcast(Context context,String action)&#123;</span><br><span class="line"></span><br><span class="line">    Intent intent = new Intent(action);</span><br><span class="line">    LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);</span><br><span class="line">    localBroadcastManager.sendBroadcast(intent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>  <strong>本地广播的接收器的注册：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">IntentFilter intentFilter = new IntentFilter();</span><br><span class="line">LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);</span><br><span class="line"></span><br><span class="line">intentFilter.addAction(new BroadcastUtil().action_next);</span><br><span class="line">nasbr = new NextAndStartBroadcastReceiver();</span><br><span class="line">localBroadcastManager.registerReceiver(nasbr, intentFilter);//注册本地广播接收器</span><br></pre></td></tr></table></figure></p>
+<p>  相比于系统广播而言，本地广播更加安全，更加高效，以下是本地广播的特点以及内部的实现机制：</p>
+<p>  <strong>特点：</strong></p>
+<ul>
+<li><p>a.使用它发送的广播将只在自身app内传播，因此你不必担心泄漏隐私的数据。</p>
+</li>
+<li><p>b.其他app无法对你的app发送该广播，因此你的app根本不可能收到非自身app发送的该广播，因此你不必担心有安全漏洞可以利用。</p>
+</li>
+<li><p>c.比系统广播更加高效。</p>
+</li>
+</ul>
+<p>  <strong>内部实现机制：</strong></p>
+<ul>
+<li><p>a.LocalBroadcast高效的原因：因为它内部是通过Handler实现的，它的sendBroadcast()方法含义并非和系统的sendBroadcast()一样，它的sendBroadcast()方法其实就是通过Handler发送了一个Message而已。</p>
+</li>
+<li><p>b.LocalBroadcast安全的原因：既然它是通过Handler实现广播发送的，那么相比系统广播通过Binder机制实现那肯定更加高效，同时使用Handler来实现，别的app无法向我们应用发送该广播，而我们app内部发送的广播也不会离开我们的app。</p>
+</li>
+</ul>
+<p>  LocalBroadcast内部协作主要是靠两个Map集合：mReceivers和mActions,当然还有一个List集合mPendingBroadcasts,这个主要存储待接收的广播对象。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/异常机制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/异常机制/" itemprop="url">
+                  java 基础知识(五)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="异常机制"><a href="#异常机制" class="headerlink" title="异常机制"></a>异常机制</h3><h4 id="Java异常机制"><a href="#Java异常机制" class="headerlink" title="Java异常机制"></a>Java异常机制</h4><ul>
+<li>异常是程序运行过程中出现的错误。本文主要讲授的是Java语言的异常处理。Java语言的异常处理框架，是Java语言健壮性的一个重要体现。</li>
+<li>Java把异常当作对象来处理，并定义一个基类java.lang.Throwable作为所有异常的超类。在Java API中已经定义了许多异常类，这些异常类分为两大类，错误Error和异常Exception。Java异常体系结构呈树状，其层次结构图如图所示：<br><img src="/img/异常.jpg" alt=""><h5 id="Thorwable类"><a href="#Thorwable类" class="headerlink" title="Thorwable类"></a>Thorwable类</h5>Thorwable类所有异常和错误的超类，有两个子类Error和Exception，分别表示错误和异常。其中异常类Exception又分为运行时异常(RuntimeException)和非运行时异常，这两种异常有很大的区别，也称之为不检查异常（Unchecked Exception）和检查异常（Checked Exception）。<h5 id="Error（错误）："><a href="#Error（错误）：" class="headerlink" title="Error（错误）："></a>Error（错误）：</h5>一般是指java虚拟机相关的问题，如系统崩溃、虚拟机出错误、动态链接失败等，这种错误无法恢复或不可能捕获，将导致应用程序中断，通常应用程序无法处理这些错误，因此应用程序不应该捕获Error对象，也无须在其throws子句中声明该方法抛出任何Error或其子类。<h5 id="Exception："><a href="#Exception：" class="headerlink" title="Exception："></a>Exception：</h5>Exception类及其子类是Throwable的一种形式，它指出了合理的应用程序想要捕获的条件</li>
+</ul>
+<p>（1）SQLException：该异常提供关于数据库访问错误或其他错误的信息。</p>
+<p>（2）RuntimeException 是那些可能在 Java 虚拟机正常运行期间抛出的异常的超类</p>
+<p>（3）IOException：此类为异常的通用类，它是由失败的或中断的 I/O 操作生成的。 </p>
+<h5 id="运行时异常和非运行时异常"><a href="#运行时异常和非运行时异常" class="headerlink" title="运行时异常和非运行时异常"></a>运行时异常和非运行时异常</h5><p>（1）运行时异常都是RuntimeException类及其子类异常，如NullPointerException、IndexOutOfBoundsException等，这些异常是不检查异常，程序中可以选择捕获处理，也可以不处理。这些异常一般是由程序逻辑错误引起的，程序应该从逻辑角度尽可能避免这类异常的发生。<br>（2）非运行时异常是RuntimeException以外的异常，类型上都属于Exception类及其子类。从程序语法角度讲是必须进行处理的异常，如果不处理，程序就不能编译通过。如IOException、SQLException等以及用户自定义的Exception异常，一般情况下不自定义检查异常。</p>
+<h5 id="异常的捕获和处理"><a href="#异常的捕获和处理" class="headerlink" title="异常的捕获和处理"></a>异常的捕获和处理</h5><p>Java异常的捕获和处理是一个不容易把握的事情，如果处理不当，不但会让程序代码的可读性大大降低，而且导致系统性能低下，甚至引发一些难以发现的错。<br>Java异常处理涉及到五个关键字，分别是：try、catch、finally、throw、throws。下面将骤一介绍，通过认识这五个关键字，掌握基本异常处理知识。<br>  （1）、try：它里面放置可能引发异常的代码<br>  （2）、catch：后面对应异常类型和一个代码块，用于表明该catch块用于处理这种类型的代码块，可以有多个catch块。</p>
+<p>  （3）、finally：主要用于回收在try块里打开的物力资源（如数据库连接、网络连接和磁盘文件），异常机制总是保证finally块总是被执行。只有finally块，执行完成之后，才会回来执行try或者catch块中的return或者throw语句，如果finally中使用了return或者throw等终止方法的语句，则就不会跳回执行，直接停止。</p>
+<ul>
+<li>finally执行过程：<br><img src="/img/finally.jpg" alt=""><br>（4）、throw：用于抛出一个实际的异常，可以单独作为语句使用，抛出一个具体的异常对象。<br>（5）、throws：用在方法签名中，用于声明该方法可能抛出的异常。<h3 id="常见的RuntimeException"><a href="#常见的RuntimeException" class="headerlink" title="常见的RuntimeException"></a>常见的RuntimeException</h3>NullPointerException- 空指针引用异常<br>ClassCastException - 类型强制转换异常。<br>IllegalArgumentException - 传递非法参数异常。<br>ArithmeticException - 算术运算异常<br>ArrayStoreException - 向数组中存放与声明类型不兼容对象异常<br>IndexOutOfBoundsException - 下标越界异常<br>NegativeArraySizeException - 创建一个大小为负数的数组错误异常<br>NumberFormatException - 数字格式异常<br>SecurityException - 安全异常<br>UnsupportedOperationException - 不支持的操作异常<h3 id="异常捕捉的陷阱"><a href="#异常捕捉的陷阱" class="headerlink" title="异常捕捉的陷阱"></a>异常捕捉的陷阱</h3></li>
+<li>使用 finally 块来保证回收，保证关闭操作总会被执行。</li>
+<li>关闭每个资源之前首先保证引用该资源的引用变量不为null。</li>
+<li>为每个物理资源单独使用try….catch块关闭资源，保证关闭资源时引发的异常不会影响到其他资源的关闭。<h3 id="finally-块陷阱"><a href="#finally-块陷阱" class="headerlink" title="finally 块陷阱"></a>finally 块陷阱</h3>finally 执行顺序<h3 id="catch-块用法"><a href="#catch-块用法" class="headerlink" title="catch 块用法"></a>catch 块用法</h3>在 try 块后使用 catch 块来捕获多个异常时，程序应该小心多个 catch 块之间的顺序：捕获父类异常的 catch 块都应该排在捕获子类异常的 catch 块之后（先处理小异常，再处理大异常），否则出现编译错误。<h3 id="继承得到的异常"><a href="#继承得到的异常" class="headerlink" title="继承得到的异常"></a>继承得到的异常</h3>子类重写父类方法时，不能声明抛出比父类方法类型更多、范围更大的异常。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Spring Boot中使用JdbcTemplate访问数据库/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -635,7 +1360,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/广播/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -654,392 +1379,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/广播/" itemprop="url">
-                  Broadcast
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h3><h4 id="1-1-定义"><a href="#1-1-定义" class="headerlink" title="1.1 定义"></a>1.1 定义</h4><p>  在Android中，它是一种广泛运用在应用程序之间传输信息的机制，Android中我们发送广播内容是一个Intent,这个Intent中可以携带我们要发送的数据。</p>
-<h4 id="1-2-广播的使用场景"><a href="#1-2-广播的使用场景" class="headerlink" title="1.2 广播的使用场景"></a>1.2 广播的使用场景</h4><ul>
-<li><p>a.同一app内有多个进程的不同组件之间的消息通信。</p>
-</li>
-<li><p>b.不同app之间的组件之间消息的通信。</p>
-</li>
-</ul>
-<h4 id="1-3-广播的种类"><a href="#1-3-广播的种类" class="headerlink" title="1.3 广播的种类"></a>1.3 广播的种类</h4><p>  <strong>标准广播：</strong>context.sendBroadcast(Intent)方法发送的广播，不可被拦截</p>
-<p>  <strong>有序广播：</strong>context.sendOrderBroadcast(Intent)方法发送的广播，可被拦截</p>
-<p>  <strong>本地广播：</strong>localBroadcastManager.sendBroadcast(Intent)，只在app内传播</p>
-<h3 id="广播接收器"><a href="#广播接收器" class="headerlink" title="广播接收器"></a>广播接收器</h3><p>  广播接收器是专门用来接收广播信息的，它可分为<strong>静态注册</strong>和<strong>动态注册</strong>：</p>
-<p>  <strong>静态注册：</strong>注册完成一直在运行。</p>
-<p>  首先你要创建一个广播接收器类，实例代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class BootCompleteReceiver extends BroadcastReceiver &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onReceive(Context context, Intent intent) &#123;</span><br><span class="line">        Toast.makeText(context, &quot;Boot Complete&quot;, Toast.LENGTH_LONG).show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>  代码非常简单，我们只是在onReceive()方法中使用Toast弹出一段信息提示信息。<br>另外，静态的广播接收器一定要在AndroidManifest.xml文件中注册才可以使用，AndroidManifest.xml文件中注册静态广播代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">       package=&quot;com.example.broadcasttest&quot;</span><br><span class="line">       android:versionCode=&quot;1&quot;</span><br><span class="line">       android:versionName=&quot;1.0&quot; &gt;</span><br><span class="line">       ……</span><br><span class="line">      &lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot; /&gt;</span><br><span class="line">      &lt;uses-permission android:name=&quot;android.permission.RECEIVE_BOOT_COMPLETED&quot; /&gt;</span><br><span class="line"></span><br><span class="line">      &lt;application</span><br><span class="line">           android:allowBackup=&quot;true&quot;</span><br><span class="line">           android:icon=&quot;@drawable/ic_launcher&quot;</span><br><span class="line">           android:label=&quot;@string/app_name&quot;</span><br><span class="line">           android:theme=&quot;@style/AppTheme&quot; &gt;</span><br><span class="line">           ……</span><br><span class="line"></span><br><span class="line">           &lt;receiver </span><br><span class="line">               android:name=&quot;.BootCompleteReceiver&quot; &gt;</span><br><span class="line">               &lt;intent-filter&gt;</span><br><span class="line">                   &lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot; /&gt;</span><br><span class="line">               &lt;/intent-filter&gt;</span><br><span class="line">           &lt;/receiver&gt;</span><br><span class="line">      &lt;/application&gt;</span><br><span class="line">&lt;/manifest&gt;</span><br></pre></td></tr></table></figure></p>
-<p>  可以看到，标签内出现了一个新的标签，所有静态的广播接收器都是在这里进行注册的。它的用法其实和标签非常相似，也是通过android:name来指定具体注册哪一个广播接收器，而enabled和exported属性则是根据我们刚才勾选的状态自动生成的，也可以自己添加，没有就自己添加嘛！</p>
-<p>  <strong>动态注册：</strong>跟随Activity的生命周期。</p>
-<p>  如何创建一个广播接收器呢？其实就需要新建一个类，让它继承自BroadcastReceiver,并重写父类的onReceive()方法就行了。这样有广播到来时，onReceive()方法就会得到执行，具体的逻辑就可以在这个方法中处理。来个简单的例子来理解以下，如何监听网络变化呢？其实就是新建一个广播接收器去接收来自系统网络变化的广播即可，代码如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity&#123;</span><br><span class="line"></span><br><span class="line">    private IntentFilter intentFilter;</span><br><span class="line"></span><br><span class="line">    private NetWorkChangeReceiver netWorkChangeReceiver;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState)&#123;</span><br><span class="line">        super.Oncreata(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        intentFilter = new IntentFilter();</span><br><span class="line">        intentFilter.addAction(&quot;android.net.conn.CONNECTIVITY_CHANGE&quot;);</span><br><span class="line">        networkChangeReceiver = new NetWorkChangeReceiver();</span><br><span class="line">        registerReceiver(networkChangeReceiver, intentFilter);//注册广播接收器</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Overrid</span><br><span class="line">    protected void onDestroy()&#123;</span><br><span class="line">        unregisterReceiver(networkChangeReceiver);//一定要记得取消广播接收器的注册</span><br><span class="line">        super.onDestroy();</span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    class NetworkChangeReceiver extends BroadcastReceiver&#123;//广播接收器类</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onReceiver(Context context,Intent intent)&#123;</span><br><span class="line"></span><br><span class="line">            //这里需要权限，需要在AndroidManifest.xml中进行网络访问权限申请:</span><br><span class="line">            //&lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot;/&gt;</span><br><span class="line">            ConnectivityManager connectionManager = (ConnectivityManager)</span><br><span class="line">            getSystemService(Context.CONNECTIVITY_SERVICE);</span><br><span class="line">            NetworkInfo networkInfo = connectionManager.getActiveNetworkInfo();</span><br><span class="line"></span><br><span class="line">            if (networkInfo != null &amp;&amp; networkInfo.isAvailable()) &#123;</span><br><span class="line"></span><br><span class="line">                  //有网</span><br><span class="line">                  Toast.makeText(context, &quot;network is available&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line"></span><br><span class="line">            &#125; else &#123;</span><br><span class="line"></span><br><span class="line">                  //无网</span><br><span class="line">                  Toast.makeText(context, &quot;network is unavailable&quot;,</span><br><span class="line">                  Toast.LENGTH_SHORT).show();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>  动态注册广播接收器的优点以及缺点：动态注册的广播接收器可以自由地控制注册与注销，在灵活性方面有很大优势，但是它也存在着一个缺点，即必须要在程序启动之后才能接收到广播，因为注册的逻辑是写在onCreate()方法中的。那么有没有广播能在程序未启动的情况下就能接收到广播呢？静态注册的广播接收器就可以做到。</p>
-<h3 id="广播内部实现机制"><a href="#广播内部实现机制" class="headerlink" title="广播内部实现机制"></a>广播内部实现机制</h3><ul>
-<li><p>a.自定义广播接收者BroadcastReceiver,并且重写onReceiver()方法。</p>
-</li>
-<li><p>b.通过Binder机制向AMS(Activity Manager Service)进行注册。</p>
-</li>
-<li><p>c.广播发送者通过Binder机制向AMS发送广播。</p>
-</li>
-<li><p>d.AMS查找符合条件(IntentFilter/Permission等)的BroadcastReceiver，将广播发送到相应的BroadcastReceiver(一般情况下是Activity)的消息队列中。</p>
-</li>
-<li><p>e.消息循环执行拿到此广播，回调BroadcastReceiver中的onReceiver()方法。</p>
-</li>
-</ul>
-<h3 id="本地广播"><a href="#本地广播" class="headerlink" title="本地广播"></a>本地广播</h3><p>  本地广播的发送和注册广播接收器都需要使用到LocalBroadcastManager类，如下所示为本地广播的发送和本地广播接收器注册的代码：</p>
-<p>  <strong>本地广播的发送：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static void sendLocalBroadcast(Context context,String action)&#123;</span><br><span class="line"></span><br><span class="line">    Intent intent = new Intent(action);</span><br><span class="line">    LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);</span><br><span class="line">    localBroadcastManager.sendBroadcast(intent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>  <strong>本地广播的接收器的注册：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">IntentFilter intentFilter = new IntentFilter();</span><br><span class="line">LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);</span><br><span class="line"></span><br><span class="line">intentFilter.addAction(new BroadcastUtil().action_next);</span><br><span class="line">nasbr = new NextAndStartBroadcastReceiver();</span><br><span class="line">localBroadcastManager.registerReceiver(nasbr, intentFilter);//注册本地广播接收器</span><br></pre></td></tr></table></figure></p>
-<p>  相比于系统广播而言，本地广播更加安全，更加高效，以下是本地广播的特点以及内部的实现机制：</p>
-<p>  <strong>特点：</strong></p>
-<ul>
-<li><p>a.使用它发送的广播将只在自身app内传播，因此你不必担心泄漏隐私的数据。</p>
-</li>
-<li><p>b.其他app无法对你的app发送该广播，因此你的app根本不可能收到非自身app发送的该广播，因此你不必担心有安全漏洞可以利用。</p>
-</li>
-<li><p>c.比系统广播更加高效。</p>
-</li>
-</ul>
-<p>  <strong>内部实现机制：</strong></p>
-<ul>
-<li><p>a.LocalBroadcast高效的原因：因为它内部是通过Handler实现的，它的sendBroadcast()方法含义并非和系统的sendBroadcast()一样，它的sendBroadcast()方法其实就是通过Handler发送了一个Message而已。</p>
-</li>
-<li><p>b.LocalBroadcast安全的原因：既然它是通过Handler实现广播发送的，那么相比系统广播通过Binder机制实现那肯定更加高效，同时使用Handler来实现，别的app无法向我们应用发送该广播，而我们app内部发送的广播也不会离开我们的app。</p>
-</li>
-</ul>
-<p>  LocalBroadcast内部协作主要是靠两个Map集合：mReceivers和mActions,当然还有一个List集合mPendingBroadcasts,这个主要存储待接收的广播对象。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Handler/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/Handler/" itemprop="url">
-                  Handler
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Handler"><a href="#Handler" class="headerlink" title="Handler"></a>Handler</h3><p>作者博客：<a href="https://blog.csdn.net/ClAndEllen/article/details/79343538" target="_blank" rel="noopener">https://blog.csdn.net/ClAndEllen/article/details/79343538</a></p>
-<h4 id="1-什么是Handler？"><a href="#1-什么是Handler？" class="headerlink" title="1.什么是Handler？"></a>1.什么是Handler？</h4><p>  Handler是可以通过发送和处理Message和Runnable对象来关联相应线程的MessageQueue。通常我们认为它是一种异步机制。</p>
-<ul>
-<li>a.可以让对应的Message和Runnable在未来的某个时间点进行相应的处理。</li>
-<li>b.让自己想要的耗时操作在子线程中完成，让更新UI的操作在主线程中完成，而子线程与主线程之间的通信就是靠Handler来完成。</li>
-</ul>
-<h4 id="2-Handler的使用方法"><a href="#2-Handler的使用方法" class="headerlink" title="2.Handler的使用方法"></a>2.Handler的使用方法</h4><ul>
-<li><p>a.post(Runnable)</p>
-</li>
-<li><p>b.sendMessage(Message)</p>
-</li>
-</ul>
-<h4 id="3-Handler内部的实现机制"><a href="#3-Handler内部的实现机制" class="headerlink" title="3.Handler内部的实现机制"></a>3.Handler内部的实现机制</h4><p>  Handler机制也可叫异步消息机制，它主要由4个部分组成：<strong>Message,Handler,MessageQueue,Looper,</strong>在上面我们已经接触到了Message和Handler,接下来我们对4个成员进行着重的了解：</p>
-<p><strong>1.Message</strong><br>  Message是在线程之间传递的消息，它可以在内部携带少量的信息，用于在不同线程之间交换数据。使用Message的arg1和arg2便可携带int数据，使用obj便可携带Object类型数据。</p>
-<p><strong>2.Handler</strong><br>  Handler顾名思义就是处理者的意思，它只要用于在子线程发送消息对象Message,在UI线程处理消息对象Message，在子线程调用sendMessage方法发送消息对象Message，而发送的消息经过一系列地辗转之后最终会被传递到Handler的handleMessage方法中,最终在handleMessage方法中消息对象Message被处理。</p>
-<p><strong>3.MessageQueue</strong><br>  MessageQueue就是消息队列的意思,它只要用于存放所有通过Handler发送过来的消息。这部分消息会一直存放于消息队列当中，等待被处理。每个线程中只会有一个MessageQueue对象，请牢记这句话。其实从字面上就可以看出，MessageQueue底层数据结构是队列，而且这个队列只存放Message对象。</p>
-<p><strong>4.Looper</strong><br>  Looper是每个线程中的MessageQueue的管家，调用Looper的loop()方法后，就会进入到一个无限循环当中，然后每当MesssageQueue中存在一条消息，Looper就会将这条消息取出，并将它传递到Handler的handleMessage()方法中。每个线程只有一个Looper对象。</p>
-<p>  了解了上述Handler机制的4个成员后，我们再来把思路理一遍：首先在UI线程我们创建了一个Handler实例对象，无论是匿名内部类还是自定义类生成的Handler实例对象，我们都需要对handleMessage方法进行重写，在handleMessage方法中我们可以通过参数msg来写接受消息过后UIi线程的逻辑处理，接着我们创建子线程，在子线程中需要更新UI的时候，新建一个Message对象，并且将消息的数据记录在这个消息对象Message的内部，比如arg1,arg2,obj等，然后通过前面的Handler实例对象调用sendMessge方法把这个Message实例对象发送出去，之后这个消息会被存放于MessageQueue中等待被处理，此时MessageQueue的管家Looper正在不停的把MessageQueue存在的消息取出来，通过回调dispatchMessage方法将消息传递给Handler的handleMessage方法，最终前面提到的消息会被Looper从MessageQueue中取出来传递给handleMessage方法，最终得到处理。这就是Handler机制整个的工作流程，怎么样？你懂了吗？看看下面的图你就更懂了：<br><img src="/img/handler1.png" alt=""></p>
-<h4 id="4-Handler引起的内存泄漏以及解决方法"><a href="#4-Handler引起的内存泄漏以及解决方法" class="headerlink" title="4.Handler引起的内存泄漏以及解决方法"></a>4.Handler引起的内存泄漏以及解决方法</h4><p>原因：<strong>非静态内部类持有外部类的匿名引用，导致外部activity无法得到释放。</strong></p>
-<p>解决方法：handler内部持有外部的弱引用，并把handler改为<strong>静态内部类</strong>，<strong>在activity的onDestory()中调用handler的removeCallback()方法。</strong></p>
-<h4 id="Handler的产生背景"><a href="#Handler的产生背景" class="headerlink" title="Handler的产生背景"></a>Handler的产生背景</h4><p>  开启子线程进行耗时操作，多次创建和销毁子线程是很耗费资源的，但是木有关系，谷歌考虑了这点为我们专门开发出了HandlerThread机制，那么它有什么特点呢？请看下面：</p>
-<h4 id="HandlerThread是什么？"><a href="#HandlerThread是什么？" class="headerlink" title="HandlerThread是什么？"></a>HandlerThread是什么？</h4><p>  本质：Handler + Thread + Looper，是一个Thread内部有Looper。当你被面试官问道HandlerThread是什么，有何特点，那么你应该这么回答：</p>
-<p>  a.HandlerThread本质上是一个线程类，它继承了Thread。</p>
-<p>  b.HandlerThread有自己内部的Looper对象，可以进行Looper循环。</p>
-<p>  c.通过获取HandlerThread的Looper对象传递给Handler对象，可以在handlerMessage方法中执行异步任务。</p>
-<p>  d.优点是不会有堵塞，减少对性能的消耗，缺点是不能进行多任务的处理，需要等待进行处理，处理效率较低。</p>
-<p>  e.与线程池注重并发不同，HandlerThread是一个串行队列，HandlerThread背后只有一个线程。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/异常机制/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/异常机制/" itemprop="url">
-                  java 基础知识(五)
+                <a class="post-title-link" href="/2018/07/20/hello-world/" itemprop="url">
+                  Hello World
                 </a>
               
             
@@ -1119,22 +1460,19 @@
       
         
           
-            <h3 id="异常机制"><a href="#异常机制" class="headerlink" title="异常机制"></a>异常机制</h3><h4 id="Java异常机制"><a href="#Java异常机制" class="headerlink" title="Java异常机制"></a>Java异常机制</h4><ul>
-<li>异常是程序运行过程中出现的错误。本文主要讲授的是Java语言的异常处理。Java语言的异常处理框架，是Java语言健壮性的一个重要体现。</li>
-<li>Java把异常当作对象来处理，并定义一个基类java.lang.Throwable作为所有异常的超类。在Java API中已经定义了许多异常类，这些异常类分为两大类，错误Error和异常Exception。Java异常体系结构呈树状，其层次结构图如图所示：<br><img src="/img/异常.jpg" alt=""><h5 id="Thorwable类"><a href="#Thorwable类" class="headerlink" title="Thorwable类"></a>Thorwable类</h5>Thorwable类所有异常和错误的超类，有两个子类Error和Exception，分别表示错误和异常。其中异常类Exception又分为运行时异常(RuntimeException)和非运行时异常，这两种异常有很大的区别，也称之为不检查异常（Unchecked Exception）和检查异常（Checked Exception）。<h5 id="Error（错误）："><a href="#Error（错误）：" class="headerlink" title="Error（错误）："></a>Error（错误）：</h5>一般是指java虚拟机相关的问题，如系统崩溃、虚拟机出错误、动态链接失败等，这种错误无法恢复或不可能捕获，将导致应用程序中断，通常应用程序无法处理这些错误，因此应用程序不应该捕获Error对象，也无须在其throws子句中声明该方法抛出任何Error或其子类。<h5 id="Exception："><a href="#Exception：" class="headerlink" title="Exception："></a>Exception：</h5>Exception类及其子类是Throwable的一种形式，它指出了合理的应用程序想要捕获的条件</li>
-</ul>
-<p>（1）SQLException：该异常提供关于数据库访问错误或其他错误的信息。</p>
-<p>（2）RuntimeException 是那些可能在 Java 虚拟机正常运行期间抛出的异常的超类</p>
-<p>（3）IOException：此类为异常的通用类，它是由失败的或中断的 I/O 操作生成的。 </p>
-<h5 id="运行时异常和非运行时异常"><a href="#运行时异常和非运行时异常" class="headerlink" title="运行时异常和非运行时异常"></a>运行时异常和非运行时异常</h5><p>（1）运行时异常都是RuntimeException类及其子类异常，如NullPointerException、IndexOutOfBoundsException等，这些异常是不检查异常，程序中可以选择捕获处理，也可以不处理。这些异常一般是由程序逻辑错误引起的，程序应该从逻辑角度尽可能避免这类异常的发生。<br>（2）非运行时异常是RuntimeException以外的异常，类型上都属于Exception类及其子类。从程序语法角度讲是必须进行处理的异常，如果不处理，程序就不能编译通过。如IOException、SQLException等以及用户自定义的Exception异常，一般情况下不自定义检查异常。</p>
-<h5 id="异常的捕获和处理"><a href="#异常的捕获和处理" class="headerlink" title="异常的捕获和处理"></a>异常的捕获和处理</h5><p>Java异常的捕获和处理是一个不容易把握的事情，如果处理不当，不但会让程序代码的可读性大大降低，而且导致系统性能低下，甚至引发一些难以发现的错。<br>Java异常处理涉及到五个关键字，分别是：try、catch、finally、throw、throws。下面将骤一介绍，通过认识这五个关键字，掌握基本异常处理知识。<br>  （1）、try：它里面放置可能引发异常的代码<br>  （2）、catch：后面对应异常类型和一个代码块，用于表明该catch块用于处理这种类型的代码块，可以有多个catch块。</p>
-<p>  （3）、finally：主要用于回收在try块里打开的物力资源（如数据库连接、网络连接和磁盘文件），异常机制总是保证finally块总是被执行。只有finally块，执行完成之后，才会回来执行try或者catch块中的return或者throw语句，如果finally中使用了return或者throw等终止方法的语句，则就不会跳回执行，直接停止。</p>
-<ul>
-<li>finally执行过程：<br><img src="/img/finally.jpg" alt=""><br>（4）、throw：用于抛出一个实际的异常，可以单独作为语句使用，抛出一个具体的异常对象。<br>（5）、throws：用在方法签名中，用于声明该方法可能抛出的异常。<h3 id="常见的RuntimeException"><a href="#常见的RuntimeException" class="headerlink" title="常见的RuntimeException"></a>常见的RuntimeException</h3>NullPointerException- 空指针引用异常<br>ClassCastException - 类型强制转换异常。<br>IllegalArgumentException - 传递非法参数异常。<br>ArithmeticException - 算术运算异常<br>ArrayStoreException - 向数组中存放与声明类型不兼容对象异常<br>IndexOutOfBoundsException - 下标越界异常<br>NegativeArraySizeException - 创建一个大小为负数的数组错误异常<br>NumberFormatException - 数字格式异常<br>SecurityException - 安全异常<br>UnsupportedOperationException - 不支持的操作异常<h3 id="异常捕捉的陷阱"><a href="#异常捕捉的陷阱" class="headerlink" title="异常捕捉的陷阱"></a>异常捕捉的陷阱</h3></li>
-<li>使用 finally 块来保证回收，保证关闭操作总会被执行。</li>
-<li>关闭每个资源之前首先保证引用该资源的引用变量不为null。</li>
-<li>为每个物理资源单独使用try….catch块关闭资源，保证关闭资源时引发的异常不会影响到其他资源的关闭。<h3 id="finally-块陷阱"><a href="#finally-块陷阱" class="headerlink" title="finally 块陷阱"></a>finally 块陷阱</h3>finally 执行顺序<h3 id="catch-块用法"><a href="#catch-块用法" class="headerlink" title="catch 块用法"></a>catch 块用法</h3>在 try 块后使用 catch 块来捕获多个异常时，程序应该小心多个 catch 块之间的顺序：捕获父类异常的 catch 块都应该排在捕获子类异常的 catch 块之后（先处理小异常，再处理大异常），否则出现编译错误。<h3 id="继承得到的异常"><a href="#继承得到的异常" class="headerlink" title="继承得到的异常"></a>继承得到的异常</h3>子类重写父类方法时，不能声明抛出比父类方法类型更多、范围更大的异常。</li>
-</ul>
+            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="298" height="52" src="https://music.163.com/outchain/player?type=2&id=531533335&auto=1&height=32"></iframe>
+
+
+
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 
           
         
@@ -1400,7 +1738,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/HttpServletResponse对象介绍/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/一、会话的概念/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -1419,8 +1757,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/HttpServletResponse对象介绍/" itemprop="url">
-                  javaweb (五 )
+                <a class="post-title-link" href="/2018/07/20/一、会话的概念/" itemprop="url">
+                  javaweb (十 )
                 </a>
               
             
@@ -1500,389 +1838,86 @@
       
         
           
-            <ul>
-<li>Web服务器收到客户端的http请求，会针对每一次请求，分别创建一个用于代表请求的request对象、和代表响应的response对象。</li>
-<li>request和response对象即然代表请求和响应，那我们要获取客户机提交过来的数据，只需要找request对象就行了。要向客户机输出数据，只需要找response对象就行了。</li>
-</ul>
-<h3 id="HttpServletResponse对象介绍"><a href="#HttpServletResponse对象介绍" class="headerlink" title="HttpServletResponse对象介绍"></a>HttpServletResponse对象介绍</h3><p>HttpServletResponse对象代表服务器的响应。这个对象中封装了向客户端发送数据、发送响应头，发送响应状态码的方法。查看HttpServletResponse的API，可以看到这些相关的方法。</p>
-<h4 id="负责向客户端-浏览器-发送数据的相关方法"><a href="#负责向客户端-浏览器-发送数据的相关方法" class="headerlink" title="负责向客户端(浏览器)发送数据的相关方法"></a>负责向客户端(浏览器)发送数据的相关方法</h4><p><img src="/img/response.png" alt=""></p>
-<h4 id="负责向客户端-浏览器-发送响应头的相关方法"><a href="#负责向客户端-浏览器-发送响应头的相关方法" class="headerlink" title="负责向客户端(浏览器)发送响应头的相关方法"></a>负责向客户端(浏览器)发送响应头的相关方法</h4><p><img src="/img/response1.png" alt=""><br><img src="/img/response2.png" alt=""></p>
-<h4 id="负责向客户端-浏览器-发送响应状态码的相关方法"><a href="#负责向客户端-浏览器-发送响应状态码的相关方法" class="headerlink" title="负责向客户端(浏览器)发送响应状态码的相关方法"></a>负责向客户端(浏览器)发送响应状态码的相关方法</h4><p><img src="/img/response3.png" alt=""></p>
-<h4 id="响应状态码的常量"><a href="#响应状态码的常量" class="headerlink" title="响应状态码的常量"></a>响应状态码的常量</h4><p>　HttpServletResponse定义了很多状态码的常量(具体可以查看Servlet的API)，当需要向客户端发送响应状态码时，可以使用这些常量，避免了直接写数字，常见的状态码对应的常量：<br><em>状态码404对应的常量</em><br><img src="/img/response4.png" alt=""><br><em>状态码200对应的常量</em><br><img src="/img/response5.png" alt=""><br><em>状态码500对应的常量</em><br><img src="/img/response6.png" alt=""></p>
-<h3 id="HttpServletResponse对象常见应用"><a href="#HttpServletResponse对象常见应用" class="headerlink" title="HttpServletResponse对象常见应用"></a>HttpServletResponse对象常见应用</h3><h4 id="使用OutputStream流向客户端浏览器输出中文数据"><a href="#使用OutputStream流向客户端浏览器输出中文数据" class="headerlink" title="使用OutputStream流向客户端浏览器输出中文数据"></a>使用OutputStream流向客户端浏览器输出中文数据</h4><p>使用OutputStream流输出中文注意问题：在服务器端，数据是以哪个码表输出的，那么就要控制客户端浏览器以相应的码表打开，比如：outputStream.write(“刘俭梅”.getBytes(“UTF-8”));使用OutputStream流向客户端浏览器输出中文，以UTF-8的编码进行输出，此时就要控制客户端浏览器以UTF-8的编码打开，否则显示的时候就会出现中文乱码，那么在服务器端如何控制客户端浏览器以以UTF-8的编码显示数据呢？可以通过设置响应头控制浏览器的行为，例如：response.setHeader(“content-type”, “text/html;charset=UTF-8”);通过设置响应头控制浏览器以UTF-8的编码显示数据。<br>范例：使用OutputStream流向客户端浏览器输出”刘俭梅”这三个汉字<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo1&quot;)</span><br><span class="line">public class ResponseDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;刘俭梅&quot;;</span><br><span class="line">        //获取OutputStream输出流</span><br><span class="line">        OutputStream outputStream = response.getOutputStream();</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        //将字符转换成字节数组，指定以UTF-8编码进行转换</span><br><span class="line">        byte[] dataByteArr = data.getBytes(&quot;UTF-8&quot;);</span><br><span class="line">        outputStream.write(dataByteArr);//使用OutputStream流向客户端输出字节数组</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>运行结果：<br><img src="/img/ResponseDemo.png" alt=""></p>
-<h4 id="使用PrintWriter流向客户端浏览器输出中文数据"><a href="#使用PrintWriter流向客户端浏览器输出中文数据" class="headerlink" title="使用PrintWriter流向客户端浏览器输出中文数据"></a>使用PrintWriter流向客户端浏览器输出中文数据</h4><p>2.2、使用PrintWriter流向客户端浏览器输出中文数据<br>使用PrintWriter流输出中文注意问题：<br>　　在获取PrintWriter输出流之前首先使用”response.setCharacterEncoding(charset)”设置字符以什么样的编码输出到浏览器，如：response.setCharacterEncoding(“UTF-8”);设置将字符以”UTF-8”编码输出到客户端浏览器，然后再使用response.getWriter();获取PrintWriter输出流，这两个步骤不能颠倒，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">response.setCharacterEncoding(&quot;UTF-8&quot;);//设置将字符以&quot;UTF-8&quot;编码输出到客户端浏览器</span><br><span class="line">PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">/**PrintWriter out = response.getWriter();这句代码必须放在*response.setCharacterEncoding(&quot;UTF-8&quot;);之后</span><br><span class="line">*否则response.setCharacterEncoding(&quot;UTF-8&quot;)这行代码的设置将无效，浏览器显示的时候还是乱码*/</span><br></pre></td></tr></table></figure></p>
-<p>然后再使用response.setHeader(“content-type”, “text/html;charset=字符编码”);设置响应头，控制浏览器以指定的字符编码编码进行显示，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br></pre></td></tr></table></figure></p>
-<p>复制代码<br>范例：使用PrintWriter流向客户端浏览器输出”刘俭梅”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo1&quot;)</span><br><span class="line">public class ResponseDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;刘俭梅&quot;;</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);//设置将字符以&quot;UTF-8&quot;编码输出到客户端浏览器</span><br><span class="line">        PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">        out.write(data);//使用PrintWriter流向客户端输出字符</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>当需要向浏览器输出字符数据时，使用PrintWriter比较方便，省去了将字符转换成字节数组那一步。</p>
-<h4 id="使用OutputStream或者PrintWriter向客户端浏览器输出数字"><a href="#使用OutputStream或者PrintWriter向客户端浏览器输出数字" class="headerlink" title="使用OutputStream或者PrintWriter向客户端浏览器输出数字"></a>使用OutputStream或者PrintWriter向客户端浏览器输出数字</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo1&quot;)</span><br><span class="line">public class ResponseDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        outputOneByOutputStream(response);//使用OutputStream输出1到客户端浏览器</span><br><span class="line">        outputOneByPrintWriter(response);//使用PrintWriter输出1到客户端浏览器</span><br><span class="line">        String data = &quot;刘俭梅&quot;;</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);//设置将字符以&quot;UTF-8&quot;编码输出到客户端浏览器</span><br><span class="line">        PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">        out.write(data);//使用PrintWriter流向客户端输出字符</span><br><span class="line">        //获取OutputStream输出流</span><br><span class="line">        OutputStream outputStream = response.getOutputStream();</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        //将字符转换成字节数组，指定以UTF-8编码进行转换</span><br><span class="line">        byte[] dataByteArr = data.getBytes(&quot;UTF-8&quot;);</span><br><span class="line">        outputStream.write(dataByteArr);//使用OutputStream流向客户端输出字节数组</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 使用PrintWriter流输出数字1</span><br><span class="line">     * @param response</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    private void outputOneByPrintWriter(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span><br><span class="line">        PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">        out.write(&quot;使用PrintWriter流输出数字1：&quot;);</span><br><span class="line">        out.write(1 + &quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 使用OutputStream流输出数字1</span><br><span class="line">     *</span><br><span class="line">     * @param response</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    private void outputOneByOutputStream(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        OutputStream outputStream = response.getOutputStream();</span><br><span class="line">        outputStream.write(&quot;使用OutputStream流输出数字1：&quot;.getBytes(&quot;UTF-8&quot;));</span><br><span class="line">        outputStream.write((1 + &quot;&quot;).getBytes());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <p>###一、会话的概念</p>
 <ul>
-<li>1+””这一步是将数字1和一个空字符串相加，这样处理之后，数字1就变成了字符串1了，然后再将字符串1转换成字节数组使用OutputStream进行输出</li>
+<li>会话可简单理解为：用户开一个浏览器，点击多个超链接，访问服务器多个web资源，然后关闭浏览器，整个过程称之为一个会话。</li>
+<li>有状态会话：一个同学来过教室，下次再来教室，我们会知道这个同学曾经来过，这称之为有状态会话。<h3 id="二、会话过程中要解决的一些问题？"><a href="#二、会话过程中要解决的一些问题？" class="headerlink" title="二、会话过程中要解决的一些问题？"></a>二、会话过程中要解决的一些问题？</h3>每个用户在使用浏览器与服务器进行会话的过程中，不可避免各自会产生一些数据，程序要想办法为每个用户保存这些数据。<h3 id="三、保存会话数据的两种技术"><a href="#三、保存会话数据的两种技术" class="headerlink" title="三、保存会话数据的两种技术"></a>三、保存会话数据的两种技术</h3>####3.1、Cookie</li>
+<li>Cookie是客户端技术，程序把每个用户的数据以cookie的形式写给用户各自的浏览器。当用户使用浏览器再去访问服务器中的web资源时，就会带着各自的数据去。这样，web资源处理的就是用户各自的数据了。<h4 id="3-2、Session"><a href="#3-2、Session" class="headerlink" title="3.2、Session"></a>3.2、Session</h4></li>
+<li>Session是服务器端技术，利用这个技术，服务器在运行时可以为每一个用户的浏览器创建一个其独享的session对象，由于session为用户浏览器独享，所以用户在访问服务器的web资源时，可以把各自的数据放在各自的session中，当用户再去访问服务器中的其它web资源时，其它web资源再从用户各自的session中取出数据为用户服务。<br>####四、Java提供的操作Cookie的API<br>Java中的javax.servlet.http.Cookie类用于创建一个Cookie</li>
 </ul>
-<h5 id="在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。"><a href="#在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。" class="headerlink" title="在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。"></a>在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。</h5><h5 id="如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出"><a href="#如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出" class="headerlink" title="如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出"></a>如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出</h5>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="298" height="52" src="https://music.163.com/outchain/player?type=2&id=531533335&auto=1&height=32"></iframe>
-
-
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/单例模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/单例模式/" itemprop="url">
-                  单例模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>单例模式，是一种常用的软件设计模式。在它的核心结构中只包含一个被称为单例的特殊类。通过单例模式可以保证系统中一个类只有一个实例。即一个类只有一个对象实例。</p>
-<h4 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h4><ul>
-<li>1、单例类只能有一个实例。</li>
-<li>2、单例类必须自己自己创建自己的唯一实例。</li>
-<li>3、单例类必须给所有其他对象提供这一实例</li>
-</ul>
-<h4 id="单例模式的要点："><a href="#单例模式的要点：" class="headerlink" title="单例模式的要点："></a>单例模式的要点：</h4><ul>
-<li>1、私有的构造方法</li>
-<li>2、指向自己实例的私有静态引用</li>
-<li>3、以自己实例为返回值的静态的公有的方法</li>
-</ul>
-<h4 id="单例模式根据实例化对象时机的不同分为两种："><a href="#单例模式根据实例化对象时机的不同分为两种：" class="headerlink" title="单例模式根据实例化对象时机的不同分为两种："></a>单例模式根据实例化对象时机的不同分为两种：</h4><ul>
-<li>一种是饿汉式单例，一种是懒汉式单例。</li>
-<li>饿汉式单例在单例类被加载时候，就实例化一个对象交给自己的引用；而懒汉式在调用取得实例方法的时候才会实例化对象。<br>代码如下：<h5 id="饿汉式单例："><a href="#饿汉式单例：" class="headerlink" title="饿汉式单例："></a>饿汉式单例：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi;</span><br><span class="line">//饿汉式单例</span><br><span class="line">public class Singleton &#123;</span><br><span class="line">    private static Singleton singleton = new Singleton();</span><br><span class="line">    private Singleton()&#123;&#125;</span><br><span class="line">    public  static Singleton getSingletonInstance()&#123;</span><br><span class="line">        return singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cookie(String name, String value)</td>
+<td style="text-align:center">构造方法</td>
+<td style="text-align:center">实例化Cookie对象，传入cooke名称和cookie的值</td>
+</tr>
+<tr>
+<td>public String getName()</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">取得Cookie的名字</td>
+</tr>
+<tr>
+<td>public String getValue()</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">取得Cookie的值</td>
+</tr>
+<tr>
+<td>public void setValue(String newValue)</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">设置Cookie的值</td>
+</tr>
+<tr>
+<td>ppublic void setMaxAge(int expiry)</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">取设置Cookie的最大保存时间，即cookie的有效期</td>
+</tr>
+<tr>
+<td>public int getMaxAge()</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">获取Cookies的有效期</td>
+</tr>
+<tr>
+<td>public void setPath(String uri)</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">设置cookie的有效路径，比如把cookie的有效路径设置为”/xdp”，那么浏览器访问”xdp”目录下的web资源时，都会带上cookie，再比如把cookie的有效路径设置为”/xdp/qgx”，那么浏览器只有在访问”xdp”目录下的”qgx”这个目录里面的web资源时才会带上cookie一起访问，而当访问”xdp”目录下的web资源时，浏览器是不带cookie的</td>
+</tr>
+<tr>
+<td>public String getPath()</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">获取cookie的有效路径</td>
+</tr>
+<tr>
+<td>public void setDomain(String pattern)</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">获 设置cookie的有效域</td>
+</tr>
+<tr>
+<td>public String getDomain()</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">获取cookie的有效域</td>
+</tr>
+</tbody>
+</table>
+<p>　response接口也中定义了一个addCookie方法，它用于在其响应头中增加一个相应的Set-Cookie头字段。 同样，request接口中也定义了一个getCookies方法，它用于获取客户端提交的Cookie。</p>
+<h3 id="五、Cookie使用范例"><a href="#五、Cookie使用范例" class="headerlink" title="五、Cookie使用范例"></a>五、Cookie使用范例</h3><h4 id="5-1、使用cookie记录用户上一次访问的时间"><a href="#5-1、使用cookie记录用户上一次访问的时间" class="headerlink" title="5.1、使用cookie记录用户上一次访问的时间"></a>5.1、使用cookie记录用户上一次访问的时间</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">package qgx.cookie;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.Cookie;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line">import java.util.Date;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * cookie实例  ：获取用户上一次访问的时间</span><br><span class="line"> */</span><br><span class="line">@WebServlet(name = &quot;CookieDemo1&quot;)</span><br><span class="line">public class CookieDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        //设置服务器端以UTF-8编码进行输出</span><br><span class="line">        response.setCharacterEncoding(&quot;utf-8&quot;);</span><br><span class="line">        //设置浏览器以UTF-8编码进行接收,解决中文乱码问题</span><br><span class="line">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        PrintWriter out = response.getWriter();</span><br><span class="line">        Cookie[] cookies = request.getCookies();</span><br><span class="line">        //如果用户是第一次访问，那么得到的cookies将是null</span><br><span class="line">        if (cookies!=null)&#123;</span><br><span class="line">            out.write(&quot;您上次访问的时间是：&quot;);</span><br><span class="line">            for (int i = 0; i &lt; cookies.length; i++) &#123;</span><br><span class="line">                Cookie cookie = cookies[i];</span><br><span class="line">                if (cookie.getName().equals(&quot;lastAccessTime&quot;)) &#123;</span><br><span class="line">                    Long lastAccessTime =Long.parseLong(cookie.getValue());</span><br><span class="line">                    Date date = new Date(lastAccessTime);</span><br><span class="line">                    out.write(date.toString());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            out.write(&quot;首次来访！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        //用户访问过之后重新设置用户的访问时间，存储到cookie中，然后发送到客户端浏览器</span><br><span class="line">        Cookie cookie = new Cookie(&quot;lastAccessTime&quot;, System.currentTimeMillis()+&quot;&quot;);//创建一个cookie，cookie的名字是lastAccessTime</span><br><span class="line">        //将cookie对象添加到response对象中，这样服务器在输出response对象中的内容时就会把cookie也输出到客户端浏览器</span><br><span class="line">           response.addCookie(cookie);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/img/cookie.png" alt=""><br>　在上面的例子中，在程序代码中并没有使用setMaxAge方法设置cookie的有效期，所以当关闭浏览器之后，cookie就失效了，要想在关闭了浏览器之后，cookie依然有效，那么在创建cookie时，就要为cookie设置一个有效期。如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//用户访问过之后重新设置用户的访问时间，存储到cookie中，然后发送到客户端浏览器</span><br><span class="line"> Cookie cookie = new Cookie(&quot;lastAccessTime&quot;, System.currentTimeMillis()+&quot;&quot;);//创建一个cookie，cookie的名字是lastAccessTime</span><br><span class="line"> //设置Cookie的有效期为1天</span><br><span class="line">cookie.setMaxAge(24*60*60);</span><br><span class="line"> //将cookie对象添加到response对象中，这样服务器在输出response对象中的内容时就会把cookie也输出到客户端浏览器</span><br><span class="line"> response.addCookie(cookie);</span><br></pre></td></tr></table></figure></p>
+<h3 id="六、Cookie注意细节"><a href="#六、Cookie注意细节" class="headerlink" title="六、Cookie注意细节"></a>六、Cookie注意细节</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">一个Cookie只能标识一种信息，它至少含有一个标识该信息的名称（NAME）和设置值（VALUE）。</span><br><span class="line">一个WEB站点可以给一个WEB浏览器发送多个Cookie，一个WEB浏览器也可以存储多个WEB站点提供的Cookie。</span><br><span class="line">浏览器一般只允许存放300个Cookie，每个站点最多存放20个Cookie，每个Cookie的大小限制为4KB。</span><br><span class="line">如果创建了一个cookie，并将他发送到浏览器，默认情况下它是一个会话级别的cookie（即存储在浏览器的内存中），用户退出浏览器之后即被删除。若希望浏览器将该cookie存储在磁盘上，则需要使用maxAge，并给出一个以秒为单位的时间。将最大时效设为0则是命令浏览器删除该cookie。</span><br></pre></td></tr></table></figure>
+<h4 id="6-1、删除Cookie"><a href="#6-1、删除Cookie" class="headerlink" title="6.1、删除Cookie"></a>6.1、删除Cookie</h4><p>注意：删除cookie时，path必须一致，否则不会删除<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package qgx.cookie;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.Cookie;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;CookieDemo2&quot;)</span><br><span class="line">public class CookieDemo2 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        //创建一个名字为lastAccessTime的cookie</span><br><span class="line">        Cookie cookie = new Cookie(&quot;lastAccessTime&quot;, System.currentTimeMillis() + &quot;&quot;);</span><br><span class="line">        //将cookie的有效期设置为0，命令浏览器删除该cookie</span><br><span class="line">        cookie.setMaxAge(0);</span><br><span class="line">        response.addCookie(cookie);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="6-2、cookie中存取中文"><a href="#6-2、cookie中存取中文" class="headerlink" title="6.2、cookie中存取中文"></a>6.2、cookie中存取中文</h4><ul>
+<li><p>要想在cookie中存储中文，那么必须使用URLEncoder类里面的encode(String s, String enc)方法进行中文转码，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cookie cookie = new Cookie(&quot;userName&quot;, URLEncoder.encode(&quot;刘俭梅&quot;, &quot;UTF-8&quot;));</span><br><span class="line">response.addCookie(cookie);</span><br></pre></td></tr></table></figure>
 </li>
+<li><p>在获取cookie中的中文数据时，再使用URLDecoder类里面的decode(String s, String enc)进行解码，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">URLDecoder.decode(cookies[i].getValue(), &quot;UTF-8&quot;)</span><br></pre></td></tr></table></figure></li>
 </ul>
-<h5 id="懒汉式单例"><a href="#懒汉式单例" class="headerlink" title="懒汉式单例"></a>懒汉式单例</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi;</span><br><span class="line"></span><br><span class="line">//懒汉式单例</span><br><span class="line">public class Singleton2 &#123;</span><br><span class="line">    private static Singleton2 singleton2;</span><br><span class="line">    private Singleton2()&#123;&#125;</span><br><span class="line">    public static synchronized Singleton2 getSingleton2()&#123;</span><br><span class="line">        if (singleton2 == null)&#123;</span><br><span class="line">            singleton2 = new Singleton2();</span><br><span class="line">        &#125;</span><br><span class="line">        return singleton2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="单例模式还有一种比较常见的形式：双重锁的形式"><a href="#单例模式还有一种比较常见的形式：双重锁的形式" class="headerlink" title="单例模式还有一种比较常见的形式：双重锁的形式"></a>单例模式还有一种比较常见的形式：双重锁的形式</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi;</span><br><span class="line">//双重锁的形式单例</span><br><span class="line">public class Singleton3 &#123;</span><br><span class="line">    private static volatile Singleton3 singleton3 =null;</span><br><span class="line">    private Singleton3()&#123;&#125;</span><br><span class="line">    public static Singleton3 getSingleton3()&#123;</span><br><span class="line">        if (singleton3 == null)&#123;</span><br><span class="line">            synchronized (Singleton3.class)&#123;</span><br><span class="line">                if (singleton3 == null)&#123;</span><br><span class="line">                    singleton3 = new Singleton3();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return singleton3;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个模式将同步内容下方到if内部，提高了执行的效率，不必每次获取对象时都进行同步，只有第一次才同步，创建了以后就没必要了。<br>        这种模式中双重判断加同步的方式，比第一个例子中的效率大大提升，因为如果单层if判断，在服务器允许的情况下，假设有一百个线程，耗费的时间为100*（同步判断时间+if判断时间），而如果双重if判断，100的线程可以同时if判断，理论消耗的时间只有一个if判断的时间。<br>        所以如果面对高并发的情况，而且采用的是懒汉模式，最好的选择就是双重判断加同步的方式。</p>
-<h4 id="单例模式的优点："><a href="#单例模式的优点：" class="headerlink" title="单例模式的优点："></a>单例模式的优点：</h4><ul>
-<li>1、在内存中只有一个对象，节省内存空间。</li>
-<li>2、避免频繁的创建销毁对象，可以提高性能。</li>
-<li>3、避免对共享资源的多重占用。</li>
-<li>4、可以全局访问。</li>
-</ul>
-<h4 id="单例模式的缺点："><a href="#单例模式的缺点：" class="headerlink" title="单例模式的缺点："></a>单例模式的缺点：</h4><ul>
-<li>1、扩展困难，由于getInstance静态函数没有办法生成子类的实例。如果要拓展，只有重写那个类。</li>
-<li>2、隐式使用引起类结构不清晰。</li>
-<li>3、导致程序内存泄露的问题。</li>
-</ul>
-<h4 id="适用场景："><a href="#适用场景：" class="headerlink" title="适用场景："></a>适用场景：</h4><p>   由于单例模式的以上优点，所以是编程中用的比较多的一种设计模式。以下为使用单例模式的场景：</p>
-<ul>
-<li>1、需要频繁实例化然后销毁的对象。</li>
-<li>2、创建对象时耗时过多或者耗资源过多，但又经常用到的对象。</li>
-<li>3、资源共享的情况下，避免由于资源操作时导致的性能或损耗等</li>
-<li>4、控制资源的情况下，方便资源之间的互相通信。</li>
-</ul>
-<h4 id="单例模式注意事项："><a href="#单例模式注意事项：" class="headerlink" title="单例模式注意事项："></a>单例模式注意事项：</h4><pre><code>只能使用单例类提供的方法得到单例对象，不要使用反射，否则将会实例化一个新对象。
-    不要做断开单例类对象与类中静态引用的危险操作。
-    多线程使用单例使用共享资源时，注意线程安全问题。
-</code></pre><h4 id="关于Java中单例模式的一些常见问题："><a href="#关于Java中单例模式的一些常见问题：" class="headerlink" title="关于Java中单例模式的一些常见问题："></a>关于Java中单例模式的一些常见问题：</h4><h5 id="单例模式的对象长时间不用会被jvm垃圾收集器收集吗？"><a href="#单例模式的对象长时间不用会被jvm垃圾收集器收集吗？" class="headerlink" title="单例模式的对象长时间不用会被jvm垃圾收集器收集吗？"></a>单例模式的对象长时间不用会被jvm垃圾收集器收集吗？</h5><p> 除非人为地断开单例中静态引用到单例对象的联接，否则jvm垃圾收集器是不会回收单例对象的。<br>jvm卸载类的判定条件如下：<br>        1、该类所有的实例都已经被回收，也就是java堆中不存在该类的任何实例。<br>        2、加载该类的ClassLoader已经被回收。<br>        3、该类对应的java.lang.Class对象没有任何地方被引用，无法在任何地方通过反射访问该类的方法。<br>        只有三个条件都满足，jvm才会在垃圾收集的时候卸载类。显然，单例的类不满足条件一，因此单例类也不会被回收。</p>
-<h5 id="在一个jvm中会出现多个单例吗"><a href="#在一个jvm中会出现多个单例吗" class="headerlink" title="在一个jvm中会出现多个单例吗"></a>在一个jvm中会出现多个单例吗</h5><p>在分布式系统、多个类加载器、以及序列化的的情况下，会产生多个单例，这一点是无庸置疑的。那么在同一个jvm中，会不会产生单例呢？使用单例提供的getInstance()方法只能得到同一个单例，除非是使用反射方式，将会得到新的单例。<br>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Class c = Class.forName(Singleton.class.getName());  </span><br><span class="line">Constructor ct = c.getDeclaredConstructor();  </span><br><span class="line">ct.setAccessible(true);  </span><br><span class="line">Singleton singleton = (Singleton)ct.newInstance();</span><br></pre></td></tr></table></figure></p>
-<p>这样，每次运行都会产生新的单例对象。所以运用单例模式时，一定注意不要使用反射产生新的单例对象。</p>
-<h5 id="在getInstance-方法上同步有优势还是仅同步必要的块更优优势？"><a href="#在getInstance-方法上同步有优势还是仅同步必要的块更优优势？" class="headerlink" title="在getInstance()方法上同步有优势还是仅同步必要的块更优优势？"></a>在getInstance()方法上同步有优势还是仅同步必要的块更优优势？</h5><p> 因为锁定仅仅在创建实例时才有意义，然后其他时候实例仅仅是只读访问的，因此只同步必要的块的性能更优，并且是更好的选择。<br>        缺点：只有在第一次调用的时候，才会出现生成2个对象，才必须要求同步。而一旦singleton 不为null，系统依旧花费同步锁开销，有点得不偿失。</p>
-<h5 id="单例类可以被继承吗"><a href="#单例类可以被继承吗" class="headerlink" title="单例类可以被继承吗"></a>单例类可以被继承吗</h5><p> 根据单例实例构造的时机和方式不同，单例模式还可以分成几种。但对于这种通过私有化构造函数，静态方法提供实例的单例类而言，是不支持继承的。<br>        这种模式的单例实现要求每个具体的单例类自身来维护单例实例和限制多个实例的生成。但可以采用另外一种实现单例的思路：登记式单例，来使得单例对继承开放。</p>
 
           
         
