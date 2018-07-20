@@ -1,45 +1,108 @@
 <!DOCTYPE html>
-<html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
 <head>
-    <meta http-equiv="Content-Language" content="zh-cn">
-    <meta charset="utf-8">
-    
-    
-    
-    <title>文件的上传和下载 | qin12的学习博客 | 只为成功找方法，不为失败找借口！</title>
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    
-    <meta name="theme-color" content="#77AAFF">
-    
-    
-    <meta name="keywords" content="上传和下载">
-    
-    
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
 
-    
 
-    <!-- Baidu Push -->
-<script>
-	(function(){
-		var bp = document.createElement('script');
-		var curProtocol = window.location.protocol.split(':')[0];
-		if (curProtocol === 'https') {
-			bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-		}
-		else {
-			bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-		}
-		var s = document.getElementsByTagName("script")[0];
-		s.parentNode.insertBefore(bp, s);
-	})();
 
-	var _hmt = _hmt || [];
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.jpg?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
 </script>
 
 
+  
 
-    
-    <meta name="description" content="在Web应用系统开发中，文件上传和下载功能是非常常用的功能，今天来讲一下JavaWeb中的文件上传和下载功能的实现。　　对于文件上传，浏览器在上传的过程中是将文件以流的形式提交到服务器端的，如果直接使用Servlet获取上传文件的输入流然后再解析里面的请求参数是比较麻烦，所以一般选择采用apache的开源工具common-fileupload这个文件上传组件。这个common-fileupload">
+
+
+
+  <meta name="description" content="在Web应用系统开发中，文件上传和下载功能是非常常用的功能，今天来讲一下JavaWeb中的文件上传和下载功能的实现。　　对于文件上传，浏览器在上传的过程中是将文件以流的形式提交到服务器端的，如果直接使用Servlet获取上传文件的输入流然后再解析里面的请求参数是比较麻烦，所以一般选择采用apache的开源工具common-fileupload这个文件上传组件。这个common-fileupload">
 <meta name="keywords" content="上传和下载">
 <meta property="og:type" content="article">
 <meta property="og:title" content="文件的上传和下载">
@@ -51,181 +114,315 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="文件的上传和下载">
 <meta name="twitter:description" content="在Web应用系统开发中，文件上传和下载功能是非常常用的功能，今天来讲一下JavaWeb中的文件上传和下载功能的实现。　　对于文件上传，浏览器在上传的过程中是将文件以流的形式提交到服务器端的，如果直接使用Servlet获取上传文件的输入流然后再解析里面的请求参数是比较麻烦，所以一般选择采用apache的开源工具common-fileupload这个文件上传组件。这个common-fileupload">
-    
-        <link rel="alternate" type="application/atom+xml" title="qin12的学习博客" href="/atom.xml">
-    
-    <link rel="shortcut icon" href="/img/favicon.ico">
-    <link id="style" rel="stylesheet" href="/css/style.css?v=3.0">
-    <script>window.lazyScripts=[]</script>
 
-    <!-- custom head -->
-    
-            
+
+
+  <link rel="alternate" href="/atom.xml" title="qin12的学习博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/20/一、实现文件上传/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>文件的上传和下载 | qin12的学习博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
 </head>
 
-<body>
-    <div id="loading" class="active"></div>
-    <aside id="menu"  class="hide" >
-  <div class="inner flex-row-vertical">
-    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
-        <i class="icon icon-lg icon-close"></i>
-    </a>
-    <div class="brand-wrap" >
-      <div class="brand">
-        <a href="/" class="avatar waves-effect waves-circle waves-light">
-          <img src="/img/avatar.jpg" alt="avatar">
-        </a>
-        <hgroup class="introduce">
-          <h5 class="nickname" id="name">Qgx</h5>
-          
-            <div id="yiyanmotto" class="motto">&nbsp;</div>
-          
-        </hgroup>
-      </div>
-    </div>
-    <div class="scroll-wrap flex-col">
-      <ul class="nav">
-        
-              <li class="waves-block waves-effect">
-                  <a href="/"  >
-                    <i class="icon icon-lg icon-home"></i>
-                    <span>主 页</span><i class="icon icon-lg icon-caret-left"></i>
-                  </a>
-              </li>
-            
-              <li class="waves-block waves-effect">
-                  <a href="/archives/"  >
-                    <i class="icon icon-lg icon-archives"></i>
-                    <span>归 档</span><i class="icon icon-lg icon-caret-left"></i>
-                  </a>
-              </li>
-            
-              <li class="waves-block waves-effect">
-                  <a href="/categories/"  >
-                    <i class="icon icon-lg icon-th-list"></i>
-                    <span>分 类</span><i class="icon icon-lg icon-caret-left"></i>
-                  </a>
-              </li>
-            
-              <li class="waves-block waves-effect">
-                  <a href="/tags/"  >
-                    <i class="icon icon-lg icon-tags"></i>
-                    <span>标 签</span><i class="icon icon-lg icon-caret-left"></i>
-                  </a>
-              </li>
-            
-              <li class="waves-block waves-effect">
-                  <a href="/about"  >
-                    <i class="icon icon-lg icon-smile-o"></i>
-                    <span>关 于</span><i class="icon icon-lg icon-caret-left"></i>
-                  </a>
-              </li>
-            
-      <div class="nav2">
-          
-              <a class="nav2item" data-title="Email" href="mailto:1520290900@qq.com" target="_parent"title="Email" >
-                <i class="icon icon-lg icon-envelope-o envelope-o"></i>
-              </a>
-          
-              <a class="nav2item" data-title="Github" href="https://github.com/qin12" target="_blank"title="Github" >
-                <i class="icon icon-lg icon-github github"></i>
-              </a>
-          
-              <a class="nav2item" data-title="微博" href="https://weibo.com/u/6415480382" target="_blank"title="微博" >
-                <i class="icon icon-lg icon-weibo weibo"></i>
-              </a>
-          
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
-            </div>
-        
-      </ul>
-        
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">qin12的学习博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
+      
+        <p class="site-subtitle">只为成功找方法，不为失败找借口！</p>
+      
   </div>
- 
-</aside>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
 
 
-    <main id="main">
-        <header class="top-header" id="header">
-    <div class="flex-row">
-        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
-          <i class="icon icon-lg icon-navicon"></i>
-        </a>
-        <div class="flex-col header-title ellipsis">文件的上传和下载</div>
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
         
-        <div class="search-wrap" id="search-wrap">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
-                <i class="icon icon-lg icon-chevron-left"></i>
-            </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
-                <i class="icon icon-lg icon-search"></i>
-            </a>
-        </div>
         
-        <a href="../../atom.xml" target="_blank" class="header-icon waves-effect waves-circle waves-light" id="Rss">
-            <i class="icon icon-lg icon-rss"></i>
-        </a>
-    </div>
-</header>
-<header class="content-header post-header">
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-photo">
+    <a href="/photo/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-photo"></i> <br />摄影</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-music">
+    <a href="/music/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-music"></i> <br />音乐</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
     
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
     
-    <div class="container fade-scale">
-        <div id="myheader">
-            <h1 class="title">
-                
-            </h1>
-            <h5 class="subtitle">
-                
-                
-            </h5>
-        </div>
-    </div>
-
-</header>
 
 
-<div class="container body-wrap">
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-    <aside class="post-widget">
-        <nav class="post-toc-wrap" id="post-toc">
-            <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一、实现文件上传"><span class="post-toc-number">1.</span> <span class="post-toc-text">一、实现文件上传</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-1、文件上传页面和消息提示页面"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1.1、文件上传页面和消息提示页面</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-2、处理文件上传的Servlet"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">1.2、处理文件上传的Servlet</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-3、文件上传的细节"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">1.3、文件上传的细节</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#二、文件下载"><span class="post-toc-number">2.</span> <span class="post-toc-text">二、文件下载</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1、列出提供下载的文件资源"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">2.1、列出提供下载的文件资源</span></a></li></ol></li></ol>
-        </nav>
-    </aside>
-   
-<article id="post-一、实现文件上传"
-  class="post-article article-type-post fade" itemprop="blogPost">
 
-    <div class="post-card">
-        <h1 class="post-card-title">文件的上传和下载</h1>
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/一、实现文件上传/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">文件的上传和下载
+              
+            
+          </h1>
+        
+
         <div class="post-meta">
-            <i class="icon icon-lg icon-calendar-o"></i>
-            发表于
-            <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.797Z"  itemprop="datePublished">2018-07-20</time>
+          <span class="post-time">
 
-            <br id="mybreak"/>
             
-	<i class="icon icon-lg icon-folder-o"></i>
-	分类：<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/javaEE/">javaEE</a></li></ul>
-
-
-            <i>·</i>
             
-<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
-    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>次浏览
-</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
 
         </div>
-        <div class="post-count-custom">
-            <i class="icon icon-lg icon-comment-o"></i>
-            阅读本文可能花费您&nbsp;<span class="post-count">16</span>&nbsp;分钟
-        </div>
-        <div class="post-content" id="post-content" itemprop="postContent">
-            <p>在Web应用系统开发中，文件上传和下载功能是非常常用的功能，今天来讲一下JavaWeb中的文件上传和下载功能的实现。<br>　　对于文件上传，浏览器在上传的过程中是将文件以流的形式提交到服务器端的，如果直接使用Servlet获取上传文件的输入流然后再解析里面的请求参数是比较麻烦，所以一般选择采用apache的开源工具common-fileupload这个文件上传组件。这个common-fileupload上传组件的jar包可以去apache官网上面下载，也可以在struts的lib文件夹下面找到，struts上传的功能就是基于这个实现的。common-fileupload是依赖于common-io这个包的，所以还需要下载这个包。</p>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在Web应用系统开发中，文件上传和下载功能是非常常用的功能，今天来讲一下JavaWeb中的文件上传和下载功能的实现。<br>　　对于文件上传，浏览器在上传的过程中是将文件以流的形式提交到服务器端的，如果直接使用Servlet获取上传文件的输入流然后再解析里面的请求参数是比较麻烦，所以一般选择采用apache的开源工具common-fileupload这个文件上传组件。这个common-fileupload上传组件的jar包可以去apache官网上面下载，也可以在struts的lib文件夹下面找到，struts上传的功能就是基于这个实现的。common-fileupload是依赖于common-io这个包的，所以还需要下载这个包。</p>
 <h3 id="一、实现文件上传"><a href="#一、实现文件上传" class="headerlink" title="一、实现文件上传"></a>一、实现文件上传</h3><h4 id="1-1、文件上传页面和消息提示页面"><a href="#1-1、文件上传页面和消息提示页面" class="headerlink" title="1.1、文件上传页面和消息提示页面"></a>1.1、文件上传页面和消息提示页面</h4><p>upload.jsp页面的代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--</span><br><span class="line">  Created by IntelliJ IDEA.</span><br><span class="line">  User: qgx</span><br><span class="line">  Date: 2018/6/5</span><br><span class="line">  Time: 10:21</span><br><span class="line">  To change this template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;文件上传&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;form action=&quot;$&#123;pageContext.request.contextPath&#125;/UploadHandleServlet&quot; enctype=&quot;multipart/form-data&quot; method=&quot;post&quot;&gt;</span><br><span class="line">    上传用户：&lt;input type=&quot;text&quot; name=&quot;username&quot;&gt;&lt;br/&gt;</span><br><span class="line">    上传文件1：&lt;input type=&quot;file&quot; name=&quot;file1&quot;&gt;&lt;br/&gt;</span><br><span class="line">    上传文件2：&lt;input type=&quot;file&quot; name=&quot;file2&quot;&gt;&lt;br/&gt;</span><br><span class="line">    &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
 <p>message.jsp的代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--</span><br><span class="line">  Created by IntelliJ IDEA.</span><br><span class="line">  User: qgx</span><br><span class="line">  Date: 2018/6/5</span><br><span class="line">  Time: 10:21</span><br><span class="line">  To change this template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;消息提示&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">$&#123;message&#125;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
 <h4 id="1-2、处理文件上传的Servlet"><a href="#1-2、处理文件上传的Servlet" class="headerlink" title="1.2、处理文件上传的Servlet"></a>1.2、处理文件上传的Servlet</h4><p>UploadHandleServlet的代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br></pre></td><td class="code"><pre><span class="line">package FileUploadAndDownLoad;</span><br><span class="line"></span><br><span class="line">import org.apache.commons.fileupload.FileItem;</span><br><span class="line">import org.apache.commons.fileupload.FileUploadBase;</span><br><span class="line">import org.apache.commons.fileupload.ProgressListener;</span><br><span class="line">import org.apache.commons.fileupload.disk.DiskFileItemFactory;</span><br><span class="line">import org.apache.commons.fileupload.servlet.ServletFileUpload;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.File;</span><br><span class="line">import java.io.FileOutputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.UUID;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;UploadHandleServlet&quot;)</span><br><span class="line">public class UploadHandleServlet extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">     doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">//        String savePath = this.getServletContext().getRealPath(&quot;/WEB-INF/upload&quot;);</span><br><span class="line">//        File file = new File(savePath);</span><br><span class="line">//        //判断上传文件的保存目录是否存在</span><br><span class="line">//        if (!file.exists() &amp;&amp; !file.isDirectory()) &#123;</span><br><span class="line">//            System.out.println(savePath+&quot;目录不存在，需要创建&quot;);</span><br><span class="line">//            //创建目录</span><br><span class="line">//            file.mkdir();</span><br><span class="line">//        &#125;</span><br><span class="line">//        //消息提示</span><br><span class="line">//        String message = &quot;&quot;;</span><br><span class="line">//        try&#123;</span><br><span class="line">//            //使用Apache文件上传组件处理文件上传步骤：</span><br><span class="line">//            //1、创建一个DiskFileItemFactory工厂</span><br><span class="line">//            DiskFileItemFactory factory = new DiskFileItemFactory();</span><br><span class="line">//            //2、创建一个文件上传解析器</span><br><span class="line">//            ServletFileUpload upload = new ServletFileUpload(factory);</span><br><span class="line">//            //解决上传文件名的中文乱码</span><br><span class="line">//            upload.setHeaderEncoding(&quot;UTF-8&quot;);</span><br><span class="line">//            //3、判断提交上来的数据是否是上传表单的数据</span><br><span class="line">//            if(!ServletFileUpload.isMultipartContent(request))&#123;</span><br><span class="line">//                //按照传统方式获取数据</span><br><span class="line">//                return;</span><br><span class="line">//            &#125;</span><br><span class="line">//            //4、使用ServletFileUpload解析器解析上传数据，解析结果返回的是一个List&lt;FileItem&gt;集合，每一个FileItem对应一个Form表单的输入项</span><br><span class="line">//            List&lt;FileItem&gt; list = upload.parseRequest(request);</span><br><span class="line">//            for(FileItem item : list)&#123;</span><br><span class="line">//                //如果fileitem中封装的是普通输入项的数据</span><br><span class="line">//                if(item.isFormField())&#123;</span><br><span class="line">//                    String name = item.getFieldName();</span><br><span class="line">//                    //解决普通输入项的数据的中文乱码问题</span><br><span class="line">//                    String value = item.getString(&quot;UTF-8&quot;);</span><br><span class="line">//                    //value = new String(value.getBytes(&quot;iso8859-1&quot;),&quot;UTF-8&quot;);</span><br><span class="line">//                    System.out.println(name + &quot;=&quot; + value);</span><br><span class="line">//                &#125;else&#123;//如果fileitem中封装的是上传文件</span><br><span class="line">//                    //得到上传的文件名称，</span><br><span class="line">//                    String filename = item.getName();</span><br><span class="line">//                    System.out.println(filename);</span><br><span class="line">//                    if(filename==null || filename.trim().equals(&quot;&quot;))&#123;</span><br><span class="line">//                        continue;</span><br><span class="line">//                    &#125;</span><br><span class="line">//                    //注意：不同的浏览器提交的文件名是不一样的，有些浏览器提交上来的文件名是带有路径的，如：  c:\a\b\1.txt，而有些只是单纯的文件名，如：1.txt</span><br><span class="line">//                    //处理获取到的上传文件的文件名的路径部分，只保留文件名部分</span><br><span class="line">//                    filename = filename.substring(filename.lastIndexOf(&quot;\\&quot;)+1);</span><br><span class="line">//                    //获取item中的上传文件的输入流</span><br><span class="line">//                    InputStream in = item.getInputStream();</span><br><span class="line">//                    //创建一个文件输出流</span><br><span class="line">//                    FileOutputStream out = new FileOutputStream(savePath + &quot;\\&quot; + filename);</span><br><span class="line">//                    //创建一个缓冲区</span><br><span class="line">//                    byte buffer[] = new byte[1024];</span><br><span class="line">//                    //判断输入流中的数据是否已经读完的标识</span><br><span class="line">//                    int len = 0;</span><br><span class="line">//                    //循环将输入流读入到缓冲区当中，(len=in.read(buffer))&gt;0就表示in里面还有数据</span><br><span class="line">//                    while((len=in.read(buffer))&gt;0)&#123;</span><br><span class="line">//                        //使用FileOutputStream输出流将缓冲区的数据写入到指定的目录(savePath + &quot;\\&quot; + filename)当中</span><br><span class="line">//                        out.write(buffer, 0, len);</span><br><span class="line">//                    &#125;</span><br><span class="line">//                    //关闭输入流</span><br><span class="line">//                    in.close();</span><br><span class="line">//                    //关闭输出流</span><br><span class="line">//                    out.close();</span><br><span class="line">//                    //删除处理文件上传时生成的临时文件</span><br><span class="line">//                    item.delete();</span><br><span class="line">//                    message = &quot;文件上传成功！&quot;;</span><br><span class="line">//                &#125;</span><br><span class="line">//            &#125;</span><br><span class="line">//        &#125;catch (Exception e) &#123;</span><br><span class="line">//            message= &quot;文件上传失败！&quot;;</span><br><span class="line">//            e.printStackTrace();</span><br><span class="line">//</span><br><span class="line">//        &#125;</span><br><span class="line">//        request.setAttribute(&quot;message&quot;,message);</span><br><span class="line">//        request.getRequestDispatcher(&quot;/message.jsp&quot;).forward(request, response);</span><br><span class="line"></span><br><span class="line">        //得到上传文件的保存目录，将上传的文件存放于WEB-INF目录下，不允许外界直接访问，保证上传文件的安全</span><br><span class="line">        String savePath = this.getServletContext().getRealPath(&quot;/WEB-INF/upload&quot;);</span><br><span class="line">        System.out.println(savePath);</span><br><span class="line">        //上传时生成的临时文件保存目录</span><br><span class="line">        String tempPath = this.getServletContext().getRealPath(&quot;/WEB-INF/temp&quot;);</span><br><span class="line">        File tmpFile = new File(tempPath);</span><br><span class="line">        if (!tmpFile.exists()) &#123;</span><br><span class="line">            //创建临时目录</span><br><span class="line">            tmpFile.mkdir();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //消息提示</span><br><span class="line">        String message = &quot;&quot;;</span><br><span class="line">        try &#123;</span><br><span class="line">            //使用Apache文件上传组件处理文件上传步骤：</span><br><span class="line">            //1、创建一个DiskFileItemFactory工厂</span><br><span class="line">            DiskFileItemFactory factory = new DiskFileItemFactory();</span><br><span class="line">            //设置工厂的缓冲区的大小，当上传的文件大小超过缓冲区的大小时，就会生成一个临时文件存放到指定的临时目录当中。</span><br><span class="line">            factory.setSizeThreshold(1024 * 100);//设置缓冲区的大小为100KB，如果不指定，那么缓冲区的大小默认是10KB</span><br><span class="line">            //设置上传时生成的临时文件的保存目录</span><br><span class="line">            factory.setRepository(tmpFile);</span><br><span class="line">            //2、创建一个文件上传解析器</span><br><span class="line">            ServletFileUpload upload = new ServletFileUpload(factory);</span><br><span class="line">            //监听文件上传进度</span><br><span class="line">            upload.setProgressListener(new ProgressListener() &#123;</span><br><span class="line">                public void update(long pBytesRead, long pContentLength, int arg2) &#123;</span><br><span class="line">                    System.out.println(&quot;文件大小为：&quot; + pContentLength + &quot;,当前已处理：&quot; + pBytesRead);</span><br><span class="line">                    /**</span><br><span class="line">                     * 文件大小为：14608,当前已处理：4096</span><br><span class="line">                     文件大小为：14608,当前已处理：7367</span><br><span class="line">                     文件大小为：14608,当前已处理：11419</span><br><span class="line">                     文件大小为：14608,当前已处理：14608</span><br><span class="line">                     */</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            //解决上传文件名的中文乱码</span><br><span class="line">            upload.setHeaderEncoding(&quot;UTF-8&quot;);</span><br><span class="line">            //3、判断提交上来的数据是否是上传表单的数据</span><br><span class="line">            if (!ServletFileUpload.isMultipartContent(request)) &#123;</span><br><span class="line">                //按照传统方式获取数据</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            //设置上传单个文件的大小的最大值，目前是设置为1024*1024字节，也就是1MB</span><br><span class="line">            upload.setFileSizeMax(1024 * 1024);</span><br><span class="line">            //设置上传文件总量的最大值，最大值=同时上传的多个文件的大小的最大值的和，目前设置为10MB</span><br><span class="line">            upload.setSizeMax(1024 * 1024 * 10);</span><br><span class="line">            //4、使用ServletFileUpload解析器解析上传数据，解析结果返回的是一个List&lt;FileItem&gt;集合，每一个FileItem对应一个Form表单的输入项</span><br><span class="line">            List&lt;FileItem&gt; list = upload.parseRequest(request);</span><br><span class="line">            for (FileItem item : list) &#123;</span><br><span class="line">                //如果fileitem中封装的是普通输入项的数据</span><br><span class="line">                if (item.isFormField()) &#123;</span><br><span class="line">                    String name = item.getFieldName();</span><br><span class="line">                    //解决普通输入项的数据的中文乱码问题</span><br><span class="line">                    String value = item.getString(&quot;UTF-8&quot;);</span><br><span class="line">                    //value = new String(value.getBytes(&quot;iso8859-1&quot;),&quot;UTF-8&quot;);</span><br><span class="line">                    System.out.println(name + &quot;=&quot; + value);</span><br><span class="line">                &#125; else &#123;//如果fileitem中封装的是上传文件</span><br><span class="line">                    //得到上传的文件名称，</span><br><span class="line">                    String filename = item.getName();</span><br><span class="line">                    System.out.println(filename);</span><br><span class="line">                    if (filename == null || filename.trim().equals(&quot;&quot;)) &#123;</span><br><span class="line">                        continue;</span><br><span class="line">                    &#125;</span><br><span class="line">                    //注意：不同的浏览器提交的文件名是不一样的，有些浏览器提交上来的文件名是带有路径的，如：  c:\a\b\1.txt，而有些只是单纯的文件名，如：1.txt</span><br><span class="line">                    //处理获取到的上传文件的文件名的路径部分，只保留文件名部分</span><br><span class="line">                    filename = filename.substring(filename.lastIndexOf(&quot;\\&quot;) + 1);</span><br><span class="line">                    //得到上传文件的扩展名</span><br><span class="line">                    String fileExtName = filename.substring(filename.lastIndexOf(&quot;.&quot;) + 1);</span><br><span class="line">                    //如果需要限制上传的文件类型，那么可以通过文件的扩展名来判断上传的文件类型是否合法</span><br><span class="line">                    System.out.println(&quot;上传的文件的扩展名是：&quot; + fileExtName);</span><br><span class="line">                    //获取item中的上传文件的输入流</span><br><span class="line">                    InputStream in = item.getInputStream();</span><br><span class="line">                    //得到文件保存的名称</span><br><span class="line">                    String saveFilename = makeFileName(filename);</span><br><span class="line">                    //得到文件的保存目录</span><br><span class="line">                    String realSavePath = makePath(saveFilename, savePath);</span><br><span class="line">                    //创建一个文件输出流</span><br><span class="line">                    FileOutputStream out = new FileOutputStream(realSavePath + &quot;\\&quot; + saveFilename);</span><br><span class="line">                    //创建一个缓冲区</span><br><span class="line">                    byte buffer[] = new byte[1024];</span><br><span class="line">                    //判断输入流中的数据是否已经读完的标识</span><br><span class="line">                    int len = 0;</span><br><span class="line">                    //循环将输入流读入到缓冲区当中，(len=in.read(buffer))&gt;0就表示in里面还有数据</span><br><span class="line">                    while ((len = in.read(buffer)) &gt; 0) &#123;</span><br><span class="line">                        //使用FileOutputStream输出流将缓冲区的数据写入到指定的目录(savePath + &quot;\\&quot; + filename)当中</span><br><span class="line">                        out.write(buffer, 0, len);</span><br><span class="line">                    &#125;</span><br><span class="line">                    //关闭输入流</span><br><span class="line">                    in.close();</span><br><span class="line">                    //关闭输出流</span><br><span class="line">                    out.close();</span><br><span class="line">                    //删除处理文件上传时生成的临时文件</span><br><span class="line">                    item.delete();</span><br><span class="line">                    message = &quot;文件上传成功！&quot;;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (FileUploadBase.FileSizeLimitExceededException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            request.setAttribute(&quot;message&quot;, &quot;单个文件超出最大值！！！&quot;);</span><br><span class="line">            request.getRequestDispatcher(&quot;/message.jsp&quot;).forward(request, response);</span><br><span class="line">            return;</span><br><span class="line">        &#125; catch (FileUploadBase.SizeLimitExceededException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            request.setAttribute(&quot;message&quot;, &quot;上传文件的总的大小超出限制的最大值！！！&quot;);</span><br><span class="line">            request.getRequestDispatcher(&quot;/message.jsp&quot;).forward(request, response);</span><br><span class="line">            return;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            message = &quot;文件上传失败！&quot;;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        request.setAttribute(&quot;message&quot;, message);</span><br><span class="line">        request.getRequestDispatcher(&quot;/message.jsp&quot;).forward(request, response);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    private String makeFileName(String filename)&#123;  //2.jpg</span><br><span class="line">        //为防止文件覆盖的现象发生，要为上传文件产生一个唯一的文件名</span><br><span class="line">        return UUID.randomUUID().toString() + &quot;_&quot; + filename;</span><br><span class="line">    &#125;</span><br><span class="line">    private String makePath(String filename,String savePath)&#123;</span><br><span class="line">        //得到文件名的hashCode的值，得到的就是filename这个字符串对象在内存中的地址</span><br><span class="line">        int hashcode = filename.hashCode();</span><br><span class="line">        int dir1 = hashcode&amp;0xf;  //0--15</span><br><span class="line">        int dir2 = (hashcode&amp;0xf0)&gt;&gt;4;  //0-15</span><br><span class="line">        //构造新的保存目录</span><br><span class="line">        String dir = savePath + &quot;\\&quot; + dir1 + &quot;\\&quot; + dir2;  //upload\2\3  upload\3\5</span><br><span class="line">        //File既可以代表文件也可以代表目录</span><br><span class="line">        File file = new File(dir);</span><br><span class="line">        //如果目录不存在</span><br><span class="line">        if(!file.exists())&#123;</span><br><span class="line">            //创建目录</span><br><span class="line">            file.mkdirs();</span><br><span class="line">        &#125;</span><br><span class="line">        return dir;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -239,371 +436,561 @@
 <h3 id="二、文件下载"><a href="#二、文件下载" class="headerlink" title="二、文件下载"></a>二、文件下载</h3><h4 id="2-1、列出提供下载的文件资源"><a href="#2-1、列出提供下载的文件资源" class="headerlink" title="2.1、列出提供下载的文件资源"></a>2.1、列出提供下载的文件资源</h4><p>我们要将Web应用系统中的文件资源提供给用户进行下载，首先我们要有一个页面列出上传文件目录下的所有文件，当用户点击文件下载超链接时就进行下载操作，编写一个ListFileServlet，用于列出Web应用系统中所有下载文件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">package FileUploadAndDownLoad;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.File;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ListFileServlet&quot;)</span><br><span class="line">public class ListFileServlet extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">            //获取上传文件的目录</span><br><span class="line">        String uploadFilePath = this.getServletContext().getRealPath(&quot;/WEB-INF/upload&quot;);</span><br><span class="line">            //存储要下载的文件名</span><br><span class="line">        Map&lt;String,String&gt; fileNameMap = new HashMap&lt;String,String&gt;();</span><br><span class="line">            //递归遍历filepath目录下的所有文件和目录，将文件的文件名存储到map集合中</span><br><span class="line">        listfile(new File(uploadFilePath),fileNameMap);//File既可以代表一个文件也可以代表一个目录</span><br><span class="line">            //将Map集合发送到listfile.jsp页面进行显示</span><br><span class="line">        System.out.println(fileNameMap);</span><br><span class="line">        request.setAttribute(&quot;fileNameMap&quot;,fileNameMap);</span><br><span class="line">        request.getRequestDispatcher(&quot;/listfile.jsp&quot;).forward(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 递归遍历指定目录下的所有文件</span><br><span class="line">     * @param file 即代表一个文件，也代表一个文件目录</span><br><span class="line">     * @param map 存储文件名的Map集合</span><br><span class="line">     */</span><br><span class="line">    public void listfile(File file,Map&lt;String,String&gt; map)&#123;</span><br><span class="line">               //如果file代表的不是一个文件，而是一个目录</span><br><span class="line">              if(!file.isFile())&#123;</span><br><span class="line">                    //列出该目录下的所有文件和目录</span><br><span class="line">                       File files[] = file.listFiles();</span><br><span class="line">                       //遍历files[]数组</span><br><span class="line">                       for(File f : files)&#123;</span><br><span class="line">                             //递归</span><br><span class="line">                         listfile(f,map);</span><br><span class="line">                        &#125;</span><br><span class="line">                   &#125;else&#123;</span><br><span class="line">                       /**</span><br><span class="line">                         * 处理文件名，上传后的文件是以uuid_文件名的形式去重新命名的，去除文件名的uuid_部分</span><br><span class="line">                             file.getName().indexOf(&quot;_&quot;)检索字符串中第一次出现&quot;_&quot;字符的位置，如果文件名类似于：9349249849-88343-8344</span><br><span class="line">                            那么file.getName().substring(file.getName().indexOf(&quot;_&quot;)+1)处理之后就可以得到文件名部分</span><br><span class="line">                         */</span><br><span class="line">                       String realName = file.getName().substring(file.getName().indexOf(&quot;_&quot;)+1);</span><br><span class="line">                      //file.getName()得到的是文件的原始名称，这个名称是唯一的，因此可以作为key，realName是处理过后的名称，有可能会重复</span><br><span class="line">                       map.put(file.getName(), realName);</span><br><span class="line">                  &#125;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>展示下载文件的listfile.jsp页面如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--</span><br><span class="line">  Created by IntelliJ IDEA.</span><br><span class="line">  User: qgx</span><br><span class="line">  Date: 2018/6/5</span><br><span class="line">  Time: 22:36</span><br><span class="line">  To change this template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;</span><br><span class="line">&lt;%@taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot; %&gt;</span><br><span class="line">&lt;!DOCTYPE HTML&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;下载文件显示页面&lt;/title&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;body&gt;</span><br><span class="line">      &lt;!-- 遍历Map集合 --&gt;</span><br><span class="line">    &lt;c:forEach var=&quot;me&quot; items=&quot;$&#123;fileNameMap&#125;&quot;&gt;</span><br><span class="line">        &lt;c:url value=&quot;/DownLoadServlet&quot; var=&quot;downurl&quot;&gt;</span><br><span class="line">            &lt;c:param name=&quot;filename&quot; value=&quot;$&#123;me.key&#125;&quot;&gt;&lt;/c:param&gt;</span><br><span class="line">        &lt;/c:url&gt;</span><br><span class="line">        $&#123;me.value&#125;&lt;a href=&quot;$&#123;downurl&#125;&quot;&gt;下载&lt;/a&gt;</span><br><span class="line">        &lt;br/&gt;</span><br><span class="line">    &lt;/c:forEach&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
 
-        </div>
-
-        <blockquote class="post-copyright">
-    <div class="content">
-        
-<span class="post-time">
-    最后更新：<time datetime="2018-07-20T04:10:37.797Z" itemprop="dateUpdated">2018-07-20 12:10:37</time>
-</span>
-
-
-        
-        原文链接：<a href="/2018/07/20/一、实现文件上传/" target="_blank" rel="external">http://yoursite.com/2018/07/20/一、实现文件上传/</a>
-        
+      
     </div>
-    <footer>
-        <div onclick="location.href='http://yoursite.com'">
-            <img src="/img/avatar.jpg" alt="Qgx">
-            <a>Qgx</a>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/上传和下载/" rel="tag"># 上传和下载</a>
+          
         </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/20/一、commons-dbutils简介/" rel="next" title="Apache的DBUtils框架学习">
+                <i class="fa fa-chevron-left"></i> Apache的DBUtils框架学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/20/集合框架二/" rel="prev" title="java 基础知识">
+                java 基础知识 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
     </footer>
-</blockquote>
+  </div>
+  
+  
+  
+  </article>
 
-        
-    <div class="page-reward">
-        <nav class="myreward">
-            <a id="rewardBtn" href="javascript:;"><span>打&nbsp;赏</span><span>装成好像很多人打赏的样子</span></a>
-        </nav>
+
+
+    <div class="post-spread">
+      
     </div>
+  </div>
 
 
+          </div>
+          
 
-        <div class="post-footer">
-            
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/上传和下载/">上传和下载</a></li></ul>
-
-
-            
-<div class="page-share-wrap">
-    
-
-<div class="page-share" id="pageShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2018/07/20/一、实现文件上传/&title=《文件的上传和下载》 — qin12的学习博客&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2018/07/20/一、实现文件上传/&title=《文件的上传和下载》 — qin12的学习博客&source=漫漫长路，伴你同行" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/07/20/一、实现文件上传/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《文件的上传和下载》 — qin12的学习博客&url=http://yoursite.com/2018/07/20/一、实现文件上传/&via=http://yoursite.com" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2018/07/20/一、实现文件上传/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
-
-
-
-    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
-        <i class="icon icon-share-alt icon-lg"></i>
-    </a>
-</div>
+  
 
 
 
         </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
     </div>
+  </div>
 
+  <aside id="sidebar" class="sidebar">
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="waves-block waves-effect prev">
-      <a href="/2018/07/20/集合框架二/" id="post-prev" class="post-nav-link">
-        <h4 class="title" >
-          上一篇：java 基础知识
-        </h4>
-      </a>
-    </div>
-  
+    <div class="sidebar-inner">
 
-  
-    <div class="waves-block waves-effect next">
-      <a href="/2018/07/20/文件下载/" id="post-next" class="post-nav-link">
-        <h4 class="title" data-hover="下一篇：javaweb (六 )">下一篇：javaweb (六 )</h4>
-      </a>
-    </div>
-  
-</nav>
+      
 
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-
-    
-    
-
-    
-
-    
-
-
-</article>
-
-</div>
-
-        <footer class="footer">
-    <div class="footer-content">
-        <span class="power">
-            <i class="icon icon-lg icon-copyright"></i>
-            2018
-            <i class="icon icon-lg icon-heart"></i>
-            <a href="http://yoursite.com">qin12.github.io</a>
-            <br/>
-            Power by
-            <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>&nbsp;·&nbsp;
-            Theme
-            <a class="tomotoeslink" href="https://github.com/tomotoes/hexo-theme-tomotoes/" target="_blank" rel="external nofollow">tomotoes</a>
-        </span>
-
-        <br/>
-
-        <span id="RunTime" style="color:#a7a7a2;"></span>
-        <br/>
-
-        <span>
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-	<i class="icon icon-lg icon-user">
-<span id="busuanzi_container_site_uv" style='display:none'>
-       访问用户：<span id="busuanzi_value_site_uv"></span>
-    </span>人</i>
-    ·
-    <i class="icon icon-lg icon-eye">
-    <span id="busuanzi_container_site_pv" style='display:none'>
-      访问次数：<span id="busuanzi_value_site_pv"></span>
-    </span>次
-    </i>
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Qgx" />
+            
+              <p class="site-author-name" itemprop="name">Qgx</p>
+              <p class="site-description motion-element" itemprop="description">漫漫长路，伴你同行</p>
+          </div>
 
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">80</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
 
-        </span>
-        <br/>
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
 
-        <span class="license"><a  target="_blank" rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">博客内容遵循 知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
-    </div>
-</footer>
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
 
-    </main>
-    
-        
-<div id="reward" class="page-modal reward-lay">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <h3 class="reward-title">
-        <i class="icon icon-quote-left"></i>
-        <span>感谢您的鼓励支持！</span>
-        <i class="icon icon-quote-right"></i>
-    </h3>
-    <div class="reward-content">
-        
-        <div class="reward-code">
-            <img id="rewardCode" data-img="/img/dog.png" alt="打赏二维码">
-        </div>
-        
-        <label class="reward-toggle">
-            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
-                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
-            <div class="reward-toggle-ctrol">
-                <span class="reward-toggle-item wechatPay">&nbsp;&nbsp;微信&nbsp;&nbsp;</span>
-                <span class="reward-toggle-item alipayPay">支付宝</span>
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
             </div>
-        </label>
-        
-        <i class="icon icon-caret-up"></i>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/qin12" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:1520290900@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=1520290900&website=www.oicqzone.com" target="_blank" title="QQ"><i class="fa fa-fw fa-QQ"></i>QQ</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、实现文件上传"><span class="nav-number">1.</span> <span class="nav-text">一、实现文件上传</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1、文件上传页面和消息提示页面"><span class="nav-number">1.1.</span> <span class="nav-text">1.1、文件上传页面和消息提示页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2、处理文件上传的Servlet"><span class="nav-number">1.2.</span> <span class="nav-text">1.2、处理文件上传的Servlet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3、文件上传的细节"><span class="nav-number">1.3.</span> <span class="nav-text">1.3、文件上传的细节</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、文件下载"><span class="nav-number">2.</span> <span class="nav-text">二、文件下载</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1、列出提供下载的文件资源"><span class="nav-number">2.1.</span> <span class="nav-text">2.1、列出提供下载的文件资源</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
     </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-[object Object]"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qgx</span>
+
+  
 </div>
 
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
 
     
-    <div class="mask" id="mask"></div>
-<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
 
+    
 
+  </div>
 
-<div class="global-share" id="globalShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2018/07/20/一、实现文件上传/&title=《文件的上传和下载》 — qin12的学习博客&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2018/07/20/一、实现文件上传/&title=《文件的上传和下载》 — qin12的学习博客&source=漫漫长路，伴你同行" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/07/20/一、实现文件上传/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《文件的上传和下载》 — qin12的学习博客&url=http://yoursite.com/2018/07/20/一、实现文件上传/&via=http://yoursite.com" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2018/07/20/一、实现文件上传/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
+  
 
-
-<div class="page-modal wx-share" id="wxShare">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p class="wechatshare">扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACLklEQVR42u3aS27DMAwFQN//0um2RRHjkVSKWhqtgiZNNF4Q/F1XfF7fzrt3333+9//ef8+7dxccDAyMxzJet2fVtarfn98NAwPjHMZ9GL1/nVyoF47zEI+BgYGRMJKULrk0BgYGxpyRFK694PunARcDA+OBjF6Zmlw3+cv941tci2NgYDyQkXfd//71R+YbGBgYj2K8iidPBO9HknlJHN0KAwNja0Ye4PK0LA+Xk4CLgYFxMmPtSHKeFObhHgMD4wRG0mLLV7uSYD1PIq/qz2BgYDyWUU7ClqZ31dFpcisMDIzTGPlX5IPG3oLFMgAGBsajGHk6mJe7+fJEr6C9qk8FAwNjC0avrV/dfMh/JW/2/ZjEYmBgbMr4RHM/uUq+5FoeVGBgYBzAmFTDSaO/98gKCx8YGBjbMapDxF5SWA3c5TtgYGBszag23art/upIcjQixcDAOIYxaY31Wv8TdrTAioGBsSkjWU7NF1gnI4RCsY2BgbE1I08He6sVeRKZp4PlxQsMDIyHMyat+by4zRm9RBMDA+MERq/1NiloewG6OcjEwMDYgjEZDEwK1ys+H59vYGBg/EvGq3jmQTkP3KPcFgMDYyNGNdhVi9jeIGHx1TEwMLZg5EF2bSKYl6wYGBgYvWFkL8hO1izKM1gMDIzjGb2RZK+59sGAi4GBcQBj0iybr1y8ncRiYGBsysiHAdVCNx8SVB8QBgbGOYzRokMxjcvHoguSRQwMjB0YXyrEDcsHHunKAAAAAElFTkSuQmCC" alt="微信分享二维码">
-</div>
-
-
-
-
-    <!-- waves按钮特效 -->
-<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
-
-<!-- 主题配置脚本 -->
-<script>
-var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
-</script>
-
-<!-- jquery -->
-<script src="/js/jquery.min.js?v=3.0"></script>
-
-<!-- 搜索 -->
-
-<div class="search-panel" id="search-panel">
-    <ul class="search-result" id="search-result"></ul>
-</div>
-<template id="search-tpl">
-<li class="item waves-block waves-effect" onclick="location.href='{path}'">
-    <div class="title ellipsis" title="{title}">{title}</div>
-</li>
-</template>
-
-
-<!-- main博客脚本 -->
-<script src="/js/main.min.js?v=3.0" ></script>
-
-<!-- 动画&配置 -->
-<script src="/js/script.min.js?v=3.0" ></script>
-
-<!-- 脚本管理 -->
-<script>
-
-if(window.innerWidth > 800){
-	/* 3D标题 */
-	$(".content-header").on("mousemove", threedee);
-
-	/* 底部追随鼠标 */
-	$(".footer").hover(2);
-
-	/* gotop键的涟漪 */
-	$("#gotop").hover(1);
-
-	/* 赞赏的粒子雨 */
-	$("#reward").hover(3);
-
-	/* 微信公众号的底部渲染 */
-	$("#wechat").hover(4);
-
-    /* 标题跳动 */
-    $(".archivestitle").bumpyText();
-
-	/* 图片点击放大 */
-	const postimg = jQuery(".post-content img:not(.github-emoji)");
-	postimg.on("click",function(){
-
-		mask.classList.add("in");
-		main.classList.add("Mask");
-		menu.classList.add("Mask");
-		var myimg = this.cloneNode(true);
-		myimg.classList.add("imgShow");
-
-		setTimeout(function(){
-			jQuery(myimg).animate({
-				opacity:"1"
-			},1000);
-		},0);
-
-		document.body.appendChild(myimg);
-
-		myimg.onclick=function(){
-			document.body.removeChild(myimg);
-			mask.classList.remove("in");
-			main.classList.remove("Mask");
-			menu.classList.remove("Mask");
-		};
-
-	});
-
-}
-
-/* 名字跳动 */
-$("#name").bumpyText();
-
-
-/* 网站运行时间 */
-setInterval(function () {
-	setTime("2017/10/11");
-}, 1000);
-
-/* 文章块的淡出 */
-postshow();
-
-/* 座右铭 */
-
-   getHitokoto();
-
-
-
-/* 粘贴提示 */
-G($(".post-content"), location.href, "Qgx");
-
-
-/* 控制台 */
-if (window.console && window.console.log) {
-	setTimeout(function () {
-		console.log("\n %c 一个坏掉的番茄 %c  © Simon Ma  http://tomotoes.com \n\n", "color:#FFFFFB;background:#1abc9c;padding:5px 0;border-radius:.5rem 0 0 .5rem;", "color:#FFFFFB;background:#080808;padding:5px 0;border-radius:0 .5rem .5rem 0;");
-	}, 0);
-}
-
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
 
 
 
-<!-- 公式渲染 -->
 
 
 
-<!-- 不蒜子 -->
-
-<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
 
 
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
 </body>
 </html>

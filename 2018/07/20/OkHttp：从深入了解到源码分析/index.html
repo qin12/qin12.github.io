@@ -1,45 +1,108 @@
 <!DOCTYPE html>
-<html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
 <head>
-    <meta http-equiv="Content-Language" content="zh-cn">
-    <meta charset="utf-8">
-    
-    
-    
-    <title>重识OkHttp | qin12的学习博客 | 只为成功找方法，不为失败找借口！</title>
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    
-    <meta name="theme-color" content="#77AAFF">
-    
-    
-    <meta name="keywords" content="OkHttp">
-    
-    
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
 
-    
 
-    <!-- Baidu Push -->
-<script>
-	(function(){
-		var bp = document.createElement('script');
-		var curProtocol = window.location.protocol.split(':')[0];
-		if (curProtocol === 'https') {
-			bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-		}
-		else {
-			bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-		}
-		var s = document.getElementsByTagName("script")[0];
-		s.parentNode.insertBefore(bp, s);
-	})();
 
-	var _hmt = _hmt || [];
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.jpg?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
 </script>
 
 
+  
 
-    
-    <meta name="description" content="OkHttp：从深入了解到源码分析作者博客：http://www.jianshu.com/u/16925b46816d 前言本文的分析基于OkHttp3.4，不展示完整的代码示例，具体可以看这个官方例子或者项目中的例子。https://github.com/square/okhttp/wiki/RecipesOkHttp作为square公司出品的一个网络请求框架，应该算是目前Android端最火爆">
+
+
+
+  <meta name="description" content="OkHttp：从深入了解到源码分析作者博客：http://www.jianshu.com/u/16925b46816d 前言本文的分析基于OkHttp3.4，不展示完整的代码示例，具体可以看这个官方例子或者项目中的例子。https://github.com/square/okhttp/wiki/RecipesOkHttp作为square公司出品的一个网络请求框架，应该算是目前Android端最火爆">
 <meta name="keywords" content="OkHttp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="重识OkHttp">
@@ -81,181 +144,315 @@
 <meta name="twitter:title" content="重识OkHttp">
 <meta name="twitter:description" content="OkHttp：从深入了解到源码分析作者博客：http://www.jianshu.com/u/16925b46816d 前言本文的分析基于OkHttp3.4，不展示完整的代码示例，具体可以看这个官方例子或者项目中的例子。https://github.com/square/okhttp/wiki/RecipesOkHttp作为square公司出品的一个网络请求框架，应该算是目前Android端最火爆">
 <meta name="twitter:image" content="http://yoursite.com/img/okhttp1.png">
-    
-        <link rel="alternate" type="application/atom+xml" title="qin12的学习博客" href="/atom.xml">
-    
-    <link rel="shortcut icon" href="/img/favicon.ico">
-    <link id="style" rel="stylesheet" href="/css/style.css?v=3.0">
-    <script>window.lazyScripts=[]</script>
 
-    <!-- custom head -->
-    
-            
+
+
+  <link rel="alternate" href="/atom.xml" title="qin12的学习博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/20/OkHttp：从深入了解到源码分析/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>重识OkHttp | qin12的学习博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
 </head>
 
-<body>
-    <div id="loading" class="active"></div>
-    <aside id="menu"  class="hide" >
-  <div class="inner flex-row-vertical">
-    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
-        <i class="icon icon-lg icon-close"></i>
-    </a>
-    <div class="brand-wrap" >
-      <div class="brand">
-        <a href="/" class="avatar waves-effect waves-circle waves-light">
-          <img src="/img/avatar.jpg" alt="avatar">
-        </a>
-        <hgroup class="introduce">
-          <h5 class="nickname" id="name">Qgx</h5>
-          
-            <div id="yiyanmotto" class="motto">&nbsp;</div>
-          
-        </hgroup>
-      </div>
-    </div>
-    <div class="scroll-wrap flex-col">
-      <ul class="nav">
-        
-              <li class="waves-block waves-effect">
-                  <a href="/"  >
-                    <i class="icon icon-lg icon-home"></i>
-                    <span>主 页</span><i class="icon icon-lg icon-caret-left"></i>
-                  </a>
-              </li>
-            
-              <li class="waves-block waves-effect">
-                  <a href="/archives/"  >
-                    <i class="icon icon-lg icon-archives"></i>
-                    <span>归 档</span><i class="icon icon-lg icon-caret-left"></i>
-                  </a>
-              </li>
-            
-              <li class="waves-block waves-effect">
-                  <a href="/categories/"  >
-                    <i class="icon icon-lg icon-th-list"></i>
-                    <span>分 类</span><i class="icon icon-lg icon-caret-left"></i>
-                  </a>
-              </li>
-            
-              <li class="waves-block waves-effect">
-                  <a href="/tags/"  >
-                    <i class="icon icon-lg icon-tags"></i>
-                    <span>标 签</span><i class="icon icon-lg icon-caret-left"></i>
-                  </a>
-              </li>
-            
-              <li class="waves-block waves-effect">
-                  <a href="/about"  >
-                    <i class="icon icon-lg icon-smile-o"></i>
-                    <span>关 于</span><i class="icon icon-lg icon-caret-left"></i>
-                  </a>
-              </li>
-            
-      <div class="nav2">
-          
-              <a class="nav2item" data-title="Email" href="mailto:1520290900@qq.com" target="_parent"title="Email" >
-                <i class="icon icon-lg icon-envelope-o envelope-o"></i>
-              </a>
-          
-              <a class="nav2item" data-title="Github" href="https://github.com/qin12" target="_blank"title="Github" >
-                <i class="icon icon-lg icon-github github"></i>
-              </a>
-          
-              <a class="nav2item" data-title="微博" href="https://weibo.com/u/6415480382" target="_blank"title="微博" >
-                <i class="icon icon-lg icon-weibo weibo"></i>
-              </a>
-          
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
-            </div>
-        
-      </ul>
-        
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">qin12的学习博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
+      
+        <p class="site-subtitle">只为成功找方法，不为失败找借口！</p>
+      
   </div>
- 
-</aside>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
 
 
-    <main id="main">
-        <header class="top-header" id="header">
-    <div class="flex-row">
-        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
-          <i class="icon icon-lg icon-navicon"></i>
-        </a>
-        <div class="flex-col header-title ellipsis">重识OkHttp</div>
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
         
-        <div class="search-wrap" id="search-wrap">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
-                <i class="icon icon-lg icon-chevron-left"></i>
-            </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
-                <i class="icon icon-lg icon-search"></i>
-            </a>
-        </div>
         
-        <a href="../../atom.xml" target="_blank" class="header-icon waves-effect waves-circle waves-light" id="Rss">
-            <i class="icon icon-lg icon-rss"></i>
-        </a>
-    </div>
-</header>
-<header class="content-header post-header">
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-photo">
+    <a href="/photo/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-photo"></i> <br />摄影</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-music">
+    <a href="/music/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-music"></i> <br />音乐</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
     
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
     
-    <div class="container fade-scale">
-        <div id="myheader">
-            <h1 class="title">
-                
-            </h1>
-            <h5 class="subtitle">
-                
-                
-            </h5>
-        </div>
-    </div>
-
-</header>
 
 
-<div class="container body-wrap">
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-    <aside class="post-widget">
-        <nav class="post-toc-wrap" id="post-toc">
-            <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#OkHttp：从深入了解到源码分析"><span class="post-toc-number">1.</span> <span class="post-toc-text">OkHttp：从深入了解到源码分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用篇"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">使用篇</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#分析篇"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">分析篇</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#使用篇-1"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">使用篇</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-OkHttp的优点"><span class="post-toc-number">1.4.1.</span> <span class="post-toc-text">1.OkHttp的优点</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-网络处理3要素"><span class="post-toc-number">1.4.2.</span> <span class="post-toc-text">2.网络处理3要素</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-1请求Request"><span class="post-toc-number">1.4.3.</span> <span class="post-toc-text">2.1请求Request</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-1-1-表单FormBody"><span class="post-toc-number">1.4.4.</span> <span class="post-toc-text">2.1.1 表单FormBody</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-1-2-分块MultipartBody"><span class="post-toc-number">1.4.5.</span> <span class="post-toc-text">2.1.2 分块MultipartBody</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-2-客户端OkHttpClient"><span class="post-toc-number">1.4.6.</span> <span class="post-toc-text">2.2 客户端OkHttpClient</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-同步请求和异步请求"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">3.同步请求和异步请求</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-其他"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">4.其他</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#4-1-配置响应缓存"><span class="post-toc-number">1.6.1.</span> <span class="post-toc-text">4.1 配置响应缓存</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#4-2-取消请求"><span class="post-toc-number">1.6.2.</span> <span class="post-toc-text">4.2 取消请求</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#4-3-Response读取响应结果"><span class="post-toc-number">1.6.3.</span> <span class="post-toc-text">4.3 Response读取响应结果</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-总结"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">5 总结</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#分析篇-1"><span class="post-toc-number">2.</span> <span class="post-toc-text">分析篇</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-客户端完整的请求"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">1.客户端完整的请求</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-探究源码"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2.探究源码</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-1-Call的实现类RealCall"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">2.1 Call的实现类RealCall</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-2-RealCall的enqueue-Callback-callBack-方法"><span class="post-toc-number">2.2.2.</span> <span class="post-toc-text">2.2 RealCall的enqueue( Callback callBack)方法</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-3-Dispatcher的enqueue方法"><span class="post-toc-number">2.2.3.</span> <span class="post-toc-text">2.3 Dispatcher的enqueue方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-同步请求"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">3.同步请求</span></a></li></ol></li></ol>
-        </nav>
-    </aside>
-   
-<article id="post-OkHttp：从深入了解到源码分析"
-  class="post-article article-type-post fade" itemprop="blogPost">
 
-    <div class="post-card">
-        <h1 class="post-card-title">重识OkHttp</h1>
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/OkHttp：从深入了解到源码分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">重识OkHttp
+              
+            
+          </h1>
+        
+
         <div class="post-meta">
-            <i class="icon icon-lg icon-calendar-o"></i>
-            发表于
-            <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.825Z"  itemprop="datePublished">2018-07-20</time>
+          <span class="post-time">
 
-            <br id="mybreak"/>
             
-	<i class="icon icon-lg icon-folder-o"></i>
-	分类：<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android/">Android</a></li></ul>
-
-
-            <i>·</i>
             
-<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
-    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>次浏览
-</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
 
         </div>
-        <div class="post-count-custom">
-            <i class="icon icon-lg icon-comment-o"></i>
-            阅读本文可能花费您&nbsp;<span class="post-count">13</span>&nbsp;分钟
-        </div>
-        <div class="post-content" id="post-content" itemprop="postContent">
-            <h3 id="OkHttp：从深入了解到源码分析"><a href="#OkHttp：从深入了解到源码分析" class="headerlink" title="OkHttp：从深入了解到源码分析"></a>OkHttp：从深入了解到源码分析</h3><p>作者博客：<a href="http://www.jianshu.com/u/16925b46816d" target="_blank" rel="noopener">http://www.jianshu.com/u/16925b46816d</a></p>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="OkHttp：从深入了解到源码分析"><a href="#OkHttp：从深入了解到源码分析" class="headerlink" title="OkHttp：从深入了解到源码分析"></a>OkHttp：从深入了解到源码分析</h3><p>作者博客：<a href="http://www.jianshu.com/u/16925b46816d" target="_blank" rel="noopener">http://www.jianshu.com/u/16925b46816d</a></p>
 <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>本文的分析基于OkHttp3.4，不展示完整的代码示例，具体可以看这个官方例子或者项目中的例子。<br><a href="https://github.com/square/okhttp/wiki/Recipes" target="_blank" rel="noopener">https://github.com/square/okhttp/wiki/Recipes</a><br>OkHttp作为square公司出品的一个网络请求框架，应该算是目前Android端最火爆的网络框架了。我公司目前的项目中采用的都是Rxjava结合Retrofit进行网络请求的处理，对于底层真正实现网络请求的OkHttp关注的不是很多。最近探究了一下OkHttp的源码，对OkHttp的使用有了一些新的认识，在此做一下总结。</p>
 <p>###目录</p>
 <h4 id="使用篇"><a href="#使用篇" class="headerlink" title="使用篇"></a>使用篇</h4><ul>
@@ -291,117 +488,15 @@
 <p>响应类封装了服务器响应的数据，包括代码，消息，主体，头等。<br>OkHttpClient负责发送请求请求并通过同步或者异步的方式返回服务器的响应响应，就好比是一个浏览器。</p>
 <p><strong>OkHttp中通过建造者模式来构建OkHttpClient，请求和响应对于客户端来讲，我们不需要过多关注响应是如何构建的，因为这个是OkHttp对响应结果进行了封装处理。我们只关注请求请求和客户端OkHttpClient如何构建即可。</strong></p>
 <h5 id="2-1请求Request"><a href="#2-1请求Request" class="headerlink" title="2.1请求Request"></a>2.1请求Request</h5><p>请求采用建模者模式来配置url，请求方法method，header，tag和cacheControl。</p>
-<p><strong>设置url</strong>。可以是String类型，URL类型和HttpUrl类型。最终都是用到HttpUrl类型。<br><strong>设置方法</strong>，包含get，post方法等。默认的是get方法.post方法要传RequestBody，类似的还有delete，put，patch。<br><strong>设置头</strong>，方法有addHeader（String name，String value），removeHeader（String name），header（String name，String value），headers（Headers headers）.headers（Headers headers）调用之后其它的头都会被移除，只添加这一个标题。而头（String name，String value）方法调用之后，其它与这个名称同名的标题都会被移除，只保留这一个标题。<br><strong>设置标签</strong>，设置标签可以用来取消这一请求。如果未指定标签或者标签为null，那么这个请求本身就会当做是一个标签用来被取消请求。<br><strong>设置cacheControl</strong>，这个是设置到请求头中。用来替换其它名称是“Cache-Control”的头。如果cacheControl是空的话就会移除请求头中名是“Cache-Control”的头。<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp1.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure></p>
+<p><strong>设置url</strong>。可以是String类型，URL类型和HttpUrl类型。最终都是用到HttpUrl类型。<br><strong>设置方法</strong>，包含get，post方法等。默认的是get方法.post方法要传RequestBody，类似的还有delete，put，patch。<br><strong>设置头</strong>，方法有addHeader（String name，String value），removeHeader（String name），header（String name，String value），headers（Headers headers）.headers（Headers headers）调用之后其它的头都会被移除，只添加这一个标题。而头（String name，String value）方法调用之后，其它与这个名称同名的标题都会被移除，只保留这一个标题。<br><strong>设置标签</strong>，设置标签可以用来取消这一请求。如果未指定标签或者标签为null，那么这个请求本身就会当做是一个标签用来被取消请求。<br><strong>设置cacheControl</strong>，这个是设置到请求头中。用来替换其它名称是“Cache-Control”的头。如果cacheControl是空的话就会移除请求头中名是“Cache-Control”的头。<br><img src="/img/okhttp1.png" alt=""></p>
 <p>OkHttp采用POST方法向服务器发送一个请求体，在OkHttp中这个请求体是RequestBody。这个请求体可以是：</p>
 <p><strong>字符串类型</strong><br><strong>流流类型</strong><br><strong>文件类型</strong><br><strong>表单形式的键值类型</strong><br><strong>类似Html文件上传表单的复杂请求体类型（多块请求）</strong></p>
-<p>RequestBody有几个静态方法用于创建不同类型的请求体：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp2.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>最终都是相当于重写了RequestBody的两个抽象方法来写入流，如果传递流类型的参数，只要重写这两个抽象方法即可。<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp3.jpg" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>例如，我们提交一个String：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp4.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>提交File：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp5.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>提交流：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp6.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>对于提交表单和分块请求，OkHttp提供了两个RequestBody的子类，<strong>FormBody</strong>和<strong>MultipartBody</strong></p>
-<h5 id="2-1-1-表单FormBody"><a href="#2-1-1-表单FormBody" class="headerlink" title="2.1.1 表单FormBody"></a>2.1.1 表单FormBody</h5><p>FormBody也是采用建造者模式， 这个很简单，添加key-value形式的键值对即可。<br>添加键值对有两个方法：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp7.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>例如：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp8.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure></p>
+<p>RequestBody有几个静态方法用于创建不同类型的请求体：<br><img src="/img/okhttp2.png" alt=""><br>最终都是相当于重写了RequestBody的两个抽象方法来写入流，如果传递流类型的参数，只要重写这两个抽象方法即可。<br><img src="/img/okhttp3.jpg" alt=""><br>例如，我们提交一个String：<br><img src="/img/okhttp4.png" alt=""><br>提交File：<br><img src="/img/okhttp5.png" alt=""><br>提交流：<br><img src="/img/okhttp6.png" alt=""><br>对于提交表单和分块请求，OkHttp提供了两个RequestBody的子类，<strong>FormBody</strong>和<strong>MultipartBody</strong></p>
+<h5 id="2-1-1-表单FormBody"><a href="#2-1-1-表单FormBody" class="headerlink" title="2.1.1 表单FormBody"></a>2.1.1 表单FormBody</h5><p>FormBody也是采用建造者模式， 这个很简单，添加key-value形式的键值对即可。<br>添加键值对有两个方法：<br><img src="/img/okhttp7.png" alt=""><br>例如：<br><img src="/img/okhttp8.png" alt=""></p>
 <h5 id="2-1-2-分块MultipartBody"><a href="#2-1-2-分块MultipartBody" class="headerlink" title="2.1.2 分块MultipartBody"></a>2.1.2 分块MultipartBody</h5><p>MultipartBody也是采用建造者模式，MultipartBody.Builder可以构建兼容Html文件上传表单的复杂请求体。每一部分的多块请求体都是它自身的请求体，并且可以定义它自己的请求头。如果存在的话，这些请求头用来描述这部分的请求体。例如Content-Disposition、Content-Length 和 Content-Type如果可用就会被自动添加到头。</p>
-<p>MIME类型有：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp9.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>有几个主要的方法：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp10.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>例如提交一个图片文件：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp11.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure></p>
-<h5 id="2-2-客户端OkHttpClient"><a href="#2-2-客户端OkHttpClient" class="headerlink" title="2.2 客户端OkHttpClient"></a>2.2 客户端OkHttpClient</h5><p>OkHttpClient采用建造者模式，通过Builder可以配置连接超时时间、读写时间，是否缓存、是否重连，还可以设置各种拦截器interceptor等。<br>建议在一个App中，OkHttpClient保持一个实例。一个OkHttpClient支持一定数量的并发，请求同一个主机最大并发是5，所有的并发最大是64。这个与OkHttp中的调度器Dispatcher有关，可以设置并发数。本文不对Dispatcher进行讨论。<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp12.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>一个例子：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp13.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>OkHttpClient支持单独配置，例如原来设置不同的请求时间，可以通过OkHttpClient的newBuilder()方法来重新构造一个OkHttpClient。例如：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp14.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure></p>
-<h4 id="3-同步请求和异步请求"><a href="#3-同步请求和异步请求" class="headerlink" title="3.同步请求和异步请求"></a>3.同步请求和异步请求</h4><p>上面已经讲了如何创建Request和OkHttpClient，剩下的就是发送请求并得到服务器的响应了。OkHttp发送请求可分为同步和异步。OkHttpClient首先通过Request构建一个Call，通过这个Call去执行同步或者异步请求。<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp15.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>同步方式，调用Call的execute()方法，返回Response，会阻塞当前线程：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp16.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>异步方式，调用Call的enqueue(CallBack callBack)方法，会在另一个线程中返回结果。<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp17.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure></p>
+<p>MIME类型有：<br><img src="/img/okhttp9.png" alt=""><br>有几个主要的方法：<br><img src="/img/okhttp10.png" alt=""><br>例如提交一个图片文件：<br><img src="/img/okhttp11.png" alt=""></p>
+<h5 id="2-2-客户端OkHttpClient"><a href="#2-2-客户端OkHttpClient" class="headerlink" title="2.2 客户端OkHttpClient"></a>2.2 客户端OkHttpClient</h5><p>OkHttpClient采用建造者模式，通过Builder可以配置连接超时时间、读写时间，是否缓存、是否重连，还可以设置各种拦截器interceptor等。<br>建议在一个App中，OkHttpClient保持一个实例。一个OkHttpClient支持一定数量的并发，请求同一个主机最大并发是5，所有的并发最大是64。这个与OkHttp中的调度器Dispatcher有关，可以设置并发数。本文不对Dispatcher进行讨论。<br><img src="/img/okhttp12.png" alt=""><br>一个例子：<br><img src="/img/okhttp13.png" alt=""><br>OkHttpClient支持单独配置，例如原来设置不同的请求时间，可以通过OkHttpClient的newBuilder()方法来重新构造一个OkHttpClient。例如：<br><img src="/img/okhttp14.png" alt=""></p>
+<h4 id="3-同步请求和异步请求"><a href="#3-同步请求和异步请求" class="headerlink" title="3.同步请求和异步请求"></a>3.同步请求和异步请求</h4><p>上面已经讲了如何创建Request和OkHttpClient，剩下的就是发送请求并得到服务器的响应了。OkHttp发送请求可分为同步和异步。OkHttpClient首先通过Request构建一个Call，通过这个Call去执行同步或者异步请求。<br><img src="/img/okhttp15.png" alt=""><br>同步方式，调用Call的execute()方法，返回Response，会阻塞当前线程：<br><img src="/img/okhttp16.png" alt=""><br>异步方式，调用Call的enqueue(CallBack callBack)方法，会在另一个线程中返回结果。<br><img src="/img/okhttp17.png" alt=""></p>
 <h4 id="4-其他"><a href="#4-其他" class="headerlink" title="4.其他"></a>4.其他</h4><h5 id="4-1-配置响应缓存"><a href="#4-1-配置响应缓存" class="headerlink" title="4.1 配置响应缓存"></a>4.1 配置响应缓存</h5><p>为了缓存响应，需要一个可读写并且设置大小Size的缓存目录。缓存目录需要私有，其它不信任的应用不能访问这个文件。<br>如果同时有多个缓存访问同一个缓存目录会报错。所以最好只在App中初始化一次OkHttpClient，给这个实例配置缓存，在整个App生命周期内都用这一个缓存。否则几个缓存会相互影响，导致缓存出错，引起程序崩溃。<br>响应缓存采用Http头来配置，你可以添加这样的请求头Cache-Control: max-stale=3600。 max-age指的是客户端可以接收生存期不大于指定时间（以秒为单位）的响应。<br>为了防止响应使用缓存，可以用CacheControl.FORCE_NETWORK。为了防止使用网络，采用 CacheControl.FORCE_CACHE。</p>
 <p><strong>注意:如果使用FORCE_CACHE禁止使用网络，而响应又没有缓存存在，OkHttp会报504 Unsatisfiable Request 响应错误。</strong></p>
 <h5 id="4-2-取消请求"><a href="#4-2-取消请求" class="headerlink" title="4.2 取消请求"></a>4.2 取消请求</h5><p>调用Call.cancel()方法可以立即取消一个网络请求。如果当前线程正在写request或者读response会报IO异常。如果不再需要网络请求，采用这种方法是比较方便的。例如在App中返回了上一页。无论是同步还是异步的请求都可以被取消。</p>
@@ -411,458 +506,576 @@
 <h4 id="5-总结"><a href="#5-总结" class="headerlink" title="5 总结"></a>5 总结</h4><p>OkHttp中的很多类都用到了建造者模式，可以根据需要灵活配置。采用建造者模式的有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">OkHttpClient.Builder</span><br><span class="line">Request.Builder</span><br><span class="line">FormBody.Builder</span><br><span class="line">MultipartBody.Builder</span><br><span class="line">Response.Builder</span><br></pre></td></tr></table></figure></p>
 <p>如果单独使用OkHttp进行网络请求，通常需要开发者自己再封装一下，如果不想重复造轮子，Github上面的有一些优秀开源库可以拿来使用（本文只列出star较多的几个）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hongyangAndroid/okhttputils（曾经在项目中用过）</span><br><span class="line">jeasonlzy/okhttp-OkGo</span><br><span class="line">yanzhenjie/NoHttp</span><br></pre></td></tr></table></figure></p>
 <h3 id="分析篇-1"><a href="#分析篇-1" class="headerlink" title="分析篇"></a>分析篇</h3><h4 id="1-客户端完整的请求"><a href="#1-客户端完整的请求" class="headerlink" title="1.客户端完整的请求"></a>1.客户端完整的请求</h4><p>OkHttp发送一个请求需要4步：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1  构建OkHttpClient</span><br><span class="line">2  构建Request</span><br><span class="line">3  创建一个Call</span><br><span class="line">4  执行Call的同步或者异步方法，处理响应。</span><br></pre></td></tr></table></figure></p>
-<p>我们只以一个简单的异步get请求来举例：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp18.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>Request和OkHttpClient都是我们自己创建的，不再讨论了。就从这个Call来展开讨论。</p>
-<h4 id="2-探究源码"><a href="#2-探究源码" class="headerlink" title="2.探究源码"></a>2.探究源码</h4><h5 id="2-1-Call的实现类RealCall"><a href="#2-1-Call的实现类RealCall" class="headerlink" title="2.1 Call的实现类RealCall"></a>2.1 Call的实现类RealCall</h5><p>Call是一个准备执行的请求，它是一个接口。含有一个内部接口Factory 用于生成Call。<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp19.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>OkHttpClient实现了Call.Factory接口，所以有一个newCall方法，这个方法中干了这么个事：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp20.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>可以看到，返回了一个RealCall，这个RealCall是OkHttp中Call的唯一实现类。说明我们执行请求，是通过RealCall发出的。<br>在RealCall的构造方法中，我们还创建了一个拦截器RetryAndFollowUpInterceptor，通过名字我们可以猜测一下这个拦截器的作用是重试和跟进，这个负责是否断线重连和重定向，可以看到这个拦截器跟OkHttpClient有关联，我们可以在配置OkHttpClient的时候配置断线重连等，默认的都是true。</p>
+<p>我们只以一个简单的异步get请求来举例：<br><img src="/img/okhttp18.png" alt=""><br>Request和OkHttpClient都是我们自己创建的，不再讨论了。就从这个Call来展开讨论。</p>
+<h4 id="2-探究源码"><a href="#2-探究源码" class="headerlink" title="2.探究源码"></a>2.探究源码</h4><h5 id="2-1-Call的实现类RealCall"><a href="#2-1-Call的实现类RealCall" class="headerlink" title="2.1 Call的实现类RealCall"></a>2.1 Call的实现类RealCall</h5><p>Call是一个准备执行的请求，它是一个接口。含有一个内部接口Factory 用于生成Call。<br><img src="/img/okhttp19.png" alt=""><br>OkHttpClient实现了Call.Factory接口，所以有一个newCall方法，这个方法中干了这么个事：<br><img src="/img/okhttp20.png" alt=""><br>可以看到，返回了一个RealCall，这个RealCall是OkHttp中Call的唯一实现类。说明我们执行请求，是通过RealCall发出的。<br>在RealCall的构造方法中，我们还创建了一个拦截器RetryAndFollowUpInterceptor，通过名字我们可以猜测一下这个拦截器的作用是重试和跟进，这个负责是否断线重连和重定向，可以看到这个拦截器跟OkHttpClient有关联，我们可以在配置OkHttpClient的时候配置断线重连等，默认的都是true。</p>
 <p><strong>在OkHttp中以Real为前缀的类，都是真正干活的类</strong></p>
-<h5 id="2-2-RealCall的enqueue-Callback-callBack-方法"><a href="#2-2-RealCall的enqueue-Callback-callBack-方法" class="headerlink" title="2.2 RealCall的enqueue( Callback callBack)方法"></a>2.2 RealCall的enqueue( Callback callBack)方法</h5><p>OkHttpClient的newCall方法只是创建了一个RealCall，RealCall的enqueue方法传递了一个CallBack用于处理回调，那我们看看这个方法都干了些什么:<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp21.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>从上面可以看出，同一个Call只能执行一次，否则会报错。<br>client.dispatcher()返回的是与OkHttpClient绑定的一个Dispatcher。这个Dispatcher用来管理请求的调度。在使用篇我们简单的也提到过这个类。这个类主要是用来管理异步请求的调度，同步请求中虽然也参与了，但只是简单的统计正在执行的Call并在Call执行完毕之后做相应的处理。</p>
-<p>AsyncCall是RealCall的内部类，继承了NamedRunnable，实际上也是一个Runnable实现类。这个AsyncCall 包装了Callback。它的run()方法中最终会调用它自己的execute()方法。后面我们会讲到AsyncCall的execute()方法。<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp22.jpg" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>RealCall的enqueue( Callback callBack)实际上最后调用了Dispatcher的enqueue(AsyncCall call)方法。</p>
-<h5 id="2-3-Dispatcher的enqueue方法"><a href="#2-3-Dispatcher的enqueue方法" class="headerlink" title="2.3 Dispatcher的enqueue方法"></a>2.3 Dispatcher的enqueue方法</h5><p>Dispatcher的enqueue方法是这样的：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp23.jpg" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>这个方法中首先会判断当前正在执行的Call的数量以及访问同一个主机地址的Call的数量是否在限定范围内。Dispatcher默认的Call的并发数是64，同一个主机地址的并发数是5。这个并发数可以更改。<br>如果满足条件，就向代表当前正在执行的Call的集合中添加该Call，并且去执行它。否则就会向等待的集合中添加该Call，等待被执行。</p>
-<p>executorService()返回的是ExecutorService对象，调用ExecutorService的execute(call)方法实际上最后调用的就是AsyncCall 的execute()方法。<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp24.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>在这个execute()方法中，能获得返回Response，之后做回调处理，Dispatcher也会对Call进行管理。核心的方法是getResponseWithInterceptorChain()。</p>
-<p>#####2.4 核心方法getResponseWithInterceptorChain()<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp25.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp26.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>在这个getResponseWithInterceptorChain()方法中，有大量的Interceptors，有开发者自己定义的Interceptor也有OkHttp自己的Interceptor。这些Interceptor都存入到了ArrayList集合，我们在这里就可以大胆猜测一下这个Interceptor应该是顺序执行的。最后创建了一个RealInterceptorChain，通过调用它的proceed(request)方法开始处理原始的request，然后我们就拿到了我们想要的Response。</p>
+<h5 id="2-2-RealCall的enqueue-Callback-callBack-方法"><a href="#2-2-RealCall的enqueue-Callback-callBack-方法" class="headerlink" title="2.2 RealCall的enqueue( Callback callBack)方法"></a>2.2 RealCall的enqueue( Callback callBack)方法</h5><p>OkHttpClient的newCall方法只是创建了一个RealCall，RealCall的enqueue方法传递了一个CallBack用于处理回调，那我们看看这个方法都干了些什么:<br><img src="/img/okhttp21.png" alt=""><br>从上面可以看出，同一个Call只能执行一次，否则会报错。<br>client.dispatcher()返回的是与OkHttpClient绑定的一个Dispatcher。这个Dispatcher用来管理请求的调度。在使用篇我们简单的也提到过这个类。这个类主要是用来管理异步请求的调度，同步请求中虽然也参与了，但只是简单的统计正在执行的Call并在Call执行完毕之后做相应的处理。</p>
+<p>AsyncCall是RealCall的内部类，继承了NamedRunnable，实际上也是一个Runnable实现类。这个AsyncCall 包装了Callback。它的run()方法中最终会调用它自己的execute()方法。后面我们会讲到AsyncCall的execute()方法。<br><img src="/img/okhttp22.jpg" alt=""><br>RealCall的enqueue( Callback callBack)实际上最后调用了Dispatcher的enqueue(AsyncCall call)方法。</p>
+<h5 id="2-3-Dispatcher的enqueue方法"><a href="#2-3-Dispatcher的enqueue方法" class="headerlink" title="2.3 Dispatcher的enqueue方法"></a>2.3 Dispatcher的enqueue方法</h5><p>Dispatcher的enqueue方法是这样的：<br><img src="/img/okhttp23.jpg" alt=""><br>这个方法中首先会判断当前正在执行的Call的数量以及访问同一个主机地址的Call的数量是否在限定范围内。Dispatcher默认的Call的并发数是64，同一个主机地址的并发数是5。这个并发数可以更改。<br>如果满足条件，就向代表当前正在执行的Call的集合中添加该Call，并且去执行它。否则就会向等待的集合中添加该Call，等待被执行。</p>
+<p>executorService()返回的是ExecutorService对象，调用ExecutorService的execute(call)方法实际上最后调用的就是AsyncCall 的execute()方法。<br><img src="/img/okhttp24.png" alt=""><br>在这个execute()方法中，能获得返回Response，之后做回调处理，Dispatcher也会对Call进行管理。核心的方法是getResponseWithInterceptorChain()。</p>
+<p>#####2.4 核心方法getResponseWithInterceptorChain()<br><img src="/img/okhttp25.png" alt=""><br><img src="/img/okhttp26.png" alt=""><br>在这个getResponseWithInterceptorChain()方法中，有大量的Interceptors，有开发者自己定义的Interceptor也有OkHttp自己的Interceptor。这些Interceptor都存入到了ArrayList集合，我们在这里就可以大胆猜测一下这个Interceptor应该是顺序执行的。最后创建了一个RealInterceptorChain，通过调用它的proceed(request)方法开始处理原始的request，然后我们就拿到了我们想要的Response。</p>
 <p>RealInterceptorChain是Interceptor.Chain的实现类，看这个Real前缀就知道它干的绝对是重要的事。它是一个具体的拦截器链，我们存放在List<interceptor> interceptors集合中的拦截器之间的传递都要靠它。</interceptor></p>
-<p>它的proceed(request)最终会调用到四个参数的重载方法：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp27.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>上述代码部分就是这个方法的核心，能够把Request依次传递给下一个Interceptor去处理。<br>拦截器Interceptor的设计真是很赞，每一个Interceptor在发送Request的时候只处理自己那一部分Request，然后通过RealInterceptorChain的带动传递给下一个Interceptor进行处理，最后一个Interceptor发送完请求得到服务器的响应Response，经过自己的处理之后返回给它之前的那个Interceptor进行处理，依次进行，最后一个处理完毕的Response返回给开发者用户。<br>形象一点，Interceptor就像是生产线上的工人，Request是物料，Response是产品，RealInterceptorChain是一节一节的传送带。每个工人同时负责处理自己那一部分的Request和Response，由传送带进行传递，各司其职，最后完成一件对用户来讲完美的产品。<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp28.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>我第一次看OkHttp3.4源码的的时候真是一脸懵逼继而叹为观止。后来看了其它文章，才知道原来这个设计模式叫作责任链模式。在Android源码设计模式解析与实战这本书中介绍了Android的事件分发处理采用的也是责任链模式。</p>
+<p>它的proceed(request)最终会调用到四个参数的重载方法：<br><img src="/img/okhttp27.png" alt=""><br>上述代码部分就是这个方法的核心，能够把Request依次传递给下一个Interceptor去处理。<br>拦截器Interceptor的设计真是很赞，每一个Interceptor在发送Request的时候只处理自己那一部分Request，然后通过RealInterceptorChain的带动传递给下一个Interceptor进行处理，最后一个Interceptor发送完请求得到服务器的响应Response，经过自己的处理之后返回给它之前的那个Interceptor进行处理，依次进行，最后一个处理完毕的Response返回给开发者用户。<br>形象一点，Interceptor就像是生产线上的工人，Request是物料，Response是产品，RealInterceptorChain是一节一节的传送带。每个工人同时负责处理自己那一部分的Request和Response，由传送带进行传递，各司其职，最后完成一件对用户来讲完美的产品。<br><img src="/img/okhttp28.png" alt=""><br>我第一次看OkHttp3.4源码的的时候真是一脸懵逼继而叹为观止。后来看了其它文章，才知道原来这个设计模式叫作责任链模式。在Android源码设计模式解析与实战这本书中介绍了Android的事件分发处理采用的也是责任链模式。</p>
 <p>具体到每个拦截器都是怎么处理Request和Response的，最好自己去看一下，我们就不展开讨论了。</p>
-<h4 id="3-同步请求"><a href="#3-同步请求" class="headerlink" title="3.同步请求"></a>3.同步请求</h4><p>看了异步请求的调用，同步请求的分析就比较简单最终调用的是getResponseWithInterceptorChain()这个核心方法。<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/okhttp29.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>4.总结</p>
+<h4 id="3-同步请求"><a href="#3-同步请求" class="headerlink" title="3.同步请求"></a>3.同步请求</h4><p>看了异步请求的调用，同步请求的分析就比较简单最终调用的是getResponseWithInterceptorChain()这个核心方法。<br><img src="/img/okhttp29.png" alt=""><br>4.总结</p>
 <p>本文对OkHttp一个完整的请求过程做了简单的说明，限于篇幅有些地方讲的不是很详细，有兴趣的读者可以自己去探索一下这个流程，尤其是在拦截器那一部分，掌握好了之后对我们平时灵活运用OkHttp会有很大帮助，如配置我们自定义的缓存拦截器，或者在拦截器中监听下载进度，网上也有很多文章可供参考。</p>
 <p><strong>参考:<br>OkHttp官方Wiki文档<br>从OKHttp框架看代码设计<br>拆轮子系列：拆 OkHttp</strong></p>
 
-        </div>
-
-        <blockquote class="post-copyright">
-    <div class="content">
-        
-<span class="post-time">
-    最后更新：<time datetime="2018-07-20T04:10:37.825Z" itemprop="dateUpdated">2018-07-20 12:10:37</time>
-</span>
-
-
-        
-        原文链接：<a href="/2018/07/20/OkHttp：从深入了解到源码分析/" target="_blank" rel="external">http://yoursite.com/2018/07/20/OkHttp：从深入了解到源码分析/</a>
-        
+      
     </div>
-    <footer>
-        <div onclick="location.href='http://yoursite.com'">
-            <img src="/img/avatar.jpg" alt="Qgx">
-            <a>Qgx</a>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OkHttp/" rel="tag"># OkHttp</a>
+          
         </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/20/Untitled22/" rel="next" title="java 基础题(三)">
+                <i class="fa fa-chevron-left"></i> java 基础题(三)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/20/Spring Boot构建RESTful API与单元测试/" rel="prev" title="Spring Boot(五)">
+                Spring Boot(五) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
     </footer>
-</blockquote>
+  </div>
+  
+  
+  
+  </article>
 
-        
-    <div class="page-reward">
-        <nav class="myreward">
-            <a id="rewardBtn" href="javascript:;"><span>打&nbsp;赏</span><span>装成好像很多人打赏的样子</span></a>
-        </nav>
+
+
+    <div class="post-spread">
+      
     </div>
+  </div>
 
 
+          </div>
+          
 
-        <div class="post-footer">
-            
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OkHttp/">OkHttp</a></li></ul>
-
-
-            
-<div class="page-share-wrap">
-    
-
-<div class="page-share" id="pageShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2018/07/20/OkHttp：从深入了解到源码分析/&title=《重识OkHttp》 — qin12的学习博客&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2018/07/20/OkHttp：从深入了解到源码分析/&title=《重识OkHttp》 — qin12的学习博客&source=漫漫长路，伴你同行" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/07/20/OkHttp：从深入了解到源码分析/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《重识OkHttp》 — qin12的学习博客&url=http://yoursite.com/2018/07/20/OkHttp：从深入了解到源码分析/&via=http://yoursite.com" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2018/07/20/OkHttp：从深入了解到源码分析/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
-
-
-
-    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
-        <i class="icon icon-share-alt icon-lg"></i>
-    </a>
-</div>
+  
 
 
 
         </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
     </div>
+  </div>
 
+  <aside id="sidebar" class="sidebar">
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="waves-block waves-effect prev">
-      <a href="/2018/07/20/3dTagCloudAndroid/" id="post-prev" class="post-nav-link">
-        <h4 class="title" >
-          上一篇：推荐一些有意思的东西
-        </h4>
-      </a>
-    </div>
-  
+    <div class="sidebar-inner">
 
-  
-    <div class="waves-block waves-effect next">
-      <a href="/2018/07/20/RecyclerView/" id="post-next" class="post-nav-link">
-        <h4 class="title" data-hover="下一篇：初识RecyclerView">下一篇：初识RecyclerView</h4>
-      </a>
-    </div>
-  
-</nav>
+      
 
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-
-    
-    
-
-    
-
-    
-
-
-</article>
-
-</div>
-
-        <footer class="footer">
-    <div class="footer-content">
-        <span class="power">
-            <i class="icon icon-lg icon-copyright"></i>
-            2018
-            <i class="icon icon-lg icon-heart"></i>
-            <a href="http://yoursite.com">qin12.github.io</a>
-            <br/>
-            Power by
-            <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>&nbsp;·&nbsp;
-            Theme
-            <a class="tomotoeslink" href="https://github.com/tomotoes/hexo-theme-tomotoes/" target="_blank" rel="external nofollow">tomotoes</a>
-        </span>
-
-        <br/>
-
-        <span id="RunTime" style="color:#a7a7a2;"></span>
-        <br/>
-
-        <span>
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-	<i class="icon icon-lg icon-user">
-<span id="busuanzi_container_site_uv" style='display:none'>
-       访问用户：<span id="busuanzi_value_site_uv"></span>
-    </span>人</i>
-    ·
-    <i class="icon icon-lg icon-eye">
-    <span id="busuanzi_container_site_pv" style='display:none'>
-      访问次数：<span id="busuanzi_value_site_pv"></span>
-    </span>次
-    </i>
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Qgx" />
+            
+              <p class="site-author-name" itemprop="name">Qgx</p>
+              <p class="site-description motion-element" itemprop="description">漫漫长路，伴你同行</p>
+          </div>
 
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">80</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
 
-        </span>
-        <br/>
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
 
-        <span class="license"><a  target="_blank" rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">博客内容遵循 知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
-    </div>
-</footer>
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
 
-    </main>
-    
-        
-<div id="reward" class="page-modal reward-lay">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <h3 class="reward-title">
-        <i class="icon icon-quote-left"></i>
-        <span>感谢您的鼓励支持！</span>
-        <i class="icon icon-quote-right"></i>
-    </h3>
-    <div class="reward-content">
-        
-        <div class="reward-code">
-            <img id="rewardCode" data-img="/img/dog.png" alt="打赏二维码">
-        </div>
-        
-        <label class="reward-toggle">
-            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
-                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
-            <div class="reward-toggle-ctrol">
-                <span class="reward-toggle-item wechatPay">&nbsp;&nbsp;微信&nbsp;&nbsp;</span>
-                <span class="reward-toggle-item alipayPay">支付宝</span>
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
             </div>
-        </label>
-        
-        <i class="icon icon-caret-up"></i>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/qin12" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:1520290900@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=1520290900&website=www.oicqzone.com" target="_blank" title="QQ"><i class="fa fa-fw fa-QQ"></i>QQ</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#OkHttp：从深入了解到源码分析"><span class="nav-number">1.</span> <span class="nav-text">OkHttp：从深入了解到源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用篇"><span class="nav-number">1.2.</span> <span class="nav-text">使用篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析篇"><span class="nav-number">1.3.</span> <span class="nav-text">分析篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用篇-1"><span class="nav-number">1.4.</span> <span class="nav-text">使用篇</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-OkHttp的优点"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.OkHttp的优点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-网络处理3要素"><span class="nav-number">1.4.2.</span> <span class="nav-text">2.网络处理3要素</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1请求Request"><span class="nav-number">1.4.3.</span> <span class="nav-text">2.1请求Request</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-1-表单FormBody"><span class="nav-number">1.4.4.</span> <span class="nav-text">2.1.1 表单FormBody</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-2-分块MultipartBody"><span class="nav-number">1.4.5.</span> <span class="nav-text">2.1.2 分块MultipartBody</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-客户端OkHttpClient"><span class="nav-number">1.4.6.</span> <span class="nav-text">2.2 客户端OkHttpClient</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-同步请求和异步请求"><span class="nav-number">1.5.</span> <span class="nav-text">3.同步请求和异步请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-其他"><span class="nav-number">1.6.</span> <span class="nav-text">4.其他</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-配置响应缓存"><span class="nav-number">1.6.1.</span> <span class="nav-text">4.1 配置响应缓存</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-取消请求"><span class="nav-number">1.6.2.</span> <span class="nav-text">4.2 取消请求</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-Response读取响应结果"><span class="nav-number">1.6.3.</span> <span class="nav-text">4.3 Response读取响应结果</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-总结"><span class="nav-number">1.7.</span> <span class="nav-text">5 总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析篇-1"><span class="nav-number">2.</span> <span class="nav-text">分析篇</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-客户端完整的请求"><span class="nav-number">2.1.</span> <span class="nav-text">1.客户端完整的请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-探究源码"><span class="nav-number">2.2.</span> <span class="nav-text">2.探究源码</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-Call的实现类RealCall"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.1 Call的实现类RealCall</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-RealCall的enqueue-Callback-callBack-方法"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2 RealCall的enqueue( Callback callBack)方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-Dispatcher的enqueue方法"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.3 Dispatcher的enqueue方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-同步请求"><span class="nav-number">2.3.</span> <span class="nav-text">3.同步请求</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
     </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-[object Object]"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qgx</span>
+
+  
 </div>
 
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
 
     
-    <div class="mask" id="mask"></div>
-<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
 
+    
 
+  </div>
 
-<div class="global-share" id="globalShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2018/07/20/OkHttp：从深入了解到源码分析/&title=《重识OkHttp》 — qin12的学习博客&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2018/07/20/OkHttp：从深入了解到源码分析/&title=《重识OkHttp》 — qin12的学习博客&source=漫漫长路，伴你同行" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/07/20/OkHttp：从深入了解到源码分析/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《重识OkHttp》 — qin12的学习博客&url=http://yoursite.com/2018/07/20/OkHttp：从深入了解到源码分析/&via=http://yoursite.com" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2018/07/20/OkHttp：从深入了解到源码分析/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
+  
 
-
-<div class="page-modal wx-share" id="wxShare">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p class="wechatshare">扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACsklEQVR42u3aQXLjMAwEwPz/084DVLJnCGHjrWqeUrItsnkgEIA/P/F4Xcb10/dPru+5+7T91QMDDw8Pb7z06+uSZV2/f7f0ZMa7X7VvwMPDw9vjvT+m2y1IDvFXPN5TP1jw8PDwvoDXpr/JNr0PP+3seHh4eN/J2/vf/yxlx8PDw/v3vEk6m6TXSZhpCxMP11rw8PDwYl5+NH/P3yv9PTw8PLxxV31Sum0bZpN21+0K8fDw8BZ4TzX+8+tTCSbZuCKxxsPDw3uU957RNqXOEvR29nwj8PDw8PZ4CTJPoCfP87AUhR88PDy8NV5LnTSr2i0bBRI8PDy8NV4yQdtjOru2lc8erRYPDw9vjdf23PMD+myWNvzczoWHh4e3wMvLrAksWcTZdYGzEjMeHh7eNq89fPNDOb+YlQShvBiNh4eHt8GbvGi7DfbAFuDh4eEt8CbXqtrFtRen2ubcLRUPDw/vUd6k/JqXffMScH514IFyLR4eHt4RLy+ztuXaZFPypZ8l63h4eHh7vHycHdxtwXeSuOPh4eFt8+Ytq7ryMW6PFVuGh4eHt8ZrW0rtlay2aJsEmKTsi4eHh7fBy1PntkE1+WZbJq6vQeDh4eE9xGsb/JOwMXmSBIMP6TUeHh7egNfuRJuCt62stoD7IYHGw8PDW+AlgPx6QTLZWWFicu0ADw8P71leXibIj+O2lZXj8+d4eHh4e7yknZ9/Z74dZ7fDivo0Hh4e3pj3KkdbCGjDQ76hUVjCw8PDW+DlIyn1nk2cJ8dPFZfx8PDw5rz8SlPbgmovSyWkOlDh4eHhrfEmPfezrn1b7DgLWnh4eHh/yzubJj/K8xCCh4eH97/wJmXWtujQhqLbteHh4eGt8c4O5cnSz5L1ehPx8PDwFnh5Ayx5flZsPUuXRz09PDw8vBPeLz54K/Acv768AAAAAElFTkSuQmCC" alt="微信分享二维码">
-</div>
-
-
-
-
-    <!-- waves按钮特效 -->
-<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
-
-<!-- 主题配置脚本 -->
-<script>
-var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
-</script>
-
-<!-- jquery -->
-<script src="/js/jquery.min.js?v=3.0"></script>
-
-<!-- 搜索 -->
-
-<div class="search-panel" id="search-panel">
-    <ul class="search-result" id="search-result"></ul>
-</div>
-<template id="search-tpl">
-<li class="item waves-block waves-effect" onclick="location.href='{path}'">
-    <div class="title ellipsis" title="{title}">{title}</div>
-</li>
-</template>
-
-
-<!-- main博客脚本 -->
-<script src="/js/main.min.js?v=3.0" ></script>
-
-<!-- 动画&配置 -->
-<script src="/js/script.min.js?v=3.0" ></script>
-
-<!-- 脚本管理 -->
-<script>
-
-if(window.innerWidth > 800){
-	/* 3D标题 */
-	$(".content-header").on("mousemove", threedee);
-
-	/* 底部追随鼠标 */
-	$(".footer").hover(2);
-
-	/* gotop键的涟漪 */
-	$("#gotop").hover(1);
-
-	/* 赞赏的粒子雨 */
-	$("#reward").hover(3);
-
-	/* 微信公众号的底部渲染 */
-	$("#wechat").hover(4);
-
-    /* 标题跳动 */
-    $(".archivestitle").bumpyText();
-
-	/* 图片点击放大 */
-	const postimg = jQuery(".post-content img:not(.github-emoji)");
-	postimg.on("click",function(){
-
-		mask.classList.add("in");
-		main.classList.add("Mask");
-		menu.classList.add("Mask");
-		var myimg = this.cloneNode(true);
-		myimg.classList.add("imgShow");
-
-		setTimeout(function(){
-			jQuery(myimg).animate({
-				opacity:"1"
-			},1000);
-		},0);
-
-		document.body.appendChild(myimg);
-
-		myimg.onclick=function(){
-			document.body.removeChild(myimg);
-			mask.classList.remove("in");
-			main.classList.remove("Mask");
-			menu.classList.remove("Mask");
-		};
-
-	});
-
-}
-
-/* 名字跳动 */
-$("#name").bumpyText();
-
-
-/* 网站运行时间 */
-setInterval(function () {
-	setTime("2017/10/11");
-}, 1000);
-
-/* 文章块的淡出 */
-postshow();
-
-/* 座右铭 */
-
-   getHitokoto();
-
-
-
-/* 粘贴提示 */
-G($(".post-content"), location.href, "Qgx");
-
-
-/* 控制台 */
-if (window.console && window.console.log) {
-	setTimeout(function () {
-		console.log("\n %c 一个坏掉的番茄 %c  © Simon Ma  http://tomotoes.com \n\n", "color:#FFFFFB;background:#1abc9c;padding:5px 0;border-radius:.5rem 0 0 .5rem;", "color:#FFFFFB;background:#080808;padding:5px 0;border-radius:0 .5rem .5rem 0;");
-	}, 0);
-}
-
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
 
 
 
-<!-- 公式渲染 -->
 
 
 
-<!-- 不蒜子 -->
-
-<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
 
 
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
 </body>
 </html>

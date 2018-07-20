@@ -1,45 +1,108 @@
 <!DOCTYPE html>
-<html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
 <head>
-    <meta http-equiv="Content-Language" content="zh-cn">
-    <meta charset="utf-8">
-    
-    
-    
-    <title>Android ListView联动 | qin12的学习博客 | 只为成功找方法，不为失败找借口！</title>
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    
-    <meta name="theme-color" content="#77AAFF">
-    
-    
-    <meta name="keywords" content="ListView联动">
-    
-    
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
 
-    
 
-    <!-- Baidu Push -->
-<script>
-	(function(){
-		var bp = document.createElement('script');
-		var curProtocol = window.location.protocol.split(':')[0];
-		if (curProtocol === 'https') {
-			bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-		}
-		else {
-			bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-		}
-		var s = document.getElementsByTagName("script")[0];
-		s.parentNode.insertBefore(bp, s);
-	})();
 
-	var _hmt = _hmt || [];
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.jpg?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
 </script>
 
 
+  
 
-    
-    <meta name="description" content="ListView联动（二）双ListView分为左侧ListView和右侧ListView，通过左侧ListView的点击来定位右侧ListView的位置，通过右侧ListView的滑动来定位左侧ListView的选中位置。左侧ListView我们直接使用原生ListView即可，右侧ListView由于需要头部标题和滑动监听，我们自己定义一个ListView，来设置下滑动事件的监听和头部标题。实">
+
+
+
+  <meta name="description" content="ListView联动（二）双ListView分为左侧ListView和右侧ListView，通过左侧ListView的点击来定位右侧ListView的位置，通过右侧ListView的滑动来定位左侧ListView的选中位置。左侧ListView我们直接使用原生ListView即可，右侧ListView由于需要头部标题和滑动监听，我们自己定义一个ListView，来设置下滑动事件的监听和头部标题。实">
 <meta name="keywords" content="ListView联动">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android ListView联动">
@@ -51,181 +114,315 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android ListView联动">
 <meta name="twitter:description" content="ListView联动（二）双ListView分为左侧ListView和右侧ListView，通过左侧ListView的点击来定位右侧ListView的位置，通过右侧ListView的滑动来定位左侧ListView的选中位置。左侧ListView我们直接使用原生ListView即可，右侧ListView由于需要头部标题和滑动监听，我们自己定义一个ListView，来设置下滑动事件的监听和头部标题。实">
-    
-        <link rel="alternate" type="application/atom+xml" title="qin12的学习博客" href="/atom.xml">
-    
-    <link rel="shortcut icon" href="/img/favicon.ico">
-    <link id="style" rel="stylesheet" href="/css/style.css?v=3.0">
-    <script>window.lazyScripts=[]</script>
 
-    <!-- custom head -->
-    
-            
+
+
+  <link rel="alternate" href="/atom.xml" title="qin12的学习博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/20/ListView联动（二）/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Android ListView联动 | qin12的学习博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
 </head>
 
-<body>
-    <div id="loading" class="active"></div>
-    <aside id="menu"  class="hide" >
-  <div class="inner flex-row-vertical">
-    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
-        <i class="icon icon-lg icon-close"></i>
-    </a>
-    <div class="brand-wrap" >
-      <div class="brand">
-        <a href="/" class="avatar waves-effect waves-circle waves-light">
-          <img src="/img/avatar.jpg" alt="avatar">
-        </a>
-        <hgroup class="introduce">
-          <h5 class="nickname" id="name">Qgx</h5>
-          
-            <div id="yiyanmotto" class="motto">&nbsp;</div>
-          
-        </hgroup>
-      </div>
-    </div>
-    <div class="scroll-wrap flex-col">
-      <ul class="nav">
-        
-              <li class="waves-block waves-effect">
-                  <a href="/"  >
-                    <i class="icon icon-lg icon-home"></i>
-                    <span>主 页</span><i class="icon icon-lg icon-caret-left"></i>
-                  </a>
-              </li>
-            
-              <li class="waves-block waves-effect">
-                  <a href="/archives/"  >
-                    <i class="icon icon-lg icon-archives"></i>
-                    <span>归 档</span><i class="icon icon-lg icon-caret-left"></i>
-                  </a>
-              </li>
-            
-              <li class="waves-block waves-effect">
-                  <a href="/categories/"  >
-                    <i class="icon icon-lg icon-th-list"></i>
-                    <span>分 类</span><i class="icon icon-lg icon-caret-left"></i>
-                  </a>
-              </li>
-            
-              <li class="waves-block waves-effect">
-                  <a href="/tags/"  >
-                    <i class="icon icon-lg icon-tags"></i>
-                    <span>标 签</span><i class="icon icon-lg icon-caret-left"></i>
-                  </a>
-              </li>
-            
-              <li class="waves-block waves-effect">
-                  <a href="/about"  >
-                    <i class="icon icon-lg icon-smile-o"></i>
-                    <span>关 于</span><i class="icon icon-lg icon-caret-left"></i>
-                  </a>
-              </li>
-            
-      <div class="nav2">
-          
-              <a class="nav2item" data-title="Email" href="mailto:1520290900@qq.com" target="_parent"title="Email" >
-                <i class="icon icon-lg icon-envelope-o envelope-o"></i>
-              </a>
-          
-              <a class="nav2item" data-title="Github" href="https://github.com/qin12" target="_blank"title="Github" >
-                <i class="icon icon-lg icon-github github"></i>
-              </a>
-          
-              <a class="nav2item" data-title="微博" href="https://weibo.com/u/6415480382" target="_blank"title="微博" >
-                <i class="icon icon-lg icon-weibo weibo"></i>
-              </a>
-          
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
 
-            </div>
-        
-      </ul>
-        
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">qin12的学习博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
+      
+        <p class="site-subtitle">只为成功找方法，不为失败找借口！</p>
+      
   </div>
- 
-</aside>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
 
 
-    <main id="main">
-        <header class="top-header" id="header">
-    <div class="flex-row">
-        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
-          <i class="icon icon-lg icon-navicon"></i>
-        </a>
-        <div class="flex-col header-title ellipsis">Android ListView联动</div>
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
         
-        <div class="search-wrap" id="search-wrap">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
-                <i class="icon icon-lg icon-chevron-left"></i>
-            </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
-            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
-                <i class="icon icon-lg icon-search"></i>
-            </a>
-        </div>
         
-        <a href="../../atom.xml" target="_blank" class="header-icon waves-effect waves-circle waves-light" id="Rss">
-            <i class="icon icon-lg icon-rss"></i>
-        </a>
-    </div>
-</header>
-<header class="content-header post-header">
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-photo">
+    <a href="/photo/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-photo"></i> <br />摄影</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-music">
+    <a href="/music/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-music"></i> <br />音乐</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
     
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
     
-    <div class="container fade-scale">
-        <div id="myheader">
-            <h1 class="title">
-                
-            </h1>
-            <h5 class="subtitle">
-                
-                
-            </h5>
-        </div>
-    </div>
-
-</header>
 
 
-<div class="container body-wrap">
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-    <aside class="post-widget">
-        <nav class="post-toc-wrap" id="post-toc">
-            <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ListView联动（二）"><span class="post-toc-number">1.</span> <span class="post-toc-text">ListView联动（二）</span></a></li></ol>
-        </nav>
-    </aside>
-   
-<article id="post-ListView联动（二）"
-  class="post-article article-type-post fade" itemprop="blogPost">
 
-    <div class="post-card">
-        <h1 class="post-card-title">Android ListView联动</h1>
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/ListView联动（二）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android ListView联动
+              
+            
+          </h1>
+        
+
         <div class="post-meta">
-            <i class="icon icon-lg icon-calendar-o"></i>
-            发表于
-            <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.821Z"  itemprop="datePublished">2018-07-20</time>
+          <span class="post-time">
 
-            <br id="mybreak"/>
             
-	<i class="icon icon-lg icon-folder-o"></i>
-	分类：<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android/">Android</a></li></ul>
-
-
-            <i>·</i>
             
-<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
-    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>次浏览
-</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
 
         </div>
-        <div class="post-count-custom">
-            <i class="icon icon-lg icon-comment-o"></i>
-            阅读本文可能花费您&nbsp;<span class="post-count">22</span>&nbsp;分钟
-        </div>
-        <div class="post-content" id="post-content" itemprop="postContent">
-            <h3 id="ListView联动（二）"><a href="#ListView联动（二）" class="headerlink" title="ListView联动（二）"></a>ListView联动（二）</h3><p>双ListView分为左侧ListView和右侧ListView，通过左侧ListView的点击来定位右侧ListView的位置，通过右侧ListView的滑动来定位左侧ListView的选中位置。左侧ListView我们直接使用原生ListView即可，右侧ListView由于需要头部标题和滑动监听，我们自己定义一个ListView，来设置下滑动事件的监听和头部标题。<br>实现双ListView联动最关键的一点就是这个自定义ListView，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br></pre></td><td class="code"><pre><span class="line">package com.example.qgx.gouwuche;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line">import android.graphics.Canvas;</span><br><span class="line">import android.util.AttributeSet;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.view.ViewGroup;</span><br><span class="line">import android.widget.AbsListView;</span><br><span class="line">import android.widget.AbsListView.OnScrollListener;</span><br><span class="line">import android.widget.AdapterView;</span><br><span class="line">import android.widget.HeaderViewListAdapter;</span><br><span class="line">import android.widget.ListAdapter;</span><br><span class="line">import android.widget.ListView;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class PinnedHeaderListView extends ListView implements OnScrollListener &#123;</span><br><span class="line"></span><br><span class="line">    private OnScrollListener mOnScrollListener;</span><br><span class="line"></span><br><span class="line">    public static interface PinnedSectionedHeaderAdapter &#123;</span><br><span class="line">        public boolean isSectionHeader(int position);</span><br><span class="line"></span><br><span class="line">        public int getSectionForPosition(int position);</span><br><span class="line"></span><br><span class="line">        public View getSectionHeaderView(int section, View convertView, ViewGroup parent);</span><br><span class="line"></span><br><span class="line">        public int getSectionHeaderViewType(int section);</span><br><span class="line"></span><br><span class="line">        public int getCount();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private PinnedSectionedHeaderAdapter mAdapter;</span><br><span class="line">    private View mCurrentHeader;</span><br><span class="line">    private int mCurrentHeaderViewType = 0;</span><br><span class="line">    private float mHeaderOffset;</span><br><span class="line">    private boolean mShouldPin = true;</span><br><span class="line">    private int mCurrentSection = 0;</span><br><span class="line">    private int mWidthMode;</span><br><span class="line">    private int mHeightMode;</span><br><span class="line"></span><br><span class="line">    public PinnedHeaderListView(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">        super.setOnScrollListener(this);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public PinnedHeaderListView(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">        super.setOnScrollListener(this);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public PinnedHeaderListView(Context context, AttributeSet attrs, int defStyle) &#123;</span><br><span class="line">        super(context, attrs, defStyle);</span><br><span class="line">        super.setOnScrollListener(this);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setPinHeaders(boolean shouldPin) &#123;</span><br><span class="line">        mShouldPin = shouldPin;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void setAdapter(ListAdapter adapter) &#123;</span><br><span class="line">        mCurrentHeader = null;</span><br><span class="line">        mAdapter = (PinnedSectionedHeaderAdapter) adapter;</span><br><span class="line">        super.setAdapter(adapter);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) &#123;</span><br><span class="line">        if (mOnScrollListener != null) &#123;</span><br><span class="line">            mOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (mAdapter == null || mAdapter.getCount() == 0 || !mShouldPin || (firstVisibleItem &lt; getHeaderViewsCount())) &#123;</span><br><span class="line">            mCurrentHeader = null;</span><br><span class="line">            mHeaderOffset = 0.0f;</span><br><span class="line">            for (int i = firstVisibleItem; i &lt; firstVisibleItem + visibleItemCount; i++) &#123;</span><br><span class="line">                View header = getChildAt(i);</span><br><span class="line">                if (header != null) &#123;</span><br><span class="line">                    header.setVisibility(VISIBLE);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        firstVisibleItem -= getHeaderViewsCount();</span><br><span class="line"></span><br><span class="line">        int section = mAdapter.getSectionForPosition(firstVisibleItem);</span><br><span class="line">        int viewType = mAdapter.getSectionHeaderViewType(section);</span><br><span class="line">        mCurrentHeader = getSectionHeaderView(section, mCurrentHeaderViewType != viewType ? null : mCurrentHeader);</span><br><span class="line">        ensurePinnedHeaderLayout(mCurrentHeader);</span><br><span class="line">        mCurrentHeaderViewType = viewType;</span><br><span class="line"></span><br><span class="line">        mHeaderOffset = 0.0f;</span><br><span class="line"></span><br><span class="line">        for (int i = firstVisibleItem; i &lt; firstVisibleItem + visibleItemCount; i++) &#123;</span><br><span class="line">            if (mAdapter.isSectionHeader(i)) &#123;</span><br><span class="line">                View header = getChildAt(i - firstVisibleItem);</span><br><span class="line">                float headerTop = header.getTop();</span><br><span class="line">                float pinnedHeaderHeight = mCurrentHeader.getMeasuredHeight();</span><br><span class="line">                header.setVisibility(VISIBLE);</span><br><span class="line">                if (pinnedHeaderHeight &gt;= headerTop &amp;&amp; headerTop &gt; 0) &#123;</span><br><span class="line">                    mHeaderOffset = headerTop - header.getHeight();</span><br><span class="line">                &#125; else if (headerTop &lt;= 0) &#123;</span><br><span class="line">                    header.setVisibility(INVISIBLE);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        invalidate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onScrollStateChanged(AbsListView view, int scrollState) &#123;</span><br><span class="line">        if (mOnScrollListener != null) &#123;</span><br><span class="line">            mOnScrollListener.onScrollStateChanged(view, scrollState);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private View getSectionHeaderView(int section, View oldView) &#123;</span><br><span class="line">        boolean shouldLayout = section != mCurrentSection || oldView == null;</span><br><span class="line"></span><br><span class="line">        View view = mAdapter.getSectionHeaderView(section, oldView, this);</span><br><span class="line">        if (shouldLayout) &#123;</span><br><span class="line">            // a new section, thus a new header. We should lay it out again</span><br><span class="line">            ensurePinnedHeaderLayout(view);</span><br><span class="line">            mCurrentSection = section;</span><br><span class="line">        &#125;</span><br><span class="line">        return view;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void ensurePinnedHeaderLayout(View header) &#123;</span><br><span class="line">        if (header.isLayoutRequested()) &#123;</span><br><span class="line">            int widthSpec = MeasureSpec.makeMeasureSpec(getMeasuredWidth(), mWidthMode);</span><br><span class="line"></span><br><span class="line">            int heightSpec;</span><br><span class="line">            ViewGroup.LayoutParams layoutParams = header.getLayoutParams();</span><br><span class="line">            if (layoutParams != null &amp;&amp; layoutParams.height &gt; 0) &#123;</span><br><span class="line">                heightSpec = MeasureSpec.makeMeasureSpec(layoutParams.height, MeasureSpec.EXACTLY);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                heightSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);</span><br><span class="line">            &#125;</span><br><span class="line">            header.measure(widthSpec, heightSpec);</span><br><span class="line">            header.layout(0, 0, header.getMeasuredWidth(), header.getMeasuredHeight());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void dispatchDraw(Canvas canvas) &#123;</span><br><span class="line">        super.dispatchDraw(canvas);</span><br><span class="line">        if (mAdapter == null || !mShouldPin || mCurrentHeader == null)</span><br><span class="line">            return;</span><br><span class="line">        int saveCount = canvas.save();</span><br><span class="line">        canvas.translate(0, mHeaderOffset);</span><br><span class="line">        canvas.clipRect(0, 0, getWidth(), mCurrentHeader.getMeasuredHeight()); // needed</span><br><span class="line">        // for</span><br><span class="line">        // &lt;</span><br><span class="line">        // HONEYCOMB</span><br><span class="line">        mCurrentHeader.draw(canvas);</span><br><span class="line">        canvas.restoreToCount(saveCount);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void setOnScrollListener(OnScrollListener l) &#123;</span><br><span class="line">        mOnScrollListener = l;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">        super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line"></span><br><span class="line">        mWidthMode = MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line">        mHeightMode = MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setOnItemClickListener(OnItemClickListener listener) &#123;</span><br><span class="line">        super.setOnItemClickListener(listener);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static abstract class OnItemClickListener implements AdapterView.OnItemClickListener &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onItemClick(AdapterView&lt;?&gt; adapterView, View view, int rawPosition, long id) &#123;</span><br><span class="line">            SectionedBaseAdapter adapter;</span><br><span class="line">            if (adapterView.getAdapter().getClass().equals(HeaderViewListAdapter.class)) &#123;</span><br><span class="line">                HeaderViewListAdapter wrapperAdapter = (HeaderViewListAdapter) adapterView.getAdapter();</span><br><span class="line">                adapter = (SectionedBaseAdapter) wrapperAdapter.getWrappedAdapter();</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                adapter = (SectionedBaseAdapter) adapterView.getAdapter();</span><br><span class="line">            &#125;</span><br><span class="line">            int section = adapter.getSectionForPosition(rawPosition);</span><br><span class="line">            int position = adapter.getPositionInSectionForPosition(rawPosition);</span><br><span class="line"></span><br><span class="line">            if (position == -1) &#123;</span><br><span class="line">                onSectionClick(adapterView, view, section, id);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                onItemClick(adapterView, view, section, position, id);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public abstract void onItemClick(AdapterView&lt;?&gt; adapterView, View view, int section, int position, long id);</span><br><span class="line"></span><br><span class="line">        public abstract void onSectionClick(AdapterView&lt;?&gt; adapterView, View view, int section, long id);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="ListView联动（二）"><a href="#ListView联动（二）" class="headerlink" title="ListView联动（二）"></a>ListView联动（二）</h3><p>双ListView分为左侧ListView和右侧ListView，通过左侧ListView的点击来定位右侧ListView的位置，通过右侧ListView的滑动来定位左侧ListView的选中位置。左侧ListView我们直接使用原生ListView即可，右侧ListView由于需要头部标题和滑动监听，我们自己定义一个ListView，来设置下滑动事件的监听和头部标题。<br>实现双ListView联动最关键的一点就是这个自定义ListView，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br></pre></td><td class="code"><pre><span class="line">package com.example.qgx.gouwuche;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line">import android.graphics.Canvas;</span><br><span class="line">import android.util.AttributeSet;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.view.ViewGroup;</span><br><span class="line">import android.widget.AbsListView;</span><br><span class="line">import android.widget.AbsListView.OnScrollListener;</span><br><span class="line">import android.widget.AdapterView;</span><br><span class="line">import android.widget.HeaderViewListAdapter;</span><br><span class="line">import android.widget.ListAdapter;</span><br><span class="line">import android.widget.ListView;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class PinnedHeaderListView extends ListView implements OnScrollListener &#123;</span><br><span class="line"></span><br><span class="line">    private OnScrollListener mOnScrollListener;</span><br><span class="line"></span><br><span class="line">    public static interface PinnedSectionedHeaderAdapter &#123;</span><br><span class="line">        public boolean isSectionHeader(int position);</span><br><span class="line"></span><br><span class="line">        public int getSectionForPosition(int position);</span><br><span class="line"></span><br><span class="line">        public View getSectionHeaderView(int section, View convertView, ViewGroup parent);</span><br><span class="line"></span><br><span class="line">        public int getSectionHeaderViewType(int section);</span><br><span class="line"></span><br><span class="line">        public int getCount();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private PinnedSectionedHeaderAdapter mAdapter;</span><br><span class="line">    private View mCurrentHeader;</span><br><span class="line">    private int mCurrentHeaderViewType = 0;</span><br><span class="line">    private float mHeaderOffset;</span><br><span class="line">    private boolean mShouldPin = true;</span><br><span class="line">    private int mCurrentSection = 0;</span><br><span class="line">    private int mWidthMode;</span><br><span class="line">    private int mHeightMode;</span><br><span class="line"></span><br><span class="line">    public PinnedHeaderListView(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">        super.setOnScrollListener(this);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public PinnedHeaderListView(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">        super.setOnScrollListener(this);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public PinnedHeaderListView(Context context, AttributeSet attrs, int defStyle) &#123;</span><br><span class="line">        super(context, attrs, defStyle);</span><br><span class="line">        super.setOnScrollListener(this);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setPinHeaders(boolean shouldPin) &#123;</span><br><span class="line">        mShouldPin = shouldPin;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void setAdapter(ListAdapter adapter) &#123;</span><br><span class="line">        mCurrentHeader = null;</span><br><span class="line">        mAdapter = (PinnedSectionedHeaderAdapter) adapter;</span><br><span class="line">        super.setAdapter(adapter);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) &#123;</span><br><span class="line">        if (mOnScrollListener != null) &#123;</span><br><span class="line">            mOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (mAdapter == null || mAdapter.getCount() == 0 || !mShouldPin || (firstVisibleItem &lt; getHeaderViewsCount())) &#123;</span><br><span class="line">            mCurrentHeader = null;</span><br><span class="line">            mHeaderOffset = 0.0f;</span><br><span class="line">            for (int i = firstVisibleItem; i &lt; firstVisibleItem + visibleItemCount; i++) &#123;</span><br><span class="line">                View header = getChildAt(i);</span><br><span class="line">                if (header != null) &#123;</span><br><span class="line">                    header.setVisibility(VISIBLE);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        firstVisibleItem -= getHeaderViewsCount();</span><br><span class="line"></span><br><span class="line">        int section = mAdapter.getSectionForPosition(firstVisibleItem);</span><br><span class="line">        int viewType = mAdapter.getSectionHeaderViewType(section);</span><br><span class="line">        mCurrentHeader = getSectionHeaderView(section, mCurrentHeaderViewType != viewType ? null : mCurrentHeader);</span><br><span class="line">        ensurePinnedHeaderLayout(mCurrentHeader);</span><br><span class="line">        mCurrentHeaderViewType = viewType;</span><br><span class="line"></span><br><span class="line">        mHeaderOffset = 0.0f;</span><br><span class="line"></span><br><span class="line">        for (int i = firstVisibleItem; i &lt; firstVisibleItem + visibleItemCount; i++) &#123;</span><br><span class="line">            if (mAdapter.isSectionHeader(i)) &#123;</span><br><span class="line">                View header = getChildAt(i - firstVisibleItem);</span><br><span class="line">                float headerTop = header.getTop();</span><br><span class="line">                float pinnedHeaderHeight = mCurrentHeader.getMeasuredHeight();</span><br><span class="line">                header.setVisibility(VISIBLE);</span><br><span class="line">                if (pinnedHeaderHeight &gt;= headerTop &amp;&amp; headerTop &gt; 0) &#123;</span><br><span class="line">                    mHeaderOffset = headerTop - header.getHeight();</span><br><span class="line">                &#125; else if (headerTop &lt;= 0) &#123;</span><br><span class="line">                    header.setVisibility(INVISIBLE);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        invalidate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onScrollStateChanged(AbsListView view, int scrollState) &#123;</span><br><span class="line">        if (mOnScrollListener != null) &#123;</span><br><span class="line">            mOnScrollListener.onScrollStateChanged(view, scrollState);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private View getSectionHeaderView(int section, View oldView) &#123;</span><br><span class="line">        boolean shouldLayout = section != mCurrentSection || oldView == null;</span><br><span class="line"></span><br><span class="line">        View view = mAdapter.getSectionHeaderView(section, oldView, this);</span><br><span class="line">        if (shouldLayout) &#123;</span><br><span class="line">            // a new section, thus a new header. We should lay it out again</span><br><span class="line">            ensurePinnedHeaderLayout(view);</span><br><span class="line">            mCurrentSection = section;</span><br><span class="line">        &#125;</span><br><span class="line">        return view;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void ensurePinnedHeaderLayout(View header) &#123;</span><br><span class="line">        if (header.isLayoutRequested()) &#123;</span><br><span class="line">            int widthSpec = MeasureSpec.makeMeasureSpec(getMeasuredWidth(), mWidthMode);</span><br><span class="line"></span><br><span class="line">            int heightSpec;</span><br><span class="line">            ViewGroup.LayoutParams layoutParams = header.getLayoutParams();</span><br><span class="line">            if (layoutParams != null &amp;&amp; layoutParams.height &gt; 0) &#123;</span><br><span class="line">                heightSpec = MeasureSpec.makeMeasureSpec(layoutParams.height, MeasureSpec.EXACTLY);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                heightSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);</span><br><span class="line">            &#125;</span><br><span class="line">            header.measure(widthSpec, heightSpec);</span><br><span class="line">            header.layout(0, 0, header.getMeasuredWidth(), header.getMeasuredHeight());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void dispatchDraw(Canvas canvas) &#123;</span><br><span class="line">        super.dispatchDraw(canvas);</span><br><span class="line">        if (mAdapter == null || !mShouldPin || mCurrentHeader == null)</span><br><span class="line">            return;</span><br><span class="line">        int saveCount = canvas.save();</span><br><span class="line">        canvas.translate(0, mHeaderOffset);</span><br><span class="line">        canvas.clipRect(0, 0, getWidth(), mCurrentHeader.getMeasuredHeight()); // needed</span><br><span class="line">        // for</span><br><span class="line">        // &lt;</span><br><span class="line">        // HONEYCOMB</span><br><span class="line">        mCurrentHeader.draw(canvas);</span><br><span class="line">        canvas.restoreToCount(saveCount);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void setOnScrollListener(OnScrollListener l) &#123;</span><br><span class="line">        mOnScrollListener = l;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">        super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line"></span><br><span class="line">        mWidthMode = MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line">        mHeightMode = MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setOnItemClickListener(OnItemClickListener listener) &#123;</span><br><span class="line">        super.setOnItemClickListener(listener);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static abstract class OnItemClickListener implements AdapterView.OnItemClickListener &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onItemClick(AdapterView&lt;?&gt; adapterView, View view, int rawPosition, long id) &#123;</span><br><span class="line">            SectionedBaseAdapter adapter;</span><br><span class="line">            if (adapterView.getAdapter().getClass().equals(HeaderViewListAdapter.class)) &#123;</span><br><span class="line">                HeaderViewListAdapter wrapperAdapter = (HeaderViewListAdapter) adapterView.getAdapter();</span><br><span class="line">                adapter = (SectionedBaseAdapter) wrapperAdapter.getWrappedAdapter();</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                adapter = (SectionedBaseAdapter) adapterView.getAdapter();</span><br><span class="line">            &#125;</span><br><span class="line">            int section = adapter.getSectionForPosition(rawPosition);</span><br><span class="line">            int position = adapter.getPositionInSectionForPosition(rawPosition);</span><br><span class="line"></span><br><span class="line">            if (position == -1) &#123;</span><br><span class="line">                onSectionClick(adapterView, view, section, id);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                onItemClick(adapterView, view, section, position, id);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public abstract void onItemClick(AdapterView&lt;?&gt; adapterView, View view, int section, int position, long id);</span><br><span class="line"></span><br><span class="line">        public abstract void onSectionClick(AdapterView&lt;?&gt; adapterView, View view, int section, long id);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>然后为PinnedHeaderListView定义Adapter，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br></pre></td><td class="code"><pre><span class="line">package com.example.qgx.gouwuche;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import android.util.SparseArray;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.view.ViewGroup;</span><br><span class="line">import android.widget.BaseAdapter;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public abstract class SectionedBaseAdapter extends BaseAdapter implements PinnedHeaderListView.PinnedSectionedHeaderAdapter &#123;</span><br><span class="line"></span><br><span class="line">    private static int HEADER_VIEW_TYPE = 0;</span><br><span class="line">    private static int ITEM_VIEW_TYPE = 0;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Holds the calculated values of @&#123;link getPositionInSectionForPosition&#125;</span><br><span class="line">     */</span><br><span class="line">    private SparseArray&lt;Integer&gt; mSectionPositionCache;</span><br><span class="line">    /**</span><br><span class="line">     * Holds the calculated values of @&#123;link getSectionForPosition&#125;</span><br><span class="line">     */</span><br><span class="line">    private SparseArray&lt;Integer&gt; mSectionCache;</span><br><span class="line">    /**</span><br><span class="line">     * Holds the calculated values of @&#123;link getCountForSection&#125;</span><br><span class="line">     */</span><br><span class="line">    private SparseArray&lt;Integer&gt; mSectionCountCache;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * Caches the item count</span><br><span class="line">     */</span><br><span class="line">    private int mCount;</span><br><span class="line">    /**</span><br><span class="line">     * Caches the section count</span><br><span class="line">     */</span><br><span class="line">    private int mSectionCount;</span><br><span class="line"></span><br><span class="line">    public SectionedBaseAdapter() &#123;</span><br><span class="line">        super();</span><br><span class="line">        mSectionCache = new SparseArray&lt;Integer&gt;();</span><br><span class="line">        mSectionPositionCache = new SparseArray&lt;Integer&gt;();</span><br><span class="line">        mSectionCountCache = new SparseArray&lt;Integer&gt;();</span><br><span class="line">        mCount = -1;</span><br><span class="line">        mSectionCount = -1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void notifyDataSetChanged() &#123;</span><br><span class="line">        mSectionCache.clear();</span><br><span class="line">        mSectionPositionCache.clear();</span><br><span class="line">        mSectionCountCache.clear();</span><br><span class="line">        mCount = -1;</span><br><span class="line">        mSectionCount = -1;</span><br><span class="line">        super.notifyDataSetChanged();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void notifyDataSetInvalidated() &#123;</span><br><span class="line">        mSectionCache.clear();</span><br><span class="line">        mSectionPositionCache.clear();</span><br><span class="line">        mSectionCountCache.clear();</span><br><span class="line">        mCount = -1;</span><br><span class="line">        mSectionCount = -1;</span><br><span class="line">        super.notifyDataSetInvalidated();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public final int getCount() &#123;</span><br><span class="line">        if (mCount &gt;= 0) &#123;</span><br><span class="line">            return mCount;</span><br><span class="line">        &#125;</span><br><span class="line">        int count = 0;</span><br><span class="line">        for (int i = 0; i &lt; internalGetSectionCount(); i++) &#123;</span><br><span class="line">            count += internalGetCountForSection(i);</span><br><span class="line">            count++; // for the header view</span><br><span class="line">        &#125;</span><br><span class="line">        mCount = count;</span><br><span class="line">        return count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public final Object getItem(int position) &#123;</span><br><span class="line">        return getItem(getSectionForPosition(position), getPositionInSectionForPosition(position));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public final long getItemId(int position) &#123;</span><br><span class="line">        return getItemId(getSectionForPosition(position), getPositionInSectionForPosition(position));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public final View getView(int position, View convertView, ViewGroup parent) &#123;</span><br><span class="line">        if (isSectionHeader(position)) &#123;</span><br><span class="line">            return getSectionHeaderView(getSectionForPosition(position), convertView, parent);</span><br><span class="line">        &#125;</span><br><span class="line">        return getItemView(getSectionForPosition(position), getPositionInSectionForPosition(position), convertView, parent);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public final int getItemViewType(int position) &#123;</span><br><span class="line">        if (isSectionHeader(position)) &#123;</span><br><span class="line">            return getItemViewTypeCount() + getSectionHeaderViewType(getSectionForPosition(position));</span><br><span class="line">        &#125;</span><br><span class="line">        return getItemViewType(getSectionForPosition(position), getPositionInSectionForPosition(position));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public final int getViewTypeCount() &#123;</span><br><span class="line">        return getItemViewTypeCount() + getSectionHeaderViewTypeCount();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public final int getSectionForPosition(int position) &#123;</span><br><span class="line">        // first try to retrieve values from cache</span><br><span class="line">        Integer cachedSection = mSectionCache.get(position);</span><br><span class="line">        if (cachedSection != null) &#123;</span><br><span class="line">            return cachedSection;</span><br><span class="line">        &#125;</span><br><span class="line">        int sectionStart = 0;</span><br><span class="line">        for (int i = 0; i &lt; internalGetSectionCount(); i++) &#123;</span><br><span class="line">            int sectionCount = internalGetCountForSection(i);</span><br><span class="line">            int sectionEnd = sectionStart + sectionCount + 1;</span><br><span class="line">            if (position &gt;= sectionStart &amp;&amp; position &lt; sectionEnd) &#123;</span><br><span class="line">                mSectionCache.put(position, i);</span><br><span class="line">                return i;</span><br><span class="line">            &#125;</span><br><span class="line">            sectionStart = sectionEnd;</span><br><span class="line">        &#125;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int getPositionInSectionForPosition(int position) &#123;</span><br><span class="line">        // first try to retrieve values from cache</span><br><span class="line">        Integer cachedPosition = mSectionPositionCache.get(position);</span><br><span class="line">        if (cachedPosition != null) &#123;</span><br><span class="line">            return cachedPosition;</span><br><span class="line">        &#125;</span><br><span class="line">        int sectionStart = 0;</span><br><span class="line">        for (int i = 0; i &lt; internalGetSectionCount(); i++) &#123;</span><br><span class="line">            int sectionCount = internalGetCountForSection(i);</span><br><span class="line">            int sectionEnd = sectionStart + sectionCount + 1;</span><br><span class="line">            if (position &gt;= sectionStart &amp;&amp; position &lt; sectionEnd) &#123;</span><br><span class="line">                int positionInSection = position - sectionStart - 1;</span><br><span class="line">                mSectionPositionCache.put(position, positionInSection);</span><br><span class="line">                return positionInSection;</span><br><span class="line">            &#125;</span><br><span class="line">            sectionStart = sectionEnd;</span><br><span class="line">        &#125;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public final boolean isSectionHeader(int position) &#123;</span><br><span class="line">        int sectionStart = 0;</span><br><span class="line">        for (int i = 0; i &lt; internalGetSectionCount(); i++) &#123;</span><br><span class="line">            if (position == sectionStart) &#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125; else if (position &lt; sectionStart) &#123;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">            sectionStart += internalGetCountForSection(i) + 1;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int getItemViewType(int section, int position) &#123;</span><br><span class="line">        return ITEM_VIEW_TYPE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int getItemViewTypeCount() &#123;</span><br><span class="line">        return 1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int getSectionHeaderViewType(int section) &#123;</span><br><span class="line">        return HEADER_VIEW_TYPE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int getSectionHeaderViewTypeCount() &#123;</span><br><span class="line">        return 1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public abstract Object getItem(int section, int position);</span><br><span class="line"></span><br><span class="line">    public abstract long getItemId(int section, int position);</span><br><span class="line"></span><br><span class="line">    public abstract int getSectionCount();</span><br><span class="line"></span><br><span class="line">    public abstract int getCountForSection(int section);</span><br><span class="line"></span><br><span class="line">    public abstract View getItemView(int section, int position, View convertView, ViewGroup parent);</span><br><span class="line"></span><br><span class="line">    public abstract View getSectionHeaderView(int section, View convertView, ViewGroup parent);</span><br><span class="line"></span><br><span class="line">    private int internalGetCountForSection(int section) &#123;</span><br><span class="line">        Integer cachedSectionCount = mSectionCountCache.get(section);</span><br><span class="line">        if (cachedSectionCount != null) &#123;</span><br><span class="line">            return cachedSectionCount;</span><br><span class="line">        &#125;</span><br><span class="line">        int sectionCount = getCountForSection(section);</span><br><span class="line">        mSectionCountCache.put(section, sectionCount);</span><br><span class="line">        return sectionCount;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private int internalGetSectionCount() &#123;</span><br><span class="line">        if (mSectionCount &gt;= 0) &#123;</span><br><span class="line">            return mSectionCount;</span><br><span class="line">        &#125;</span><br><span class="line">        mSectionCount = getSectionCount();</span><br><span class="line">        return mSectionCount;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这样我们就可以使用PinnedHeaderListView了，新建MainActivity,在布局文件中创建两个ListView。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package com.example.qgx.gouwuche;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line">import android.content.Intent;</span><br><span class="line">import android.support.v7.app.AppCompatActivity;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.util.AttributeSet;</span><br><span class="line">import android.util.Log;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.widget.AbsListView;</span><br><span class="line">import android.widget.AdapterView;</span><br><span class="line">import android.widget.ListView;</span><br><span class="line"></span><br><span class="line">import com.example.qgx.gouwuche.mohu.BlurBehind;</span><br><span class="line">import com.example.qgx.gouwuche.mohu.OnBlurCompleteListener;</span><br><span class="line"></span><br><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    ListView leftListview;</span><br><span class="line"></span><br><span class="line">    PinnedHeaderListView pinnedListView;</span><br><span class="line">    private boolean isScroll = true;</span><br><span class="line">    private LeftListAdapter adapter;</span><br><span class="line"></span><br><span class="line">    private String[] a = new String[100];</span><br><span class="line">    private String[] leftStr = new String[]&#123;&quot;面食类&quot;, &quot;盖饭&quot;, &quot;寿司&quot;, &quot;烧烤&quot;, &quot;酒水&quot;, &quot;凉菜&quot;, &quot;小吃&quot;, &quot;粥&quot;, &quot;休闲&quot;,&quot;1&quot;,&quot;2&quot;,&quot;3&quot;&#125;;</span><br><span class="line">    private boolean[] flagArray = &#123;true, false, false, false, false, false, false, false, false, false, false, false&#125;;</span><br><span class="line">    private String[][] rightStr = new String[][]&#123;&#123;&quot;热干面&quot;, &quot;臊子面&quot;, &quot;烩面&quot;&#125;,</span><br><span class="line">            &#123;&quot;番茄鸡蛋&quot;, &quot;红烧排骨&quot;, &quot;农家小炒肉&quot;&#125;,</span><br><span class="line">            &#123;&quot;芝士&quot;, &quot;丑小丫&quot;, &quot;金枪鱼&quot;&#125;, &#123;&quot;羊肉串&quot;, &quot;烤鸡翅&quot;, &quot;烤羊排&quot;&#125;, &#123;&quot;长城干红&quot;, &quot;燕京鲜啤&quot;, &quot;青岛鲜啤&quot;&#125;,</span><br><span class="line">            &#123;&quot;拌粉丝&quot;, &quot;大拌菜&quot;, &quot;菠菜花生&quot;&#125;, &#123;&quot;小食组&quot;, &quot;紫薯&quot;&#125;,</span><br><span class="line">            &#123;&quot;小米粥&quot;, &quot;大米粥&quot;, &quot;南瓜粥&quot;, &quot;玉米粥&quot;, &quot;紫米粥&quot;&#125;, &#123;&quot;儿童小汽车&quot;, &quot;悠悠球&quot;, &quot;熊大&quot;, &quot; 熊二&quot;, &quot;光头强&quot;&#125;,&#123;&quot;热干面&quot;, &quot;臊子面&quot;, &quot;烩面&quot;&#125;,</span><br><span class="line">            &#123;&quot;番茄鸡蛋&quot;, &quot;红烧排骨&quot;, &quot;农家小炒肉&quot;&#125;,</span><br><span class="line">            &#123;&quot;芝士&quot;, &quot;丑小丫&quot;, &quot;金枪鱼&quot;&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">       leftListview =findViewById(R.id.left_listview);</span><br><span class="line">        pinnedListView = (PinnedHeaderListView) findViewById(R.id.pinnedListView);</span><br><span class="line">        final MainSectionedAdapter sectionedAdapter = new MainSectionedAdapter(this, leftStr, rightStr, a);</span><br><span class="line"></span><br><span class="line">        pinnedListView.setAdapter(sectionedAdapter);</span><br><span class="line"></span><br><span class="line">        adapter = new LeftListAdapter(this, leftStr, flagArray);</span><br><span class="line">        leftListview.setAdapter(adapter);</span><br><span class="line">        leftListview.setOnItemClickListener(new AdapterView.OnItemClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line"></span><br><span class="line">            public void onItemClick(AdapterView&lt;?&gt; arg0, View view, int position, long arg3) &#123;</span><br><span class="line">                //String[] a = sectionedAdapter.getA();</span><br><span class="line">//                Log.i(&quot;123&quot;, &quot;onCreate: &quot;+a[0]+a[1]+a[2]);</span><br><span class="line">                isScroll = false;</span><br><span class="line">                for (int i = 0; i &lt; leftStr.length; i++) &#123;</span><br><span class="line">                    if (i == position) &#123;</span><br><span class="line">                        flagArray[i] = true;</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        flagArray[i] = false;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                adapter.notifyDataSetChanged();</span><br><span class="line">                int rightSection = 0;</span><br><span class="line">                for (int i = 0; i &lt; position; i++) &#123;</span><br><span class="line">                    rightSection += sectionedAdapter.getCountForSection(i) + 1;</span><br><span class="line">                &#125;</span><br><span class="line">                pinnedListView.setSelection(rightSection);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        pinnedListView.setOnScrollListener(new AbsListView.OnScrollListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onScrollStateChanged(AbsListView arg0, int scrollState) &#123;</span><br><span class="line">                switch (scrollState) &#123;</span><br><span class="line">                    // 当不滚动时</span><br><span class="line">                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:</span><br><span class="line">                        // 判断滚动到底部</span><br><span class="line">                        if (pinnedListView.getLastVisiblePosition() == (pinnedListView.getCount() - 1)) &#123;</span><br><span class="line">                            leftListview.setSelection(ListView.FOCUS_DOWN);</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        // 判断滚动到顶部</span><br><span class="line">                        if (pinnedListView.getFirstVisiblePosition() == 0) &#123;</span><br><span class="line">                            leftListview.setSelection(0);</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            int y = 0;</span><br><span class="line">            int x = 0;</span><br><span class="line">            int z = 0;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) &#123;</span><br><span class="line">                if (isScroll) &#123;</span><br><span class="line">                    for (int i = 0; i &lt; rightStr.length; i++) &#123;</span><br><span class="line">                        if (i == sectionedAdapter.getSectionForPosition(pinnedListView.getFirstVisiblePosition())) &#123;</span><br><span class="line">                            flagArray[i] = true;</span><br><span class="line">                            x = i;</span><br><span class="line">                        &#125; else &#123;</span><br><span class="line">                            flagArray[i] = false;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    if (x != y) &#123;</span><br><span class="line">                        adapter.notifyDataSetChanged();</span><br><span class="line">                        y = x;</span><br><span class="line">                        if (y == leftListview.getLastVisiblePosition()) &#123;</span><br><span class="line">//                            z = z + 3;</span><br><span class="line">                            leftListview.setSelection(z);</span><br><span class="line">                        &#125;</span><br><span class="line">                        if (x == leftListview.getFirstVisiblePosition()) &#123;</span><br><span class="line">//                            z = z - 1;</span><br><span class="line">                            leftListview.setSelection(z);</span><br><span class="line">                        &#125;</span><br><span class="line">                        if (firstVisibleItem + visibleItemCount == totalItemCount - 1) &#123;</span><br><span class="line">                            leftListview.setSelection(ListView.FOCUS_DOWN);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    isScroll = true;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onDestroy() &#123;</span><br><span class="line"></span><br><span class="line">        super.onDestroy();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void zongjie(View view) &#123;</span><br><span class="line">        BlurBehind.getInstance().execute(MainActivity.this, new OnBlurCompleteListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onBlurComplete() &#123;</span><br><span class="line">                Intent intent = new Intent(MainActivity.this,gouwucheActivity.class);</span><br><span class="line">                Bundle b=new Bundle();</span><br><span class="line">                b.putStringArray(&quot;A&quot;, a);</span><br><span class="line">                intent.putExtras(b);</span><br><span class="line">                startActivity(intent);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>MainActivity的布局文件如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">    android:background=&quot;#606364&quot;</span><br><span class="line">    android:orientation=&quot;vertical&quot;&gt;</span><br><span class="line">&lt;LinearLayout</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;460dp&quot;</span><br><span class="line">    android:orientation=&quot;horizontal&quot;&gt;</span><br><span class="line">    &lt;ListView</span><br><span class="line">        android:id=&quot;@+id/left_listview&quot;</span><br><span class="line">        android:layout_width=&quot;0dp&quot;</span><br><span class="line">        android:layout_height=&quot;match_parent&quot;</span><br><span class="line">        android:layout_weight=&quot;2&quot;</span><br><span class="line">        android:scrollbars=&quot;none&quot;</span><br><span class="line">        android:divider=&quot;@null&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/ListView&gt;</span><br><span class="line"></span><br><span class="line">    &lt;com.example.qgx.gouwuche.PinnedHeaderListView</span><br><span class="line">        android:id=&quot;@+id/pinnedListView&quot;</span><br><span class="line">        android:layout_width=&quot;0dp&quot;</span><br><span class="line">        android:layout_height=&quot;match_parent&quot;</span><br><span class="line">        android:layout_marginLeft=&quot;10dp&quot;</span><br><span class="line">        android:layout_weight=&quot;5&quot;</span><br><span class="line">        android:background=&quot;@android:color/white&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/com.example.qgx.gouwuche.PinnedHeaderListView&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br><span class="line"></span><br><span class="line">    &lt;RelativeLayout</span><br><span class="line">        android:id=&quot;@+id/car_rl&quot;</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;50dp&quot;</span><br><span class="line">        android:layout_gravity=&quot;bottom&quot;</span><br><span class="line">        android:background=&quot;#454545&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:id=&quot;@+id/car_nonselect&quot;</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_centerVertical=&quot;true&quot;</span><br><span class="line">            android:layout_marginLeft=&quot;80dp&quot;</span><br><span class="line">            android:text=&quot;未选购商品&quot;</span><br><span class="line">            android:textColor=&quot;#a8a8a8&quot;</span><br><span class="line">            android:textSize=&quot;13sp&quot;</span><br><span class="line">            android:textStyle=&quot;bold&quot;/&gt;</span><br><span class="line"></span><br><span class="line">        &lt;LinearLayout</span><br><span class="line">            android:id=&quot;@+id/amount_container&quot;</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_centerVertical=&quot;true&quot;</span><br><span class="line">            android:layout_marginLeft=&quot;80dp&quot;</span><br><span class="line">            android:gravity=&quot;center_vertical&quot;</span><br><span class="line">            android:orientation=&quot;vertical&quot;</span><br><span class="line">            android:visibility=&quot;gone&quot;&gt;</span><br><span class="line"></span><br><span class="line">            &lt;TextView</span><br><span class="line">                android:id=&quot;@+id/tv_amount&quot;</span><br><span class="line">                android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">                android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">                android:textColor=&quot;#fff&quot;</span><br><span class="line">                android:textSize=&quot;18sp&quot;</span><br><span class="line">                android:textStyle=&quot;bold&quot;/&gt;</span><br><span class="line"></span><br><span class="line">            &lt;TextView</span><br><span class="line">                android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">                android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">                android:text=&quot;另需配送费¥4元&quot;</span><br><span class="line">                android:textColor=&quot;#fff&quot;</span><br><span class="line">                android:textSize=&quot;10sp&quot;/&gt;</span><br><span class="line">        &lt;/LinearLayout&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:id=&quot;@+id/car_limit&quot;</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;match_parent&quot;</span><br><span class="line">            android:layout_alignParentRight=&quot;true&quot;</span><br><span class="line">            android:background=&quot;#535353&quot;</span><br><span class="line">            android:gravity=&quot;center&quot;</span><br><span class="line">            android:paddingLeft=&quot;8dp&quot;</span><br><span class="line">            android:paddingRight=&quot;8dp&quot;</span><br><span class="line">            android:text=&quot;确认下单&quot;</span><br><span class="line">            android:textColor=&quot;#a8a8a8&quot;</span><br><span class="line">            android:textSize=&quot;16sp&quot;</span><br><span class="line">            android:textStyle=&quot;bold&quot;/&gt;</span><br><span class="line">        &lt;ImageView</span><br><span class="line">            android:id=&quot;@+id/iv_shop_car&quot;</span><br><span class="line">            android:onClick=&quot;zongjie&quot;</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_marginBottom=&quot;8dp&quot;</span><br><span class="line">            android:layout_marginLeft=&quot;-50dp&quot;</span><br><span class="line">            android:src=&quot;@drawable/shop_car_empty&quot;/&gt;</span><br><span class="line">    &lt;/RelativeLayout&gt;</span><br><span class="line"></span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure></p>
@@ -235,371 +432,561 @@
 <p><strong>left_list_item.xml</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;</span><br><span class="line"> android:background=&quot;@color/gray_light&quot;</span><br><span class="line">    android:orientation=&quot;vertical&quot; &gt;</span><br><span class="line">    </span><br><span class="line"> &lt;TextView </span><br><span class="line">     android:id=&quot;@+id/left_list_item&quot;</span><br><span class="line">     android:layout_width=&quot;match_parent&quot;</span><br><span class="line">     android:layout_height=&quot;@dimen/dp60&quot;</span><br><span class="line">     android:padding=&quot;@dimen/dp12&quot;</span><br><span class="line">  android:gravity=&quot;center_vertical&quot;</span><br><span class="line">  android:textColor=&quot;@color/black&quot;/&gt;</span><br><span class="line">    </span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure></p>
 <p><strong>right_list_item.xml</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">    android:background=&quot;@color/white&quot;</span><br><span class="line">    android:padding=&quot;@dimen/dp6&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ImageView</span><br><span class="line">        android:id=&quot;@+id/imageItem&quot;</span><br><span class="line">        android:layout_width=&quot;@dimen/dp50&quot;</span><br><span class="line">        android:layout_height=&quot;@dimen/dp50&quot;</span><br><span class="line">        android:scaleType=&quot;fitXY&quot;</span><br><span class="line">        android:src=&quot;@drawable/pic&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;TextView</span><br><span class="line">        android:id=&quot;@+id/textItem&quot;</span><br><span class="line">        android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">        android:layout_height=&quot;@dimen/dp50&quot;</span><br><span class="line">        android:gravity=&quot;center_vertical&quot;</span><br><span class="line">        android:paddingLeft=&quot;@dimen/dp6&quot;</span><br><span class="line">        android:layout_toRightOf=&quot;@+id/imageItem&quot;</span><br><span class="line">        android:textColor=&quot;@color/black&quot; /&gt;</span><br><span class="line">&lt;/RelativeLayout&gt;</span><br></pre></td></tr></table></figure></p>
 
-        </div>
-
-        <blockquote class="post-copyright">
-    <div class="content">
-        
-<span class="post-time">
-    最后更新：<time datetime="2018-07-20T04:10:37.817Z" itemprop="dateUpdated">2018-07-20 12:10:37</time>
-</span>
-
-
-        
-        原文链接：<a href="/2018/07/20/ListView联动（二）/" target="_blank" rel="external">http://yoursite.com/2018/07/20/ListView联动（二）/</a>
-        
+      
     </div>
-    <footer>
-        <div onclick="location.href='http://yoursite.com'">
-            <img src="/img/avatar.jpg" alt="Qgx">
-            <a>Qgx</a>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ListView联动/" rel="tag"># ListView联动</a>
+          
         </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/20/Apache下https服务的配置/" rel="next" title="Apache下https服务的配置">
+                <i class="fa fa-chevron-left"></i> Apache下https服务的配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/20/Spring Boot/" rel="prev" title="Spring Boot(一)">
+                Spring Boot(一) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
     </footer>
-</blockquote>
+  </div>
+  
+  
+  
+  </article>
 
-        
-    <div class="page-reward">
-        <nav class="myreward">
-            <a id="rewardBtn" href="javascript:;"><span>打&nbsp;赏</span><span>装成好像很多人打赏的样子</span></a>
-        </nav>
+
+
+    <div class="post-spread">
+      
     </div>
+  </div>
 
 
+          </div>
+          
 
-        <div class="post-footer">
-            
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ListView联动/">ListView联动</a></li></ul>
-
-
-            
-<div class="page-share-wrap">
-    
-
-<div class="page-share" id="pageShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2018/07/20/ListView联动（二）/&title=《Android ListView联动》 — qin12的学习博客&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2018/07/20/ListView联动（二）/&title=《Android ListView联动》 — qin12的学习博客&source=漫漫长路，伴你同行" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/07/20/ListView联动（二）/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android ListView联动》 — qin12的学习博客&url=http://yoursite.com/2018/07/20/ListView联动（二）/&via=http://yoursite.com" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2018/07/20/ListView联动（二）/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
-
-
-
-    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
-        <i class="icon icon-share-alt icon-lg"></i>
-    </a>
-</div>
+  
 
 
 
         </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
     </div>
+  </div>
 
+  <aside id="sidebar" class="sidebar">
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="waves-block waves-effect prev">
-      <a href="/2018/07/20/消息机制/" id="post-prev" class="post-nav-link">
-        <h4 class="title" >
-          上一篇：我的第一个Android设计第二天
-        </h4>
-      </a>
-    </div>
-  
+    <div class="sidebar-inner">
 
-  
-    <div class="waves-block waves-effect next">
-      <a href="/2018/07/20/Servlet 的线程安全问题/" id="post-next" class="post-nav-link">
-        <h4 class="title" data-hover="下一篇：javaweb (二)">下一篇：javaweb (二)</h4>
-      </a>
-    </div>
-  
-</nav>
+      
 
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-
-    
-    
-
-    
-
-    
-
-
-</article>
-
-</div>
-
-        <footer class="footer">
-    <div class="footer-content">
-        <span class="power">
-            <i class="icon icon-lg icon-copyright"></i>
-            2018
-            <i class="icon icon-lg icon-heart"></i>
-            <a href="http://yoursite.com">qin12.github.io</a>
-            <br/>
-            Power by
-            <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>&nbsp;·&nbsp;
-            Theme
-            <a class="tomotoeslink" href="https://github.com/tomotoes/hexo-theme-tomotoes/" target="_blank" rel="external nofollow">tomotoes</a>
-        </span>
-
-        <br/>
-
-        <span id="RunTime" style="color:#a7a7a2;"></span>
-        <br/>
-
-        <span>
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-	<i class="icon icon-lg icon-user">
-<span id="busuanzi_container_site_uv" style='display:none'>
-       访问用户：<span id="busuanzi_value_site_uv"></span>
-    </span>人</i>
-    ·
-    <i class="icon icon-lg icon-eye">
-    <span id="busuanzi_container_site_pv" style='display:none'>
-      访问次数：<span id="busuanzi_value_site_pv"></span>
-    </span>次
-    </i>
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Qgx" />
+            
+              <p class="site-author-name" itemprop="name">Qgx</p>
+              <p class="site-description motion-element" itemprop="description">漫漫长路，伴你同行</p>
+          </div>
 
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">80</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
 
-        </span>
-        <br/>
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
 
-        <span class="license"><a  target="_blank" rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">博客内容遵循 知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
-    </div>
-</footer>
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
 
-    </main>
-    
-        
-<div id="reward" class="page-modal reward-lay">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <h3 class="reward-title">
-        <i class="icon icon-quote-left"></i>
-        <span>感谢您的鼓励支持！</span>
-        <i class="icon icon-quote-right"></i>
-    </h3>
-    <div class="reward-content">
-        
-        <div class="reward-code">
-            <img id="rewardCode" data-img="/img/dog.png" alt="打赏二维码">
-        </div>
-        
-        <label class="reward-toggle">
-            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
-                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
-            <div class="reward-toggle-ctrol">
-                <span class="reward-toggle-item wechatPay">&nbsp;&nbsp;微信&nbsp;&nbsp;</span>
-                <span class="reward-toggle-item alipayPay">支付宝</span>
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
             </div>
-        </label>
-        
-        <i class="icon icon-caret-up"></i>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/qin12" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:1520290900@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=1520290900&website=www.oicqzone.com" target="_blank" title="QQ"><i class="fa fa-fw fa-QQ"></i>QQ</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ListView联动（二）"><span class="nav-number">1.</span> <span class="nav-text">ListView联动（二）</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
     </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-[object Object]"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qgx</span>
+
+  
 </div>
 
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
 
     
-    <div class="mask" id="mask"></div>
-<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
 
+    
 
+  </div>
 
-<div class="global-share" id="globalShare">
-    <ul class="reset share-icons">
-      <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2018/07/20/ListView联动（二）/&title=《Android ListView联动》 — qin12的学习博客&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
-          <i class="icon icon-weibo"></i>
-        </a>
-      </li>
-      <li>
-        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
-          <i class="icon icon-weixin"></i>
-        </a>
-      </li>
-      <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2018/07/20/ListView联动（二）/&title=《Android ListView联动》 — qin12的学习博客&source=漫漫长路，伴你同行" data-title=" QQ">
-          <i class="icon icon-qq"></i>
-        </a>
-      </li>
-      <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/07/20/ListView联动（二）/" data-title=" Facebook">
-          <i class="icon icon-facebook"></i>
-        </a>
-      </li>
-      <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Android ListView联动》 — qin12的学习博客&url=http://yoursite.com/2018/07/20/ListView联动（二）/&via=http://yoursite.com" data-title=" Twitter">
-          <i class="icon icon-twitter"></i>
-        </a>
-      </li>
-      <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2018/07/20/ListView联动（二）/" data-title=" Google+">
-          <i class="icon icon-google-plus"></i>
-        </a>
-      </li>
-    </ul>
- </div>
+  
 
-
-<div class="page-modal wx-share" id="wxShare">
-    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p class="wechatshare">扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACL0lEQVR42u3aUY6rMAwF0O5/07wFTKHXNjyJ5OSropTkMJLHif35xOM4GX+/vb5y9u319dsGBgbGaxnH5Ti75/o5kydXn4CBgbEP42xZyeck4FbDd742DAwMjCqjmiDm82JgYGBUGddLvH7+9a8wMDAwJpvY/LAs2fRen5s9uBfHwMB4IaP36P/z+ZH6BgYGxqsYR3HkR2z5sqqB+8ssGBgYSzPyAJe3R+SpW2GDmqwHAwNjUUZy1JUvPQ+7eWiOXgoGBsbSjCcmnpdCk5f15QoGBsaijCfatvJkcZI+YmBg7MnoLX1yxJaUJKNkEQMDYxtG3u7Q++0kffzxHAwMjA0YvUCZN0nkSWF1K/ulEouBgbEco1oAyJsteilgHmpPE0QMDIzlGFHiFRc7q6lnvm0u/B0wMDCWY/TKivl2t3dIl6SSGBgY+zCOYFTPtcqBstiQcVrCxMDAWJqRpG7VY/15eC1sejEwMDZgVJfbSwGr7EKjGAYGxtKMaptFvqxeQ1hvRgwMjB0Yk/JA9dCt1y4WYTAwMLZh3JUITsoJn97AwMDYhjFv+coDd55QRv8AMDAwFmUcxTHf7vYC/Y9DOgwMjKUZk7xrsrnNW756jR0YGBjrMeab1YRxb8C9ub6KgYHxEkYSLnuTzQuf0avBwMDAuLwnT+Z693wmPgwMjI0Z1Z3xpGwZHedhYGBswLirhJlM32v++HEPBgbG0oxe3jUvWyav6eYWDQwMjPcx/gHsRUHPLfQXdQAAAABJRU5ErkJggg==" alt="微信分享二维码">
-</div>
-
-
-
-
-    <!-- waves按钮特效 -->
-<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
-
-<!-- 主题配置脚本 -->
-<script>
-var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
-</script>
-
-<!-- jquery -->
-<script src="/js/jquery.min.js?v=3.0"></script>
-
-<!-- 搜索 -->
-
-<div class="search-panel" id="search-panel">
-    <ul class="search-result" id="search-result"></ul>
-</div>
-<template id="search-tpl">
-<li class="item waves-block waves-effect" onclick="location.href='{path}'">
-    <div class="title ellipsis" title="{title}">{title}</div>
-</li>
-</template>
-
-
-<!-- main博客脚本 -->
-<script src="/js/main.min.js?v=3.0" ></script>
-
-<!-- 动画&配置 -->
-<script src="/js/script.min.js?v=3.0" ></script>
-
-<!-- 脚本管理 -->
-<script>
-
-if(window.innerWidth > 800){
-	/* 3D标题 */
-	$(".content-header").on("mousemove", threedee);
-
-	/* 底部追随鼠标 */
-	$(".footer").hover(2);
-
-	/* gotop键的涟漪 */
-	$("#gotop").hover(1);
-
-	/* 赞赏的粒子雨 */
-	$("#reward").hover(3);
-
-	/* 微信公众号的底部渲染 */
-	$("#wechat").hover(4);
-
-    /* 标题跳动 */
-    $(".archivestitle").bumpyText();
-
-	/* 图片点击放大 */
-	const postimg = jQuery(".post-content img:not(.github-emoji)");
-	postimg.on("click",function(){
-
-		mask.classList.add("in");
-		main.classList.add("Mask");
-		menu.classList.add("Mask");
-		var myimg = this.cloneNode(true);
-		myimg.classList.add("imgShow");
-
-		setTimeout(function(){
-			jQuery(myimg).animate({
-				opacity:"1"
-			},1000);
-		},0);
-
-		document.body.appendChild(myimg);
-
-		myimg.onclick=function(){
-			document.body.removeChild(myimg);
-			mask.classList.remove("in");
-			main.classList.remove("Mask");
-			menu.classList.remove("Mask");
-		};
-
-	});
-
-}
-
-/* 名字跳动 */
-$("#name").bumpyText();
-
-
-/* 网站运行时间 */
-setInterval(function () {
-	setTime("2017/10/11");
-}, 1000);
-
-/* 文章块的淡出 */
-postshow();
-
-/* 座右铭 */
-
-   getHitokoto();
-
-
-
-/* 粘贴提示 */
-G($(".post-content"), location.href, "Qgx");
-
-
-/* 控制台 */
-if (window.console && window.console.log) {
-	setTimeout(function () {
-		console.log("\n %c 一个坏掉的番茄 %c  © Simon Ma  http://tomotoes.com \n\n", "color:#FFFFFB;background:#1abc9c;padding:5px 0;border-radius:.5rem 0 0 .5rem;", "color:#FFFFFB;background:#080808;padding:5px 0;border-radius:0 .5rem .5rem 0;");
-	}, 0);
-}
-
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
 
 
 
-<!-- 公式渲染 -->
 
 
 
-<!-- 不蒜子 -->
-
-<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
 
 
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
 </body>
 </html>
