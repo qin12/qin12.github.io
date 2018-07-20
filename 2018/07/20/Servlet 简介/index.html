@@ -1,108 +1,45 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-  
-
-
-<html class="theme-next mist use-motion" lang="zh-CN">
+<html>
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
-<meta name="theme-color" content="#222">
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta charset="utf-8">
+    
+    
+    
+    <title>javaweb (一) | qin12的学习博客 | 只为成功找方法，不为失败找借口！</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    
+    <meta name="theme-color" content="#77AAFF">
+    
+    
+    <meta name="keywords" content="Servlet">
+    
+    
 
+    
 
+    <!-- Baidu Push -->
+<script>
+	(function(){
+		var bp = document.createElement('script');
+		var curProtocol = window.location.protocol.split(':')[0];
+		if (curProtocol === 'https') {
+			bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+		}
+		else {
+			bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+		}
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(bp, s);
+	})();
 
-
-
-
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.jpg?v=6.2.0">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
-
-
-
-
-
-
-
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    version: '6.2.0',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
+	var _hmt = _hmt || [];
 </script>
 
 
-  
 
-
-
-
-  <meta name="description" content="Servlet 简介 Servlet是sun公司提供的一门用于开发动态web资源的技术。 Sun公司在其API中提供了一个servlet接口，用户若想用发一个动态web资源(即开发一个Java程序向浏览器输出数据)，需要完成以下2个步骤： 1、编写一个Java类，实现servlet接口。 2、把开发好的Java类部署到web服务器中。    按照一种约定俗成的称呼习惯，通常我们也把实现了servl">
+    
+    <meta name="description" content="Servlet 简介 Servlet是sun公司提供的一门用于开发动态web资源的技术。 Sun公司在其API中提供了一个servlet接口，用户若想用发一个动态web资源(即开发一个Java程序向浏览器输出数据)，需要完成以下2个步骤： 1、编写一个Java类，实现servlet接口。 2、把开发好的Java类部署到web服务器中。    按照一种约定俗成的称呼习惯，通常我们也把实现了servl">
 <meta name="keywords" content="Servlet">
 <meta property="og:type" content="article">
 <meta property="og:title" content="javaweb (一)">
@@ -127,299 +64,181 @@
 <meta name="twitter:title" content="javaweb (一)">
 <meta name="twitter:description" content="Servlet 简介 Servlet是sun公司提供的一门用于开发动态web资源的技术。 Sun公司在其API中提供了一个servlet接口，用户若想用发一个动态web资源(即开发一个Java程序向浏览器输出数据)，需要完成以下2个步骤： 1、编写一个Java类，实现servlet接口。 2、把开发好的Java类部署到web服务器中。    按照一种约定俗成的称呼习惯，通常我们也把实现了servl">
 <meta name="twitter:image" content="http://yoursite.com/img/servlet1.png">
+    
+        <link rel="alternate" type="application/atom+xml" title="qin12的学习博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link id="style" rel="stylesheet" href="/css/style.css?v=3.0">
+    <script>window.lazyScripts=[]</script>
 
-
-
-  <link rel="alternate" href="/atom.xml" title="qin12的学习博客" type="application/atom+xml" />
-
-
-
-
-  <link rel="canonical" href="http://yoursite.com/2018/07/20/Servlet 简介/"/>
-
-
-
-<script type="text/javascript" id="page.configurations">
-  CONFIG.page = {
-    sidebar: "",
-  };
-</script>
-
-  <title>javaweb (一) | qin12的学习博客</title>
-  
-
-
-
-
-
-
-
-
-
-  <noscript>
-  <style type="text/css">
-    .use-motion .motion-element,
-    .use-motion .brand,
-    .use-motion .menu-item,
-    .sidebar-inner,
-    .use-motion .post-block,
-    .use-motion .pagination,
-    .use-motion .comments,
-    .use-motion .post-header,
-    .use-motion .post-body,
-    .use-motion .collection-title { opacity: initial; }
-
-    .use-motion .logo,
-    .use-motion .site-title,
-    .use-motion .site-subtitle {
-      opacity: initial;
-      top: initial;
-    }
-
-    .use-motion {
-      .logo-line-before i { left: initial; }
-      .logo-line-after i { right: initial; }
-    }
-  </style>
-</noscript>
-
+    <!-- custom head -->
+    
+            
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">qin12的学习博客</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+<body>
+    <div id="loading" class="active"></div>
+    <aside id="menu"  class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" >
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg" alt="avatar">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname" id="name">Qgx</h5>
+          
+            <div id="yiyanmotto" class="motto">&nbsp;</div>
+          
+        </hgroup>
+      </div>
     </div>
-      
-        <p class="site-subtitle">只为成功找方法，不为失败找借口！</p>
-      
-  </div>
-
-  <div class="site-nav-toggle">
-    <button aria-label="切换导航栏">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
         
-        
-        
-          
-          <li class="menu-item menu-item-home">
-    <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-photo">
-    <a href="/photo/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-photo"></i> <br />摄影</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-music">
-    <a href="/music/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-music"></i> <br />音乐</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
-    <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
-    <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
-    <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
-  </li>
-
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
-</nav>
-
-
-
-  
-
-
-
-</div>
-    </header>
-
-    
-
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-          <div id="content" class="content">
+              <li class="waves-block waves-effect">
+                  <a href="/"  >
+                    <i class="icon icon-lg icon-home"></i>
+                    <span>主 页</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
             
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Servlet 简介/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">javaweb (一)
-              
+              <li class="waves-block waves-effect">
+                  <a href="/archives/"  >
+                    <i class="icon icon-lg icon-archives"></i>
+                    <span>归 档</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
             
-          </h1>
-        
+              <li class="waves-block waves-effect">
+                  <a href="/categories/"  >
+                    <i class="icon icon-lg icon-th-list"></i>
+                    <span>分 类</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/tags/"  >
+                    <i class="icon icon-lg icon-tags"></i>
+                    <span>标 签</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/about"  >
+                    <i class="icon icon-lg icon-smile-o"></i>
+                    <span>关 于</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+      <div class="nav2">
+          
+              <a class="nav2item" data-title="Email" href="mailto:1520290900@qq.com" target="_parent"title="Email" >
+                <i class="icon icon-lg icon-envelope-o envelope-o"></i>
+              </a>
+          
+              <a class="nav2item" data-title="Github" href="https://github.com/qin12" target="_blank"title="Github" >
+                <i class="icon icon-lg icon-github github"></i>
+              </a>
+          
+              <a class="nav2item" data-title="微博" href="https://weibo.com/u/6415480382" target="_blank"title="微博" >
+                <i class="icon icon-lg icon-weibo weibo"></i>
+              </a>
+          
 
+            </div>
+        
+      </ul>
+        
+    </div>
+  </div>
+ 
+</aside>
+
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">javaweb (一)</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        <a href="../../atom.xml" target="_blank" class="header-icon waves-effect waves-circle waves-light" id="Rss">
+            <i class="icon icon-lg icon-rss"></i>
+        </a>
+    </div>
+</header>
+<header class="content-header post-header">
+    
+    
+    <div class="container fade-scale">
+        <div id="myheader">
+            <h1 class="title">
+                
+            </h1>
+            <h5 class="subtitle">
+                
+                
+            </h5>
+        </div>
+    </div>
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Servlet-简介"><span class="post-toc-number">1.</span> <span class="post-toc-text">Servlet 简介</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Servlet-的运行过程"><span class="post-toc-number">2.</span> <span class="post-toc-text">Servlet 的运行过程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在IDEA中开发Servlet"><span class="post-toc-number">3.</span> <span class="post-toc-text">在IDEA中开发Servlet</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Servlet开发注意细节"><span class="post-toc-number">4.</span> <span class="post-toc-text">Servlet开发注意细节</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Servlet-访问URL映射配置"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">Servlet 访问URL映射配置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Servlet访问URL使用-通配符映射"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">Servlet访问URL使用*通配符映射　　</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Servlet-与普通java类的区别"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">Servlet 与普通java类的区别</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#缺省Servlet"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">缺省Servlet</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+   
+<article id="post-Servlet 简介"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">javaweb (一)</h1>
         <div class="post-meta">
-          <span class="post-time">
+            <i class="icon icon-lg icon-calendar-o"></i>
+            发表于
+            <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.793Z"  itemprop="datePublished">2018-07-20</time>
 
+            <br id="mybreak"/>
             
+	<i class="icon icon-lg icon-folder-o"></i>
+	分类：<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/javaEE/">javaEE</a></li></ul>
+
+
+            <i>·</i>
             
-            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>次浏览
+</span>
 
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
 
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h3 id="Servlet-简介"><a href="#Servlet-简介" class="headerlink" title="Servlet 简介"></a>Servlet 简介</h3><ul>
+        <div class="post-count-custom">
+            <i class="icon icon-lg icon-comment-o"></i>
+            阅读本文可能花费您&nbsp;<span class="post-count">9</span>&nbsp;分钟
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="Servlet-简介"><a href="#Servlet-简介" class="headerlink" title="Servlet 简介"></a>Servlet 简介</h3><ul>
 <li>Servlet是sun公司提供的一门用于开发动态web资源的技术。</li>
 <li>Sun公司在其API中提供了一个servlet接口，用户若想用发一个动态web资源(即开发一个Java程序向浏览器输出数据)，需要完成以下2个步骤：<ul>
 <li>1、编写一个Java类，实现servlet接口。</li>
@@ -437,19 +256,93 @@
 <li>2.装载并创建该Servlet 的一个实例对象</li>
 <li>3.调用Servlet实例对象的init()方法。</li>
 <li>4.创建一个用于封装HTTP请求消息的HttpServletRequest对象和一个代表HTTP响应消息的HttpServletResponse对象，然后调用Servlet的service()方法并将请求和响应对象作为参数传递进去。</li>
-<li>web应用程序被停止或重新启动之前，Servlet 引擎将卸载Servlet，并在卸载之前调用Servlet的destory()方法。<br><img src="/img/servlet1.png" alt=""><br><img src="/img/servlet2.png" alt=""><br><img src="/img/servlet3.png" alt=""><br><img src="/img/servlet4.png" alt=""><br><img src="/img/servlet5.png" alt=""><br><img src="/img/servlet6.png" alt=""><br><img src="/img/servlet7.png" alt=""><br><img src="/img/servlet8.png" alt=""><h3 id="在IDEA中开发Servlet"><a href="#在IDEA中开发Servlet" class="headerlink" title="在IDEA中开发Servlet"></a>在IDEA中开发Servlet</h3>在IDEA中新建一个Web project工程。<br><img src="/img/创建webproject.png" alt=""></li>
+<li>web应用程序被停止或重新启动之前，Servlet 引擎将卸载Servlet，并在卸载之前调用Servlet的destory()方法。<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/servlet1.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/servlet2.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/servlet3.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/servlet4.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/servlet5.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/servlet6.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/servlet7.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/servlet8.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h3 id="在IDEA中开发Servlet"><a href="#在IDEA中开发Servlet" class="headerlink" title="在IDEA中开发Servlet"></a>在IDEA中开发Servlet</h3>在IDEA中新建一个Web project工程。<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/创建webproject.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></li>
 <li>Servlet接口SUN公司定义了两个默认实现类，分别为：GenericServlet、HttpServlet。</li>
 <li>HttpServlet指能够处理HTTP请求的servlet，它在原有Servlet接口上添加了一些与HTTP协议处理方法，它比Servlet接口的功能更为强大。因此开发人员在编写Servlet时，通常应继承这个类，而避免直接去实现Servlet接口。HttpServlet在实现Servlet接口时，覆写了service方法，该方法体内的代码会自动判断用户的请求方式，如为GET请求，则调用HttpServlet的doGet方法，如为Post请求，则调用doPost方法。因此，开发人员在编写Servlet时，通常只需要覆写doGet或doPost方法，而不要去覆写service方法。<br>ServletDemo1<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletDemo1&quot;)</span><br><span class="line">public class ServletDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">       doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">                response.setContentType(&quot;text/html&quot;);</span><br><span class="line">                 PrintWriter out = response.getWriter();</span><br><span class="line">                 out.println(&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01 Transitional//EN\&quot;&gt;&quot;);</span><br><span class="line">                 out.println(&quot;&lt;HTML&gt;&quot;);</span><br><span class="line">                 out.println(&quot;  &lt;HEAD&gt;&lt;TITLE&gt;A Servlet&lt;/TITLE&gt;&lt;/HEAD&gt;&quot;);</span><br><span class="line">                 out.println(&quot;  &lt;BODY&gt;&quot;);</span><br><span class="line">                 out.print(&quot;    This is &quot;);</span><br><span class="line">                 out.print(this.getClass());</span><br><span class="line">                 out.println(&quot;, using the GET method&quot;);</span><br><span class="line">                out.println(&quot;  &lt;/BODY&gt;&quot;);</span><br><span class="line">                 out.println(&quot;&lt;/HTML&gt;&quot;);</span><br><span class="line">                out.flush();</span><br><span class="line">                out.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>配置web.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;web-app xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;</span><br><span class="line">         version=&quot;4.0&quot;&gt;</span><br><span class="line">    &lt;servlet&gt;</span><br><span class="line">        &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">        &lt;servlet-class&gt;ServletDemo1&lt;/servlet-class&gt;</span><br><span class="line">    &lt;/servlet&gt;</span><br><span class="line">    &lt;servlet-mapping&gt;</span><br><span class="line">        &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">        &lt;url-pattern&gt;/s&lt;/url-pattern&gt;</span><br><span class="line">    &lt;/servlet-mapping&gt;</span><br><span class="line">&lt;/web-app&gt;</span><br></pre></td></tr></table></figure></p>
-<p>然后我们就可以通过浏览器访问ServletDemo1这个Servlet，如下图所示：<br><img src="/img/结果.png" alt=""></p>
+<p>然后我们就可以通过浏览器访问ServletDemo1这个Servlet，如下图所示：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/结果.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
 <h3 id="Servlet开发注意细节"><a href="#Servlet开发注意细节" class="headerlink" title="Servlet开发注意细节"></a>Servlet开发注意细节</h3><h4 id="Servlet-访问URL映射配置"><a href="#Servlet-访问URL映射配置" class="headerlink" title="Servlet 访问URL映射配置"></a>Servlet 访问URL映射配置</h4><p>由于客户端是通过URL地址访问web服务器中的资源，所以Servlet程序若想被外界访问，必须把servlet程序映射到一个URL地址上，这个工作在web.xml文件中使用<servlet>元素和<servlet-mapping>元素完成。<br>　　<servlet>元素用于注册Servlet，它包含有两个主要的子元素：<servlet-name>和<servlet-class>，分别用于设置Servlet的注册名称和Servlet的完整类名。<br>一个<servlet-mapping>元素用于映射一个已注册的Servlet的一个对外访问路径，它包含有两个子元素：<servlet-name>和<url-pattern>，分别用于指定Servlet的注册名称和Servlet的对外访问路径。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> &lt;servlet&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line"> &lt;servlet-class&gt;ServletDemo1&lt;/servlet-class&gt;</span><br><span class="line">&lt;/servlet&gt;</span><br><span class="line">&lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">       &lt;url-pattern&gt;/s&lt;/url-pattern&gt;</span><br><span class="line">&lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure></url-pattern></servlet-name></servlet-mapping></servlet-class></servlet-name></servlet></servlet-mapping></servlet></p>
 <p>同一个Servlet可以被映射到多个URL上，即多个<servlet-mapping>元素的<servlet-name>子元素的设置值可以是同一个Servlet的注册名。 例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line"> &lt;servlet-class&gt;ServletDemo1&lt;/servlet-class&gt;</span><br><span class="line">&lt;/servlet&gt;</span><br><span class="line">&lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">       &lt;url-pattern&gt;/s&lt;/url-pattern&gt;</span><br><span class="line">&lt;/servlet-mapping&gt;</span><br><span class="line"></span><br><span class="line"> &lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">       &lt;url-pattern&gt;/s1&lt;/url-pattern&gt;</span><br><span class="line">  &lt;/servlet-mapping&gt;</span><br><span class="line">  </span><br><span class="line">   &lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">   &lt;url-pattern&gt;/s.htm&lt;/url-pattern&gt;</span><br><span class="line">   &lt;/servlet-mapping&gt;</span><br><span class="line">   </span><br><span class="line">  &lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">       &lt;url-pattern&gt;/s.jsp&lt;/url-pattern&gt;</span><br><span class="line"> &lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure></servlet-name></servlet-mapping></p>
 <p>通过上面的配置，当我们想访问名称是ServletDemo1的Servlet，可以使用如下的几个地址去访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/s</span><br><span class="line">http://localhost:8080/s1</span><br><span class="line">http://localhost:8080/s.jsp</span><br><span class="line">http://localhost:8080/s.htm</span><br></pre></td></tr></table></figure></p>
 <p>ServletDemo1被映射到了多个URL上。</p>
 <h4 id="Servlet访问URL使用-通配符映射"><a href="#Servlet访问URL使用-通配符映射" class="headerlink" title="Servlet访问URL使用*通配符映射　　"></a>Servlet访问URL使用*通配符映射　　</h4><p>在Servlet映射到的URL中也可以使用*通配符，但是只能有两种固定的格式：一种格式是”*.扩展名”，另一种格式是以正斜杠（/）开头并以”/*”结尾。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">     &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">     &lt;servlet-class&gt;ServletDemo1&lt;/servlet-class&gt;</span><br><span class="line">   &lt;/servlet&gt;</span><br><span class="line"></span><br><span class="line">    &lt;servlet-mapping&gt;</span><br><span class="line">     &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span><br><span class="line">     &lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure></p>
-<p><em>可以匹配任意的字符，所以此时可以用任意的URL去访问ServletDemo1这个Servlet，如下图所示：<br><img src="/img/结果2.png" alt=""><br>对于如下的一些映射关系：<br>　　Servlet1 映射到 /abc/</em><br>　　Servlet2 映射到 /<em><br>　　Servlet3 映射到 /abc<br>　　Servlet4 映射到 </em>.do<br>问题：<br>　　当请求URL为“/abc/a.html”，“/abc/<em>”和“/</em>”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet1。<br>　　当请求URL为“/abc”时，“/abc/<em>”和“/abc”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet3。<br>　　当请求URL为“/abc/a.do”时，“/abc/</em>”和“<em>.do”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet1。<br>　　当请求URL为“/a.do”时，“/</em>”和“<em>.do”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet2。<br>　　当请求URL为“/xxx/yyy/a.do”时，“/</em>”和“*.do”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet2。<br>　　匹配的原则就是”谁长得更像就找谁”</p>
+<p><em>可以匹配任意的字符，所以此时可以用任意的URL去访问ServletDemo1这个Servlet，如下图所示：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/结果2.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure><br>对于如下的一些映射关系：<br>　　Servlet1 映射到 /abc/</em><br>　　Servlet2 映射到 /<em><br>　　Servlet3 映射到 /abc<br>　　Servlet4 映射到 </em>.do<br>问题：<br>　　当请求URL为“/abc/a.html”，“/abc/<em>”和“/</em>”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet1。<br>　　当请求URL为“/abc”时，“/abc/<em>”和“/abc”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet3。<br>　　当请求URL为“/abc/a.do”时，“/abc/</em>”和“<em>.do”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet1。<br>　　当请求URL为“/a.do”时，“/</em>”和“<em>.do”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet2。<br>　　当请求URL为“/xxx/yyy/a.do”时，“/</em>”和“*.do”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet2。<br>　　匹配的原则就是”谁长得更像就找谁”</p>
 <h4 id="Servlet-与普通java类的区别"><a href="#Servlet-与普通java类的区别" class="headerlink" title="Servlet 与普通java类的区别"></a>Servlet 与普通java类的区别</h4><ul>
 <li>Servlet是一个供其他Java程序（Servlet引擎）调用的Java类，它不能独立运行，它的运行完全由Servlet引擎来控制和调度。</li>
 <li>针对客户端的多次Servlet请求，通常情况下，服务器只会创建一个Servlet实例对象，也就是说Servlet实例对象一旦创建，它就会驻留在内存中，为后续的其它请求服务，直至web容器退出，servlet实例对象才会销毁。</li>
@@ -464,555 +357,381 @@
 <li>凡是在web.xml文件中找不到匹配的<servlet-mapping>元素的URL，它们的访问请求都将交给缺省Servlet处理，也就是说，缺省Servlet用于处理所有其他Servlet都不处理的访问请求。 例如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">      &lt;servlet-name&gt;ServletDemo2&lt;/servlet-name&gt;</span><br><span class="line">      &lt;servlet-class&gt;ServletDemo2&lt;/servlet-class&gt;</span><br><span class="line">      &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span><br><span class="line">    &lt;/servlet&gt;</span><br><span class="line">    </span><br><span class="line">   &lt;!-- 将ServletDemo2配置成缺省Servlet --&gt;</span><br><span class="line">    &lt;servlet-mapping&gt;</span><br><span class="line">      &lt;servlet-name&gt;ServletDemo2&lt;/servlet-name&gt;</span><br><span class="line">     &lt;url-pattern&gt;/&lt;/url-pattern&gt;</span><br><span class="line">   &lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure>
 </servlet-mapping></li>
 </ul>
-<p>当访问不存在的Servlet时，就使用配置的默认Servlet进行处理，如下图所示：<br><img src="/img/结果3.png" alt=""></p>
+<p>当访问不存在的Servlet时，就使用配置的默认Servlet进行处理，如下图所示：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/结果3.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
 <p>　在&lt;tomcat的安装目录&gt;\conf\web.xml文件中，注册了一个名称为org.apache.catalina.servlets.DefaultServlet的Servlet，并将这个Servlet设置为了缺省Servlet。</p>
 <p>当访问Tomcat服务器中的某个静态HTML文件和图片时，实际上是在访问这个缺省Servlet。</p>
 
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Servlet/" rel="tag"># Servlet</a>
-          
         </div>
-      
 
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2018/07/20/我的第一个原型设计——模仿知乎的注册界面/" rel="next" title="我的第一个原型设计——模仿知乎的注册界面">
-                <i class="fa fa-chevron-left"></i> 我的第一个原型设计——模仿知乎的注册界面
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/07/20/文件下载/" rel="prev" title="javaweb (六 )">
-                javaweb (六 ) <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-  
-
-
-
-        </div>
+        <blockquote class="post-copyright">
+    <div class="content">
         
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <img class="site-author-image" itemprop="image"
-                src="/images/avatar.gif"
-                alt="Qgx" />
-            
-              <p class="site-author-name" itemprop="name">Qgx</p>
-              <p class="site-description motion-element" itemprop="description">漫漫长路，伴你同行</p>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">80</span>
-                    <span class="site-state-item-name">日志</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  <a href="/categories/index.html">
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">7</span>
-                    <span class="site-state-item-name">分类</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  <a href="/tags/index.html">
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">54</span>
-                    <span class="site-state-item-name">标签</span>
-                  </a>
-                </div>
-              
-            </nav>
-          
-
-          
-            <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
-                <i class="fa fa-rss"></i>
-                RSS
-              </a>
-            </div>
-          
-
-          
-            <div class="links-of-author motion-element">
-              
-                <span class="links-of-author-item">
-                  <a href="https://github.com/qin12" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
-                  
-                </span>
-              
-                <span class="links-of-author-item">
-                  <a href="mailto:1520290900@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                  
-                </span>
-              
-                <span class="links-of-author-item">
-                  <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=1520290900&website=www.oicqzone.com" target="_blank" title="QQ"><i class="fa fa-fw fa-QQ"></i>QQ</a>
-                  
-                </span>
-              
-            </div>
-          
-
-          
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet-简介"><span class="nav-number">1.</span> <span class="nav-text">Servlet 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet-的运行过程"><span class="nav-number">2.</span> <span class="nav-text">Servlet 的运行过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在IDEA中开发Servlet"><span class="nav-number">3.</span> <span class="nav-text">在IDEA中开发Servlet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet开发注意细节"><span class="nav-number">4.</span> <span class="nav-text">Servlet开发注意细节</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Servlet-访问URL映射配置"><span class="nav-number">4.1.</span> <span class="nav-text">Servlet 访问URL映射配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Servlet访问URL使用-通配符映射"><span class="nav-number">4.2.</span> <span class="nav-text">Servlet访问URL使用*通配符映射　　</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Servlet-与普通java类的区别"><span class="nav-number">4.3.</span> <span class="nav-text">Servlet 与普通java类的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺省Servlet"><span class="nav-number">4.4.</span> <span class="nav-text">缺省Servlet</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Qgx</span>
-
-  
-
-  
-</div>
-
-
-
-
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.2.0</div>
-
-
-
-<div class="powered-by">
-<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
-  本站访客数:<span id="busuanzi_value_site_uv"></span>
+<span class="post-time">
+    最后更新：<time datetime="2018-07-20T04:10:37.793Z" itemprop="dateUpdated">2018-07-20 12:10:37</time>
 </span>
+
+
+        
+        原文链接：<a href="/2018/07/20/Servlet 简介/" target="_blank" rel="external">http://yoursite.com/2018/07/20/Servlet 简介/</a>
+        
+    </div>
+    <footer>
+        <div onclick="location.href='http://yoursite.com'">
+            <img src="/img/avatar.jpg" alt="Qgx">
+            <a>Qgx</a>
+        </div>
+    </footer>
+</blockquote>
+
+        
+    <div class="page-reward">
+        <nav class="myreward">
+            <a id="rewardBtn" href="javascript:;"><span>打&nbsp;赏</span><span>装成好像很多人打赏的样子</span></a>
+        </nav>
+    </div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Servlet/">Servlet</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2018/07/20/Servlet 简介/&title=《javaweb (一)》 — qin12的学习博客&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2018/07/20/Servlet 简介/&title=《javaweb (一)》 — qin12的学习博客&source=漫漫长路，伴你同行" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/07/20/Servlet 简介/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《javaweb (一)》 — qin12的学习博客&url=http://yoursite.com/2018/07/20/Servlet 简介/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2018/07/20/Servlet 简介/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
 </div>
 
 
-        
 
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
+        </div>
+    </div>
 
     
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-  </div>
-
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2018/07/20/XML解析/" id="post-prev" class="post-nav-link">
+        <h4 class="title" >
+          上一篇：Android 编程知识
+        </h4>
+      </a>
+    </div>
   
 
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/07/20/在LitePal中解析XML/" id="post-next" class="post-nav-link">
+        <h4 class="title" data-hover="下一篇：Android 编程知识">下一篇：Android 编程知识</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+    
+
+    
+
+    
+
+
+</article>
+
+</div>
+
+        <footer class="footer">
+    <div class="footer-content">
+        <span class="power">
+            <i class="icon icon-lg icon-copyright"></i>
+            2018
+            <i class="icon icon-lg icon-heart"></i>
+            <a href="http://yoursite.com">qin12.github.io</a>
+            <br/>
+            Power by
+            <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>&nbsp;·&nbsp;
+            Theme
+            <a class="tomotoeslink" href="https://github.com/tomotoes/hexo-theme-tomotoes/" target="_blank" rel="external nofollow">tomotoes</a>
+        </span>
+
+        <br/>
+
+        <span id="RunTime" style="color:#a7a7a2;"></span>
+        <br/>
+
+        <span>
+            
+	<i class="icon icon-lg icon-user">
+<span id="busuanzi_container_site_uv" style='display:none'>
+       访问用户：<span id="busuanzi_value_site_uv"></span>
+    </span>人</i>
+    ·
+    <i class="icon icon-lg icon-eye">
+    <span id="busuanzi_container_site_pv" style='display:none'>
+      访问次数：<span id="busuanzi_value_site_pv"></span>
+    </span>次
+    </i>
+
+
+        </span>
+        <br/>
+
+        <span class="license"><a  target="_blank" rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">博客内容遵循 知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+    </div>
+</footer>
+
+    </main>
+    
+        
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        <span>感谢您的鼓励支持！</span>
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" data-img="/img/dog.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechatPay">&nbsp;&nbsp;微信&nbsp;&nbsp;</span>
+                <span class="reward-toggle-item alipayPay">支付宝</span>
+            </div>
+        </label>
+        
+        <i class="icon icon-caret-up"></i>
+    </div>
+</div>
+
+
+    
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2018/07/20/Servlet 简介/&title=《javaweb (一)》 — qin12的学习博客&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2018/07/20/Servlet 简介/&title=《javaweb (一)》 — qin12的学习博客&source=漫漫长路，伴你同行" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/07/20/Servlet 简介/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《javaweb (一)》 — qin12的学习博客&url=http://yoursite.com/2018/07/20/Servlet 简介/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2018/07/20/Servlet 简介/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p class="wechatshare">扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACHklEQVR42u3a0W6DMAwFUP7/p9nrpI5y7dBOmJOnim1JDpNcO862xWP/NV6fJ7//+vlotqM5LxgYGBi3Zexvx8oCRzMkI98bBgbGcxjJJhLSyWIHK75fK5kBAwMDI0/sclgyDwYGBkaPkRe6K08wMDAwekVsXpr2XseXanEMDIwbMnoHZ9/5/JH+BgYGxq0YvcP6T6SGS7vCwMAYzVgpUJPQ3CuMm/vBwMAYyshL1nz53hWKJPgWUkMMDIxBjP89bqseq500TTEwMEYzripKe9fI8q+BXhKJgYExidELuNWkMAm1vRYFBgbGVEaeqFWP0vIAmj85XB0DA2M0I28A9K525VvPGdFOMDAwhjJWytE8+esVzIUQjIGBMZTROw7Lk8v1bmP5/4CBgTGUkQfBa3+6HtAxMDBmM1aO43uHcb1mwwkGAwNjNCMvYlealOvF7ZYPDAyMxzB6y5dP+IqFcXQ5AwMDYyij92fVz0mDc6WsxcDAeALjqhQtv6iRF89R2YyBgfEYRvU6aa890Gt2Ng/aMDAwBjHyQrQaNK+a5+SLAQMDYyhjL45eg7OadObUPzqxGBgY4xjrgbIavqtXvjAwMDCSzKpamibPP5I+YmBgPICRX4DIt5gclvWQGBgYGEmKVg2IV2335NANAwMDoxWO8xeRv4KTC6wYGBhDGfnV0nzhPNSutEIxMDCewOglar2ytnpglwdxDAyMoYwfdOKdOxIfTMkAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <!-- waves按钮特效 -->
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<!-- 主题配置脚本 -->
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+</script>
+
+<!-- jquery -->
+<script src="/js/jquery.min.js?v=3.0"></script>
+
+<!-- 搜索 -->
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item waves-block waves-effect" onclick="location.href='{path}'">
+    <div class="title ellipsis" title="{title}">{title}</div>
+</li>
+</template>
+
+
+<!-- main博客脚本 -->
+<script src="/js/main.min.js?v=3.0" ></script>
+
+<!-- 动画&配置 -->
+<script src="/js/script.min.js?v=3.0" ></script>
+
+<!-- 脚本管理 -->
+<script>
+
+if(window.innerWidth > 800){
+	/* 3D标题 */
+	$(".content-header").on("mousemove", threedee);
+
+	/* 底部追随鼠标 */
+	$(".footer").hover(2);
+
+	/* gotop键的涟漪 */
+	$("#gotop").hover(1);
+
+	/* 赞赏的粒子雨 */
+	$("#reward").hover(3);
+
+	/* 微信公众号的底部渲染 */
+	$("#wechat").hover(4);
+
+    /* 标题跳动 */
+    $(".archivestitle").bumpyText();
+
+	/* 图片点击放大 */
+	const postimg = jQuery(".post-content img:not(.github-emoji)");
+	postimg.on("click",function(){
+
+		mask.classList.add("in");
+		main.classList.add("Mask");
+		menu.classList.add("Mask");
+		var myimg = this.cloneNode(true);
+		myimg.classList.add("imgShow");
+
+		setTimeout(function(){
+			jQuery(myimg).animate({
+				opacity:"1"
+			},1000);
+		},0);
+
+		document.body.appendChild(myimg);
+
+		myimg.onclick=function(){
+			document.body.removeChild(myimg);
+			mask.classList.remove("in");
+			main.classList.remove("Mask");
+			menu.classList.remove("Mask");
+		};
+
+	});
+
+}
+
+/* 名字跳动 */
+$("#name").bumpyText();
+
+
+/* 网站运行时间 */
+setInterval(function () {
+	setTime("2017/10/11");
+}, 1000);
+
+/* 文章块的淡出 */
+postshow();
+
+/* 座右铭 */
+
+   getHitokoto();
+
+
+
+/* 粘贴提示 */
+G($(".post-content"), location.href, "Qgx");
+
+
+/* 控制台 */
+if (window.console && window.console.log) {
+	setTimeout(function () {
+		console.log("\n %c 一个坏掉的番茄 %c  © Simon Ma  http://tomotoes.com \n\n", "color:#FFFFFB;background:#1abc9c;padding:5px 0;border-radius:.5rem 0 0 .5rem;", "color:#FFFFFB;background:#080808;padding:5px 0;border-radius:0 .5rem .5rem 0;");
+	}, 0);
+}
+
 </script>
 
 
 
 
+<!-- 公式渲染 -->
 
 
 
+<!-- 不蒜子 -->
 
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
 
 
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
-
-
-
-  
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
 </body>
 </html>

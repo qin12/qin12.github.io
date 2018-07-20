@@ -1,108 +1,45 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-  
-
-
-<html class="theme-next mist use-motion" lang="zh-CN">
+<html>
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
-<meta name="theme-color" content="#222">
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta charset="utf-8">
+    
+    
+    
+    <title>我的第一个Android设计第三天 | qin12的学习博客 | 只为成功找方法，不为失败找借口！</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    
+    <meta name="theme-color" content="#77AAFF">
+    
+    
+    <meta name="keywords" content="Android 课设">
+    
+    
 
+    
 
+    <!-- Baidu Push -->
+<script>
+	(function(){
+		var bp = document.createElement('script');
+		var curProtocol = window.location.protocol.split(':')[0];
+		if (curProtocol === 'https') {
+			bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+		}
+		else {
+			bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+		}
+		var s = document.getElementsByTagName("script")[0];
+		s.parentNode.insertBefore(bp, s);
+	})();
 
-
-
-
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.jpg?v=6.2.0">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
-
-
-
-
-
-
-
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    version: '6.2.0',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: false,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
+	var _hmt = _hmt || [];
 </script>
 
 
-  
 
-
-
-
-  <meta name="description" content="Fragment  的嵌套使用Fragment管理类1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556package com.example.qgx.androidkeshe.Fragement;import android.support.v">
+    
+    <meta name="description" content="Fragment  的嵌套使用Fragment管理类1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556package com.example.qgx.androidkeshe.Fragement;import android.support.v">
 <meta name="keywords" content="Android 课设">
 <meta property="og:type" content="article">
 <meta property="og:title" content="我的第一个Android设计第三天">
@@ -110,850 +47,544 @@
 <meta property="og:site_name" content="qin12的学习博客">
 <meta property="og:description" content="Fragment  的嵌套使用Fragment管理类1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556package com.example.qgx.androidkeshe.Fragement;import android.support.v">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-07-20T04:10:37.809Z">
+<meta property="og:updated_time" content="2018-07-20T09:41:52.732Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="我的第一个Android设计第三天">
 <meta name="twitter:description" content="Fragment  的嵌套使用Fragment管理类1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556package com.example.qgx.androidkeshe.Fragement;import android.support.v">
+    
+        <link rel="alternate" type="application/atom+xml" title="qin12的学习博客" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link id="style" rel="stylesheet" href="/css/style.css?v=3.0">
+    <script>window.lazyScripts=[]</script>
 
-
-
-  <link rel="alternate" href="/atom.xml" title="qin12的学习博客" type="application/atom+xml" />
-
-
-
-
-  <link rel="canonical" href="http://yoursite.com/2018/07/20/Fragment  的嵌套使用/"/>
-
-
-
-<script type="text/javascript" id="page.configurations">
-  CONFIG.page = {
-    sidebar: "",
-  };
-</script>
-
-  <title>我的第一个Android设计第三天 | qin12的学习博客</title>
-  
-
-
-
-
-
-
-
-
-
-  <noscript>
-  <style type="text/css">
-    .use-motion .motion-element,
-    .use-motion .brand,
-    .use-motion .menu-item,
-    .sidebar-inner,
-    .use-motion .post-block,
-    .use-motion .pagination,
-    .use-motion .comments,
-    .use-motion .post-header,
-    .use-motion .post-body,
-    .use-motion .collection-title { opacity: initial; }
-
-    .use-motion .logo,
-    .use-motion .site-title,
-    .use-motion .site-subtitle {
-      opacity: initial;
-      top: initial;
-    }
-
-    .use-motion {
-      .logo-line-before i { left: initial; }
-      .logo-line-after i { right: initial; }
-    }
-  </style>
-</noscript>
-
+    <!-- custom head -->
+    
+            
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">qin12的学习博客</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+<body>
+    <div id="loading" class="active"></div>
+    <aside id="menu"  class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" >
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg" alt="avatar">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname" id="name">Qgx</h5>
+          
+            <div id="yiyanmotto" class="motto">&nbsp;</div>
+          
+        </hgroup>
+      </div>
     </div>
-      
-        <p class="site-subtitle">只为成功找方法，不为失败找借口！</p>
-      
-  </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+              <li class="waves-block waves-effect">
+                  <a href="/"  >
+                    <i class="icon icon-lg icon-home"></i>
+                    <span>主 页</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/archives/"  >
+                    <i class="icon icon-lg icon-archives"></i>
+                    <span>归 档</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/categories/"  >
+                    <i class="icon icon-lg icon-th-list"></i>
+                    <span>分 类</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/tags/"  >
+                    <i class="icon icon-lg icon-tags"></i>
+                    <span>标 签</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+              <li class="waves-block waves-effect">
+                  <a href="/about"  >
+                    <i class="icon icon-lg icon-smile-o"></i>
+                    <span>关 于</span><i class="icon icon-lg icon-caret-left"></i>
+                  </a>
+              </li>
+            
+      <div class="nav2">
+          
+              <a class="nav2item" data-title="Email" href="mailto:1520290900@qq.com" target="_parent"title="Email" >
+                <i class="icon icon-lg icon-envelope-o envelope-o"></i>
+              </a>
+          
+              <a class="nav2item" data-title="Github" href="https://github.com/qin12" target="_blank"title="Github" >
+                <i class="icon icon-lg icon-github github"></i>
+              </a>
+          
+              <a class="nav2item" data-title="微博" href="https://weibo.com/u/6415480382" target="_blank"title="微博" >
+                <i class="icon icon-lg icon-weibo weibo"></i>
+              </a>
+          
 
-  <div class="site-nav-toggle">
-    <button aria-label="切换导航栏">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+            </div>
+        
+      </ul>
+        
+    </div>
   </div>
+ 
+</aside>
+
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">我的第一个Android设计第三天</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        <a href="../../atom.xml" target="_blank" class="header-icon waves-effect waves-circle waves-light" id="Rss">
+            <i class="icon icon-lg icon-rss"></i>
+        </a>
+    </div>
+</header>
+<header class="content-header post-header">
+    
+    
+    <div class="container fade-scale">
+        <div id="myheader">
+            <h1 class="title">
+                
+            </h1>
+            <h5 class="subtitle">
+                
+                
+            </h5>
+        </div>
+    </div>
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Fragment-的嵌套使用"><span class="post-toc-number">1.</span> <span class="post-toc-text">Fragment  的嵌套使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Fragment管理类"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">Fragment管理类</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+   
+<article id="post-Fragment  的嵌套使用"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">我的第一个Android设计第三天</h1>
+        <div class="post-meta">
+            <i class="icon icon-lg icon-calendar-o"></i>
+            发表于
+            <time class="post-time" title="2018-07-20 17:41:52" datetime="2018-07-20T09:41:52.732Z"  itemprop="datePublished">2018-07-20</time>
+
+            <br id="mybreak"/>
+            
+	<i class="icon icon-lg icon-folder-o"></i>
+	分类：<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/Android/">Android</a></li></ul>
+
+
+            <i>·</i>
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>次浏览
+</span>
+
+
+        </div>
+        <div class="post-count-custom">
+            <i class="icon icon-lg icon-comment-o"></i>
+            阅读本文可能花费您&nbsp;<span class="post-count">4</span>&nbsp;分钟
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h3 id="Fragment-的嵌套使用"><a href="#Fragment-的嵌套使用" class="headerlink" title="Fragment  的嵌套使用"></a>Fragment  的嵌套使用</h3><h4 id="Fragment管理类"><a href="#Fragment管理类" class="headerlink" title="Fragment管理类"></a>Fragment管理类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">package com.example.qgx.androidkeshe.Fragement;</span><br><span class="line"></span><br><span class="line">import android.support.v4.app.Fragment;</span><br><span class="line">import android.support.v4.app.FragmentManager;</span><br><span class="line">import android.support.v4.app.FragmentTransaction;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *</span><br><span class="line"> * Created by qgx on 2018/6/22.</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">public class FragmentManagerHelper &#123;</span><br><span class="line">    private FragmentManager mFragmentManager;</span><br><span class="line">    private int mContainerViewId;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     *</span><br><span class="line">     * @param mFragmentManager  管理类</span><br><span class="line">     * @param mContainerViewId 容器布局的id</span><br><span class="line">     */</span><br><span class="line">    public FragmentManagerHelper(FragmentManager mFragmentManager, int mContainerViewId) &#123;</span><br><span class="line">        this.mFragmentManager = mFragmentManager;</span><br><span class="line">        this.mContainerViewId = mContainerViewId;</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 添加fragment</span><br><span class="line">     * @param fragment</span><br><span class="line">     */</span><br><span class="line">    public void add(Fragment fragment)&#123;</span><br><span class="line">        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();</span><br><span class="line"></span><br><span class="line">        fragmentTransaction.add(mContainerViewId,fragment);</span><br><span class="line">        fragmentTransaction.commit();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 切换显示fragment</span><br><span class="line">     * @param fragment</span><br><span class="line">     */</span><br><span class="line">    public void switchFragmnet(Fragment fragment) &#123;</span><br><span class="line">        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();</span><br><span class="line">        List&lt;Fragment&gt; childFragments = mFragmentManager.getFragments();</span><br><span class="line">        for (Fragment childFragment : childFragments) &#123;</span><br><span class="line">            fragmentTransaction.hide(childFragment);</span><br><span class="line">        &#125;</span><br><span class="line">        if (!childFragments.contains(fragment)) &#123;</span><br><span class="line">            fragmentTransaction.add(mContainerViewId, fragment);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            fragmentTransaction.show(fragment);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        fragmentTransaction.commit();</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>是重写Fragment的setUserVisibleHint（）方法，实现Fragment内部的懒加载机制。<br>懒加载Fragment<br>lazyLoadFragment.java<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line">package com.example.qgx.androidkeshe.Fragement;</span><br><span class="line"></span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.support.annotation.Nullable;</span><br><span class="line">import android.support.v4.app.Fragment;</span><br><span class="line">import android.view.LayoutInflater;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.view.ViewGroup;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by qgx on 2018/6/22.</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">public abstract class LazyLoadFragment extends Fragment &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 视图是否已经初初始化</span><br><span class="line">     */</span><br><span class="line">    protected boolean isInit = false;</span><br><span class="line">    protected boolean isLoad = false;</span><br><span class="line">    protected final String TAG = &quot;LazyLoadFragment&quot;;</span><br><span class="line">    private View view;</span><br><span class="line">    /**</span><br><span class="line">     * 设置Fragment要显示的布局</span><br><span class="line">     *</span><br><span class="line">     * @return 布局的layoutId</span><br><span class="line">     */</span><br><span class="line">    protected abstract int setContentView();</span><br><span class="line">    public abstract void initView();</span><br><span class="line">    public abstract void setListener();</span><br><span class="line">    public abstract void initData();</span><br><span class="line">    /**</span><br><span class="line">     * 获取设置的布局</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    protected View getContentView() &#123;</span><br><span class="line">        return view;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 找出对应的控件</span><br><span class="line">     *</span><br><span class="line">     * @param id</span><br><span class="line">     * @param &lt;T&gt;</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    protected &lt;T extends View&gt; T findViewById(int id) &#123;</span><br><span class="line">        return (T) getContentView().findViewById(id);</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 当视图初始化并且对用户可见的时候去真正的加载数据</span><br><span class="line">     */</span><br><span class="line">    protected abstract void lazyLoad();</span><br><span class="line">    /**</span><br><span class="line">     * 当视图已经对用户不可见并且加载过数据，如果需要在切换到其他页面时停止加载数据，可以调用此方法</span><br><span class="line">     */</span><br><span class="line">    protected void stopLoad() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 视图销毁的时候讲Fragment是否初始化的状态变为false</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    public void onDestroyView() &#123;</span><br><span class="line">        super.onDestroyView();</span><br><span class="line">        isInit = false;</span><br><span class="line">        isLoad = false;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 是否可以加载数据</span><br><span class="line">     * 可以加载数据的条件：</span><br><span class="line">     * 1.视图已经初始化</span><br><span class="line">     * 2.视图对用户可见</span><br><span class="line">     */</span><br><span class="line">    private void isCanLoadData() &#123;</span><br><span class="line">        if (!isInit) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (getUserVisibleHint()) &#123;</span><br><span class="line">            lazyLoad();</span><br><span class="line">            isLoad = true;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (isLoad) &#123;</span><br><span class="line">                stopLoad();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 视图是否已经对用户可见，系统的方法</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    public void setUserVisibleHint(boolean isVisibleToUser) &#123;</span><br><span class="line">        super.setUserVisibleHint(isVisibleToUser);</span><br><span class="line">        isCanLoadData();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Nullable</span><br><span class="line">    @Override</span><br><span class="line">    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) &#123;</span><br><span class="line">       view = inflater.inflate(setContentView(), container, false);</span><br><span class="line">        initView();</span><br><span class="line">        initData();</span><br><span class="line">        setListener();</span><br><span class="line">        isInit = true;</span><br><span class="line">        /**初始化的时候去加载数据**/</span><br><span class="line">        isCanLoadData();</span><br><span class="line">        return view;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新：<time datetime="2018-07-20T09:41:52.732Z" itemprop="dateUpdated">2018-07-20 17:41:52</time>
+</span>
+
+
+        
+        原文链接：<a href="/2018/07/20/Fragment  的嵌套使用/" target="_blank" rel="external">http://yoursite.com/2018/07/20/Fragment  的嵌套使用/</a>
+        
+    </div>
+    <footer>
+        <div onclick="location.href='http://yoursite.com'">
+            <img src="/img/avatar.jpg" alt="Qgx">
+            <a>Qgx</a>
+        </div>
+    </footer>
+</blockquote>
+
+        
+    <div class="page-reward">
+        <nav class="myreward">
+            <a id="rewardBtn" href="javascript:;"><span>打&nbsp;赏</span><span>装成好像很多人打赏的样子</span></a>
+        </nav>
+    </div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android-课设/">Android 课设</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2018/07/20/Fragment  的嵌套使用/&title=《我的第一个Android设计第三天》 — qin12的学习博客&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2018/07/20/Fragment  的嵌套使用/&title=《我的第一个Android设计第三天》 — qin12的学习博客&source=漫漫长路，伴你同行" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/07/20/Fragment  的嵌套使用/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《我的第一个Android设计第三天》 — qin12的学习博客&url=http://yoursite.com/2018/07/20/Fragment  的嵌套使用/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2018/07/20/Fragment  的嵌套使用/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
 </div>
 
 
 
+        </div>
+    </div>
 
-<nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
-    <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-photo">
-    <a href="/photo/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-photo"></i> <br />摄影</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-music">
-    <a href="/music/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-music"></i> <br />音乐</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
-    <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
-    <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
-    <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
-  </li>
-
-      
-      
-    </ul>
-  
-
-  
     
-
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
   
 
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2018/07/20/Linux 搭建hexo个人博客/" id="post-next" class="post-nav-link">
+        <h4 class="title" data-hover="下一篇：linux下搭建hexo个人博客">下一篇：linux下搭建hexo个人博客</h4>
+      </a>
+    </div>
   
 </nav>
 
 
 
-  
+    
+    
+
+    
+
+    
 
 
+</article>
 
 </div>
-    </header>
 
-    
+        <footer class="footer">
+    <div class="footer-content">
+        <span class="power">
+            <i class="icon icon-lg icon-copyright"></i>
+            2018
+            <i class="icon icon-lg icon-heart"></i>
+            <a href="http://yoursite.com">qin12.github.io</a>
+            <br/>
+            Power by
+            <a href="https://hexo.io/" target="_blank" rel="external nofollow">Hexo</a>&nbsp;·&nbsp;
+            Theme
+            <a class="tomotoeslink" href="https://github.com/tomotoes/hexo-theme-tomotoes/" target="_blank" rel="external nofollow">tomotoes</a>
+        </span>
 
+        <br/>
 
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-          <div id="content" class="content">
+        <span id="RunTime" style="color:#a7a7a2;"></span>
+        <br/>
+
+        <span>
             
+	<i class="icon icon-lg icon-user">
+<span id="busuanzi_container_site_uv" style='display:none'>
+       访问用户：<span id="busuanzi_value_site_uv"></span>
+    </span>人</i>
+    ·
+    <i class="icon icon-lg icon-eye">
+    <span id="busuanzi_container_site_pv" style='display:none'>
+      访问次数：<span id="busuanzi_value_site_pv"></span>
+    </span>次
+    </i>
 
-  <div id="posts" class="posts-expand">
-    
 
-  
+        </span>
+        <br/>
 
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Fragment  的嵌套使用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">我的第一个Android设计第三天
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h3 id="Fragment-的嵌套使用"><a href="#Fragment-的嵌套使用" class="headerlink" title="Fragment  的嵌套使用"></a>Fragment  的嵌套使用</h3><h4 id="Fragment管理类"><a href="#Fragment管理类" class="headerlink" title="Fragment管理类"></a>Fragment管理类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">package com.example.qgx.androidkeshe.Fragement;</span><br><span class="line"></span><br><span class="line">import android.support.v4.app.Fragment;</span><br><span class="line">import android.support.v4.app.FragmentManager;</span><br><span class="line">import android.support.v4.app.FragmentTransaction;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *</span><br><span class="line"> * Created by qgx on 2018/6/22.</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">public class FragmentManagerHelper &#123;</span><br><span class="line">    private FragmentManager mFragmentManager;</span><br><span class="line">    private int mContainerViewId;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     *</span><br><span class="line">     * @param mFragmentManager  管理类</span><br><span class="line">     * @param mContainerViewId 容器布局的id</span><br><span class="line">     */</span><br><span class="line">    public FragmentManagerHelper(FragmentManager mFragmentManager, int mContainerViewId) &#123;</span><br><span class="line">        this.mFragmentManager = mFragmentManager;</span><br><span class="line">        this.mContainerViewId = mContainerViewId;</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 添加fragment</span><br><span class="line">     * @param fragment</span><br><span class="line">     */</span><br><span class="line">    public void add(Fragment fragment)&#123;</span><br><span class="line">        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();</span><br><span class="line"></span><br><span class="line">        fragmentTransaction.add(mContainerViewId,fragment);</span><br><span class="line">        fragmentTransaction.commit();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 切换显示fragment</span><br><span class="line">     * @param fragment</span><br><span class="line">     */</span><br><span class="line">    public void switchFragmnet(Fragment fragment) &#123;</span><br><span class="line">        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();</span><br><span class="line">        List&lt;Fragment&gt; childFragments = mFragmentManager.getFragments();</span><br><span class="line">        for (Fragment childFragment : childFragments) &#123;</span><br><span class="line">            fragmentTransaction.hide(childFragment);</span><br><span class="line">        &#125;</span><br><span class="line">        if (!childFragments.contains(fragment)) &#123;</span><br><span class="line">            fragmentTransaction.add(mContainerViewId, fragment);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            fragmentTransaction.show(fragment);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        fragmentTransaction.commit();</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>是重写Fragment的setUserVisibleHint（）方法，实现Fragment内部的懒加载机制。<br>懒加载Fragment<br>lazyLoadFragment.java<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line">package com.example.qgx.androidkeshe.Fragement;</span><br><span class="line"></span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.support.annotation.Nullable;</span><br><span class="line">import android.support.v4.app.Fragment;</span><br><span class="line">import android.view.LayoutInflater;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.view.ViewGroup;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by qgx on 2018/6/22.</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">public abstract class LazyLoadFragment extends Fragment &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 视图是否已经初初始化</span><br><span class="line">     */</span><br><span class="line">    protected boolean isInit = false;</span><br><span class="line">    protected boolean isLoad = false;</span><br><span class="line">    protected final String TAG = &quot;LazyLoadFragment&quot;;</span><br><span class="line">    private View view;</span><br><span class="line">    /**</span><br><span class="line">     * 设置Fragment要显示的布局</span><br><span class="line">     *</span><br><span class="line">     * @return 布局的layoutId</span><br><span class="line">     */</span><br><span class="line">    protected abstract int setContentView();</span><br><span class="line">    public abstract void initView();</span><br><span class="line">    public abstract void setListener();</span><br><span class="line">    public abstract void initData();</span><br><span class="line">    /**</span><br><span class="line">     * 获取设置的布局</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    protected View getContentView() &#123;</span><br><span class="line">        return view;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 找出对应的控件</span><br><span class="line">     *</span><br><span class="line">     * @param id</span><br><span class="line">     * @param &lt;T&gt;</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    protected &lt;T extends View&gt; T findViewById(int id) &#123;</span><br><span class="line">        return (T) getContentView().findViewById(id);</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 当视图初始化并且对用户可见的时候去真正的加载数据</span><br><span class="line">     */</span><br><span class="line">    protected abstract void lazyLoad();</span><br><span class="line">    /**</span><br><span class="line">     * 当视图已经对用户不可见并且加载过数据，如果需要在切换到其他页面时停止加载数据，可以调用此方法</span><br><span class="line">     */</span><br><span class="line">    protected void stopLoad() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 视图销毁的时候讲Fragment是否初始化的状态变为false</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    public void onDestroyView() &#123;</span><br><span class="line">        super.onDestroyView();</span><br><span class="line">        isInit = false;</span><br><span class="line">        isLoad = false;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 是否可以加载数据</span><br><span class="line">     * 可以加载数据的条件：</span><br><span class="line">     * 1.视图已经初始化</span><br><span class="line">     * 2.视图对用户可见</span><br><span class="line">     */</span><br><span class="line">    private void isCanLoadData() &#123;</span><br><span class="line">        if (!isInit) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (getUserVisibleHint()) &#123;</span><br><span class="line">            lazyLoad();</span><br><span class="line">            isLoad = true;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (isLoad) &#123;</span><br><span class="line">                stopLoad();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 视图是否已经对用户可见，系统的方法</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    public void setUserVisibleHint(boolean isVisibleToUser) &#123;</span><br><span class="line">        super.setUserVisibleHint(isVisibleToUser);</span><br><span class="line">        isCanLoadData();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Nullable</span><br><span class="line">    @Override</span><br><span class="line">    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) &#123;</span><br><span class="line">       view = inflater.inflate(setContentView(), container, false);</span><br><span class="line">        initView();</span><br><span class="line">        initData();</span><br><span class="line">        setListener();</span><br><span class="line">        isInit = true;</span><br><span class="line">        /**初始化的时候去加载数据**/</span><br><span class="line">        isCanLoadData();</span><br><span class="line">        return view;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
+        <span class="license"><a  target="_blank" rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">博客内容遵循 知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
     </div>
+</footer>
 
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Android-课设/" rel="tag"># Android 课设</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2018/07/20/LIstView 联动(一)/" rel="next" title="Android ListView联动">
-                <i class="fa fa-chevron-left"></i> Android ListView联动
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/07/20/适配器模式/" rel="prev" title="适配器模式">
-                适配器模式 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <img class="site-author-image" itemprop="image"
-                src="/images/avatar.gif"
-                alt="Qgx" />
-            
-              <p class="site-author-name" itemprop="name">Qgx</p>
-              <p class="site-description motion-element" itemprop="description">漫漫长路，伴你同行</p>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">80</span>
-                    <span class="site-state-item-name">日志</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  <a href="/categories/index.html">
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">7</span>
-                    <span class="site-state-item-name">分类</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  <a href="/tags/index.html">
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">54</span>
-                    <span class="site-state-item-name">标签</span>
-                  </a>
-                </div>
-              
-            </nav>
-          
-
-          
-            <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
-                <i class="fa fa-rss"></i>
-                RSS
-              </a>
-            </div>
-          
-
-          
-            <div class="links-of-author motion-element">
-              
-                <span class="links-of-author-item">
-                  <a href="https://github.com/qin12" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
-                  
-                </span>
-              
-                <span class="links-of-author-item">
-                  <a href="mailto:1520290900@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                  
-                </span>
-              
-                <span class="links-of-author-item">
-                  <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=1520290900&website=www.oicqzone.com" target="_blank" title="QQ"><i class="fa fa-fw fa-QQ"></i>QQ</a>
-                  
-                </span>
-              
-            </div>
-          
-
-          
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Fragment-的嵌套使用"><span class="nav-number">1.</span> <span class="nav-text">Fragment  的嵌套使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Fragment管理类"><span class="nav-number">1.1.</span> <span class="nav-text">Fragment管理类</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-      
-
-    </div>
-  </aside>
-
-
-        
-      </div>
     </main>
+    
+        
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        <span>感谢您的鼓励支持！</span>
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" data-img="/img/dog.png" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechatPay">&nbsp;&nbsp;微信&nbsp;&nbsp;</span>
+                <span class="reward-toggle-item alipayPay">支付宝</span>
+            </div>
+        </label>
+        
+        <i class="icon icon-caret-up"></i>
+    </div>
+</div>
 
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Qgx</span>
 
-  
+    
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
 
-  
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://yoursite.com/2018/07/20/Fragment  的嵌套使用/&title=《我的第一个Android设计第三天》 — qin12的学习博客&pic=http://yoursite.com/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://yoursite.com/2018/07/20/Fragment  的嵌套使用/&title=《我的第一个Android设计第三天》 — qin12的学习博客&source=漫漫长路，伴你同行" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/07/20/Fragment  的嵌套使用/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《我的第一个Android设计第三天》 — qin12的学习博客&url=http://yoursite.com/2018/07/20/Fragment  的嵌套使用/&via=http://yoursite.com" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://yoursite.com/2018/07/20/Fragment  的嵌套使用/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p class="wechatshare">扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACM0lEQVR42u3aS27DMAwFwNz/0ilQdNfKeCTVopbHqyCxFY0XhPh5veLr/Xl9/7z6dfXN6tnre7ZdGBgYt2W8L69866s1q/jr75dUDAyMBzB6QfY6jOYva/Vfyd4wMDAwqgGxx85fHwYGBkayXDVN7WWgGBgYGL0kdm+xLD8abs7FMTAwbsiYNAZ++/Mf9TcwMDD+MeO96cpfwd7//VoZAwPjaMb1sa8XiPOGQT6EEQViDAyMBzAmaW1S6M/bnMmmlwEXAwPjOEYeLvOj4aQkl6w2ivoYGBg3Z1TL99Vm5/WzeYv0h51jYGAczaimsnnAzVPTXs1/lJFjYGDcirG30Vg9SvYKc1ESi4GBcRBjcoBLssjRIS9OjDEwMM5mzBPI6gp7xzW25cEYGBg3YeRJbB4681dQJS0DLgYGxqGMZCQivzN/BUmRrtAMwMDAOJqRL1FtBvTKduWRMgwMjAczqqNa1cZk9anlOhgYGEczqhvN25O9Z/MAvexvYGBgPIDRK+jnh8jqoEbhyIiBgfEARj4GMS/0zxufWccAAwPjTMYcNmkV5PeXJ0cwMDBuzsibBNU2ZDXsbijVYWBgHMd4F69R4b7YbczDPQYGxtmMbdE6H4xold56R0kMDIyTGNXSfx5MqxudrIOBgfEExiTIFhqNcZszr/xjYGBgTIJmPooxL95hYGBgzEcoeoNleXDHwMB4AiNvYfaajvkQWGHrGBgYj2H0GgMTcB52m8dEDAyMcxgfwe2Jh6t1Z8cAAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+    <!-- waves按钮特效 -->
+<script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
 
+<!-- 主题配置脚本 -->
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+</script>
 
+<!-- jquery -->
+<script src="/js/jquery.min.js?v=3.0"></script>
 
-  <span class="post-meta-divider">|</span>
+<!-- 搜索 -->
 
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.2.0</div>
-
-
-
-<div class="powered-by">
-<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
-  本站访客数:<span id="busuanzi_value_site_uv"></span>
-</span>
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
 </div>
+<template id="search-tpl">
+<li class="item waves-block waves-effect" onclick="location.href='{path}'">
+    <div class="title ellipsis" title="{title}">{title}</div>
+</li>
+</template>
 
 
-        
+<!-- main博客脚本 -->
+<script src="/js/main.min.js?v=3.0" ></script>
+
+<!-- 动画&配置 -->
+<script src="/js/script.min.js?v=3.0" ></script>
+
+<!-- 脚本管理 -->
+<script>
+
+if(window.innerWidth > 800){
+	/* 3D标题 */
+	$(".content-header").on("mousemove", threedee);
+
+	/* 底部追随鼠标 */
+	$(".footer").hover(2);
+
+	/* gotop键的涟漪 */
+	$("#gotop").hover(1);
+
+	/* 赞赏的粒子雨 */
+	$("#reward").hover(3);
+
+	/* 微信公众号的底部渲染 */
+	$("#wechat").hover(4);
+
+    /* 标题跳动 */
+    $(".archivestitle").bumpyText();
+
+	/* 图片点击放大 */
+	const postimg = jQuery(".post-content img:not(.github-emoji)");
+	postimg.on("click",function(){
+
+		mask.classList.add("in");
+		main.classList.add("Mask");
+		menu.classList.add("Mask");
+		var myimg = this.cloneNode(true);
+		myimg.classList.add("imgShow");
+
+		setTimeout(function(){
+			jQuery(myimg).animate({
+				opacity:"1"
+			},1000);
+		},0);
+
+		document.body.appendChild(myimg);
+
+		myimg.onclick=function(){
+			document.body.removeChild(myimg);
+			mask.classList.remove("in");
+			main.classList.remove("Mask");
+			menu.classList.remove("Mask");
+		};
+
+	});
+
+}
+
+/* 名字跳动 */
+$("#name").bumpyText();
+
+
+/* 网站运行时间 */
+setInterval(function () {
+	setTime("2017/10/11");
+}, 1000);
+
+/* 文章块的淡出 */
+postshow();
+
+/* 座右铭 */
+
+   getHitokoto();
 
 
 
+/* 粘贴提示 */
+G($(".post-content"), location.href, "Qgx");
 
 
+/* 控制台 */
+if (window.console && window.console.log) {
+	setTimeout(function () {
+		console.log("\n %c 一个坏掉的番茄 %c  © Simon Ma  http://tomotoes.com \n\n", "color:#FFFFFB;background:#1abc9c;padding:5px 0;border-radius:.5rem 0 0 .5rem;", "color:#FFFFFB;background:#080808;padding:5px 0;border-radius:0 .5rem .5rem 0;");
+	}, 0);
+}
 
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-  </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
 </script>
 
 
 
 
+<!-- 公式渲染 -->
 
 
 
+<!-- 不蒜子 -->
 
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
 
 
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
-
-
-
-  
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
 </body>
 </html>
