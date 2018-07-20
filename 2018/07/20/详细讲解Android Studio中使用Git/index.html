@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.jpg?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="详细讲解Android Studio中使用Git作者博客链接：https://www.jianshu.com/p/059ed1e01229 前言以前项目版本管理工具一直用的都是SVN，现在换成Git，并且项目托管平台使用的是GitLab。虽然经常用GitHub，但是却很少使用到分支，因为都是自己在写，也不用开发版与发布版、打Tag那些，所以这篇文章主要讲下GitLab与Git的使用。 这篇文章还是">
+<meta name="keywords" content="初识GitLab">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识GitLab">
+<meta property="og:url" content="http://yoursite.com/2018/07/20/详细讲解Android Studio中使用Git/index.html">
+<meta property="og:site_name" content="qin12的学习博客">
+<meta property="og:description" content="详细讲解Android Studio中使用Git作者博客链接：https://www.jianshu.com/p/059ed1e01229 前言以前项目版本管理工具一直用的都是SVN，现在换成Git，并且项目托管平台使用的是GitLab。虽然经常用GitHub，但是却很少使用到分支，因为都是自己在写，也不用开发版与发布版、打Tag那些，所以这篇文章主要讲下GitLab与Git的使用。 这篇文章还是">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/img/gitlab1.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab2.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab3.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab4.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab5.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab6.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab7.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab8.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab9.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab10.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab11.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab12.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab13.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab14.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab15.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab16.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab17.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab18.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab19.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab20.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab21.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab22.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab23.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab24.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab25.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab26.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab27.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab28.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab29.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab30.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab31.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab32.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab33.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab34.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab35.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab36.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab37.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab38.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab39.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab40.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab41.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab42.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab43.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab44.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab45.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab46.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab47.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab48.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab49.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab50.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab51.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab52.png">
+<meta property="og:image" content="http://yoursite.com/img/gitlab53.png">
+<meta property="og:updated_time" content="2018-07-20T04:10:37.793Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初识GitLab">
+<meta name="twitter:description" content="详细讲解Android Studio中使用Git作者博客链接：https://www.jianshu.com/p/059ed1e01229 前言以前项目版本管理工具一直用的都是SVN，现在换成Git，并且项目托管平台使用的是GitLab。虽然经常用GitHub，但是却很少使用到分支，因为都是自己在写，也不用开发版与发布版、打Tag那些，所以这篇文章主要讲下GitLab与Git的使用。 这篇文章还是">
+<meta name="twitter:image" content="http://yoursite.com/img/gitlab1.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="qin12的学习博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/20/详细讲解Android Studio中使用Git/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>初识GitLab | qin12的学习博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">qin12的学习博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只为成功找方法，不为失败找借口！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-photo">
+    <a href="/photo/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-photo"></i> <br />摄影</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-music">
+    <a href="/music/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-music"></i> <br />音乐</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/详细讲解Android Studio中使用Git/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">初识GitLab
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="详细讲解Android-Studio中使用Git"><a href="#详细讲解Android-Studio中使用Git" class="headerlink" title="详细讲解Android Studio中使用Git"></a>详细讲解Android Studio中使用Git</h3><p>作者博客链接：<br><a href="https://www.jianshu.com/p/059ed1e01229" target="_blank" rel="noopener">https://www.jianshu.com/p/059ed1e01229</a></p>
+<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>以前项目版本管理工具一直用的都是SVN，现在换成Git，并且项目托管平台使用的是GitLab。虽然经常用GitHub，但是却很少使用到分支，因为都是自己在写，也不用开发版与发布版、打Tag那些，所以这篇文章主要讲下GitLab与Git的使用。</p>
+<p>这篇文章还是会按我以前的写作风格，写的通俗易懂，并且全程自己操作一遍，目的是为了初学者也能看懂。</p>
+<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><strong>Git：</strong>Git是一个开源的分布式版本控制系统，可以有效、高速的处理从很小到非常大的项目版本管理。简单说，它就是一个管理项目版本的工具。</p>
+<p><strong>GitLab：</strong>GitLab 是一个用于仓库管理系统的开源项目，使用Git作为代码管理工具，并在此基础上搭建起来的web服务。简单说，GitLab的性质是和GitHub一样的，都是用来存储项目的仓库。</p>
+<h4 id="准备-Git"><a href="#准备-Git" class="headerlink" title="准备 Git"></a>准备 Git</h4><p><strong>3.1 安装Git</strong></p>
+<p>下载地址：<br><a href="http://git-scm.com/download/" target="_blank" rel="noopener">http://git-scm.com/download/</a></p>
+<p>安装步骤：双击安装，按默认选项一路下去即可。<br>安装完成后，在开始菜单里找到“Git”–&gt;“Git Bash”，出现如下图，就说明Git安装成功！<br><img src="/img/gitlab1.png" alt=""></p>
+<p><strong>3.2 配置信息</strong></p>
+<p>在上图命令行中输入你的用户名与邮箱<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name &quot;Your Name&quot;</span><br><span class="line">$ git config --global user.email &quot;email@example.com&quot;</span><br></pre></td></tr></table></figure></p>
+<p>命令中的 –global 参数表示你这台机器上所有的Git仓库都会使用这个配置。</p>
+<p><strong>3.3 Android Studio中配置Git</strong></p>
+<p>在Android Studio中点击Settings–&gt;Version Control –&gt; Git，然后在Path To Git executable上输入你刚刚安装Git的位置，最后点击Test按钮出现Git executed successfully说明配置成功，如下图：<br><img src="/img/gitlab2.png" alt=""></p>
+<h4 id="GitLab-使用"><a href="#GitLab-使用" class="headerlink" title="GitLab 使用"></a>GitLab 使用</h4><p><strong>4.1 注册账号</strong></p>
+<p>这里说下注册账号的时候需要注意的事项。<br>如果注册账号的时候提示如下错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">there was an error with the reCAPTCHA,please solve the reCAPTCHA again</span><br></pre></td></tr></table></figure></p>
+<p>那是因为注册时需要验证码验证，就是reCAPTCHA，是一个图形验证码。但是这个验证码需要FQ才能看得到，否则你一直都注册不了。如图：<br><img src="/img/gitlab3.png" alt=""><br><strong>4.2 GitLab账户配置SSH Keys</strong></p>
+<p><strong>4.2.1 首先需要检查你电脑是否已经有 SSH Keys</strong></p>
+<p>在Git Bash 客户端，输入如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~/.ssh</span><br><span class="line">$ ls</span><br></pre></td></tr></table></figure></p>
+<p>如下说明已经存在，存在就可以忽略步骤4.2.2，直接进入步骤4.2.3</p>
+<p><img src="/img/gitlab4.png" alt=""></p>
+<p><strong>4.2.2 创建一个 SSH Keys</strong></p>
+<p>在Git Bash 客户端，输入如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C &quot;your_email&quot;</span><br></pre></td></tr></table></figure></p>
+<p>然后根据提示进行相应操作，如下图所示：</p>
+<p>第一个Enter表示Keys存储的位置，默认按回车键即可。第二个和第三个Enter表示Push文件的时候要输入的密码，不需要密码就默认按回车键即可，然后出现如图底部信息就说明创建成功了！</p>
+<p><img src="/img/gitlab5.png" alt=""><br><strong>4.2.3 GitLab配置SSH Keys</strong></p>
+<p>进入上图所示存储 id_rsa.pub 的文件夹拷贝该文件中的内容，然后登录你的GitLab账号，点击网页右上角的头像–&gt;Settings，点击左边菜单栏的 SSH Keys 进入页面添加 SSH key。如下操作：<br><img src="/img/gitlab6.png" alt=""><br><img src="/img/gitlab7.png" alt=""></p>
+<p><strong>4.3 创建项目</strong></p>
+<p>在GitLab网站点击导航条上的 “+” 即可进入创建项目的页面，然后根据提示填写相应信息，如下图：<br><img src="/img/gitlab8.png" alt=""><br><img src="/img/gitlab9.png" alt=""></p>
+<p>Project path：项目路径<br>Project name：项目名称<br>Project description (optional)：项目描述（可选项）<br>Visibility Level：可见登记，Private表示私有的，只有你自己或者组内的成员能访问，Internal表示所有登录的用户，Public表示公开的，所有人都可以访问。</p>
+<p>创建完成后是这样的：<br><img src="/img/gitlab10.png" alt=""></p>
+<h4 id="Android-Studio中使用Git"><a href="#Android-Studio中使用Git" class="headerlink" title="Android Studio中使用Git"></a>Android Studio中使用Git</h4><p><strong>5.1 将项目上传到GitLab</strong></p>
+<p>本地已创建好的项目为WildmaGit</p>
+<p><strong>5.1.1 配置忽略文件</strong></p>
+<p>Android Studio创建项目后会自动生成.gitignore文件，这个文件可以用来忽略那些不用加入到仓库的文件。项目根目录下与module目录下都会生成该文件，如下：<br><img src="/img/gitlab11.png" alt=""><br>一般情况下我们只需要将项目根目录下的/.idea/workspace.xml与/.idea/libraries改成.idea即可，其他没有特殊要求就用默认的。如下：</p>
+<p>修改前：<br><img src="/img/gitlab12.png" alt=""><br>修改后：<br><img src="/img/gitlab13.png" alt=""><br><strong>5.1.2 初始化本地Git仓库</strong></p>
+<p>点击Android Studio顶部菜单栏上的VCS–&gt;Import into Version Control–&gt;Create Git Repository，如图：<br><img src="/img/gitlab14.png" alt=""><br>然后选择需要初始化的项目根目录，如图：<br><img src="/img/gitlab15.png" alt=""><br>初始化之后发现文件名由原来的白色变成了红色，这表示文件已经被git跟踪了，但是并没有添加到仓库中。如图：<br><img src="/img/gitlab16.png" alt=""><br><strong>5.1.3 将本地Git仓库已与远程仓库进行关联</strong></p>
+<p>打开项目文件夹，在该文件夹中打开Git Bash。输入如下命令后就代表本地Git仓库已与远程仓库进行关联了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git@gitlab.com:wildma/WildmaGit.git</span><br></pre></td></tr></table></figure></p>
+<p>具体步骤见下图：<br><img src="/img/gitlab17.png" alt=""><br><img src="/img/gitlab18.png" alt=""><br>其中 <a href="mailto:git@gitlab.com" target="_blank" rel="noopener">git@gitlab.com</a>:wildma/WildmaGit.git 为我们项目的远程地址，可以到我们前面创建项目中复制，如下：<br><img src="/img/gitlab19.png" alt=""></p>
+<p><strong>5.1.4 添加文件</strong></p>
+<p>选中项目的根目录，点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Add…，如下图：<br><img src="/img/gitlab20.png" alt=""><br>添加文件后发现文件名由原来的红色变成了绿色，说明已经将文件添加进仓库了。如下图：<br><img src="/img/gitlab21.png" alt=""><br><strong>5.1.5 提交文件</strong></p>
+<p>每次提交前需要先更新项目，原因是如果是多人合作的项目，需要先将远程仓库中他人提交的最新代码更新到本地仓库。如图：<br><img src="/img/gitlab22.png" alt=""><br>然后选中Merge，点击OK，如果本地代码与远程代码有冲突就会弹出冲突提示，根据需求Merge即可，如图：<br><img src="/img/gitlab23.png" alt=""></p>
+<p>Update后就可以提交文件了，选中项目的根目录，点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Commit Directory…，如图：<br><img src="/img/gitlab24.png" alt=""></p>
+<p>然后会弹出如下提交框，这里可以选择你要提交的文件和填写提交信息，如图：<br><img src="/img/gitlab25.png" alt=""><br>提交文件后发现文件名由原来的绿色又变成了最开始的白色，说明已经将文件提交上仓库了。如图：<br><img src="/img/gitlab26.png" alt=""></p>
+<p><strong>5.1.6 将提交的文件推送到远程仓库</strong></p>
+<p>选中项目的根目录，点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Push…，如下图：<br><img src="/img/gitlab27.png" alt=""><br>然后会弹出如下推送框<br><img src="/img/gitlab28.png" alt=""><br>点击Push后，就可以在GitLab上看到刚刚推送的内容了。如下图：<br><img src="/img/gitlab29.png" alt=""></p>
+<p><strong>5.2 从GitLab上clone项目</strong></p>
+<p>首先到GitLab上复制项目的地址，如图：<br><img src="/img/gitlab30.png" alt=""><br>然后点击Android Studio顶部菜单栏上的VCS–&gt;Checkout from Version Control–&gt;Git ，如图：<br><img src="/img/gitlab31.png" alt=""><br>最后填写相应的信息即可，如下图：</p>
+<p>Git Repository URL：填写刚刚复制的项目地址<br>Parent Directory：项目路径<br>Directory Name：项目文件夹名称<br><img src="/img/gitlab32.png" alt=""><br>点击clone后，项目就clone下来了！<br><strong>5.3 分支管理</strong></p>
+<p><strong>5.3.1 分支策略</strong></p>
+<p>在实际开发中，我们会用到很多分支。这里说下各分支的作用。</p>
+<p>master分支：最稳定的分支，保存需要发布的版本，不在该分支上做任何开发。<br>dev分支：开发分支，保存最新的代码，平时开发就在该分支上。当某个版本开发完成后就合并到master分支，然后在master分支进行版本发布。<br>bug分支：用来修复bug的分支，一般是线上版出现bug的时候，从master分支创建一个新的bug分支进行bug修复，修复完成合并到master分支和dev分支（保证master分支与dev分支同步），然后删除该bug分支。</p>
+<p>实际开发中我主要用到这三个分支，当然每个人都不同，有些人还会细分到功能分支，预发分支。其中master分支与dev分支都需要推送到远程，为了其他成员能共同开发，bug分支则放在本地即可，你自己修复完bug删掉即可。</p>
+<p><strong>5.3.2 分支操作</strong></p>
+<p><strong>1. 创建分支</strong></p>
+<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，如图：<br><img src="/img/gitlab33.png" alt=""><br>然后选择New Branch，输入分支的名字，例如“dev”，如图：<br><img src="/img/gitlab34.png" alt=""><br><img src="/img/gitlab35.png" alt=""><br>点击OK，分支dev就创建成功了，并且默认切换到该分支。重复上面的步骤可以看到当前分支显示的是dev，如图：<br><img src="/img/gitlab36.png" alt=""></p>
+<p><strong>2. 推送分支到远程</strong></p>
+<p>这时候我们在dev分支上修改内容，然后按照前面说的提交文件（步骤5.1.5），将提交的文件推送到远程仓库（步骤5.1.6）即可。如图：<br><img src="/img/gitlab37.png" alt=""><br><img src="/img/gitlab38.png" alt=""><br>点击push，然后就可以到Gitlab上看到我们刚刚推送的dev分支了，如图：<br><img src="/img/gitlab39.png" alt=""><br><strong>3. 切换分支</strong></p>
+<p>dev分支上版本V1.0开发完了，需要将代码合并到master上进行发布。因为当前在dev分支，所以需要先切换到master分支，点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，打开Git Branches窗口，然后选择本地分支栏下的master-&gt;origin/master，然后点击Checkout。如图：<br><img src="/img/gitlab40.png" alt=""><br><strong>4. 合并分支</strong></p>
+<p>第三步已经将分支切换到master了，现在进行分支合并。点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，打开Git Branches窗口，然后选择远程分支栏下的origin/dev，然后点击Merge。如图：<br><img src="/img/gitlab41.png" alt=""><br>这个时候到GitLab上却发现master分支上并没有合并到dev分支修改的内容，那是因为刚刚只是将远程dev分支的内容合并到本地master分支，本地master分支还没有push到远程，push一下就可以啦~ 如图：<br><img src="/img/gitlab42.png" alt=""><br>这个时候发现GitLab上master分支与dev分支是保持一致的了。然后将最新的master分支打包发布即可！</p>
+<p><strong>5. 删除分支</strong></p>
+<p><strong>删除本地分支：</strong></p>
+<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，打开Git Branches窗口，选中本地dev分支，选择Delete即可。如图：<br><img src="/img/gitlab43.png" alt=""><br><strong>删除远程分支：</strong></p>
+<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，打开Git Branches窗口，选中远程dev分支，选择Delete即可。如图：<br><img src="/img/gitlab44.png" alt=""><br><strong>5.4 标签(Tag)管理</strong></p>
+<p>标签一般是用于标记某个发布的版本， 例如你发布了版本v1.0，这个时候会打一个v1.0的Tag，主要是方便以后查看和管理某个版本的代码。</p>
+<p><strong>1. 创建标签</strong></p>
+<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Tag…，如图：<br><img src="/img/gitlab45.png" alt=""><br>然后填写Tag名称与Tag信息，点击Create Tag即可创建本地标签。其中Commit可填写以前某次提交记录的id，表示在该次提交上打Tag。如果不填表示Tag打在最新提交的commit上。如图：<br><img src="/img/gitlab46.png" alt=""><br><strong>2. 推送标签到远程</strong></p>
+<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Push…，如图：<br><img src="/img/gitlab47.png" alt=""><br>然后弹出Push框，选中Push Tags，点击Push即可推送到远程。如图：<br><img src="/img/gitlab48.png" alt=""><br>最后到GitLab就可以看到刚刚创建的Tag了，如图：<br><img src="/img/gitlab49.png" alt=""><br><strong>3. checkout某个标签的代码</strong></p>
+<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，如图：<br><img src="/img/gitlab50.png" alt=""><br>然后选择Checkout Tag or Revision…，最后在弹出的Checkout框中填入Tag的名称即可。如图：<br><img src="/img/gitlab51.png" alt=""><br><img src="/img/gitlab52.png" alt=""></p>
+<p><strong>4. 删除标签</strong></p>
+<p>在Android Studio中没找到删除Tag的操作，所以这里用Git命令。（有发现的小伙伴可以告诉我）</p>
+<p><strong>查看本地标签：</strong><br>git tag</p>
+<p><strong>删除本地标签：</strong><br>git tag -d tagName</p>
+<p><strong>删除远程标签：</strong><br>git push origin :refs/tags/tagName</p>
+<p>以上命令需要在Android Studio自带的命令行中输入，如图：<br><img src="/img/gitlab53.png" alt=""><br>希望这种图文结合的方式大家都能看懂吧！写的不好的地方请多交流~</p>
+<p>项目地址：<br><a href="https://gitlab.com/wildma/WildmaGit" target="_blank" rel="noopener">https://gitlab.com/wildma/WildmaGit</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/初识GitLab/" rel="tag"># 初识GitLab</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/20/Linux常用命令学习/" rel="next" title="Linux常用命令学习">
+                <i class="fa fa-chevron-left"></i> Linux常用命令学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/20/Servlet 简介/" rel="prev" title="javaweb (一)">
+                javaweb (一) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Qgx" />
+            
+              <p class="site-author-name" itemprop="name">Qgx</p>
+              <p class="site-description motion-element" itemprop="description">漫漫长路，伴你同行</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">79</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">53</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/qin12" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:1520290900@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=1520290900&website=www.oicqzone.com" target="_blank" title="QQ"><i class="fa fa-fw fa-QQ"></i>QQ</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#详细讲解Android-Studio中使用Git"><span class="nav-number">1.</span> <span class="nav-text">详细讲解Android Studio中使用Git</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#简介"><span class="nav-number">1.2.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#准备-Git"><span class="nav-number">1.3.</span> <span class="nav-text">准备 Git</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GitLab-使用"><span class="nav-number">1.4.</span> <span class="nav-text">GitLab 使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Android-Studio中使用Git"><span class="nav-number">1.5.</span> <span class="nav-text">Android Studio中使用Git</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qgx</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.2.0</div>
+
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+</body>
+</html>

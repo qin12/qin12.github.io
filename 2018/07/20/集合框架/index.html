@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.jpg?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="集合框架1：String类：字符串(重点) (1)多个字符组成的一个序列，叫字符串。生活中很多数据的描述都采用的是字符串的。而且我们还会对其进行操作。所以，java就提供了这样的一个类供我们使用。 (2)创建字符串对象  123456789101112131415161718192021222324252627282930313233A:String():无参构造举例： String s = ne">
+<meta name="keywords" content="集合框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java 基础知识">
+<meta property="og:url" content="http://yoursite.com/2018/07/20/集合框架/index.html">
+<meta property="og:site_name" content="qin12的学习博客">
+<meta property="og:description" content="集合框架1：String类：字符串(重点) (1)多个字符组成的一个序列，叫字符串。生活中很多数据的描述都采用的是字符串的。而且我们还会对其进行操作。所以，java就提供了这样的一个类供我们使用。 (2)创建字符串对象  123456789101112131415161718192021222324252627282930313233A:String():无参构造举例： String s = ne">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-07-20T04:10:37.813Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java 基础知识">
+<meta name="twitter:description" content="集合框架1：String类：字符串(重点) (1)多个字符组成的一个序列，叫字符串。生活中很多数据的描述都采用的是字符串的。而且我们还会对其进行操作。所以，java就提供了这样的一个类供我们使用。 (2)创建字符串对象  123456789101112131415161718192021222324252627282930313233A:String():无参构造举例： String s = ne">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="qin12的学习博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/20/集合框架/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>java 基础知识 | qin12的学习博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">qin12的学习博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只为成功找方法，不为失败找借口！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-photo">
+    <a href="/photo/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-photo"></i> <br />摄影</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-music">
+    <a href="/music/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-music"></i> <br />音乐</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/集合框架/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">java 基础知识
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="集合框架"><a href="#集合框架" class="headerlink" title="集合框架"></a>集合框架</h3><h4 id="1：String类：字符串-重点"><a href="#1：String类：字符串-重点" class="headerlink" title="1：String类：字符串(重点)"></a>1：String类：字符串(重点)</h4><ul>
+<li>(1)多个字符组成的一个序列，叫字符串。<br>生活中很多数据的描述都采用的是字符串的。而且我们还会对其进行操作。<br>所以，java就提供了这样的一个类供我们使用。</li>
+<li>(2)创建字符串对象</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">A:String():无参构造</span><br><span class="line">举例：</span><br><span class="line"> String s = new String();</span><br><span class="line"> s = &quot;hello&quot;;</span><br><span class="line"> sop(s);</span><br><span class="line">B:String(byte[] bys):传一个字节数组作为参数 *****</span><br><span class="line">举例</span><br><span class="line"> byte[] bys = &#123;97,98,99,100,101&#125;;</span><br><span class="line"> String s = new String(bys);</span><br><span class="line"> sop(s);</span><br><span class="line">C:String(byte[] bys,int index,int length):把字节数组的一部分转换成一个字符串 *****</span><br><span class="line">举例</span><br><span class="line"> byte[] bys = &#123;97,98,99,100,101&#125;;</span><br><span class="line"> String s = new String(bys,1,2);</span><br><span class="line"> sop(s);</span><br><span class="line">D:String(char[] chs):传一个字符数组作为参数 *****</span><br><span class="line">举例</span><br><span class="line"> char[] chs = &#123;&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,&apos;e&apos;&#125;;</span><br><span class="line"> String s = new String(chs);</span><br><span class="line"> sop(s);</span><br><span class="line">E:String(char[] chs,int index,int length):把字符数组的一部分转换成一个字符串 *****</span><br><span class="line">举例</span><br><span class="line"> char[] chs = &#123;&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,&apos;e&apos;&#125;;</span><br><span class="line"> String s = new String(chs,1,2);</span><br><span class="line"> sop(s);</span><br><span class="line">F:String(String str):把一个字符串传递过来作为参数</span><br><span class="line"> char[] chs = &#123;&apos;a&apos;,&apos;b&apos;,&apos;c&apos;,&apos;d&apos;,&apos;e&apos;&#125;;</span><br><span class="line"> String ss = new String(s);</span><br><span class="line"> sop(ss);</span><br><span class="line">G:直接把字符串常量赋值给字符串引用对象(最常用) *****</span><br><span class="line">举例</span><br><span class="line"> String s = &quot;hello&quot;;</span><br><span class="line"> sop(s);</span><br></pre></td></tr></table></figure>
+<h4 id="3-面试题"><a href="#3-面试题" class="headerlink" title="(3)面试题"></a>(3)面试题</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">A:请问String s = new String(&quot;hello&quot;);创建了几个对象。</span><br><span class="line"> 两个。一个&quot;hello&quot;字符串对象，在方法区的常量池；一个s对象，在栈内存。</span><br><span class="line">B:请写出下面的结果</span><br><span class="line">String s1 = new String(&quot;abc&quot;);</span><br><span class="line">Strign s2 = new String(&quot;abc&quot;);</span><br><span class="line">String s3 = &quot;abc&quot;;</span><br><span class="line">String s4 = &quot;abc&quot;;</span><br><span class="line">sop(s1==s2);  //false</span><br><span class="line">sop(s1==s3);  //false</span><br><span class="line">sop(s3==s4);  //true</span><br><span class="line">C:字符串对象一旦被创建就不能被改变。</span><br><span class="line">指的是字符串常量值不改变。</span><br></pre></td></tr></table></figure>
+<p>(4)字符串中各种功能的方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">A:判断</span><br><span class="line">boolean equals(Object anObject):判断两个字符串的内容是否相同，复写了Object的方法</span><br><span class="line">boolean equalsIgnoreCase(String anotherString):判断两个字符串的内容是否相同，</span><br><span class="line">不区分大小写</span><br><span class="line">boolean contains(String s):判断一个字符串中是否包含另一个字符串</span><br><span class="line">注意：判断字符串是否包含特殊字符.直接表示为str.contains(&quot;.&quot;)</span><br><span class="line">boolean endsWith(String suffix):测试此字符串是否以指定的后缀结束</span><br><span class="line">boolean startsWith(String suffix):测试此字符串是否以指定的前缀开始</span><br><span class="line">boolean isEmpty():测试字符串是否为空</span><br><span class="line">B:获取</span><br><span class="line">int length():返回此字符串的长度</span><br><span class="line">char charAt(int index):返回指定索引处的 char值</span><br><span class="line">int indexOf(int ch):返回指定字符在此字符串中第一次出现处的索引。 </span><br><span class="line">int indexOf(int ch, int fromIndex):返回在此字符串中第一次出现指定字符处的索引，</span><br><span class="line">  从指定的索引开始搜索。 </span><br><span class="line">int indexOf(String str):返回指定子字符串在此字符串中第一次出现处的索引。 </span><br><span class="line">int indexOf(String str, int fromIndex):返回指定子字符串在此字符串中第一次</span><br><span class="line">出现处的索引，从指定的索引开始。 </span><br><span class="line">int lastIndexOf(int ch)：返回指定字符在此字符串中最后一次出现处的索引。 </span><br><span class="line">int lastIndexOf(int ch, int fromIndex) </span><br><span class="line">返回指定字符在此字符串中最后一次出现处的索引,从指定的索引处开始进行反向搜索。 </span><br><span class="line">int lastIndexOf(String str) </span><br><span class="line">返回指定子字符串在此字符串中最右边出现处的索引。 </span><br><span class="line">int lastIndexOf(String str, int fromIndex) </span><br><span class="line">返回指定子字符串在此字符串中最后一次出现处的索引，从指定的索引开始反向搜索。 </span><br><span class="line">String substring(int beginIndex) (注意：该方法substring的String是小写！！！)</span><br><span class="line">返回一个新的字符串，它是此字符串的一个子字符串。 </span><br><span class="line">String substring(int beginIndex, int endIndex) (注意该方法的String是小写！！！)</span><br><span class="line">返回一个新字符串，它是此字符串的一个子字符串,包含头不包含尾。 </span><br><span class="line">C:转换</span><br><span class="line">byte[] getBytes()：(很常用！)从字符串到字节数组的方法</span><br><span class="line">void getChars(int srcBegin, int srcEnd, char[] dst, int dstBegin) </span><br><span class="line">将字符从此字符串复制到目标字符数组。 </span><br><span class="line">char[] toCharArray()：(很常用！)从字符串到字符数组的方法</span><br><span class="line">static String copyValueOf(char[] data) </span><br><span class="line">返回指定数组中表示该字符序列的 String。 </span><br><span class="line">static String copyValueOf(char[] data, int offset, int count) </span><br><span class="line">返回指定数组中表示该字符序列的 String。 </span><br><span class="line">static String valueOf(数据类型):把该数据类型的数据转换成字符串。</span><br><span class="line">String toLowerCase()：把字符串转换成小写</span><br><span class="line">String toUpperCase()：把字符串转换成大写</span><br><span class="line">字符串的连接</span><br><span class="line">String concat(String str):将指定字符串连接到此字符串的结尾。</span><br><span class="line">D:替换</span><br><span class="line">String replace(char oldChar, char newChar):用新字符替换旧字符(替换所有)</span><br><span class="line">String replace(String target, String replacement):用新的子串换旧串</span><br><span class="line">E:分割</span><br><span class="line">String[] split(String regex)：根据指定的字符串把一个字符串分割成一个字符串数组</span><br><span class="line">F:</span><br><span class="line"></span><br><span class="line">String trim():去除字符串的前后空格</span><br><span class="line">G:</span><br><span class="line"></span><br><span class="line">int compareTo(String anotherString) </span><br><span class="line">按字典顺序比较两个字符串。 </span><br><span class="line">int compareToIgnoreCase(String str) </span><br><span class="line">按字典顺序比较两个字符串，不考虑大小写。</span><br></pre></td></tr></table></figure></p>
+<p>(5)练习<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">1:模拟登录,给三次机会,并提示还有几次.</span><br><span class="line">默认的用户名和密码为admin。 区分大小写。</span><br><span class="line">自己从键盘输入用户名和密码。</span><br><span class="line">2:给定一个字符串统计,统计大写字母,小写字母,数字出现的个数.</span><br><span class="line">注意:不包括特殊字符</span><br><span class="line">从键盘输入一个不包含特殊字符的字符串(只有26个字母和0-9组成)。</span><br><span class="line">3:给定一个字符串,把它变成首字母大写,其他字母小写的字符串.</span><br><span class="line">从键盘输入一个字符串，全部26个字母组成的。</span><br><span class="line">4:子串在整串中出现的次数。</span><br><span class="line">也就是说:获取一个字符串中,指定的字串在该字符串中出现的次数.</span><br><span class="line">例如:</span><br><span class="line">&quot;nbasdnbafllgnbahjnbakqqqqlnba&quot;  在这个字符串中，多有个nba.</span><br><span class="line">5:对字符串中字符进行自然顺序排序。</span><br><span class="line">&quot;basckd&quot;--&gt;&quot;abcdks&quot;</span><br><span class="line">先留做思考内容：</span><br><span class="line">6:两个字符串的最大相同子串。</span><br><span class="line">两个字符串的最大相同子串。</span><br><span class="line">比如:</span><br><span class="line">&quot;sadabcdfghjkl&quot;</span><br><span class="line">werabcdtyu&quot;</span><br></pre></td></tr></table></figure></p>
+<h4 id="2：StringBuffer"><a href="#2：StringBuffer" class="headerlink" title="2：StringBuffer"></a>2：StringBuffer</h4><p>(1)字符串的缓冲区，是一个容器。<br>(2)它和String的区别<br>它是缓冲区可变长度的。<br>(3)构造方法<br>StringBuffer() 构造一个其中不带字符的字符串缓冲区，初始容量为 16 个字符。<br>StringBuffer(int num) 构造一个不带字符，但具有指定初始容量的字符串缓冲区。<br>StringBuffer(String str) 构造一个字符串缓冲区，并将其内容初始化为指定的字符串内容。<br>(4)常用方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">A:增加数据</span><br><span class="line">append ：添加各种类型的数据</span><br><span class="line">insert : 在容器指定位置插入各种类型的数据。</span><br><span class="line">B:删除数据</span><br><span class="line">deleteCharAt : 删除指定位置的字符</span><br><span class="line">delete 还可以用于清空StringBuffer的缓冲区</span><br><span class="line">C:替换</span><br><span class="line">replace</span><br><span class="line">D:获取 </span><br><span class="line">charAt </span><br><span class="line">E:长度和容量</span><br><span class="line">length() 元素的个数</span><br><span class="line">capacity 元素的理论值</span><br><span class="line">F:获取元素的位置</span><br><span class="line">indexOf</span><br><span class="line">lastIndexOf</span><br><span class="line">G:截取</span><br><span class="line">substring(int start)</span><br><span class="line">substring(int start,int end)</span><br><span class="line">H:反转</span><br><span class="line">reverse</span><br></pre></td></tr></table></figure></p>
+<p>(5)字符串和StringBuffer的转换<br>String–&gt;StringBuffer通过构造:<br>如:StringBuffer sb = new StringBuffer(String str)<br>StringBuffer–String通过toString方法<br>如:StringBuffer sb = new StringBuffer();<br>  sb.toString();</p>
+<h4 id="3：StringBuilder"><a href="#3：StringBuilder" class="headerlink" title="3：StringBuilder"></a>3：StringBuilder</h4><p>和StringBuffer的功能是一样的，但是有区别：<br>StringBuffer(JDK1.0)是线程安全的。<br>StringBuilder(JDK1.5)不保证线程安全。<br>一般来说，我们写的程序都是单线程的，所以，用StringBuilder，效率高。<br>JDK版本的升级原则：<br>A:提高效率<br>B:提高安全性<br>C:简化书写</p>
+<h4 id="4：基本数据类型的对象包装类"><a href="#4：基本数据类型的对象包装类" class="headerlink" title="4：基本数据类型的对象包装类"></a>4：基本数据类型的对象包装类</h4><p>(1)为了更方便的操作每个基本数据类型，java对其提供了很多的属性和方法供我们使用。<br>(2)用途：<br>将基本数据类型封装成对象的好处在于可以在对象中定义更多的功能操作该数据。<br>常用的操作之一：用于基本数据类型与字符串之间的转换。</p>
+<ul>
+<li>A:方便操作</li>
+<li>B:用于和字符串进行相互转换</li>
+</ul>
+<p>(3)基本数据类型和对象类型的对应<br>byte<br>Byte<br>short Short<br>int Integer<br>long Long<br>float Float<br>double Double<br>boolean  Boolean<br>char Character<br>(4)构造方法<br>字段摘要：<br>static int MAX_VALUE 值为 2^31-1 的常量，它表示 int 类型能够表示的最大值<br>static int MIN_VALUE  值为 -2^31 的常量，它表示 int 类型能够表示的最小值<br>static Class<integer> TYPE 表示基本类型int的Class 实例</integer></p>
+<p>Integer(int value) 构造一个新分配的Integer对象，它表示指定的int值。<br>Inreger(String s) 注意：s必须是纯数字的字符串。否则会有异常NumberFormatException</p>
+<p>(5)几个常用的方法<br>Integer.toBinaryString();<br>以二进制（基数 2）无符号整数形式返回一个整数参数的字符串表示形式。<br>Integer.toOctalString();<br>以八进制（基数 8）无符号整数形式返回一个整数参数的字符串表示形式。<br>Integer.toHexString();<br>以十六进制（基数 16）无符号整数形式返回一个整数参数的字符串表示形式。<br>static int Integer.parseInt(String s) 将字符串参数作为有符号的十进制整数进行解析,<br>字符串必须是int型范围内的数字字符串<br>static int Integer.parseInt(String s,int basic)<br>使用第二个参数指定的基数,将字符串参数解析为有符号的整数.<br>字符串必须是int型范围内的数字字符串<br>short shortValue() 以short类型返回该Integer的值。<br>int intValue() 以int类型返回该Integer的值。<br>static Integer valueOf(int num) 返回一个表示指定的 int 值的 Integer 实例。<br>static Integer valueOf(String s) 返回保存指定的String的值的Integer对象。<br>                static Integer valueOf(String s, int radix)<br>返回一个Integer对象，该对象中保存了用第二个参数提供的基数进行<br>解析时从指定的String中提取的值。<br>(6)类型转换<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">int -- Integer</span><br><span class="line">int num = 20;</span><br><span class="line">A:Integer i = new Integer(num);</span><br><span class="line">B:Integer i = Integer.valueOf(num);</span><br><span class="line">Integer -- int</span><br><span class="line">Integer i = new Integer(20);</span><br><span class="line">A:int num = i.intValue();</span><br><span class="line">int -- String</span><br><span class="line">int num = 20;</span><br><span class="line">A:String s = String.valueOf(num);</span><br><span class="line">B:String s = &quot;&quot;+num;</span><br><span class="line">C:String s = Integer.toString(num);</span><br><span class="line">String -- int</span><br><span class="line">String s = &quot;20&quot;;</span><br><span class="line">A:int num = Integer.parseInt(s);</span><br><span class="line">B:Integer i = new Integer(s);或者Integer i = Integer.valueOf(s);</span><br><span class="line"> int num = i.intValue();</span><br></pre></td></tr></table></figure></p>
+<h4 id="5、集合框架："><a href="#5、集合框架：" class="headerlink" title="5、集合框架："></a>5、集合框架：</h4><p>(1)为什么出现集合类？<br>面向对象对事物的体现都是以对象的形式，为了方便对多个对象的操作，就对对象进行存储。<br>集合就是存储对象最常用的一种方式.<br>(2)数组和集合都是容器，两者有何不同？<br>数组长度固定，而集合长度是可变的<br>数组值可以存储对象，还可以存储基本数据类型;而集合只能存储对象<br>数组存储数据类型是固定的，而集合存储的数据类型不固定<br>(3)集合类的特点：<br>集合只能存储对象<br>集合的长度是可变的<br>集合可以存储不同类型的对象<br>(4)集合类框架(重要！！！要分清几种容器间的区别)：<br>Collection:顶层接口<br>    |—&gt;List:列表，元素是有序的(元素带角标索引)，可以有重复元素,可以有null元素。<br>           |—&gt;ArrayList(JDK1.2):底层的数据结构是数组数据结构，特点是查询速度快(因为带角标)，<br>  但是增删速度稍慢,因为当元素多时，增删一个元素则所有元素的角标都得改变<br>  线程不同步。默认长度是10，当超过长度时，按50%延长集合长度。<br>   |—&gt;LinkedList(JDK1.2):底层数据结构式链表数据结构(即后面一个元素记录前一个)，<br>   特点：查询速度慢，因为每个元素只知道前面一个元素，但增删速度快<br>   因为元素再多，增删一个，只要让其前后的元素重新相连即可<br>   线程是不同步的。<br>   |—&gt;Vector(JDK1.0):底层数据结构是数组数据结构.特点是查询和增删速度都很慢。<br>默认长度是10，当超过长度时,按100%延长集合长度。<br>线程同步。<br>(Vector功能跟ArrayList功能一模一样，已被ArrayList替代)</p>
+<h5 id="List使用注意！"><a href="#List使用注意！" class="headerlink" title="List使用注意！"></a>List使用注意！</h5><p>|—&gt;ArrayList:<br>(1)当往ArrayList里面存入元素没什么要求时，即只要求有序就行时；</p>
+<p>(2)当往ArrayList里面存入元素要求不重复时，比如存入学生对象，当同名同姓时<br>  视为同一个人，则不往里面存储。则定义学生对象时，需复写equals方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">  public boolean equals(Object obj)</span><br><span class="line">  &#123;</span><br><span class="line">if(!(obj instanceof Student))</span><br><span class="line">return false;</span><br><span class="line">Student stu = (Student)obj;</span><br><span class="line">return this.name.equals(stu.name)&amp;&amp;this.age==stu.age;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>  则往ArrayList集合通过add存入学生对象时，集合底层自己会调用学生类的equals方法，<br>  判断重复学生则不存入。<br>注：对于List集合，无论是add、contains、还是remove方法，判断元素是否相同，<br>    都是通过复写equals方法来判断！</p>
+<p>|—&gt;LinkedList<br>(1)LinkLedist的特有方法：<br>boolean offerFirst(E e)  在此列表的开头插入指定的元素。<br>boolean offerLast(E e) 在此列表末尾插入指定的元素。<br>E peekFirst() 获取但不移除此列表的第一个元素；如果此列表为空，则返回 null。<br>E peekLast() 获取但不移除此列表的最后一个元素；如果此列表为空，则返回 null。<br>E pollFirst() 获取并移除此列表的第一个元素；如果此列表为空，则返回 null。<br>E pollLast() 获取并移除此列表的最后一个元素；如果此列表为空，则返回 null。<br>(2)通过LinkLedist的特有方法，可以实现某些数据特殊方式的存取，比如堆栈和队列。</p>
+<p>一般情况下，使用哪种List接口下的实现类呢？<br>如果要求增删快，考虑使用LinkedList<br>如果要求查询快，考虑使用ArrayList<br>如果要求线程安全，考虑使用Vector。</p>
+<p>|—&gt;Set:集合，元素是无序的(因为没有索引)，元素不可以重复。可以有null元素。<br>   |—&gt;HashSet(JDK1.2):底层数据结构是哈希表、存取速度快、元素唯一、线程不同步。<br>保证性元素唯一的原理:<br>先判断元素的hashCode值是否相同，再判断两元素的equals方法是否为true<br>(往HashSet里面存的自定义元素要复写hashCode和equals方法，<br>以保证元素的唯一性！)<br>|—&gt;TreeSet:底层数据结构式二叉树。可以对Set集合中的元素进行排序。元素有序、线程不同步。<br>保证元素唯一性的依据：compareTo方法return 0<br>TreeSet排序的第一种方式:让元素自身具备比较性，比如八种基本数据类型或则字符串，<br>实现Compareble接口,覆盖compareTo方法，<br>此方式是元素的自然顺序<br>TreeSet排序的第一种方式:当元素自身不具备比较性(比如存储学生对象时)或者具备的<br>比较性不是我们所需要的比较性时(比如想字符串的长度排序),<br>此时就需要让集合自身具备自定义的比较性。<br>那如何让集合自身具备比较性呢？可在集合初始化时，<br>就让集合具备比较方式。即定义一个类，<br>实现Comparator接口，覆盖compare方法。</p>
+<h5 id="Set集合使用注意事项："><a href="#Set集合使用注意事项：" class="headerlink" title="Set集合使用注意事项："></a>Set集合使用注意事项：</h5><p>(1)HashSet:<br>     通过new的方式往HashSet里面存的元素的hashCode都不同，但通常我们定义对象，<br>     比如学生对象时，虽然是new的两个学生对象，但是当他们name和age一样时，我们认为是<br>     同一个对象，所以为了保证元素的唯一性，我们通常在往HashSet集合里面存储元素时，<br>     在定义对象的类中通常复写hashCode和equals方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">     public int hashCode()</span><br><span class="line">     &#123;</span><br><span class="line">return name.hashCode()+age*39;</span><br><span class="line">     &#125;</span><br><span class="line">     public boolean equals(Object obj)</span><br><span class="line">     &#123;</span><br><span class="line">if(!(obj instanceof Student))</span><br><span class="line">return false;</span><br><span class="line">Student stu = (Student)obj;</span><br><span class="line">return this.name.equals(stu.name)&amp;&amp;this.age==stu.age;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>HashSet是如何保证元素唯一性的呢？
+  如果两元素的hashCode值不同，则不会调用equals方法
+  如果两元素的hashCode值相同，则继续判断equals是否返回true；
+  hashCode和equals方法虽然定义在自定义对象类里面，但不是我们手动调用
+   而是往HashSet集合里面存储元素的时候，集合底层自己调用hashCode和equals
+</code></pre><p>它自己拿对象去判断，自己判断两元素是否是同一个元素。</p>
+<p>(2)TreeSet:<br>    TreeSet要求往里面存的元素具备比较性，否则会报错。<br>    TreeSet排序的第一种方式:让元素自身具备比较性<br> 定义对象类，实现Compareble接口,复写compareTo方法，此方式是元素的自然顺序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"> class Student implements Comparable</span><br><span class="line"> &#123;</span><br><span class="line">private String name;</span><br><span class="line">private int age;</span><br><span class="line">public Student(String name,int age)</span><br><span class="line">&#123;</span><br><span class="line">this.name=name;</span><br><span class="line">this.age=age;</span><br><span class="line">&#125;</span><br><span class="line">public String getName()</span><br><span class="line">&#123;</span><br><span class="line">return name;</span><br><span class="line">&#125;</span><br><span class="line">public int getAge()</span><br><span class="line">&#123;</span><br><span class="line">return age;</span><br><span class="line">&#125;</span><br><span class="line">public int compareTo(Object obj)</span><br><span class="line">&#123;</span><br><span class="line">if(!(obj instanceof Student))</span><br><span class="line">throw new RuntimeException(&quot;不是学生对象！&quot;);</span><br><span class="line">Student stu = (Student)obj;</span><br><span class="line">int num = this.age-stu.age;</span><br><span class="line">if(num==0)</span><br><span class="line">return this.name.compareTo(stu.name);</span><br><span class="line">return num;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>   TreeSet排序的第一种方式:让集合具备比较性<br>当元素自身不具备比较性(比如存储学生对象时)或者具备的<br>比较性不是我们所需要的比较性时(比如想字符串的长度排序),<br>此时就需要让集合自身具备自定义的比较性。<br>那如何让集合自身具备比较性呢？可在集合初始化时，<br>就让集合具备比较方式。即定义一个类，<br>实现Comparator接口，覆盖compare方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">class StringLengthComparator implements Comparator</span><br><span class="line">&#123;</span><br><span class="line">public int compare(Object obj1,Object obj2)</span><br><span class="line">&#123;</span><br><span class="line">String s1 = (String)obj1;</span><br><span class="line">String s2 = (String)obj2;</span><br><span class="line">int num = new Integer(s1.length()).compareTo(new Integer(s2.length()));</span><br><span class="line">if(num==0)</span><br><span class="line">return s1.compareTo(s2);</span><br><span class="line">return num;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">class TreeSetTest</span><br><span class="line">&#123;</span><br><span class="line">public static void main(String[] args)</span><br><span class="line">&#123;</span><br><span class="line">TreeSet ts = new TreeSet(new StringLengthComparator());</span><br><span class="line">ts.add(&quot;addfg&quot;);</span><br><span class="line">ts.add(&quot;dfg&quot;);</span><br><span class="line">ts.add(&quot;agtuug&quot;);</span><br><span class="line">ts.add(&quot;vgjkg&quot;);</span><br><span class="line">sop(ts);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>基本数据类型或字符串对象均实现了Comparable接口，故同种类型基本数据间具备比较性，即自然顺序。</p>
+<p>Map:顶层接口,该集合存储的是键值对,而且键是唯一的,Map和Set很像,Set集合底层就是使用了Map集合。<br>Map集合没有迭代器，要取出元素必须先将Map集合转换成Set集合才能遍历元素<br>  |—&gt;HashTable(JDK1.0):<br>底层是哈希表数据结构；<br>不可以使用null键和null值；<br>用作键的对象必须实现hashCode和equals方法来保证键的唯一性<br>线程同步，效率低<br>  |—&gt;HashMap(JDK1.2):<br>底层是哈希表数据结构；<br>允许使用null键和null值；<br>线程不同步，效率高；<br>保证元素唯一性的:<br>原理：先判断元素的hashCode值是否相同，再判断两元素的equals方法是否为true<br>(往HashSet里面存的自定义元素要复写hashCode和equals方法，<br>以保证元素的唯一性！)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">class Student &#123;</span><br><span class="line">private String name;</span><br><span class="line">private int age;</span><br><span class="line">public Student(String name, int age) &#123;</span><br><span class="line">super();</span><br><span class="line">this.name = name;</span><br><span class="line">this.age = age;</span><br><span class="line">&#125;</span><br><span class="line">public int getAge() &#123;</span><br><span class="line">return age;</span><br><span class="line">&#125;</span><br><span class="line">public void setAge(int age) &#123;</span><br><span class="line">this.age = age;</span><br><span class="line">&#125;</span><br><span class="line">public String getName() &#123;</span><br><span class="line">return name;</span><br><span class="line">&#125;</span><br><span class="line">public void setName(String name) &#123;</span><br><span class="line">this.name = name;</span><br><span class="line">&#125;</span><br><span class="line">@Override</span><br><span class="line">public int hashCode()&#123;</span><br><span class="line">return name.hashCode()+age*34;</span><br><span class="line">&#125;</span><br><span class="line">@Override</span><br><span class="line">public boolean equals(Object obj)&#123;</span><br><span class="line">if(!(obj instanceof Student))</span><br><span class="line">return false;</span><br><span class="line">Student stu = (Student)obj;</span><br><span class="line">return this.name.equals(stu.name)&amp;&amp;this.age==stu.age;</span><br><span class="line">&#125;</span><br><span class="line">public class HashMapDemo1 &#123;</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">Map&lt;Student , String&gt; hmap = new HashMap&lt;Student , String&gt;();</span><br><span class="line">hmap.put(new Student(&quot;001&quot;,20), &quot;beijing&quot;);</span><br><span class="line">hmap.put(new Student(&quot;002&quot;,25), &quot;hebei&quot;);</span><br><span class="line">hmap.put(new Student(&quot;003&quot;,50), &quot;hainan&quot;);</span><br><span class="line">hmap.put(new Student(&quot;001&quot;,20), &quot;beijing&quot;);</span><br><span class="line">System.out.println(hmap.size());</span><br><span class="line">Set&lt;Student&gt; keySet = hmap.keySet();</span><br><span class="line">Iterator&lt;Student&gt; it = keySet.iterator();</span><br><span class="line">while(it.hasNext())&#123;</span><br><span class="line">Student stu = it.next();</span><br><span class="line">String addr = hmap.get(stu);</span><br><span class="line">System.out.println(stu.getName()+&quot;..&quot;+stu.getAge()+&quot;::&quot;+addr);</span><br><span class="line">&#125;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>  |—&gt;TreeMap(JDK1.0):<br>底层是二叉树结构；<br>允许使用null键和null值；<br>线程不同步；<br>可以给Map集合中的键进行排序.<br>TreeMap排序的第一种方式:让元素自身具备比较性，比如八种基本数据类型或则字符串，<br>实现Compareble接口,覆盖compareTo方法，<br>此方式是元素的自然顺序<br>TreeMap排序的第一种方式:当元素自身不具备比较性(比如存储学生对象时)或者具备的<br>比较性不是我们所需要的比较性时(比如想字符串的长度排序),<br>此时就需要让集合自身具备自定义的比较性。<br>那如何让集合自身具备比较性呢？可在集合初始化时，<br>就让集合具备比较方式。即定义一个类，<br>实现Comparator接口，覆盖compare方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">class Student implements Comparable&lt;Student&gt;&#123;</span><br><span class="line">private String name;</span><br><span class="line">private int age;</span><br><span class="line">public Student(String name, int age) &#123;</span><br><span class="line">super();</span><br><span class="line">this.name = name;</span><br><span class="line">this.age = age;</span><br><span class="line">&#125;</span><br><span class="line">public int getAge() &#123;</span><br><span class="line">return age;</span><br><span class="line">&#125;</span><br><span class="line">public void setAge(int age) &#123;</span><br><span class="line">this.age = age;</span><br><span class="line">&#125;</span><br><span class="line">public String getName() &#123;</span><br><span class="line">return name;</span><br><span class="line">&#125;</span><br><span class="line">public void setName(String name) &#123;</span><br><span class="line">this.name = name;</span><br><span class="line">&#125;</span><br><span class="line">@Override</span><br><span class="line">public int compareTo(Student stu) &#123;</span><br><span class="line">int num = newInteger(this.age).compareTo(new Integer(stu.age));</span><br><span class="line">if(num==0)</span><br><span class="line">return this.name.compareTo(stu.name);</span><br><span class="line">return num;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class HashMapDemo1 &#123;</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">Map&lt;Student , String&gt; tmap = new TreeMap&lt;Student , String&gt;();</span><br><span class="line">tmap.put(new Student(&quot;001&quot;,20), &quot;beijing&quot;);</span><br><span class="line">tmap.put(new Student(&quot;002&quot;,25), &quot;hebei&quot;);</span><br><span class="line">tmap.put(new Student(&quot;003&quot;,50), &quot;hainan&quot;);</span><br><span class="line">tmap.put(new Student(&quot;001&quot;,20), &quot;beijing&quot;);</span><br><span class="line">System.out.println(tmap.size());</span><br><span class="line">Set&lt;Student&gt; keySet1 = tmap.keySet();</span><br><span class="line">Iterator&lt;Student&gt; it1 = keySet1.iterator();</span><br><span class="line">while(it1.hasNext())&#123;</span><br><span class="line">Student stu = it1.next();</span><br><span class="line">String addr = tmap.get(stu);</span><br><span class="line">System.out.println(stu.getName()+&quot;..&quot;+stu.getAge()+&quot;::&quot;+addr);</span><br><span class="line">&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Iterator：对collection进行迭代的迭代器.迭代器取代了Enumeration。<br>迭代器和枚举的区别：<br>迭代器允许调用者利用定义良好的语义在迭代期间从迭代器所指向的collection移除元素<br>方法名称得到了改进，简化书写<br>LisIterator：系列表迭代器，允许程序员按任一方向遍历列表、迭代期间修改列表<br>Comparable：此接口强行对实现它的每个类的对象进行整体自然排序。使元素具备比较性<br>Comparator：强行对某个对象collection进行整体排序的比较函数，使集合具备比较性<br>Collections：此类完全由在 collection 上进行操作或返回 collection 的静态方法组成。<br>Arrays：此类包含用来操作数组(比如排序和搜索)的各种静态方法</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/集合框架/" rel="tag"># 集合框架</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/20/java的内存回收/" rel="next" title="java 基础知识(四)">
+                <i class="fa fa-chevron-left"></i> java 基础知识(四)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/20/数组和内存控制/" rel="prev" title="java基础知识(二)">
+                java基础知识(二) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Qgx" />
+            
+              <p class="site-author-name" itemprop="name">Qgx</p>
+              <p class="site-description motion-element" itemprop="description">漫漫长路，伴你同行</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">79</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">53</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/qin12" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:1520290900@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=1520290900&website=www.oicqzone.com" target="_blank" title="QQ"><i class="fa fa-fw fa-QQ"></i>QQ</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#集合框架"><span class="nav-number">1.</span> <span class="nav-text">集合框架</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1：String类：字符串-重点"><span class="nav-number">1.1.</span> <span class="nav-text">1：String类：字符串(重点)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-面试题"><span class="nav-number">1.2.</span> <span class="nav-text">(3)面试题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2：StringBuffer"><span class="nav-number">1.3.</span> <span class="nav-text">2：StringBuffer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3：StringBuilder"><span class="nav-number">1.4.</span> <span class="nav-text">3：StringBuilder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4：基本数据类型的对象包装类"><span class="nav-number">1.5.</span> <span class="nav-text">4：基本数据类型的对象包装类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、集合框架："><span class="nav-number">1.6.</span> <span class="nav-text">5、集合框架：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#List使用注意！"><span class="nav-number">1.6.1.</span> <span class="nav-text">List使用注意！</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Set集合使用注意事项："><span class="nav-number">1.6.2.</span> <span class="nav-text">Set集合使用注意事项：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qgx</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.2.0</div>
+
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+</body>
+</html>

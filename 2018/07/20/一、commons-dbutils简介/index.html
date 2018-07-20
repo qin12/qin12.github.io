@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.jpg?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="一、commons-dbutils简介commons-dbutils 是 Apache 组织提供的一个开源 JDBC工具类库，它是对JDBC的简单封装，学习成本极低，并且使用dbutils能极大简化jdbc编码的工作量，同时也不会影响程序的性能。因此dbutils成为很多不喜欢hibernate的公司的首选。 commons-dbutilsAPI介绍： org.apache.commons.dbu">
+<meta name="keywords" content="Apache的DBUtils">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Apache的DBUtils框架学习">
+<meta property="og:url" content="http://yoursite.com/2018/07/20/一、commons-dbutils简介/index.html">
+<meta property="og:site_name" content="qin12的学习博客">
+<meta property="og:description" content="一、commons-dbutils简介commons-dbutils 是 Apache 组织提供的一个开源 JDBC工具类库，它是对JDBC的简单封装，学习成本极低，并且使用dbutils能极大简化jdbc编码的工作量，同时也不会影响程序的性能。因此dbutils成为很多不喜欢hibernate的公司的首选。 commons-dbutilsAPI介绍： org.apache.commons.dbu">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-07-20T04:10:37.797Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Apache的DBUtils框架学习">
+<meta name="twitter:description" content="一、commons-dbutils简介commons-dbutils 是 Apache 组织提供的一个开源 JDBC工具类库，它是对JDBC的简单封装，学习成本极低，并且使用dbutils能极大简化jdbc编码的工作量，同时也不会影响程序的性能。因此dbutils成为很多不喜欢hibernate的公司的首选。 commons-dbutilsAPI介绍： org.apache.commons.dbu">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="qin12的学习博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/20/一、commons-dbutils简介/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Apache的DBUtils框架学习 | qin12的学习博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">qin12的学习博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只为成功找方法，不为失败找借口！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-photo">
+    <a href="/photo/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-photo"></i> <br />摄影</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-music">
+    <a href="/music/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-music"></i> <br />音乐</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/一、commons-dbutils简介/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Apache的DBUtils框架学习
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、commons-dbutils简介"><a href="#一、commons-dbutils简介" class="headerlink" title="一、commons-dbutils简介"></a>一、commons-dbutils简介</h3><p>commons-dbutils 是 Apache 组织提供的一个开源 JDBC工具类库，它是对JDBC的简单封装，学习成本极低，并且使用dbutils能极大简化jdbc编码的工作量，同时也不会影响程序的性能。因此dbutils成为很多不喜欢hibernate的公司的首选。</p>
+<h4 id="commons-dbutilsAPI介绍："><a href="#commons-dbutilsAPI介绍：" class="headerlink" title="commons-dbutilsAPI介绍："></a>commons-dbutilsAPI介绍：</h4><ul>
+<li>org.apache.commons.dbutils.QueryRunner</li>
+<li>org.apache.commons.dbutils.ResultSetHandler<h4 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h4></li>
+<li>org.apache.commons.dbutils.DbUtils</li>
+</ul>
+<h3 id="二、QueryRunner类使用讲解"><a href="#二、QueryRunner类使用讲解" class="headerlink" title="二、QueryRunner类使用讲解"></a>二、QueryRunner类使用讲解</h3><p>该类简单化了SQL查询，它与ResultSetHandler组合在一起使用可以完成大部分的数据库操作，能够大大减少编码量。<br>QueryRunner类提供了两个构造方法：</p>
+<ul>
+<li>默认的构造方法</li>
+<li>需要一个 javax.sql.DataSource 来作参数的构造方法。</li>
+</ul>
+<h4 id="2-1、QueryRunner类的主要方法"><a href="#2-1、QueryRunner类的主要方法" class="headerlink" title="2.1、QueryRunner类的主要方法"></a>2.1、QueryRunner类的主要方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public Object query(Connection conn, String sql, Object[] params, ResultSetHandler rsh) throws SQLException：执行一个查询操作，在这个查询中，对象数组中的每个元素值被用来作为查询语句的置换参数。该方法会自行处理 PreparedStatement 和 ResultSet 的创建和关闭。</span><br><span class="line">public Object query(String sql, Object[] params, ResultSetHandler rsh) throws SQLException:　几乎与第一种方法一样；唯一的不同在于它不将数据库连接提供给方法，并且它是从提供给构造方法的数据源(DataSource) 或使用的setDataSource 方法中重新获得 Connection。</span><br><span class="line">　public Object query(Connection conn, String sql, ResultSetHandler rsh) throws SQLException : 执行一个不需要置换参数的查询操作。</span><br><span class="line">　　public int update(Connection conn, String sql, Object[] params) throws SQLException:用来执行一个更新（插入、更新或删除）操作。</span><br><span class="line">　　public int update(Connection conn, String sql) throws SQLException：用来执行一个不需要置换参数的更新操作。</span><br></pre></td></tr></table></figure>
+<h4 id="2-2、使用QueryRunner类实现CRUD"><a href="#2-2、使用QueryRunner类实现CRUD" class="headerlink" title="2.2、使用QueryRunner类实现CRUD"></a>2.2、使用QueryRunner类实现CRUD</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">package DaoImpl;</span><br><span class="line"></span><br><span class="line">import Dao.AdminDao;</span><br><span class="line">import model.Admin;</span><br><span class="line">import org.apache.commons.dbutils.QueryRunner;</span><br><span class="line">import org.apache.commons.dbutils.ResultSetHandler;</span><br><span class="line">import org.apache.commons.dbutils.handlers.BeanHandler;</span><br><span class="line">import util.DBHelper;</span><br><span class="line"></span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.PreparedStatement;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line"></span><br><span class="line">public class AdminDaoImpl implements AdminDao &#123;</span><br><span class="line">    private Connection connection;</span><br><span class="line">    private QueryRunner queryRunner;</span><br><span class="line">    private PreparedStatement preparedStatement;</span><br><span class="line"></span><br><span class="line">    public AdminDaoImpl() &#123;</span><br><span class="line">        queryRunner = new QueryRunner();</span><br><span class="line">        connection = DBHelper.getConnection();</span><br><span class="line">        if (connection != null) &#123;</span><br><span class="line">            System.out.println(&quot;链接成功&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Admin findByUserName(String username) &#123;</span><br><span class="line">        String sql = &quot;select * from admin where username = ?&quot;;</span><br><span class="line">        ResultSetHandler&lt;Admin&gt; rsHandle = new BeanHandler&lt;Admin&gt;(Admin.class);</span><br><span class="line">        Admin admin = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            admin = queryRunner.query(connection, sql, rsHandle, username);</span><br><span class="line">        &#125; catch (SQLException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return admin;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean addAdmin(Admin admin) &#123;</span><br><span class="line">        Connection conn = null;</span><br><span class="line">        PreparedStatement stmt = null;</span><br><span class="line">        if (admin != null) &#123;</span><br><span class="line">            String sql = &quot;insert into admin(username,password)&quot; + &quot;values(?,?)&quot;;</span><br><span class="line">            try &#123;</span><br><span class="line">                conn = DBHelper.getConnection();</span><br><span class="line">                stmt = conn.prepareStatement(sql);</span><br><span class="line">                stmt.execute(&quot;set Names utf8&quot;);</span><br><span class="line">                stmt.setString(1, admin.getUsername());</span><br><span class="line">                stmt.setString(2, admin.getPassword());</span><br><span class="line">                stmt.executeUpdate();</span><br><span class="line">                return true;</span><br><span class="line">            &#125; catch (SQLException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean modifyAdmin(Admin admin) &#123;</span><br><span class="line">        String sql = &quot;update admin set username=?,password=? where Id =?&quot;;</span><br><span class="line">        try &#123;</span><br><span class="line">            preparedStatement = connection.prepareStatement(sql);</span><br><span class="line">            preparedStatement.setString(1, admin.getUsername());</span><br><span class="line">            preparedStatement.setString(2, admin.getPassword());</span><br><span class="line">            preparedStatement.setString(3, admin.getId());</span><br><span class="line">            preparedStatement.executeUpdate();</span><br><span class="line">            return true;</span><br><span class="line">        &#125; catch (SQLException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="三、ResultSetHandler接口使用讲解"><a href="#三、ResultSetHandler接口使用讲解" class="headerlink" title="三、ResultSetHandler接口使用讲解"></a>三、ResultSetHandler接口使用讲解</h3><p>　该接口用于处理java.sql.ResultSet，将数据按要求转换为另一种形式。<br>　　ResultSetHandler接口提供了一个单独的方法：Object handle (java.sql.ResultSet .rs)</p>
+<h4 id="3-1、ResultSetHandler接口的实现类"><a href="#3-1、ResultSetHandler接口的实现类" class="headerlink" title="3.1、ResultSetHandler接口的实现类"></a>3.1、ResultSetHandler接口的实现类</h4><ul>
+<li>ArrayHandler：把结果集中的第一行数据转成对象数组。</li>
+<li>ArrayListHandler：把结果集中的每一行数据都转成一个数组，再存放到List中。</li>
+<li>BeanHandler：将结果集中的第一行数据封装到一个对应的JavaBean实例中。</li>
+<li>BeanListHandler：将结果集中的每一行数据都封装到一个对应的JavaBean实例中，存放到List里。</li>
+<li>ColumnListHandler：将结果集中某一列的数据存放到List中。</li>
+<li>KeyedHandler(name)：将结果集中的每一行数据都封装到一个Map里，再把这些map再存到一个map里，其key为指定的key。</li>
+<li>MapHandler：将结果集中的第一行数据封装到一个Map里，key是列名，value就是对应的值。</li>
+<li>MapListHandler：将结果集中的每一行数据都封装到一个Map里，然后再存放到List</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br></pre></td><td class="code"><pre><span class="line">package javatest;</span><br><span class="line"></span><br><span class="line">import org.apache.commons.dbutils.QueryRunner;</span><br><span class="line">import org.apache.commons.dbutils.handlers.*;</span><br><span class="line">import org.junit.Test;</span><br><span class="line">import util.DBHelper;</span><br><span class="line"></span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.ResultSet;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line">import java.util.Arrays;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">public class ResultSetHandlerTest &#123;</span><br><span class="line">    QueryRunner queryRunner = null;</span><br><span class="line">    Connection connection = DBHelper.getConnection();</span><br><span class="line"></span><br><span class="line">    public ResultSetHandlerTest() &#123;</span><br><span class="line">        queryRunner = new QueryRunner();</span><br><span class="line">        connection = DBHelper.getConnection();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 把结果集中的某一行数据转成对象数组。</span><br><span class="line">     *</span><br><span class="line">     * @throws SQLException</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testArrayHandler() throws SQLException &#123;</span><br><span class="line">        String sql = &quot;select * from admin where Id=3&quot;;</span><br><span class="line">        Object result[] = (Object[]) queryRunner.query(connection, sql, new ArrayHandler());</span><br><span class="line">        System.out.println(Arrays.asList(result));  //list  toString()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 把结果集中的每一行数据都转成一个数组，再存放到List中。</span><br><span class="line">     *</span><br><span class="line">     * @throws SQLException</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testArrayListHandler() throws SQLException &#123;</span><br><span class="line"></span><br><span class="line">        QueryRunner queryRunner = new QueryRunner();</span><br><span class="line">        String sql = &quot;select * from admin&quot;;</span><br><span class="line">        List&lt;Object[]&gt; list = (List) queryRunner.query(connection, sql, new ArrayListHandler());</span><br><span class="line">        for (Object[] o : list) &#123;</span><br><span class="line">            System.out.println(Arrays.asList(o));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 将结果集中某一列的数据存放到List中。</span><br><span class="line">     * 获取固定列的所有数据</span><br><span class="line">     *</span><br><span class="line">     * @throws SQLException</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testColumnListHandler() throws SQLException &#123;</span><br><span class="line">        QueryRunner queryRunner = new QueryRunner();</span><br><span class="line">        String sql = &quot;select * from admin&quot;;</span><br><span class="line">        List list = (List) queryRunner.query(connection, sql, new ColumnListHandler(&quot;username&quot;));</span><br><span class="line">        System.out.println(list);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 将结果集中的每一行数据都封装到一个Map里，再把这些map再存到一个map里，其key为指定的key。</span><br><span class="line">     *</span><br><span class="line">     * @throws SQLException</span><br><span class="line">     */</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void testKeyedHandler() throws SQLException &#123;</span><br><span class="line">        QueryRunner queryRunner = new QueryRunner();</span><br><span class="line">        String sql = &quot;select * from admin&quot;;</span><br><span class="line">        Map&lt;Integer, Map&gt; map = (Map) queryRunner.query(connection, sql, new KeyedHandler(&quot;Id&quot;));</span><br><span class="line">        System.out.println(map.entrySet());</span><br><span class="line">        /*</span><br><span class="line">        [1=&#123;Id=1, username=1, password=1&#125;, 2=&#123;Id=2, username=秦, password=123&#125;, 3=&#123;Id=3, username=秦光旭, password=1234567&#125;, 4=&#123;Id=4, username=秦光旭, password=123456&#125;]</span><br><span class="line">         */</span><br><span class="line">        System.out.println(map.get(1));</span><br><span class="line">        //&#123;Id=1, username=1, password=1&#125;</span><br><span class="line">        for (Map.Entry&lt;Integer, Map&gt; me : map.entrySet()) &#123;</span><br><span class="line">            int id = me.getKey();</span><br><span class="line">            Map&lt;String, Object&gt; innermap = me.getValue();</span><br><span class="line">            for (Map.Entry&lt;String, Object&gt; innerme : innermap.entrySet()) &#123;</span><br><span class="line">                String columnName = innerme.getKey();</span><br><span class="line">                Object value = innerme.getValue();</span><br><span class="line">                System.out.println(columnName + &quot;=&quot; + value);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(&quot;----------------&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        /*</span><br><span class="line">Id=1</span><br><span class="line">username=1</span><br><span class="line">password=1</span><br><span class="line">----------------</span><br><span class="line">Id=2</span><br><span class="line">username=秦</span><br><span class="line">password=123</span><br><span class="line">----------------</span><br><span class="line">Id=3</span><br><span class="line">username=秦光旭</span><br><span class="line">password=1234567</span><br><span class="line">----------------</span><br><span class="line">Id=4</span><br><span class="line">username=秦光旭</span><br><span class="line">password=123456</span><br><span class="line">----------------</span><br><span class="line">         */</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 将结果集中的第一行数据封装到一个Map里，key是列名，value就是对应的值。</span><br><span class="line">     *</span><br><span class="line">     * @throws SQLException</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testMapHandler() throws SQLException &#123;</span><br><span class="line">        QueryRunner queryRunner = new QueryRunner();</span><br><span class="line">        String sql = &quot;select * from admin&quot;;</span><br><span class="line">        Map&lt;String, Object&gt; map = queryRunner.query(connection, sql, new MapHandler());</span><br><span class="line">        for (Map.Entry&lt;String,Object&gt; me : map.entrySet())&#123;</span><br><span class="line">            System.out.println(me.getKey() + &quot;=&quot; +me.getValue());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 将结果集中的每一行数据都封装到一个Map里，然后再存放到List</span><br><span class="line">     * @throws SQLException</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testMapListHandler() throws SQLException&#123;</span><br><span class="line">        QueryRunner queryRunner = new QueryRunner();</span><br><span class="line">        String  sql = &quot;select * from admin&quot;;</span><br><span class="line">        List&lt;Map&gt; list = (List) queryRunner.query(connection,sql,new MapListHandler());</span><br><span class="line">        for (Map&lt;String,Object&gt; map:list) &#123;</span><br><span class="line">            for (Map.Entry&lt;String,Object&gt; me:map.entrySet()) &#123;</span><br><span class="line">                System.out.println(me.getKey()+&quot;=&quot;+me.getValue());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     *</span><br><span class="line">     * @throws SQLException</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testScalarHandler() throws SQLException&#123;</span><br><span class="line">        QueryRunner queryRunner = new QueryRunner();</span><br><span class="line">        String sql = &quot;select count(*) from admin&quot;;</span><br><span class="line">        long count = queryRunner.query(connection,sql,new ScalarHandler&lt;&gt;(1));</span><br><span class="line">       int count1 = Integer.parseInt(String.valueOf(count));</span><br><span class="line">        System.out.println(count);</span><br><span class="line">        System.out.println(count1);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="四、DbUtils类使用讲解"><a href="#四、DbUtils类使用讲解" class="headerlink" title="四、DbUtils类使用讲解"></a>四、DbUtils类使用讲解</h3><h4 id="DbUtils-：提供如关闭连接、装载JDBC驱动程序等常规工作的工具类，里面的所有方法都是静态的。主要方法如下："><a href="#DbUtils-：提供如关闭连接、装载JDBC驱动程序等常规工作的工具类，里面的所有方法都是静态的。主要方法如下：" class="headerlink" title="DbUtils ：提供如关闭连接、装载JDBC驱动程序等常规工作的工具类，里面的所有方法都是静态的。主要方法如下："></a>DbUtils ：提供如关闭连接、装载JDBC驱动程序等常规工作的工具类，里面的所有方法都是静态的。主要方法如下：</h4><ul>
+<li>public static void close(…) throws java.sql.SQLException：　DbUtils类提供了三个重载的关闭方法。这些方法检查所提供的参数是不是NULL，如果不是的话，它们就关闭Connection、Statement和ResultSet。</li>
+<li>public static void closeQuietly(…): 这一类方法不仅能在Connection、Statement和ResultSet为NULL情况下避免关闭，还能隐藏一些在程序中抛出的SQLEeception。</li>
+<li>public static void commitAndCloseQuietly(Connection conn)： 用来提交连接，然后关闭连接，并且在关闭连接时不抛出SQL异常。 </li>
+<li>public static boolean loadDriver(java.lang.String driverClassName)：这一方装载并注册JDBC驱动程序，如果成功就返回true。使用该方法，你不需要捕捉这个异常ClassNotFoundException。</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Apache的DBUtils/" rel="tag"># Apache的DBUtils</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/20/Spring Boot 常用注解/" rel="next" title="Spring Boot(二)">
+                <i class="fa fa-chevron-left"></i> Spring Boot(二)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/20/文件下载/" rel="prev" title="javaweb (六 )">
+                javaweb (六 ) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Qgx" />
+            
+              <p class="site-author-name" itemprop="name">Qgx</p>
+              <p class="site-description motion-element" itemprop="description">漫漫长路，伴你同行</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">79</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">53</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/qin12" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:1520290900@qq.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=1520290900&website=www.oicqzone.com" target="_blank" title="QQ"><i class="fa fa-fw fa-QQ"></i>QQ</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、commons-dbutils简介"><span class="nav-number">1.</span> <span class="nav-text">一、commons-dbutils简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#commons-dbutilsAPI介绍："><span class="nav-number">1.1.</span> <span class="nav-text">commons-dbutilsAPI介绍：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工具类"><span class="nav-number">1.2.</span> <span class="nav-text">工具类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、QueryRunner类使用讲解"><span class="nav-number">2.</span> <span class="nav-text">二、QueryRunner类使用讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1、QueryRunner类的主要方法"><span class="nav-number">2.1.</span> <span class="nav-text">2.1、QueryRunner类的主要方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2、使用QueryRunner类实现CRUD"><span class="nav-number">2.2.</span> <span class="nav-text">2.2、使用QueryRunner类实现CRUD</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、ResultSetHandler接口使用讲解"><span class="nav-number">3.</span> <span class="nav-text">三、ResultSetHandler接口使用讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1、ResultSetHandler接口的实现类"><span class="nav-number">3.1.</span> <span class="nav-text">3.1、ResultSetHandler接口的实现类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、DbUtils类使用讲解"><span class="nav-number">4.</span> <span class="nav-text">四、DbUtils类使用讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DbUtils-：提供如关闭连接、装载JDBC驱动程序等常规工作的工具类，里面的所有方法都是静态的。主要方法如下："><span class="nav-number">4.1.</span> <span class="nav-text">DbUtils ：提供如关闭连接、装载JDBC驱动程序等常规工作的工具类，里面的所有方法都是静态的。主要方法如下：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Qgx</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Mist</a> v6.2.0</div>
+
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+</body>
+</html>
