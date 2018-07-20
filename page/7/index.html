@@ -191,7 +191,7 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
-            <article id="post-集合框架二"
+            <article id="post-一、表单重复提交的常见应用场景"
   class="article-card article-type-post" itemprop="blogPost">
 
     
@@ -199,7 +199,7 @@
 
   
     <h3 class="post-title" itemprop="name">
-      <a href="/2018/07/20/集合框架二/">java 基础知识</a>
+      <a href="/2018/07/20/一、表单重复提交的常见应用场景/">javaweb (十二 )</a>
     </h3>
   
 
@@ -214,30 +214,33 @@
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        <h3 id="集合框架二"><a href="#集合框架二" class="headerlink" title="集合框架二"></a>集合框架二</h3><h4 id="7、集合类各容器方法："><a href="#7、集合类各容器方法：" class="headerlink" title="7、集合类各容器方法："></a>7、集合类各容器方法：</h4><p>接口Collection方法摘要(没有构造方法)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">a)添加：</span><br><span class="line">i.  boolean add(E e)</span><br><span class="line"></span><br><span class="line">j.  boolean addAll(Collection c)</span><br><span class="line">b)删除：</span><br><span class="line">i.  void clear():清空容器</span><br><span class="line">j.  boolean remove(Objec object):</span><br><span class="line">k.  boolean removeAll(Collection c):</span><br><span class="line">c)判断：</span><br><span class="line">i.  boolean contains(Object object):判断是否包含此元素</span><br><span class="line">j.  boolean containsAll(Collection c):判断是否包含一堆元素</span><br><span class="line">k.  boolean equals(Object object):比较此collection与指定对象是否相等</span><br><span class="line">m.  boolean isEmpty():判断是否集合为空</span><br><span class="line">d)获取：</span><br><span class="line">h.  Iterator iterator():取出</span><br><span class="line">i.  int hashCode():返回此collection的哈希值</span><br><span class="line">j.  int size():返回此collection中元素的个数</span><br><span class="line">k.  boolean retainAll(Collection c):取交集</span><br><span class="line">m.  Object toArray():返回此collection中所有元素的数组</span><br><span class="line">n.  T[] toArray(T[] a):返回包含此collection中所有元素的数值。</span><br></pre></td></tr></table></figure></p>
-<h4 id="List集合子类及其方法"><a href="#List集合子类及其方法" class="headerlink" title="List集合子类及其方法"></a>List集合子类及其方法</h4><ul>
-<li>(1)List接口是Collection接口的一个子接口。</li>
-<li>(2)List接口中的元素有如下特点(对角标的操作都是特有方法，因为有序)：<br>A:元素有序(存储顺序和取出顺序一致)<br>B:元素可以重复</li>
-<li>(3)List接口中的特有方法<br>A:add(int index,Object obj):在指定位置加入元素<br>B:remove(int index):移除指定位置的元素<br>C:set(int index,Object obj):修改指定位置的元素<br>D:get(int index):获取指定位置的元素<br>E:indexOf(Object obj):获取指定元素的位置<br>F:subList(int start,int end):从一个大的List中截取一个小的List<br>G:listIterator():返回一个List接口特有的迭代器</li>
+        <p>在平时开发中，如果网速比较慢的情况下，用户提交表单后，发现服务器半天都没有响应，那么用户可能会以为是自己没有提交表单，就会再点击提交按钮重复提交表单，我们在开发中必须防止表单重复提交。</p>
+<h3 id="一、表单重复提交的常见应用场景"><a href="#一、表单重复提交的常见应用场景" class="headerlink" title="一、表单重复提交的常见应用场景"></a>一、表单重复提交的常见应用场景</h3><p>form.jsp<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--</span><br><span class="line">  Created by IntelliJ IDEA.</span><br><span class="line">  User: qgx</span><br><span class="line">  Date: 2018/5/29</span><br><span class="line">  Time: 21:52</span><br><span class="line">  To change this template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;Form表单&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;form action=&quot;$&#123;pageContext.request.contextPath&#125;/DoFormServlet&quot; method=&quot;post&quot;&gt;</span><br><span class="line">    用户名：&lt;input type=&quot;text&quot; name=&quot;username&quot;&gt;</span><br><span class="line">    &lt;input type=&quot;submit&quot; value=&quot;提交&quot; id=&quot;submit&quot;&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>　form表单提交到DoFormServlet进行处理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">package qgx.session;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;DoFormServlet&quot;)</span><br><span class="line">public class DoFormServlet extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span><br><span class="line">        String userName = request.getParameter(&quot;username&quot;);</span><br><span class="line">        try &#123;</span><br><span class="line">            //让当前的线程睡眠3秒钟，模拟网络延迟而导致表单重复提交的现象</span><br><span class="line">            Thread.sleep(3 * 1000);</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(&quot;向数据库中插入数据：&quot; + userName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>　如果没有进行form表单重复提交处理，那么在网络延迟的情况下下面的操作将会导致form表单重复提交多次</p>
+<h4 id="1-1、场景一：在网络延迟的情况下让用户有时间点击多次submit按钮导致表单重复提交"><a href="#1-1、场景一：在网络延迟的情况下让用户有时间点击多次submit按钮导致表单重复提交" class="headerlink" title="1.1、场景一：在网络延迟的情况下让用户有时间点击多次submit按钮导致表单重复提交"></a>1.1、场景一：在网络延迟的情况下让用户有时间点击多次submit按钮导致表单重复提交</h4><h4 id="1-2、场景二：表单提交后用户点击【刷新】按钮导致表单重复提交"><a href="#1-2、场景二：表单提交后用户点击【刷新】按钮导致表单重复提交" class="headerlink" title="1.2、场景二：表单提交后用户点击【刷新】按钮导致表单重复提交"></a>1.2、场景二：表单提交后用户点击【刷新】按钮导致表单重复提交</h4><p> 点击浏览器的刷新按钮，就是把浏览器上次做的事情再做一次，因为这样也会导致表单重复提交。</p>
+<h4 id="1-3、场景三：用户提交表单后，点击浏览器的【后退】按钮回退到表单页面后进行再次提交"><a href="#1-3、场景三：用户提交表单后，点击浏览器的【后退】按钮回退到表单页面后进行再次提交" class="headerlink" title="1.3、场景三：用户提交表单后，点击浏览器的【后退】按钮回退到表单页面后进行再次提交"></a>1.3、场景三：用户提交表单后，点击浏览器的【后退】按钮回退到表单页面后进行再次提交</h4><h3 id="二、利用JavaScript防止表单重复提交"><a href="#二、利用JavaScript防止表单重复提交" class="headerlink" title="二、利用JavaScript防止表单重复提交"></a>二、利用JavaScript防止表单重复提交</h3><p>既然存在上述所说的表单重复提交问题，那么我们就要想办法解决，比较常用的方法是采用JavaScript来防止表单重复提交，具体做法如下：</p>
+<p>修改form.jsp页面，添加如下的JavaScript代码来防止表单重复提交<br>form.jsp<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--</span><br><span class="line">  Created by IntelliJ IDEA.</span><br><span class="line">  User: qgx</span><br><span class="line">  Date: 2018/5/29</span><br><span class="line">  Time: 21:52</span><br><span class="line">  To change this template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;Form表单&lt;/title&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">        var isCommitted = false;//表单是否已经提交标识，默认为false</span><br><span class="line">        function dosubmit()&#123;</span><br><span class="line">            if(isCommitted==false)&#123;</span><br><span class="line">                isCommitted = true;//提交表单后，将表单是否已经提交标识设置为true</span><br><span class="line">                return true;//返回true让表单正常提交</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                return false;//返回false那么表单将不提交</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;form action=&quot;$&#123;pageContext.request.contextPath&#125;/DoFormServlet&quot; onsubmit=&quot;return dosubmit()&quot; method=&quot;post&quot;&gt;</span><br><span class="line">    用户名：&lt;input type=&quot;text&quot; name=&quot;username&quot;&gt;</span><br><span class="line">    &lt;input type=&quot;submit&quot; value=&quot;提交&quot; id=&quot;submit&quot;&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>　可以看到，针对”在网络延迟的情况下让用户有时间点击多次submit按钮导致表单重复提交”这个应用场景，使用JavaScript是可以解决这个问题的，解决的做法就是”用JavaScript控制Form表单只能提交一次”。</p>
+<p>　　除了用这种方式之外，经常见的另一种方式就是表单提交之后，将提交按钮设置为不可用，让用户没有机会点击第二次提交按钮，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function dosubmit()&#123;</span><br><span class="line">    //获取表单提交按钮</span><br><span class="line">    var btnSubmit = document.getElementById(&quot;submit&quot;);</span><br><span class="line">    //将表单提交按钮设置为不可用，这样就可以避免用户再次点击提交按钮</span><br><span class="line">    btnSubmit.disabled= &quot;disabled&quot;;</span><br><span class="line">    //返回true让表单可以正常提交</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>另外还有一种做法就是提交表单后，将提交按钮隐藏起来，这种做法和将提交按钮设置为不可用是差不多的，个人觉得将提交按钮隐藏影响到页面布局的美观，并且可能会让用户误以为是bug(怎么我一点击按钮，按钮就不见了呢？用户可能会有这样的疑问)，我个人在开发中用得比较多的是表单提交后，将提交按钮设置为不可用，反正使用JavaScript防止表单重复提交的做法都是差不多的，目的都是让表单只能提交一次，这样就可以做到表单不重复提交了。<br>　　使用JavaScript防止表单重复提交的做法只对上述提交到导致表单重复提交的三种场景中的【场景一】有效，而对于【场景二】和【场景三】是没有用，依然无法解决表单重复提交问题。</p>
+<h3 id="三、利用Session防止表单重复提交"><a href="#三、利用Session防止表单重复提交" class="headerlink" title="三、利用Session防止表单重复提交"></a>三、利用Session防止表单重复提交</h3><ul>
+<li><p>对于【场景二】和【场景三】导致表单重复提交的问题，既然客户端无法解决，那么就在服务器端解决，在服务器端解决就需要用到session了。</p>
+</li>
+<li><p>具体的做法：在服务器端生成一个唯一的随机标识号，专业术语称为Token(令牌)，同时在当前用户的Session域中保存这个Token。然后将Token发送到客户端的Form表单中，在Form表单中使用隐藏域来存储这个Token，表单提交的时候连同这个Token一起提交到服务器端，然后在服务器端判断客户端提交上来的Token与服务器端生成的Token是否一致，如果不一致，那就是重复提交了，此时服务器端就可以不处理重复提交的表单。如果相同则处理表单提交，处理完后清除当前用户的Session域中存储的标识号。</p>
+</li>
+<li>在下列情况下，服务器程序将拒绝处理用户提交的表单请求：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">存储Session域中的Token(令牌)与表单提交的Token(令牌)不同。</span><br><span class="line">当前用户的Session中不存在Token(令牌)。</span><br><span class="line">用户提交的表单数据中没有Token(令牌)。</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<h4 id="1-、ArrayList："><a href="#1-、ArrayList：" class="headerlink" title="(1)、ArrayList："></a>(1)、ArrayList：</h4><p>构造方法摘要：(少用，不是重点)<br>ArrayList()：构造一个初始容量为 10 的空列表。<br>ArrayList(Collection&lt;? extends E&gt; c)： 构造一个包含指定 collection 的元素的列表，</p>
-<p>ArrayList(int initialCapacity)： 构造一个具有指定初始容量的空列表。<br>    方法摘要：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">添加：</span><br><span class="line">boolean add(E e)： 将指定的元素添加到此列表的尾部。</span><br><span class="line">void add(int index, E element)： 将指定的元素插入此列表中的指定位置。</span><br><span class="line">boolean addAll(Collection&lt;? extends E&gt; c):按照指定 collection 的迭代器所返回的元素顺序，</span><br><span class="line">将该 collection 中的所有元素添加到此列表的尾部 </span><br><span class="line">boolean addAll(int index, Collection&lt;? extends E&gt; c)： 从指定的位置开始，将指定 collection</span><br><span class="line">      中的所有元素插入到此列表中。 </span><br><span class="line">删除：</span><br><span class="line">void clear(): 移除此列表中的所有元素。</span><br><span class="line"> remove(int index): 移除此列表中指定位置上的元素。 </span><br><span class="line">boolean remove(Object o): 移除此列表中首次出现的指定元素（如果存在）。</span><br><span class="line">protected  void removeRange(int fromIndex, int toIndex): </span><br><span class="line">移除列表中索引在 fromIndex（包括）和 toIndex（不包括）之间的所有元素。</span><br><span class="line">boolean removeAll(Collection&lt;?&gt; c): 从列表中移除指定 collection 中包含的其所有元素 </span><br><span class="line">|获取：</span><br><span class="line"> get(int index): 返回此列表中指定位置上的元素。</span><br><span class="line">int indexOf(Object o): 返回此列表中首次出现的指定元素的索引，或如果此列表不包含元素，则返回 -1。</span><br><span class="line">int lastIndexOf(Object o) 返回此列表中最后一次出现的指定元素的索引，或如果此列表不包含索引，则返回 -1。   </span><br><span class="line">public List&lt;E&gt; subList(int fromIndex,int toIndex): 返回列表中指定的 fromIndex（包括 ）和 toIndex（不包括）之间的部分视图。</span><br><span class="line">Iterator&lt;E&gt; iterator(): 返回按适当顺序在列表的元素上进行迭代的迭代器。</span><br><span class="line">ListIterator&lt;E&gt; listIterator(int index):返回列表中元素的列表迭代器(按适当顺序),从列表的指定位置开始。</span><br><span class="line">修改：(特有方法！！)</span><br><span class="line"> set(int index, E element): 用指定的元素替代此列表中指定位置上的元素。</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-LinkedList"><a href="#2-LinkedList" class="headerlink" title="(2)LinkedList:"></a>(2)LinkedList:</h4><p>构造方法摘要：<br>LinkedList(): 构造一个空列表。<br>LinkedList(Collection&lt;? extends E&gt; c): 构造一个包含指定 collection 中的元素的列表，<br>      这些元素按其 collection 的迭代器返回的顺序排列。<br>方法摘要:(特有的)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">添加</span><br><span class="line">void addFirst(E e): 将指定元素插入此列表的开头。 </span><br><span class="line">void addLast(E e): 将指定元素添加到此列表的结尾。 </span><br><span class="line">获取元素，但不删除元素</span><br><span class="line"> get(int index): 返回此列表中指定位置处的元素。           </span><br><span class="line"> getFirst(): 返回此列表的第一个元素。          </span><br><span class="line"> getLast(): 返回此列表的最后一个元素。</span><br><span class="line">获取元素且删除元素</span><br><span class="line"> remove()： 获取并移除此列表的头（第一个元素）。          </span><br><span class="line"> remove(int index)： 移除此列表中指定位置处的元素。         </span><br><span class="line">boolean remove(Object o)： 从此列表中移除首次出现的指定元素（如果存在）。         </span><br><span class="line"> removeFirst()： 移除并返回此列表的第一个元素。 </span><br><span class="line"> removeLast(): 移除并返回此列表的最后一个元素。</span><br><span class="line">修改</span><br><span class="line"> set(int index, E element) 将此列表中指定位置的元素替换为指定的元素。 </span><br><span class="line">#### (3)Vector</span><br><span class="line">构造方法摘要：</span><br><span class="line">Vector(): 构造一个空向量，使其内部数据数组的大小为 10，其标准容量增量为零。          </span><br><span class="line">Vector(Collection&lt;? extends E&gt; c):  构造一个包含指定 collection 中的元素的向量，</span><br><span class="line">   这些元素按其 collection 的迭代器返回元素的顺序排列。</span><br></pre></td></tr></table></figure></p>
-<p>方法摘要：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">添加：</span><br><span class="line">boolean add(E e): 将指定元素添加到此向量的末尾。</span><br><span class="line">void add(int index, E element): 在此向量的指定位置插入指定的元素。         </span><br><span class="line">boolean addAll(Collection&lt;? extends E&gt; c):</span><br><span class="line">将指定 Collection 中的所有元素添加到此向量的末尾， </span><br><span class="line">按照指定 collection 的迭代器所返回的顺序添加这些元素。 </span><br><span class="line">boolean addAll(int index, Collection&lt;? extends E&gt; c): 在指定位置将指定 Collection 中的所有元素插入到此向量中。</span><br><span class="line">获取:</span><br><span class="line">Enumeration&lt;E&gt; elements(): 返回此向量的组件的枚举。</span><br><span class="line">  Vector特有的取出方式:</span><br><span class="line">  枚举和迭代器很像，其实枚举和迭代器是一样的，只是因为枚举的名称和方法的名称</span><br><span class="line">  名字都过长，所以枚举被迭代器取代了。</span><br><span class="line">枚举Enumeration的方法摘要：</span><br><span class="line">boolean hasMoreElements(): 测试此枚举是否包含更多的元素。 </span><br><span class="line"> nextElement(): 如果此枚举对象至少还有一个可提供的元素，</span><br><span class="line"> 则返回此枚举的下一个元素。</span><br></pre></td></tr></table></figure></p>
-<h4 id="Set集合子类及其方法"><a href="#Set集合子类及其方法" class="headerlink" title="Set集合子类及其方法"></a>Set集合子类及其方法</h4><p>(1)HashSet:它不保证set的迭代顺序;特别是它不保证该顺序恒久不变.此类允许使用null元素。<br>构造方法：<br>HashSet() 构造一个新的空 set，其底层 HashMap 实例的默认初始容量是 16，加载因子是 0.75。<br>HashSet(Collection&lt;? extends E&gt; c) 构造一个包含指定 collection 中的元素的新 set。<br>方法摘要：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">boolean add(E e) 如果此 set 中尚未包含指定元素，则添加指定元素。   </span><br><span class="line">void clear() 从此 set 中移除所有元素。</span><br><span class="line"> </span><br><span class="line">Object clone() 返回此 HashSet 实例的浅表副本：并没有复制这些元素本身。  </span><br><span class="line">boolean contains(Object o) 如果此 set 包含指定元素，则返回 true。  </span><br><span class="line">boolean isEmpty() 如果此 set 不包含任何元素，则返回 true。 </span><br><span class="line"> </span><br><span class="line">Iterator&lt;E&gt; iterator() 返回对此 set 中元素进行迭代的迭代器。  </span><br><span class="line">boolean remove(Object o) 如果指定元素存在于此 set 中，则将其移除。</span><br><span class="line">  </span><br><span class="line">int size() 返回此 set 中的元素的数量（set 的容量）。  </span><br><span class="line">(2)TreeSet:使用元素的自然顺序对元素进行排序，或者根据创建 set 时提供的 Comparator 进行排序.</span><br><span class="line">构造方法：</span><br><span class="line">TreeSet() 构造一个新的空 set，该set根据其元素的自然顺序进行排序。          </span><br><span class="line">TreeSet(Collection&lt;? extends E&gt; c) </span><br><span class="line">构造一个包含指定 collection 元素的新 TreeSet，它按照其元素的自然顺序进行排序。 </span><br><span class="line">TreeSet(Comparator&lt;? super E&gt; comparator)  构造一个新的空 TreeSet，它根据指定比较器进行排序。</span><br></pre></td></tr></table></figure></p>
-<p>方法摘要：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">添加：</span><br><span class="line">boolean add(E e)  将指定的元素添加到此 set（如果该元素尚未存在于 set 中）。</span><br><span class="line">boolean addAll(Collection&lt;? extends E&gt; c) 将指定 collection 中的所有元素添加到此 set 中。</span><br><span class="line">删除：</span><br><span class="line"> void clear() 移除此 set 中的所有元素。 </span><br><span class="line"> boolean remove(Object o)  将指定的元素从 set 中移除（如果该元素存在于此 set 中）。 </span><br><span class="line">  pollFirst() 获取并移除第一个（最低）元素；如果此 set 为空，则返回 null。 </span><br><span class="line">  pollLast() 获取并移除最后一个（最高）元素；如果此 set 为空，则返回 null。 </span><br><span class="line">获取：</span><br><span class="line"> Iterator&lt;E&gt; iterator()  返回在此 set 中的元素上按升序进行迭代的迭代器。</span><br><span class="line"> first() 返回此 set 中当前第一个（最低）元素。</span><br><span class="line">  last() 返回此 set 中当前最后一个（最高）元素。</span><br><span class="line"> int size()  返回 set 中的元素数（set 的容量）。</span><br><span class="line">判断：</span><br><span class="line">boolean isEmpty()  如果此 set 不包含任何元素，则返回 true。 </span><br><span class="line">boolean contains(Object o) 如果此 set 包含指定的元素，则返回 true。 </span><br><span class="line">Map:将键映射到值的对象。Map集合没有迭代器！Map集合特点：该集合存储键值对。而且键是唯一的。</span><br><span class="line">方法摘要：</span><br></pre></td></tr></table></figure></p>
-<p>   添加：<br>     V put(K key, V value) 将指定的值与此映射中的指定键关联（可选操作）。<br>     void putAll(Map&lt;? extends K,? extends V&gt; m) 从指定映射中将所有映射关系复制到此映射中<br>   删除：<br>              void clear()  从此映射中移除所有映射关系（可选操作）。<br>     V remove(Object key) 如果存在一个键的映射关系，则将其从此映射中移除（可选操作）。<br>   判断<br>     boolean containsKey(Object key) 如果此映射包含指定键的映射关系，则返回 true。<br>              boolean containsValue(Object value) 如果此映射将一个或多个键映射到指定值，则返回 true。<br>              boolean isEmpty() 如果此映射未包含键-值映射关系，则返回 true。<br>           获取<br>     int size() 返回此映射中的键-值映射关系数。<br>              Collection<v> values()  返回此映射中包含的值的 Collection 视图。<br><code>`</code></v></p>
-<h5 id="重点：Map集合没有迭代器，以下是Map的两种取出方式："><a href="#重点：Map集合没有迭代器，以下是Map的两种取出方式：" class="headerlink" title="重点：Map集合没有迭代器，以下是Map的两种取出方式："></a>重点：Map集合没有迭代器，以下是Map的两种取出方式：</h5><ul>
-<li>第一种：Set<k> keySet()<br>返回此映射中包含的键的Set视图，将Map集合中所有的键存入Set集合，然后再通过Set集合的<br>迭代器取出所有的键，再根据get方法获取每个键的值；</k></li>
-<li>第二种：Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet()<br>返回此映射中包含的映射关系的Set视图，将Map集合中的映射关系存入到Set集合中，<br>这个映射关系的数据类型是Map.entry,再通过Map.Entry类的方法再要取出关系里面的键和值<br>Map.Entry的方法摘要：<br>boolean equals(Object o)  比较指定对象与此项的相等性。</li>
-</ul>
-<p>K getKey()  返回与此项对应的键。</p>
-<p>V getValue() 返回与此项对应的值。</p>
-<p>int hashCode() 返回此映射项的哈希码值。<br>V setValue(V value) 用指定的值替换与此项对应的值(特有！！！)。</p>
+<p>1.创建FormServlet，用于生成Token(令牌)和跳转到form.jsp页面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class FormServlet extends HttpServlet &#123;</span><br><span class="line">    private static final long serialVersionUID = -884689940866074733L;</span><br><span class="line"></span><br><span class="line">    public void doGet(HttpServletRequest request, HttpServletResponse response)</span><br><span class="line">            throws ServletException, IOException &#123;</span><br><span class="line"></span><br><span class="line">        String token = TokenProccessor.getInstance().makeToken();//创建令牌</span><br><span class="line">        System.out.println(&quot;在FormServlet中生成的token：&quot;+token);</span><br><span class="line">        request.getSession().setAttribute(&quot;token&quot;, token);  //在服务器使用session保存token(令牌)</span><br><span class="line">        request.getRequestDispatcher(&quot;/form.jsp&quot;).forward(request, response);//跳转到form.jsp页面</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void doPost(HttpServletRequest request, HttpServletResponse response)</span><br><span class="line">            throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.在form.jsp中使用隐藏域来存储Token(令牌)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;</span><br><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;title&gt;form表单&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;form action=&quot;$&#123;pageContext.request.contextPath&#125;/DoFormServlet&quot; method=&quot;post&quot;&gt;</span><br><span class="line">        &lt;%--使用隐藏域存储生成的token--%&gt;</span><br><span class="line">        &lt;%--</span><br><span class="line">            &lt;input type=&quot;hidden&quot; name=&quot;token&quot; value=&quot;&lt;%=session.getAttribute(&quot;token&quot;) %&gt;&quot;&gt;</span><br><span class="line">        --%&gt;</span><br><span class="line">        &lt;%--使用EL表达式取出存储在session中的token--%&gt;</span><br><span class="line">        &lt;input type=&quot;hidden&quot; name=&quot;token&quot; value=&quot;$&#123;token&#125;&quot;/&gt; </span><br><span class="line">        用户名：&lt;input type=&quot;text&quot; name=&quot;username&quot;&gt; </span><br><span class="line">        &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>3.DoFormServlet处理表单提交<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">public class DoFormServlet extends HttpServlet &#123;</span><br><span class="line"></span><br><span class="line">    public void doGet(HttpServletRequest request, HttpServletResponse response)</span><br><span class="line">                throws ServletException, IOException &#123;</span><br><span class="line"></span><br><span class="line">            boolean b = isRepeatSubmit(request);//判断用户是否是重复提交</span><br><span class="line">            if(b==true)&#123;</span><br><span class="line">                System.out.println(&quot;请不要重复提交&quot;);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            request.getSession().removeAttribute(&quot;token&quot;);//移除session中的token</span><br><span class="line">            System.out.println(&quot;处理用户提交请求！！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        /**</span><br><span class="line">         * 判断客户端提交上来的令牌和服务器端生成的令牌是否一致</span><br><span class="line">         * @param request</span><br><span class="line">         * @return </span><br><span class="line">         *         true 用户重复提交了表单 </span><br><span class="line">         *         false 用户没有重复提交表单</span><br><span class="line">         */</span><br><span class="line">        private boolean isRepeatSubmit(HttpServletRequest request) &#123;</span><br><span class="line">            String client_token = request.getParameter(&quot;token&quot;);</span><br><span class="line">            //1、如果用户提交的表单数据中没有token，则用户是重复提交了表单</span><br><span class="line">            if(client_token==null)&#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">            //取出存储在Session中的token</span><br><span class="line">            String server_token = (String) request.getSession().getAttribute(&quot;token&quot;);</span><br><span class="line">            //2、如果当前用户的Session中不存在Token(令牌)，则用户是重复提交了表单</span><br><span class="line">            if(server_token==null)&#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">            //3、存储在Session中的Token(令牌)与表单提交的Token(令牌)不同，则用户是重复提交了表单</span><br><span class="line">            if(!client_token.equals(server_token))&#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    public void doPost(HttpServletRequest request, HttpServletResponse response)</span><br><span class="line">            throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>生成Token的工具类TokenProccessor<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public class TokenProccessor &#123;</span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">     *单例设计模式（保证类的对象在内存中只有一个）</span><br><span class="line">     *1、把类的构造函数私有</span><br><span class="line">     *2、自己创建一个类的对象</span><br><span class="line">     *3、对外提供一个公共的方法，返回类的对象</span><br><span class="line">     */</span><br><span class="line">    private TokenProccessor()&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    private static final TokenProccessor instance = new TokenProccessor();</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     * 返回类的对象</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static TokenProccessor getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     * 生成Token</span><br><span class="line">     * Token：Nv6RRuGEVvmGjB+jimI/gw==</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public String makeToken()&#123;  //checkException</span><br><span class="line">        //  7346734837483  834u938493493849384  43434384</span><br><span class="line">        String token = (System.currentTimeMillis() + new Random().nextInt(999999999)) + &quot;&quot;;</span><br><span class="line">        //数据指纹   128位长   16个字节  md5</span><br><span class="line">        try &#123;</span><br><span class="line">            MessageDigest md = MessageDigest.getInstance(&quot;md5&quot;);</span><br><span class="line">            byte md5[] =  md.digest(token.getBytes());</span><br><span class="line">            //base64编码--任意二进制编码明文字符   adfsdfsdfsf</span><br><span class="line">            BASE64Encoder encoder = new BASE64Encoder();</span><br><span class="line">            return encoder.encode(md5);</span><br><span class="line">        &#125; catch (NoSuchAlgorithmException e) &#123;</span><br><span class="line">            throw new RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>首先访问FormServlet，在FormServlet中生成Token之后再重定向到form.jsp页面</p>
 
     
         <div>
-            <a href="/2018/07/20/集合框架二/" class="post-more waves-button">
+            <a href="/2018/07/20/一、表单重复提交的常见应用场景/" class="post-more waves-button">
                 阅读全文 »
             </a>
         </div>
@@ -245,7 +248,7 @@
     
     <div class="post-footer">
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/集合框架二/">集合框架二</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Session-表单重复提交/">Session 表单重复提交</a></li></ul>
 
     </div>
     
@@ -328,6 +331,176 @@
         </li>
     
         <li class="post-list-item fade">
+            <article id="post-文件下载"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a href="/2018/07/20/文件下载/">javaweb (六 )</a>
+    </h3>
+  
+
+
+
+
+     <div class="post-meta">
+        <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.797Z"  itemprop="datePublished">2018-07-20</time>
+
+    </div>
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        <h3 id="文件下载"><a href="#文件下载" class="headerlink" title="文件下载"></a>文件下载</h3><p>文件下载功能是web开发中经常使用到的功能，使用HttpServletResponse对象就可以实现文件的下载<br>文件下载功能的实现思路：</p>
+<ul>
+<li>1.获取要下载的文件的绝对路径</li>
+<li>2.获取要下载的文件名</li>
+<li>3.设置content-disposition响应头控制浏览器以下载的形式打开文件</li>
+<li>4.获取要下载的文件输入流</li>
+<li>5.创建数据缓冲区</li>
+<li>6.通过response对象获取OutputStream流</li>
+<li>7.将FileInputStream流写入到buffer缓冲区</li>
+<li><p>8.使用OutputStream将缓冲区的数据输出到客户端浏览器<br>范例：使用Response实现文件下载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.*;</span><br><span class="line">import java.net.URLEncoder;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo2&quot;)</span><br><span class="line">public class ResponseDemo2 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        downloadChineseFileByOutputStream(response);//下载中文文件</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void downloadChineseFileByOutputStream(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        String realPath = this.getServletContext().getRealPath(&quot;/download/自由.jpg&quot;);//获取要下载的文件的绝对路径</span><br><span class="line">        String fileName = realPath.substring(realPath.lastIndexOf(&quot;\\&quot;)+1);//获取要下载的文件名</span><br><span class="line">        //设置content-disposition响应头控制浏览器以下载的形式打开文件，中文文件名要使用URLEncoder.encode方法进行编码，否则会出现文件名乱码</span><br><span class="line">        response.setHeader(&quot;content-disposition&quot;, &quot;attachment;filename=&quot;+ URLEncoder.encode(fileName, &quot;UTF-8&quot;));</span><br><span class="line">        InputStream in = new FileInputStream(realPath);//获取文件输入流</span><br><span class="line">        int len = 0;</span><br><span class="line">        byte[] buffer = new byte[1024];</span><br><span class="line">        OutputStream out = response.getOutputStream();</span><br><span class="line">        while ((len = in.read(buffer)) &gt; 0) &#123;</span><br><span class="line">            out.write(buffer,0,len);//将缓冲区的数据输出到客户端浏览器</span><br><span class="line">        &#125;</span><br><span class="line">        in.close();</span><br><span class="line">        out.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载中文文件时，需要注意的地方就是中文文件名要使用URLEncoder.encode方法进行编码(URLEncoder.encode(fileName, “字符编码”))，否则会出现文件名乱码。</p>
+</li>
+<li>文件下载注意事项：编写文件下载功能时推荐使用OutputStream流，避免使用PrintWriter流，因为OutputStream流是字节流，可以处理任意类型的数据，而PrintWriter流是字符流，只能处理字符数据，如果用字符流处理字节数据，会导致数据丢失。</li>
+</ul>
+
+    
+        <div>
+            <a href="/2018/07/20/文件下载/" class="post-more waves-button">
+                阅读全文 »
+            </a>
+        </div>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HttpServletResponse/">HttpServletResponse</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-常见集合的实现细节"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a href="/2018/07/20/常见集合的实现细节/">java基础知识(三)</a>
+    </h3>
+  
+
+
+
+
+     <div class="post-meta">
+        <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.797Z"  itemprop="datePublished">2018-07-20</time>
+
+    </div>
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        <h3 id="常见集合的实现细节"><a href="#常见集合的实现细节" class="headerlink" title="常见集合的实现细节"></a>常见集合的实现细节</h3><h4 id="java集合框架类图"><a href="#java集合框架类图" class="headerlink" title="java集合框架类图"></a>java集合框架类图</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/Java集合框架类图.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<hr>
+<h4 id="Set-和-Map"><a href="#Set-和-Map" class="headerlink" title="Set 和 Map"></a>Set 和 Map</h4><ul>
+<li>Set 代表一种集合元素无序、集合元素不可重复的集合，Map 则代表一种由多个 key-value 对组合的集合，Map 集合类似于传统的关联数组。</li>
+<li>Map 集合中的 key 不能重复且没有顺序。将这些 key 组合起来就是一个 Set 集合。所以有一个 Set<k> keySet() 方法来返回所有 key 组成的 Set 集合。</k></li>
+<li>Set 也可以转换成 Map。（在 Set 中将 每一对 key 和 value 存放在一起）<h4 id="HashMap-和-HashSet"><a href="#HashMap-和-HashSet" class="headerlink" title="HashMap 和 HashSet"></a>HashMap 和 HashSet</h4></li>
+<li>HashSet：系统采用 Hash 算法决定集合元素的存储位置。（基于 HashMap 实现的）</li>
+<li>HashMap：系统将 value 当成 key 的附属，系统根据 Hash 算法决定 key 的存储位置。</li>
+<li>HashSet 的绝大部分方法都是通过调用 HashMap 的方法实现的，因此 HashSet 和 HashMap 两个集合在实现本质上是相同的。<h4 id="TreeMap-和-TreeSet"><a href="#TreeMap-和-TreeSet" class="headerlink" title="TreeMap 和 TreeSet"></a>TreeMap 和 TreeSet</h4></li>
+<li>TreeSet 底层使用 TreeMap 来包含 Set 集合中的所有元素。</li>
+<li>TreeMap 采用的是一种“红黑树”的排序二叉树来保存 Map 中每个 Entry —— 每个 Entry 都被当成 “红黑树” 的一个节点对待。<h4 id="Map-和-List"><a href="#Map-和-List" class="headerlink" title="Map 和 List"></a>Map 和 List</h4></li>
+<li>1 Map的values()方法<ul>
+<li>不管是 HashMap 还是 TreeMap ，它们的 values() 方法都可以返回其所有 value 组成的 Collection 集合，其实是一个不存储元素的 Collection 集合，当程序遍历 Collection 集合时，实际上就是遍历 Map 对象的 value。</li>
+<li>HashMap 和 TreeMap 的 values() 方法并未把 Map 中的 values 重新组合成一个包含元素的集合对象，这样就可以降低系统内存开销。</li>
+</ul>
+</li>
+<li>2 Map 和 List的关系<ul>
+<li>Map 接口提供 get(K key) 方法允许 Map 对象根据 key 来取得 value；</li>
+<li>List 接口提供了 get(int index) 方法允许 List 对象根据元素索引来取得 value；</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="ArrayList-和-LinkedList"><a href="#ArrayList-和-LinkedList" class="headerlink" title="ArrayList 和 LinkedList"></a>ArrayList 和 LinkedList</h4><p>List的实现类，主要有ArrayList、Vector和LinkedList</p>
+<ul>
+<li>ArrayList 是一个可改变大小的数组.当更多的元素加入到 ArrayList 中时, 其大小将会动态地增长. 内部的元素可以直接通过 get 与 set 方法进行访问, 因为 ArrayList 本质上就是一个数组。</li>
+<li>LinkedList 是一个双链表, 在添加和删除元素时具有比 ArrayList 更好的性能. 但在 get 与 set 方面弱于ArrayList. 当然, 这些对比都是指数据量很大或者操作很频繁的情况下的对比, 如果数据和运算量很小,那么对比将失去意义。</li>
+<li>Vector 和 ArrayList 类似, 但属于强同步类。如果你的程序本身是线程安全的(thread-safe,没有在多个线程之间共享同一个集合/对象),那么使用 ArrayList 是更好的选择。</li>
+</ul>
+<p>Vector 和 ArrayList 在更多元素添加进来时会请求更大的空间。Vector 每次请求其大小的双倍空间，而 ArrayList每次对 size 增长 50%。<br>而 LinkedList 还实现了 Queue 接口, 该接口比 List 提供了更多的方法,包括 offer(), peek(), poll()等.<br>注意: 默认情况下 ArrayList 的初始容量非常小, 所以如果可以预估数据量的话, 分配一个较大的初始值属于最佳实践, 这样可以减少调整大小的开销。</p>
+<h4 id="ArrayList与LinkedList性能对比"><a href="#ArrayList与LinkedList性能对比" class="headerlink" title="ArrayList与LinkedList性能对比"></a>ArrayList与LinkedList性能对比</h4><p>时间复杂度对比如下:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">函数</th>
+<th style="text-align:center">ArrayList</th>
+<th style="text-align:center">LinkedList</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">get()</td>
+<td style="text-align:center">O(1)</td>
+<td style="text-align:center">O(n)</td>
+</tr>
+<tr>
+<td style="text-align:center">add()</td>
+<td style="text-align:center">O(1)</td>
+<td style="text-align:center">O(1) amortized</td>
+</tr>
+<tr>
+<td style="text-align:center">remove()</td>
+<td style="text-align:center">O(n)</td>
+<td style="text-align:center">O(n)</td>
+</tr>
+</tbody>
+</table>
+<p>LinkedList 更适用于:</p>
+<ul>
+<li>没有大规模的随机读取</li>
+<li>大量的增加/删除操作    <h4 id="Iterator-迭代器"><a href="#Iterator-迭代器" class="headerlink" title="Iterator 迭代器"></a>Iterator 迭代器</h4>是一个迭代器接口，专门用于迭代各种 Collection 集合，包括 Set 集合和 List 集合。      </li>
+</ul>
+
+    
+        <div>
+            <a href="/2018/07/20/常见集合的实现细节/" class="post-more waves-button">
+                阅读全文 »
+            </a>
+        </div>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/常见集合的实现细节/">常见集合的实现细节</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
             <article id="post-组合模式"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -400,7 +573,7 @@
         </li>
     
         <li class="post-list-item fade">
-            <article id="post-一、表单重复提交的常见应用场景"
+            <article id="post-集合框架二"
   class="article-card article-type-post" itemprop="blogPost">
 
     
@@ -408,7 +581,7 @@
 
   
     <h3 class="post-title" itemprop="name">
-      <a href="/2018/07/20/一、表单重复提交的常见应用场景/">javaweb (十二 )</a>
+      <a href="/2018/07/20/集合框架二/">java 基础知识</a>
     </h3>
   
 
@@ -423,172 +596,30 @@
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        <p>在平时开发中，如果网速比较慢的情况下，用户提交表单后，发现服务器半天都没有响应，那么用户可能会以为是自己没有提交表单，就会再点击提交按钮重复提交表单，我们在开发中必须防止表单重复提交。</p>
-<h3 id="一、表单重复提交的常见应用场景"><a href="#一、表单重复提交的常见应用场景" class="headerlink" title="一、表单重复提交的常见应用场景"></a>一、表单重复提交的常见应用场景</h3><p>form.jsp<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--</span><br><span class="line">  Created by IntelliJ IDEA.</span><br><span class="line">  User: qgx</span><br><span class="line">  Date: 2018/5/29</span><br><span class="line">  Time: 21:52</span><br><span class="line">  To change this template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;Form表单&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;form action=&quot;$&#123;pageContext.request.contextPath&#125;/DoFormServlet&quot; method=&quot;post&quot;&gt;</span><br><span class="line">    用户名：&lt;input type=&quot;text&quot; name=&quot;username&quot;&gt;</span><br><span class="line">    &lt;input type=&quot;submit&quot; value=&quot;提交&quot; id=&quot;submit&quot;&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-<p>　form表单提交到DoFormServlet进行处理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">package qgx.session;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;DoFormServlet&quot;)</span><br><span class="line">public class DoFormServlet extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        request.setCharacterEncoding(&quot;UTF-8&quot;);</span><br><span class="line">        String userName = request.getParameter(&quot;username&quot;);</span><br><span class="line">        try &#123;</span><br><span class="line">            //让当前的线程睡眠3秒钟，模拟网络延迟而导致表单重复提交的现象</span><br><span class="line">            Thread.sleep(3 * 1000);</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(&quot;向数据库中插入数据：&quot; + userName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>　如果没有进行form表单重复提交处理，那么在网络延迟的情况下下面的操作将会导致form表单重复提交多次</p>
-<h4 id="1-1、场景一：在网络延迟的情况下让用户有时间点击多次submit按钮导致表单重复提交"><a href="#1-1、场景一：在网络延迟的情况下让用户有时间点击多次submit按钮导致表单重复提交" class="headerlink" title="1.1、场景一：在网络延迟的情况下让用户有时间点击多次submit按钮导致表单重复提交"></a>1.1、场景一：在网络延迟的情况下让用户有时间点击多次submit按钮导致表单重复提交</h4><h4 id="1-2、场景二：表单提交后用户点击【刷新】按钮导致表单重复提交"><a href="#1-2、场景二：表单提交后用户点击【刷新】按钮导致表单重复提交" class="headerlink" title="1.2、场景二：表单提交后用户点击【刷新】按钮导致表单重复提交"></a>1.2、场景二：表单提交后用户点击【刷新】按钮导致表单重复提交</h4><p> 点击浏览器的刷新按钮，就是把浏览器上次做的事情再做一次，因为这样也会导致表单重复提交。</p>
-<h4 id="1-3、场景三：用户提交表单后，点击浏览器的【后退】按钮回退到表单页面后进行再次提交"><a href="#1-3、场景三：用户提交表单后，点击浏览器的【后退】按钮回退到表单页面后进行再次提交" class="headerlink" title="1.3、场景三：用户提交表单后，点击浏览器的【后退】按钮回退到表单页面后进行再次提交"></a>1.3、场景三：用户提交表单后，点击浏览器的【后退】按钮回退到表单页面后进行再次提交</h4><h3 id="二、利用JavaScript防止表单重复提交"><a href="#二、利用JavaScript防止表单重复提交" class="headerlink" title="二、利用JavaScript防止表单重复提交"></a>二、利用JavaScript防止表单重复提交</h3><p>既然存在上述所说的表单重复提交问题，那么我们就要想办法解决，比较常用的方法是采用JavaScript来防止表单重复提交，具体做法如下：</p>
-<p>修改form.jsp页面，添加如下的JavaScript代码来防止表单重复提交<br>form.jsp<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--</span><br><span class="line">  Created by IntelliJ IDEA.</span><br><span class="line">  User: qgx</span><br><span class="line">  Date: 2018/5/29</span><br><span class="line">  Time: 21:52</span><br><span class="line">  To change this template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;Form表单&lt;/title&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">        var isCommitted = false;//表单是否已经提交标识，默认为false</span><br><span class="line">        function dosubmit()&#123;</span><br><span class="line">            if(isCommitted==false)&#123;</span><br><span class="line">                isCommitted = true;//提交表单后，将表单是否已经提交标识设置为true</span><br><span class="line">                return true;//返回true让表单正常提交</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                return false;//返回false那么表单将不提交</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;form action=&quot;$&#123;pageContext.request.contextPath&#125;/DoFormServlet&quot; onsubmit=&quot;return dosubmit()&quot; method=&quot;post&quot;&gt;</span><br><span class="line">    用户名：&lt;input type=&quot;text&quot; name=&quot;username&quot;&gt;</span><br><span class="line">    &lt;input type=&quot;submit&quot; value=&quot;提交&quot; id=&quot;submit&quot;&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-<p>　可以看到，针对”在网络延迟的情况下让用户有时间点击多次submit按钮导致表单重复提交”这个应用场景，使用JavaScript是可以解决这个问题的，解决的做法就是”用JavaScript控制Form表单只能提交一次”。</p>
-<p>　　除了用这种方式之外，经常见的另一种方式就是表单提交之后，将提交按钮设置为不可用，让用户没有机会点击第二次提交按钮，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function dosubmit()&#123;</span><br><span class="line">    //获取表单提交按钮</span><br><span class="line">    var btnSubmit = document.getElementById(&quot;submit&quot;);</span><br><span class="line">    //将表单提交按钮设置为不可用，这样就可以避免用户再次点击提交按钮</span><br><span class="line">    btnSubmit.disabled= &quot;disabled&quot;;</span><br><span class="line">    //返回true让表单可以正常提交</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>另外还有一种做法就是提交表单后，将提交按钮隐藏起来，这种做法和将提交按钮设置为不可用是差不多的，个人觉得将提交按钮隐藏影响到页面布局的美观，并且可能会让用户误以为是bug(怎么我一点击按钮，按钮就不见了呢？用户可能会有这样的疑问)，我个人在开发中用得比较多的是表单提交后，将提交按钮设置为不可用，反正使用JavaScript防止表单重复提交的做法都是差不多的，目的都是让表单只能提交一次，这样就可以做到表单不重复提交了。<br>　　使用JavaScript防止表单重复提交的做法只对上述提交到导致表单重复提交的三种场景中的【场景一】有效，而对于【场景二】和【场景三】是没有用，依然无法解决表单重复提交问题。</p>
-<h3 id="三、利用Session防止表单重复提交"><a href="#三、利用Session防止表单重复提交" class="headerlink" title="三、利用Session防止表单重复提交"></a>三、利用Session防止表单重复提交</h3><ul>
-<li><p>对于【场景二】和【场景三】导致表单重复提交的问题，既然客户端无法解决，那么就在服务器端解决，在服务器端解决就需要用到session了。</p>
-</li>
-<li><p>具体的做法：在服务器端生成一个唯一的随机标识号，专业术语称为Token(令牌)，同时在当前用户的Session域中保存这个Token。然后将Token发送到客户端的Form表单中，在Form表单中使用隐藏域来存储这个Token，表单提交的时候连同这个Token一起提交到服务器端，然后在服务器端判断客户端提交上来的Token与服务器端生成的Token是否一致，如果不一致，那就是重复提交了，此时服务器端就可以不处理重复提交的表单。如果相同则处理表单提交，处理完后清除当前用户的Session域中存储的标识号。</p>
-</li>
-<li>在下列情况下，服务器程序将拒绝处理用户提交的表单请求：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">存储Session域中的Token(令牌)与表单提交的Token(令牌)不同。</span><br><span class="line">当前用户的Session中不存在Token(令牌)。</span><br><span class="line">用户提交的表单数据中没有Token(令牌)。</span><br></pre></td></tr></table></figure>
-</li>
+        <h3 id="集合框架二"><a href="#集合框架二" class="headerlink" title="集合框架二"></a>集合框架二</h3><h4 id="7、集合类各容器方法："><a href="#7、集合类各容器方法：" class="headerlink" title="7、集合类各容器方法："></a>7、集合类各容器方法：</h4><p>接口Collection方法摘要(没有构造方法)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">a)添加：</span><br><span class="line">i.  boolean add(E e)</span><br><span class="line"></span><br><span class="line">j.  boolean addAll(Collection c)</span><br><span class="line">b)删除：</span><br><span class="line">i.  void clear():清空容器</span><br><span class="line">j.  boolean remove(Objec object):</span><br><span class="line">k.  boolean removeAll(Collection c):</span><br><span class="line">c)判断：</span><br><span class="line">i.  boolean contains(Object object):判断是否包含此元素</span><br><span class="line">j.  boolean containsAll(Collection c):判断是否包含一堆元素</span><br><span class="line">k.  boolean equals(Object object):比较此collection与指定对象是否相等</span><br><span class="line">m.  boolean isEmpty():判断是否集合为空</span><br><span class="line">d)获取：</span><br><span class="line">h.  Iterator iterator():取出</span><br><span class="line">i.  int hashCode():返回此collection的哈希值</span><br><span class="line">j.  int size():返回此collection中元素的个数</span><br><span class="line">k.  boolean retainAll(Collection c):取交集</span><br><span class="line">m.  Object toArray():返回此collection中所有元素的数组</span><br><span class="line">n.  T[] toArray(T[] a):返回包含此collection中所有元素的数值。</span><br></pre></td></tr></table></figure></p>
+<h4 id="List集合子类及其方法"><a href="#List集合子类及其方法" class="headerlink" title="List集合子类及其方法"></a>List集合子类及其方法</h4><ul>
+<li>(1)List接口是Collection接口的一个子接口。</li>
+<li>(2)List接口中的元素有如下特点(对角标的操作都是特有方法，因为有序)：<br>A:元素有序(存储顺序和取出顺序一致)<br>B:元素可以重复</li>
+<li>(3)List接口中的特有方法<br>A:add(int index,Object obj):在指定位置加入元素<br>B:remove(int index):移除指定位置的元素<br>C:set(int index,Object obj):修改指定位置的元素<br>D:get(int index):获取指定位置的元素<br>E:indexOf(Object obj):获取指定元素的位置<br>F:subList(int start,int end):从一个大的List中截取一个小的List<br>G:listIterator():返回一个List接口特有的迭代器</li>
 </ul>
-<p>1.创建FormServlet，用于生成Token(令牌)和跳转到form.jsp页面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class FormServlet extends HttpServlet &#123;</span><br><span class="line">    private static final long serialVersionUID = -884689940866074733L;</span><br><span class="line"></span><br><span class="line">    public void doGet(HttpServletRequest request, HttpServletResponse response)</span><br><span class="line">            throws ServletException, IOException &#123;</span><br><span class="line"></span><br><span class="line">        String token = TokenProccessor.getInstance().makeToken();//创建令牌</span><br><span class="line">        System.out.println(&quot;在FormServlet中生成的token：&quot;+token);</span><br><span class="line">        request.getSession().setAttribute(&quot;token&quot;, token);  //在服务器使用session保存token(令牌)</span><br><span class="line">        request.getRequestDispatcher(&quot;/form.jsp&quot;).forward(request, response);//跳转到form.jsp页面</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void doPost(HttpServletRequest request, HttpServletResponse response)</span><br><span class="line">            throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>2.在form.jsp中使用隐藏域来存储Token(令牌)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;</span><br><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;title&gt;form表单&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;form action=&quot;$&#123;pageContext.request.contextPath&#125;/DoFormServlet&quot; method=&quot;post&quot;&gt;</span><br><span class="line">        &lt;%--使用隐藏域存储生成的token--%&gt;</span><br><span class="line">        &lt;%--</span><br><span class="line">            &lt;input type=&quot;hidden&quot; name=&quot;token&quot; value=&quot;&lt;%=session.getAttribute(&quot;token&quot;) %&gt;&quot;&gt;</span><br><span class="line">        --%&gt;</span><br><span class="line">        &lt;%--使用EL表达式取出存储在session中的token--%&gt;</span><br><span class="line">        &lt;input type=&quot;hidden&quot; name=&quot;token&quot; value=&quot;$&#123;token&#125;&quot;/&gt; </span><br><span class="line">        用户名：&lt;input type=&quot;text&quot; name=&quot;username&quot;&gt; </span><br><span class="line">        &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-<p>3.DoFormServlet处理表单提交<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">public class DoFormServlet extends HttpServlet &#123;</span><br><span class="line"></span><br><span class="line">    public void doGet(HttpServletRequest request, HttpServletResponse response)</span><br><span class="line">                throws ServletException, IOException &#123;</span><br><span class="line"></span><br><span class="line">            boolean b = isRepeatSubmit(request);//判断用户是否是重复提交</span><br><span class="line">            if(b==true)&#123;</span><br><span class="line">                System.out.println(&quot;请不要重复提交&quot;);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            request.getSession().removeAttribute(&quot;token&quot;);//移除session中的token</span><br><span class="line">            System.out.println(&quot;处理用户提交请求！！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        /**</span><br><span class="line">         * 判断客户端提交上来的令牌和服务器端生成的令牌是否一致</span><br><span class="line">         * @param request</span><br><span class="line">         * @return </span><br><span class="line">         *         true 用户重复提交了表单 </span><br><span class="line">         *         false 用户没有重复提交表单</span><br><span class="line">         */</span><br><span class="line">        private boolean isRepeatSubmit(HttpServletRequest request) &#123;</span><br><span class="line">            String client_token = request.getParameter(&quot;token&quot;);</span><br><span class="line">            //1、如果用户提交的表单数据中没有token，则用户是重复提交了表单</span><br><span class="line">            if(client_token==null)&#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">            //取出存储在Session中的token</span><br><span class="line">            String server_token = (String) request.getSession().getAttribute(&quot;token&quot;);</span><br><span class="line">            //2、如果当前用户的Session中不存在Token(令牌)，则用户是重复提交了表单</span><br><span class="line">            if(server_token==null)&#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">            //3、存储在Session中的Token(令牌)与表单提交的Token(令牌)不同，则用户是重复提交了表单</span><br><span class="line">            if(!client_token.equals(server_token))&#123;</span><br><span class="line">                return true;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    public void doPost(HttpServletRequest request, HttpServletResponse response)</span><br><span class="line">            throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>生成Token的工具类TokenProccessor<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public class TokenProccessor &#123;</span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">     *单例设计模式（保证类的对象在内存中只有一个）</span><br><span class="line">     *1、把类的构造函数私有</span><br><span class="line">     *2、自己创建一个类的对象</span><br><span class="line">     *3、对外提供一个公共的方法，返回类的对象</span><br><span class="line">     */</span><br><span class="line">    private TokenProccessor()&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    private static final TokenProccessor instance = new TokenProccessor();</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     * 返回类的对象</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public static TokenProccessor getInstance()&#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     * 生成Token</span><br><span class="line">     * Token：Nv6RRuGEVvmGjB+jimI/gw==</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    public String makeToken()&#123;  //checkException</span><br><span class="line">        //  7346734837483  834u938493493849384  43434384</span><br><span class="line">        String token = (System.currentTimeMillis() + new Random().nextInt(999999999)) + &quot;&quot;;</span><br><span class="line">        //数据指纹   128位长   16个字节  md5</span><br><span class="line">        try &#123;</span><br><span class="line">            MessageDigest md = MessageDigest.getInstance(&quot;md5&quot;);</span><br><span class="line">            byte md5[] =  md.digest(token.getBytes());</span><br><span class="line">            //base64编码--任意二进制编码明文字符   adfsdfsdfsf</span><br><span class="line">            BASE64Encoder encoder = new BASE64Encoder();</span><br><span class="line">            return encoder.encode(md5);</span><br><span class="line">        &#125; catch (NoSuchAlgorithmException e) &#123;</span><br><span class="line">            throw new RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>首先访问FormServlet，在FormServlet中生成Token之后再重定向到form.jsp页面</p>
-
-    
-        <div>
-            <a href="/2018/07/20/一、表单重复提交的常见应用场景/" class="post-more waves-button">
-                阅读全文 »
-            </a>
-        </div>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Session-表单重复提交/">Session 表单重复提交</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-Spring Boot 常用注解"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a href="/2018/07/20/Spring Boot 常用注解/">Spring Boot(二)</a>
-    </h3>
-  
-
-
-
-
-     <div class="post-meta">
-        <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.797Z"  itemprop="datePublished">2018-07-20</time>
-
-    </div>
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <h3 id="Spring-Boot-常用注解"><a href="#Spring-Boot-常用注解" class="headerlink" title="Spring Boot 常用注解"></a>Spring Boot 常用注解</h3><h4 id="RestController和-RequestMapping"><a href="#RestController和-RequestMapping" class="headerlink" title="@RestController和@RequestMapping"></a>@RestController和@RequestMapping</h4><p>@RestController被称为一个构造型（stereotype）注解。它为阅读代码的开发人员提供建议。对于Spring，该类扮演了一个特殊角色。它继承自@Controller注解。4.0之前的版本，spring MVC的组件都使用@Controller来标识当前类是一个控制器servlet。</p>
-<p>使用这个特性，我们可以开发REST服务的时候不需要使用@Controller而专门的@RestController。</p>
-<p>实例：在本实例中，Example的类是一个web @Controller，所以当处理进来的web请求时，Spring会询问它。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.boot.*;</span><br><span class="line">import org.springframework.boot.autoconfigure.*;</span><br><span class="line">import org.springframework.stereotype.*;</span><br><span class="line">import org.springframework.web.bind.annotation.*;</span><br><span class="line">@RestController</span><br><span class="line">@EnableAutoConfiguration</span><br><span class="line">public class Example &#123;    </span><br><span class="line">    @RequestMapping(&quot;/&quot;)    </span><br><span class="line">    String home() &#123;        </span><br><span class="line">        return &quot;Hello World!&quot;;</span><br><span class="line">    &#125;    </span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">        SpringApplication.run(Example.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>@RequestMapping：</strong>注解提供路由信息。它告诉Spring任何来自”/“路径的HTTP请求都应该被映射到home方法。</p>
-<p><strong>@RestController</strong>注解告诉Spring以字符串的形式渲染结果，并直接返回给调用者。该注解有六个属性： </p>
-<p><strong>params：</strong>指定request中必须包含某些参数值是，才让该方法处理。</p>
-<p><strong>headers：</strong>指定request中必须包含某些指定的header值，才能让该方法处理请求。</p>
-<p><strong>value：</strong>指定请求的实际地址，指定的地址可以是URI Template 模式。</p>
-<p><strong>method：</strong>指定请求的method类型， GET、POST、PUT、DELETE等。</p>
-<p><strong>consumes：</strong>指定处理请求的提交内容类型（Content-Type），如application/json,text/html。</p>
-<p><strong>produces：</strong>指定返回的内容类型，仅当request请求头中的(Accept)类型中包含该指定类型才返回。<br>实例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@RequestMapping(“/test”) </span><br><span class="line">@ResponseBody </span><br><span class="line">public String test()&#123; </span><br><span class="line">    return ”ok”; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>注意：</strong>@RestController和@RequestMapping注解是Spring MVC注解（它们不是Spring Boot的特定部分）</p>
-<p><strong>@EnableAutoConfiguration</strong><br>第二个类级别的注解是@EnableAutoConfiguration。这个注解告诉Spring Boot根据添加的jar依赖猜测你想如何配置Spring。由于spring-boot-starter-web添加了Tomcat和Spring MVC，所以auto-configuration将假定正在开发一个web应用并相应地对Spring进行设置。</p>
-<p><strong>Starter POMs</strong>和<strong>Auto-Configuration</strong>设计auto-configuration的目的是更好的使用”Starter POMs”，但这两个概念没有直接的联系。可以自由地挑选starter POMs以外的jar依赖，并且Spring Boot将仍旧尽最大努力去自动配置你的应用。</p>
-<p>你可以通过将@EnableAutoConfiguration或@SpringBootApplication注解添加到一个@Configuration类上来选择自动配置。</p>
-<p>注意：只需要添加一个@EnableAutoConfiguration注解。建议将它添加到主@Configuration类上，如果发现应用不想要的特定自动配置类，可以使用@EnableAutoConfiguration注解的排除属性来禁用它们。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.boot.autoconfigure.*;  </span><br><span class="line">import org.springframework.boot.autoconfigure.jdbc.*;  </span><br><span class="line">import org.springframework.context.annotation.*;  </span><br><span class="line">@Configuration  </span><br><span class="line">@EnableAutoConfiguration(exclude=&#123;DataSourceAutoConfiguration.class&#125;)  </span><br><span class="line">public class MyConfiguration &#123;  </span><br><span class="line">    // ...  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>@Configuration<br>Spring Boot提倡基于Java的配置。尽管可以使用一个XML源来调用SpringApplication.run()，但官方建议使用@Configuration类作为主要源。一般定义main方法的类也是主要@Configuration的一个很好候选。</p>
-<p>不需要将所有的@Configuration放进一个单独的类。@Import注解可以用来导入其他配置类。另外也可以使用@ComponentScan注解自动收集所有的Spring组件，包括@Configuration类。</p>
-<p>如果需要使用基于XML的配置，官方建议仍旧从一个@Configuration类开始。可以使用附加的@ImportResource注解加载XML配置文件。</p>
-<p>@Configuration注解该类，等价与XML中配置beans；用@Bean标注方法等价于XML中配置bean。<br>@ComponentScan(basePackages = “com.yoodb.blog”,includeFilters = <a href="mailto:{@ComponentScan.Filter" target="_blank" rel="noopener">{@ComponentScan.Filter</a>(Aspect.class)})</p>
-<p>@ComponentScan：表示将该类自动发现扫描组件。如果扫描到有@Component、<br>@Controller、@Service等这些注解的类，并注册为Bean，可以自动收集所有的Spring组件，包括@Configuration类。</p>
-<p>使用@ComponentScan注解搜索beans，并结合@Autowired注解导入。可以自动收集所有的Spring组件，包括@Configuration类。如果没有配置，Spring Boot会扫描启动类所在包下以及子包下的使用了@Service,@Repository等注解的类。</p>
-<p>@SpringBootApplication<br>很多Spring Boot开发者总是使用@Configuration，@EnableAutoConfiguration和@ComponentScan注解他们的main类。由于这些注解被如此频繁地一块使用（特别是你遵循以上最佳实践时），Spring Boot提供一个方便的@SpringBootApplication选择。</p>
-<p>该@SpringBootApplication注解等价于以默认属性使用@Configuration，@EnableAutoConfiguration和@ComponentScan。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.boot.SpringApplication;  </span><br><span class="line">import org.springframework.boot.autoconfigure.SpringBootApplication;  </span><br><span class="line">@SpringBootApplication </span><br><span class="line">// 等同于@Configuration @EnableAutoConfiguration @ComponentScan  </span><br><span class="line"></span><br><span class="line">public class Application &#123;  </span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line">        SpringApplication.run(Application.class, args);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Spring Boot将尝试校验外部的配置，默认使用JSR-303（如果在classpath路径中）。可以轻松的为@ConfigurationProperties类添加JSR-303 javax.validation约束注解：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Component  </span><br><span class="line">@ConfigurationProperties(prefix=&quot;connection&quot;)  </span><br><span class="line">public class ConnectionSettings &#123;  </span><br><span class="line">    @NotNull  </span><br><span class="line">    private InetAddress remoteAddress;  </span><br><span class="line">        // ... getters and setters  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>@Profiles</strong><br>Spring Profiles提供了一种隔离应用程序配置的方式，并让这些配置只能在特定的环境下生效。任何@Component或@Configuration都能被@Profile标记，从而限制加载它的时机。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Configuration  </span><br><span class="line">@Profile(&quot;production&quot;)  </span><br><span class="line">public class ProductionConfiguration &#123;  </span><br><span class="line">    // ...  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>全局异常处理<br><strong>@ControllerAdvice：</strong>包含@Component。可以被扫描到。统一处理异常。<br><strong>@ExceptionHandler（Exception.class）：</strong>用在方法上面表示遇到这个异常就执行以下方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/** </span><br><span class="line"> * 全局异常处理 </span><br><span class="line"> */  @ControllerAdvice  public class GlobalDefaultExceptionHandler &#123;  </span><br><span class="line">    public static final String DEFAULT_ERROR_VIEW = &quot;error&quot;;  </span><br><span class="line">    @ExceptionHandler(&#123;TypeMismatchException.class,NumberFormatException.class&#125;)  </span><br><span class="line">    public ModelAndView formatErrorHandler(HttpServletRequest req, Exception e) throws Exception &#123;  </span><br><span class="line">        ModelAndView mav = new ModelAndView();  </span><br><span class="line">        mav.addObject(&quot;error&quot;,&quot;参数类型错误&quot;);  </span><br><span class="line">        mav.addObject(&quot;exception&quot;, e);  </span><br><span class="line">        mav.addObject(&quot;url&quot;, RequestUtils.getCompleteRequestUrl(req));  </span><br><span class="line">        mav.addObject(&quot;timestamp&quot;, new Date());  </span><br><span class="line">        mav.setViewName(DEFAULT_ERROR_VIEW);  </span><br><span class="line">        return mav;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">通过@value注解来读取application.properties里面的配置，使用实例参考：</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//************** application.properties *************//</span><br><span class="line"></span><br><span class="line">qq_api_key=********1***********</span><br><span class="line">qq_api_secrt=******2***********</span><br><span class="line"></span><br><span class="line">/************* Java **************/</span><br><span class="line">@Value(&quot;$&#123;qq_api_key&#125;&quot;)  </span><br><span class="line">private String API_KEY;  </span><br><span class="line">@Value(&quot;$&#123;qq_api_secrt&#125;&quot;)  </span><br><span class="line">private String API_SECRET;</span><br></pre></td></tr></table></figure>
-<p>注意：使用@Value注解的时其使用的类如果被其他类作为对象引用，必须要使用注入的方式而不能new，一般常用的配置在application.properties文件。</p>
-<p>其他注解<br><strong>@ResponseBody：</strong>表示该方法的返回结果直接写入HTTP response body中一般在异步获取数据时使用，在使用@RequestMapping后，返回值通常解析为跳转路径，加上@Responsebody后返回结果不会被解析为跳转路径，而是直接写入HTTP response body中。如异步获取json数据，加上@Responsebody后，会直接返回json数据。</p>
-<p><strong>@Component：</strong>泛指组件，当组件不好归类时，可以使用这个注解进行标注。一般公共的方法会用上这个注解。</p>
-<p><strong>@RequestParam：</strong>用在方法的参数前面，实例：<br>@RequestParam String a =request.getParameter(“a”);</p>
-<p><strong>@PathVariable:</strong>路径变量注解，其参数与大括号里的名字一样要保持一致，实例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RequestMapping(&quot;yoodb/detail/&#123;id&#125;&quot;)  </span><br><span class="line">public String getByMacAddress(@PathVariable String id)&#123;  </span><br><span class="line">//do something;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>@Inject：</strong>等价于默认的@Autowired，只是没有required属性。</p>
-<p><strong>@Bean:</strong>相当于XML中的,放在方法的上面，而不是类，意思是产生一个bean,并交给spring管理。</p>
-<p><strong>@AutoWired：</strong>自动导入依赖的bean。byType方式。把配置好的Bean拿来用，完成属性、方法的组装，它可以对类成员变量、方法及构造函数进行标注，完成自动装配的工作。当加上（required=false）时，就算找不到bean也不报错。</p>
-<p><strong>@Qualifier：</strong>当有多个同一类型的Bean时，可以用@Qualifier(“name”)来指定。与@Autowired配合使用。@Qualifier限定描述符除了能根据名字进行注入，但能进行更细粒度的控制如何选择候选者，具体使用方式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Autowired </span><br><span class="line">@Qualifier(value = &quot;demoInfoService&quot;) </span><br><span class="line">private DemoInfoService demoInfoService;</span><br><span class="line">@Resource(name=&quot;name&quot;,type=&quot;type&quot;)：没有括号内内容的话，默认byName。与@Autowired类似。</span><br></pre></td></tr></table></figure></p>
-
-    
-        <div>
-            <a href="/2018/07/20/Spring Boot 常用注解/" class="post-more waves-button">
-                阅读全文 »
-            </a>
-        </div>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring-Boot-常用注解/">Spring Boot 常用注解</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-文件下载"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a href="/2018/07/20/文件下载/">javaweb (六 )</a>
-    </h3>
-  
-
-
-
-
-     <div class="post-meta">
-        <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.797Z"  itemprop="datePublished">2018-07-20</time>
-
-    </div>
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <h3 id="文件下载"><a href="#文件下载" class="headerlink" title="文件下载"></a>文件下载</h3><p>文件下载功能是web开发中经常使用到的功能，使用HttpServletResponse对象就可以实现文件的下载<br>文件下载功能的实现思路：</p>
-<ul>
-<li>1.获取要下载的文件的绝对路径</li>
-<li>2.获取要下载的文件名</li>
-<li>3.设置content-disposition响应头控制浏览器以下载的形式打开文件</li>
-<li>4.获取要下载的文件输入流</li>
-<li>5.创建数据缓冲区</li>
-<li>6.通过response对象获取OutputStream流</li>
-<li>7.将FileInputStream流写入到buffer缓冲区</li>
-<li><p>8.使用OutputStream将缓冲区的数据输出到客户端浏览器<br>范例：使用Response实现文件下载</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.*;</span><br><span class="line">import java.net.URLEncoder;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo2&quot;)</span><br><span class="line">public class ResponseDemo2 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        downloadChineseFileByOutputStream(response);//下载中文文件</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void downloadChineseFileByOutputStream(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        String realPath = this.getServletContext().getRealPath(&quot;/download/自由.jpg&quot;);//获取要下载的文件的绝对路径</span><br><span class="line">        String fileName = realPath.substring(realPath.lastIndexOf(&quot;\\&quot;)+1);//获取要下载的文件名</span><br><span class="line">        //设置content-disposition响应头控制浏览器以下载的形式打开文件，中文文件名要使用URLEncoder.encode方法进行编码，否则会出现文件名乱码</span><br><span class="line">        response.setHeader(&quot;content-disposition&quot;, &quot;attachment;filename=&quot;+ URLEncoder.encode(fileName, &quot;UTF-8&quot;));</span><br><span class="line">        InputStream in = new FileInputStream(realPath);//获取文件输入流</span><br><span class="line">        int len = 0;</span><br><span class="line">        byte[] buffer = new byte[1024];</span><br><span class="line">        OutputStream out = response.getOutputStream();</span><br><span class="line">        while ((len = in.read(buffer)) &gt; 0) &#123;</span><br><span class="line">            out.write(buffer,0,len);//将缓冲区的数据输出到客户端浏览器</span><br><span class="line">        &#125;</span><br><span class="line">        in.close();</span><br><span class="line">        out.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>下载中文文件时，需要注意的地方就是中文文件名要使用URLEncoder.encode方法进行编码(URLEncoder.encode(fileName, “字符编码”))，否则会出现文件名乱码。</p>
-</li>
-<li>文件下载注意事项：编写文件下载功能时推荐使用OutputStream流，避免使用PrintWriter流，因为OutputStream流是字节流，可以处理任意类型的数据，而PrintWriter流是字符流，只能处理字符数据，如果用字符流处理字节数据，会导致数据丢失。</li>
+<h4 id="1-、ArrayList："><a href="#1-、ArrayList：" class="headerlink" title="(1)、ArrayList："></a>(1)、ArrayList：</h4><p>构造方法摘要：(少用，不是重点)<br>ArrayList()：构造一个初始容量为 10 的空列表。<br>ArrayList(Collection&lt;? extends E&gt; c)： 构造一个包含指定 collection 的元素的列表，</p>
+<p>ArrayList(int initialCapacity)： 构造一个具有指定初始容量的空列表。<br>    方法摘要：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">添加：</span><br><span class="line">boolean add(E e)： 将指定的元素添加到此列表的尾部。</span><br><span class="line">void add(int index, E element)： 将指定的元素插入此列表中的指定位置。</span><br><span class="line">boolean addAll(Collection&lt;? extends E&gt; c):按照指定 collection 的迭代器所返回的元素顺序，</span><br><span class="line">将该 collection 中的所有元素添加到此列表的尾部 </span><br><span class="line">boolean addAll(int index, Collection&lt;? extends E&gt; c)： 从指定的位置开始，将指定 collection</span><br><span class="line">      中的所有元素插入到此列表中。 </span><br><span class="line">删除：</span><br><span class="line">void clear(): 移除此列表中的所有元素。</span><br><span class="line"> remove(int index): 移除此列表中指定位置上的元素。 </span><br><span class="line">boolean remove(Object o): 移除此列表中首次出现的指定元素（如果存在）。</span><br><span class="line">protected  void removeRange(int fromIndex, int toIndex): </span><br><span class="line">移除列表中索引在 fromIndex（包括）和 toIndex（不包括）之间的所有元素。</span><br><span class="line">boolean removeAll(Collection&lt;?&gt; c): 从列表中移除指定 collection 中包含的其所有元素 </span><br><span class="line">|获取：</span><br><span class="line"> get(int index): 返回此列表中指定位置上的元素。</span><br><span class="line">int indexOf(Object o): 返回此列表中首次出现的指定元素的索引，或如果此列表不包含元素，则返回 -1。</span><br><span class="line">int lastIndexOf(Object o) 返回此列表中最后一次出现的指定元素的索引，或如果此列表不包含索引，则返回 -1。   </span><br><span class="line">public List&lt;E&gt; subList(int fromIndex,int toIndex): 返回列表中指定的 fromIndex（包括 ）和 toIndex（不包括）之间的部分视图。</span><br><span class="line">Iterator&lt;E&gt; iterator(): 返回按适当顺序在列表的元素上进行迭代的迭代器。</span><br><span class="line">ListIterator&lt;E&gt; listIterator(int index):返回列表中元素的列表迭代器(按适当顺序),从列表的指定位置开始。</span><br><span class="line">修改：(特有方法！！)</span><br><span class="line"> set(int index, E element): 用指定的元素替代此列表中指定位置上的元素。</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-LinkedList"><a href="#2-LinkedList" class="headerlink" title="(2)LinkedList:"></a>(2)LinkedList:</h4><p>构造方法摘要：<br>LinkedList(): 构造一个空列表。<br>LinkedList(Collection&lt;? extends E&gt; c): 构造一个包含指定 collection 中的元素的列表，<br>      这些元素按其 collection 的迭代器返回的顺序排列。<br>方法摘要:(特有的)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">添加</span><br><span class="line">void addFirst(E e): 将指定元素插入此列表的开头。 </span><br><span class="line">void addLast(E e): 将指定元素添加到此列表的结尾。 </span><br><span class="line">获取元素，但不删除元素</span><br><span class="line"> get(int index): 返回此列表中指定位置处的元素。           </span><br><span class="line"> getFirst(): 返回此列表的第一个元素。          </span><br><span class="line"> getLast(): 返回此列表的最后一个元素。</span><br><span class="line">获取元素且删除元素</span><br><span class="line"> remove()： 获取并移除此列表的头（第一个元素）。          </span><br><span class="line"> remove(int index)： 移除此列表中指定位置处的元素。         </span><br><span class="line">boolean remove(Object o)： 从此列表中移除首次出现的指定元素（如果存在）。         </span><br><span class="line"> removeFirst()： 移除并返回此列表的第一个元素。 </span><br><span class="line"> removeLast(): 移除并返回此列表的最后一个元素。</span><br><span class="line">修改</span><br><span class="line"> set(int index, E element) 将此列表中指定位置的元素替换为指定的元素。 </span><br><span class="line">#### (3)Vector</span><br><span class="line">构造方法摘要：</span><br><span class="line">Vector(): 构造一个空向量，使其内部数据数组的大小为 10，其标准容量增量为零。          </span><br><span class="line">Vector(Collection&lt;? extends E&gt; c):  构造一个包含指定 collection 中的元素的向量，</span><br><span class="line">   这些元素按其 collection 的迭代器返回元素的顺序排列。</span><br></pre></td></tr></table></figure></p>
+<p>方法摘要：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">添加：</span><br><span class="line">boolean add(E e): 将指定元素添加到此向量的末尾。</span><br><span class="line">void add(int index, E element): 在此向量的指定位置插入指定的元素。         </span><br><span class="line">boolean addAll(Collection&lt;? extends E&gt; c):</span><br><span class="line">将指定 Collection 中的所有元素添加到此向量的末尾， </span><br><span class="line">按照指定 collection 的迭代器所返回的顺序添加这些元素。 </span><br><span class="line">boolean addAll(int index, Collection&lt;? extends E&gt; c): 在指定位置将指定 Collection 中的所有元素插入到此向量中。</span><br><span class="line">获取:</span><br><span class="line">Enumeration&lt;E&gt; elements(): 返回此向量的组件的枚举。</span><br><span class="line">  Vector特有的取出方式:</span><br><span class="line">  枚举和迭代器很像，其实枚举和迭代器是一样的，只是因为枚举的名称和方法的名称</span><br><span class="line">  名字都过长，所以枚举被迭代器取代了。</span><br><span class="line">枚举Enumeration的方法摘要：</span><br><span class="line">boolean hasMoreElements(): 测试此枚举是否包含更多的元素。 </span><br><span class="line"> nextElement(): 如果此枚举对象至少还有一个可提供的元素，</span><br><span class="line"> 则返回此枚举的下一个元素。</span><br></pre></td></tr></table></figure></p>
+<h4 id="Set集合子类及其方法"><a href="#Set集合子类及其方法" class="headerlink" title="Set集合子类及其方法"></a>Set集合子类及其方法</h4><p>(1)HashSet:它不保证set的迭代顺序;特别是它不保证该顺序恒久不变.此类允许使用null元素。<br>构造方法：<br>HashSet() 构造一个新的空 set，其底层 HashMap 实例的默认初始容量是 16，加载因子是 0.75。<br>HashSet(Collection&lt;? extends E&gt; c) 构造一个包含指定 collection 中的元素的新 set。<br>方法摘要：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">boolean add(E e) 如果此 set 中尚未包含指定元素，则添加指定元素。   </span><br><span class="line">void clear() 从此 set 中移除所有元素。</span><br><span class="line"> </span><br><span class="line">Object clone() 返回此 HashSet 实例的浅表副本：并没有复制这些元素本身。  </span><br><span class="line">boolean contains(Object o) 如果此 set 包含指定元素，则返回 true。  </span><br><span class="line">boolean isEmpty() 如果此 set 不包含任何元素，则返回 true。 </span><br><span class="line"> </span><br><span class="line">Iterator&lt;E&gt; iterator() 返回对此 set 中元素进行迭代的迭代器。  </span><br><span class="line">boolean remove(Object o) 如果指定元素存在于此 set 中，则将其移除。</span><br><span class="line">  </span><br><span class="line">int size() 返回此 set 中的元素的数量（set 的容量）。  </span><br><span class="line">(2)TreeSet:使用元素的自然顺序对元素进行排序，或者根据创建 set 时提供的 Comparator 进行排序.</span><br><span class="line">构造方法：</span><br><span class="line">TreeSet() 构造一个新的空 set，该set根据其元素的自然顺序进行排序。          </span><br><span class="line">TreeSet(Collection&lt;? extends E&gt; c) </span><br><span class="line">构造一个包含指定 collection 元素的新 TreeSet，它按照其元素的自然顺序进行排序。 </span><br><span class="line">TreeSet(Comparator&lt;? super E&gt; comparator)  构造一个新的空 TreeSet，它根据指定比较器进行排序。</span><br></pre></td></tr></table></figure></p>
+<p>方法摘要：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">添加：</span><br><span class="line">boolean add(E e)  将指定的元素添加到此 set（如果该元素尚未存在于 set 中）。</span><br><span class="line">boolean addAll(Collection&lt;? extends E&gt; c) 将指定 collection 中的所有元素添加到此 set 中。</span><br><span class="line">删除：</span><br><span class="line"> void clear() 移除此 set 中的所有元素。 </span><br><span class="line"> boolean remove(Object o)  将指定的元素从 set 中移除（如果该元素存在于此 set 中）。 </span><br><span class="line">  pollFirst() 获取并移除第一个（最低）元素；如果此 set 为空，则返回 null。 </span><br><span class="line">  pollLast() 获取并移除最后一个（最高）元素；如果此 set 为空，则返回 null。 </span><br><span class="line">获取：</span><br><span class="line"> Iterator&lt;E&gt; iterator()  返回在此 set 中的元素上按升序进行迭代的迭代器。</span><br><span class="line"> first() 返回此 set 中当前第一个（最低）元素。</span><br><span class="line">  last() 返回此 set 中当前最后一个（最高）元素。</span><br><span class="line"> int size()  返回 set 中的元素数（set 的容量）。</span><br><span class="line">判断：</span><br><span class="line">boolean isEmpty()  如果此 set 不包含任何元素，则返回 true。 </span><br><span class="line">boolean contains(Object o) 如果此 set 包含指定的元素，则返回 true。 </span><br><span class="line">Map:将键映射到值的对象。Map集合没有迭代器！Map集合特点：该集合存储键值对。而且键是唯一的。</span><br><span class="line">方法摘要：</span><br></pre></td></tr></table></figure></p>
+<p>   添加：<br>     V put(K key, V value) 将指定的值与此映射中的指定键关联（可选操作）。<br>     void putAll(Map&lt;? extends K,? extends V&gt; m) 从指定映射中将所有映射关系复制到此映射中<br>   删除：<br>              void clear()  从此映射中移除所有映射关系（可选操作）。<br>     V remove(Object key) 如果存在一个键的映射关系，则将其从此映射中移除（可选操作）。<br>   判断<br>     boolean containsKey(Object key) 如果此映射包含指定键的映射关系，则返回 true。<br>              boolean containsValue(Object value) 如果此映射将一个或多个键映射到指定值，则返回 true。<br>              boolean isEmpty() 如果此映射未包含键-值映射关系，则返回 true。<br>           获取<br>     int size() 返回此映射中的键-值映射关系数。<br>              Collection<v> values()  返回此映射中包含的值的 Collection 视图。<br><code>`</code></v></p>
+<h5 id="重点：Map集合没有迭代器，以下是Map的两种取出方式："><a href="#重点：Map集合没有迭代器，以下是Map的两种取出方式：" class="headerlink" title="重点：Map集合没有迭代器，以下是Map的两种取出方式："></a>重点：Map集合没有迭代器，以下是Map的两种取出方式：</h5><ul>
+<li>第一种：Set<k> keySet()<br>返回此映射中包含的键的Set视图，将Map集合中所有的键存入Set集合，然后再通过Set集合的<br>迭代器取出所有的键，再根据get方法获取每个键的值；</k></li>
+<li>第二种：Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet()<br>返回此映射中包含的映射关系的Set视图，将Map集合中的映射关系存入到Set集合中，<br>这个映射关系的数据类型是Map.entry,再通过Map.Entry类的方法再要取出关系里面的键和值<br>Map.Entry的方法摘要：<br>boolean equals(Object o)  比较指定对象与此项的相等性。</li>
 </ul>
+<p>K getKey()  返回与此项对应的键。</p>
+<p>V getValue() 返回与此项对应的值。</p>
+<p>int hashCode() 返回此映射项的哈希码值。<br>V setValue(V value) 用指定的值替换与此项对应的值(特有！！！)。</p>
 
     
         <div>
-            <a href="/2018/07/20/文件下载/" class="post-more waves-button">
+            <a href="/2018/07/20/集合框架二/" class="post-more waves-button">
                 阅读全文 »
             </a>
         </div>
@@ -596,7 +627,7 @@
     
     <div class="post-footer">
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HttpServletResponse/">HttpServletResponse</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/集合框架二/">集合框架二</a></li></ul>
 
     </div>
     
@@ -605,7 +636,7 @@
         </li>
     
         <li class="post-list-item fade">
-            <article id="post-JAVA线程池原理详解"
+            <article id="post-单片机"
   class="article-card article-type-post" itemprop="blogPost">
 
     
@@ -613,7 +644,7 @@
 
   
     <h3 class="post-title" itemprop="name">
-      <a href="/2018/07/20/JAVA线程池原理详解/">JAVA线程池原理详解</a>
+      <a href="/2018/07/20/单片机/">单片机</a>
     </h3>
   
 
@@ -628,48 +659,15 @@
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        <h3 id="JAVA线程池原理详解"><a href="#JAVA线程池原理详解" class="headerlink" title="JAVA线程池原理详解"></a>JAVA线程池原理详解</h3><h4 id="线程池的优点"><a href="#线程池的优点" class="headerlink" title="线程池的优点"></a>线程池的优点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1、线程是稀缺资源，使用线程池可以减少创建和销毁线程的次数，每个工作线程都可以重复使用。</span><br><span class="line">2、可以根据系统的承受能力，调整线程池中工作线程的数量，防止因为消耗过多内存导致服务器崩溃。</span><br></pre></td></tr></table></figure>
-<h4 id="线程池的创建"><a href="#线程池的创建" class="headerlink" title="线程池的创建"></a>线程池的创建</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public ThreadPoolExecutor(</span><br><span class="line">   int corePoolSize,</span><br><span class="line">   int maximumPoolSize,</span><br><span class="line">   long keepAliveTime,</span><br><span class="line">   TimeUnit unit,</span><br><span class="line">   BlockingQueue&lt;Runnable&gt; workQueue,</span><br><span class="line">   RejectedExecutionHandler handler)</span><br><span class="line">corePoolSize：线程池核心线程数量</span><br><span class="line">maximumPoolSize:线程池最大线程数量</span><br><span class="line">keepAliverTime：当活跃线程数大于核心线程数时，空闲的多余线程最大存活时间</span><br><span class="line">unit：存活时间的单位</span><br><span class="line">workQueue：存放任务的队列</span><br><span class="line">handler：超出线程范围和队列容量的任务的处理程序</span><br></pre></td></tr></table></figure>
-<h4 id="线程池的实现原理"><a href="#线程池的实现原理" class="headerlink" title="线程池的实现原理"></a>线程池的实现原理</h4><p>提交一个任务到线程池中，线程池的处理流程如下：</p>
-<ul>
-<li>1、判断线程池里的核心线程是否都在执行任务，如果不是（核心线程空闲或者还有核心线程没有被创建）则创建一个新的工作线程来执行任务。如果核心线程都在执行任务，则进入下个流程。</li>
-<li>2、线程池判断工作队列是否已满，如果工作队列没有满，则将新提交的任务存储在这个工作队列里。如果工作队列满了，则进入下个流程。</li>
-<li>3、判断线程池里的线程是否都处于工作状态，如果没有，则创建一个新的工作线程来执行任务。如果已经满了，则交给饱和策略来处理这个任务。</li>
-</ul>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/xiancheng.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-<h4 id="线程池的源码解读"><a href="#线程池的源码解读" class="headerlink" title="线程池的源码解读"></a>线程池的源码解读</h4><h5 id="1、ThreadPoolExecutor的execute-方法"><a href="#1、ThreadPoolExecutor的execute-方法" class="headerlink" title="1、ThreadPoolExecutor的execute()方法"></a>1、ThreadPoolExecutor的execute()方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public void execute(Runnable command) &#123;</span><br><span class="line">    if (command == null)</span><br><span class="line">       throw new NullPointerException();</span><br><span class="line">　　　//如果线程数大于等于基本线程数或者线程创建失败，将任务加入队列</span><br><span class="line">    if (poolSize &gt;= corePoolSize || !addIfUnderCorePoolSize(command)) &#123;</span><br><span class="line">　　　　//线程池处于运行状态并且加入队列成功</span><br><span class="line">       if (runState == RUNNING &amp;&amp; workQueue.offer(command)) &#123;</span><br><span class="line">          if (runState != RUNNING || poolSize == 0)</span><br><span class="line">             ensureQueuedTaskHandled(command);</span><br><span class="line">          &#125;</span><br><span class="line">　　　　　　//线程池不处于运行状态或者加入队列失败，则创建线程（创建的是非核心线程）</span><br><span class="line">       else if (!addIfUnderMaximumPoolSize(command))</span><br><span class="line">　　　　　　  //创建线程失败，则采取阻塞处理的方式</span><br><span class="line">         reject(command); // is shutdown or saturated</span><br><span class="line">      &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<h5 id="2、创建线程的方法：addIfUnderCorePoolSize-command"><a href="#2、创建线程的方法：addIfUnderCorePoolSize-command" class="headerlink" title="2、创建线程的方法：addIfUnderCorePoolSize(command)"></a>2、创建线程的方法：addIfUnderCorePoolSize(command)</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">private boolean addIfUnderCorePoolSize(Runnable firstTask) &#123;</span><br><span class="line">    Thread t = null;</span><br><span class="line">    final ReentrantLock mainLock = this.mainLock;</span><br><span class="line">    mainLock.lock();</span><br><span class="line">    try &#123;</span><br><span class="line">        if (poolSize &lt; corePoolSize &amp;&amp; runState == RUNNING)</span><br><span class="line">           t = addThread(firstTask);</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        mainLock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">    if (t == null)</span><br><span class="line">       return false;</span><br><span class="line">    t.start();</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们重点来看第7行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private Thread addThread(Runnable firstTask) &#123;</span><br><span class="line">     Worker w = new Worker(firstTask);</span><br><span class="line">     Thread t = threadFactory.newThread(w);</span><br><span class="line">     if (t != null) &#123;</span><br><span class="line">        w.thread = t;</span><br><span class="line">        workers.add(w);</span><br><span class="line">        int nt = ++poolSize;</span><br><span class="line">        if (nt &gt; largestPoolSize)</span><br><span class="line">           largestPoolSize = nt;</span><br><span class="line">      &#125;</span><br><span class="line">     return t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这里将线程封装成工作线程worker，并放入工作线程组里，worker类的方法run方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public void run() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">       Runnable task = firstTask;</span><br><span class="line">       firstTask = null;</span><br><span class="line">       while (task != null || (task = getTask()) != null) &#123;</span><br><span class="line">           runTask(task);</span><br><span class="line">            task = null;</span><br><span class="line">        &#125;</span><br><span class="line">     &#125; finally &#123;</span><br><span class="line">        workerDone(this);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>worker在执行完任务后，还会通过getTask方法循环获取工作队里里的任务来执行。<br>我们通过一个程序来观察线程池的工作原理：<br>1、创建一个线程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadPoolTest implements Runnable</span><br><span class="line">&#123;</span><br><span class="line">   @Override</span><br><span class="line">   public void run()</span><br><span class="line">   &#123;</span><br><span class="line">       try</span><br><span class="line">       &#123;</span><br><span class="line">           Thread.sleep(300);</span><br><span class="line">       &#125;</span><br><span class="line">       catch (InterruptedException e)</span><br><span class="line">       &#123;</span><br><span class="line">           e.printStackTrace();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>2、线程池循环运行16个线程：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args)</span><br><span class="line">   &#123;</span><br><span class="line">       LinkedBlockingQueue&lt;Runnable&gt; queue =</span><br><span class="line">           new LinkedBlockingQueue&lt;Runnable&gt;(5);</span><br><span class="line">       ThreadPoolExecutor threadPool = new ThreadPoolExecutor(5, 10, 60, TimeUnit.SECONDS, queue);</span><br><span class="line">       for (int i = 0; i &lt; 16 ; i++)</span><br><span class="line">       &#123;</span><br><span class="line">           threadPool.execute(</span><br><span class="line">               new Thread(new ThreadPoolTest(), &quot;Thread&quot;.concat(i + &quot;&quot;)));</span><br><span class="line">           System.out.println(&quot;线程池中活跃的线程数： &quot; + threadPool.getPoolSize());</span><br><span class="line">           if (queue.size() &gt; 0)</span><br><span class="line">           &#123;</span><br><span class="line">               System.out.println(&quot;----------------队列中阻塞的线程数&quot; + queue.size());</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       threadPool.shutdown();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
-<p>执行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">线程池中活跃的线程数： 1</span><br><span class="line">线程池中活跃的线程数： 2</span><br><span class="line">线程池中活跃的线程数： 3</span><br><span class="line">线程池中活跃的线程数： 4</span><br><span class="line">线程池中活跃的线程数： 5</span><br><span class="line">线程池中活跃的线程数： 5</span><br><span class="line">----------------队列中阻塞的线程数1</span><br><span class="line">线程池中活跃的线程数： 5</span><br><span class="line">----------------队列中阻塞的线程数2</span><br><span class="line">线程池中活跃的线程数： 5</span><br><span class="line">----------------队列中阻塞的线程数3</span><br><span class="line">线程池中活跃的线程数： 5</span><br><span class="line">----------------队列中阻塞的线程数4</span><br><span class="line">线程池中活跃的线程数： 5</span><br><span class="line">----------------队列中阻塞的线程数5</span><br><span class="line">线程池中活跃的线程数： 6</span><br><span class="line">----------------队列中阻塞的线程数5</span><br><span class="line">线程池中活跃的线程数： 7</span><br><span class="line">----------------队列中阻塞的线程数5</span><br><span class="line">线程池中活跃的线程数： 8</span><br><span class="line">----------------队列中阻塞的线程数5</span><br><span class="line">线程池中活跃的线程数： 9</span><br><span class="line">----------------队列中阻塞的线程数5</span><br><span class="line">线程池中活跃的线程数： 10</span><br><span class="line">----------------队列中阻塞的线程数5</span><br><span class="line">Exception in thread &quot;main&quot; java.util.concurrent.RejectedExecutionException: Task Thread[Thread15,5,main] rejected from java.util.concurrent.ThreadPoolExecutor@232204a1[Running, pool size = 10, active threads = 10, queued tasks = 5, completed tasks = 0]</span><br><span class="line">   at java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2047)</span><br><span class="line">   at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:823)</span><br><span class="line">   at java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1369)</span><br><span class="line">   at test.ThreadTest.main(ThreadTest.java:17)</span><br></pre></td></tr></table></figure></p>
-<p>从结果可以观察出：<br>创建的线程池具体配置为：核心线程数量为5个；全部线程数量为10个；工作队列的长度为5。<br>我们通过queue.size()的方法来获取工作队列中的任务数。<br>运行原理：<br>        刚开始都是在创建新的线程，达到核心线程数量5个后，新的任务进来后不再创建新的线程，而是将任务加入工作队列，任务队列到达上线5个后，新的任务又会创建新的普通线程，直到达到线程池最大的线程数量10个，后面的任务则根据配置的饱和策略来处理。我们这里没有具体配置，使用的是默认的配置AbortPolicy:直接抛出异常。<br>        当然，为了达到我需要的效果，上述线程处理的任务都是利用休眠导致线程没有释放！！</p>
-<p>RejectedExecutionHandler：饱和策略<br>当队列和线程池都满了，说明线程池处于饱和状态，那么必须对新提交的任务采用一种特殊的策略来进行处理。这个策略默认配置是AbortPolicy，表示无法处理新的任务而抛出异常。JAVA提供了4中策略：</p>
-<ul>
-<li>AbortPolicy：直接抛出异常</li>
-<li>CallerRunsPolicy：只用调用所在的线程运行任务</li>
-<li>DiscardOldestPolicy：丢弃队列里最近的一个任务，并执行当前任务。</li>
-<li>DiscardPolicy：不处理，丢弃掉。</li>
-</ul>
-<p>我们现在用第四种策略来处理上面的程序：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args)</span><br><span class="line">   &#123;</span><br><span class="line">       LinkedBlockingQueue&lt;Runnable&gt; queue =</span><br><span class="line">           new LinkedBlockingQueue&lt;Runnable&gt;(3);</span><br><span class="line">       RejectedExecutionHandler handler = new ThreadPoolExecutor.DiscardPolicy();</span><br><span class="line"></span><br><span class="line">       ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 5, 60, TimeUnit.SECONDS, queue,handler);</span><br><span class="line">       for (int i = 0; i &lt; 9 ; i++)</span><br><span class="line">       &#123;</span><br><span class="line">           threadPool.execute(</span><br><span class="line">               new Thread(new ThreadPoolTest(), &quot;Thread&quot;.concat(i + &quot;&quot;)));</span><br><span class="line">           System.out.println(&quot;线程池中活跃的线程数： &quot; + threadPool.getPoolSize());</span><br><span class="line">           if (queue.size() &gt; 0)</span><br><span class="line">           &#123;</span><br><span class="line">               System.out.println(&quot;----------------队列中阻塞的线程数&quot; + queue.size());</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       threadPool.shutdown();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">执行结果</span><br><span class="line">线程池中活跃的线程数： 1</span><br><span class="line">线程池中活跃的线程数： 2</span><br><span class="line">线程池中活跃的线程数： 2</span><br><span class="line">----------------队列中阻塞的线程数1</span><br><span class="line">线程池中活跃的线程数： 2</span><br><span class="line">----------------队列中阻塞的线程数2</span><br><span class="line">线程池中活跃的线程数： 2</span><br><span class="line">----------------队列中阻塞的线程数3</span><br><span class="line">线程池中活跃的线程数： 3</span><br><span class="line">----------------队列中阻塞的线程数3</span><br><span class="line">线程池中活跃的线程数： 4</span><br><span class="line">----------------队列中阻塞的线程数3</span><br><span class="line">线程池中活跃的线程数： 5</span><br><span class="line">----------------队列中阻塞的线程数3</span><br><span class="line">线程池中活跃的线程数： 5</span><br><span class="line">----------------队列中阻塞的线程数3</span><br></pre></td></tr></table></figure></p>
-<p>这里采用了丢弃策略后，就没有再抛出异常，而是直接丢弃。在某些重要的场景下，可以采用记录日志或者存储到数据库中，而不应该直接丢弃。<br>设置策略有两种方式：</p>
-<ul>
-<li><p>第一种：<br>RejectedExecutionHandler handler = new ThreadPoolExecutor.DiscardPolicy();<br>ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 5, 60, TimeUnit.SECONDS, queue,handler);</p>
-</li>
-<li><p>第二种：<br>ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 5, 60, TimeUnit.SECONDS, queue);<br>threadPool.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());</p>
-</li>
-</ul>
+        <h3 id="单片机"><a href="#单片机" class="headerlink" title="单片机"></a>单片机</h3><h5 id="4、89C51共有哪些中断源？对其中端请求如何进行控制？"><a href="#4、89C51共有哪些中断源？对其中端请求如何进行控制？" class="headerlink" title="4、89C51共有哪些中断源？对其中端请求如何进行控制？"></a>4、89C51共有哪些中断源？对其中端请求如何进行控制？</h5><p>答：（1）89C51有如下中断源<br>①:外部中断0请求，低电平有效<br>②:外部中断1请求，低电平有效<br>③T0：定时器、计数器0溢出中断请求<br>④T1：定时器、计数器1溢出中断请求<br>⑤TX/RX：串行接口中断请求<br>（2）通过对特殊功能寄存器TCON、SCON、IE、IP的各位进行置位或复位等操作，可实现各种中断控制功能</p>
+<h5 id="5、什么是中断优先级？中断优先处理的原则是什么？"><a href="#5、什么是中断优先级？中断优先处理的原则是什么？" class="headerlink" title="5、什么是中断优先级？中断优先处理的原则是什么？"></a>5、什么是中断优先级？中断优先处理的原则是什么？</h5><p>答：中断优先级是CPU相应中断的先后顺序。原则：<br>（1）  先响应优先级高的中断请求，再响应优先级低的<br>（2）  如果一个中断请求已经被响应，同级的其它中断请求将被禁止<br>（3）  如果同级的多个请求同时出现，则CPU通过内部硬件查询电路，按查询顺序确定应该响应哪个中断请求<br>查询顺序：外部中断0→定时器0中断→外部中断1→定时器1中断→串行接口中断</p>
+<h5 id="11、当正在执行某一个中断源的中断服务程序时，如果有新的中断请求出现，试问在什么情况下可响应新的中断请求？在什么情况下不能响应新的中断请求？"><a href="#11、当正在执行某一个中断源的中断服务程序时，如果有新的中断请求出现，试问在什么情况下可响应新的中断请求？在什么情况下不能响应新的中断请求？" class="headerlink" title="11、当正在执行某一个中断源的中断服务程序时，如果有新的中断请求出现，试问在什么情况下可响应新的中断请求？在什么情况下不能响应新的中断请求？"></a>11、当正在执行某一个中断源的中断服务程序时，如果有新的中断请求出现，试问在什么情况下可响应新的中断请求？在什么情况下不能响应新的中断请求？</h5><p>答：（1）符合以下6个条件可响应新的中断请求：<br>a)       有中断源发出中断请求<br>b)       中断允许位EA=1，即CPU开中断<br>c)       申请中断的中断源的中断允许位为1，即中断没有被屏蔽<br>d)       无同级或更高级中断正在被服务<br>e)       当前的指令周期已结束<br>f)        若现行指令为RETI或访问IE或IP指令时，该指令以及紧接着的另一条指令已被执行完</p>
+<h5 id="14、89C51各中断源的中断标志是如何产生的？又是如何清0的？CPU响应中断时，中断入口地址各是多少？"><a href="#14、89C51各中断源的中断标志是如何产生的？又是如何清0的？CPU响应中断时，中断入口地址各是多少？" class="headerlink" title="14、89C51各中断源的中断标志是如何产生的？又是如何清0的？CPU响应中断时，中断入口地址各是多少？"></a>14、89C51各中断源的中断标志是如何产生的？又是如何清0的？CPU响应中断时，中断入口地址各是多少？</h5><p>答：各中断标志的产生和清“0”如下：<br>（1）  外部中断类<br>外部中断是由外部原因引起的，可以通过两个固定引脚，即外部中断0和外部中断1输入信号。<br>外部中断0请求信号，由P3.2脚输入。通过IT0来决定中断请求信号是低电平有效还是下跳变有效。一旦输入信号有效，则向CPU申请中断，并且使IE0=1。硬件复位。<br>外部中断1请求信号，功能与用法类似外部中断0<br>（2）  定时中断类<br>定时中断是为满足定时或计数溢出处理需要而设置的。当定时器/计数器中的计数结构发生计数溢出的，即表明定时时间到或计数值已满，这时就以计数溢出信号作为中断请求，去置位一个溢出标志位。这种中断请求是在单片机芯片内部发生的，无需在芯片上设置引入端，但在计数方式时，中断源可以由外部引入。<br>TF0：定时器T0溢出中断请求。当定时器T0产生溢出时，定时器T0请求标志TF0=1，请求中断处理。使用中断时由硬件复位，在查询方式下可由软件复位。<br>TF1：定时器T1溢出中断请求。功能与用法类似定时器T0<br>（3）  串行口中断类<br>串行口中断是为串行数据的传送需要而设置的。串行中断请求也是在单片机芯片内部发生的，但当串行口作为接收端时，必须有一完整的串行帧数据从RI端引入芯片，才可能引发中断。<br>RI或TI：串行口中断请求。当接收或发送一串帧数据时，使内部串行口中断请求标志RI或TI=1，并请求中断。响应后必须软件复位。<br> CPU响应中断时，中断入口地址如下：<br> 中断源       入口地址<br>外部中断0    0003H<br>定时器T0中断000BH<br>外部中断1    0013H<br>定时器T1中断001BH<br>串行口中断    0023H</p>
+<p>答案：<br>        1）首先判断有无键按下：  (3分)<br>        将列线全部置0，读行线状态，若P1.0~P1.3全为1，则表明无键按下，若出现低电平即0，则有键按下，记录下行号 i ;<br>        2) 其次，如有键按下，判断具体键号  (7分)<br>        方法如下：逐列为低，其它为高，再读行线状态，如出现哪一行为低，记录此时的列号j ， 则证明第i行第j列的按键被按下，至此完成键盘的行列式扫描。</p>
 
     
         <div>
-            <a href="/2018/07/20/JAVA线程池原理详解/" class="post-more waves-button">
+            <a href="/2018/07/20/单片机/" class="post-more waves-button">
                 阅读全文 »
             </a>
         </div>
@@ -677,7 +675,237 @@
     
     <div class="post-footer">
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA线程池原理详解/">JAVA线程池原理详解</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单片机/">单片机</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-Servlet 简介"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a href="/2018/07/20/Servlet 简介/">javaweb (一)</a>
+    </h3>
+  
+
+
+
+
+     <div class="post-meta">
+        <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.793Z"  itemprop="datePublished">2018-07-20</time>
+
+    </div>
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        <h3 id="Servlet-简介"><a href="#Servlet-简介" class="headerlink" title="Servlet 简介"></a>Servlet 简介</h3><ul>
+<li>Servlet是sun公司提供的一门用于开发动态web资源的技术。</li>
+<li>Sun公司在其API中提供了一个servlet接口，用户若想用发一个动态web资源(即开发一个Java程序向浏览器输出数据)，需要完成以下2个步骤：<ul>
+<li>1、编写一个Java类，实现servlet接口。</li>
+<li>2、把开发好的Java类部署到web服务器中。</li>
+</ul>
+</li>
+</ul>
+<p>按照一种约定俗成的称呼习惯，通常我们也把实现了servlet接口的java程序，称之为Servlet。</p>
+<h3 id="Servlet-的运行过程"><a href="#Servlet-的运行过程" class="headerlink" title="Servlet 的运行过程"></a>Servlet 的运行过程</h3><p>Servlet 程序是由WEB服务器收到客户端的Servlet访问请求后</p>
+<ul>
+<li><ol>
+<li>web服务器首先检查是否已经装载并创建了该Servlet的实例对象，如果是，则执行第4步，否则，执行第2步。</li>
+</ol>
+</li>
+<li>2.装载并创建该Servlet 的一个实例对象</li>
+<li>3.调用Servlet实例对象的init()方法。</li>
+<li>4.创建一个用于封装HTTP请求消息的HttpServletRequest对象和一个代表HTTP响应消息的HttpServletResponse对象，然后调用Servlet的service()方法并将请求和响应对象作为参数传递进去。</li>
+<li>web应用程序被停止或重新启动之前，Servlet 引擎将卸载Servlet，并在卸载之前调用Servlet的destory()方法。<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/servlet1.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/servlet2.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/servlet3.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/servlet4.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/servlet5.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/servlet6.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/servlet7.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/servlet8.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h3 id="在IDEA中开发Servlet"><a href="#在IDEA中开发Servlet" class="headerlink" title="在IDEA中开发Servlet"></a>在IDEA中开发Servlet</h3>在IDEA中新建一个Web project工程。<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/创建webproject.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></li>
+<li>Servlet接口SUN公司定义了两个默认实现类，分别为：GenericServlet、HttpServlet。</li>
+<li>HttpServlet指能够处理HTTP请求的servlet，它在原有Servlet接口上添加了一些与HTTP协议处理方法，它比Servlet接口的功能更为强大。因此开发人员在编写Servlet时，通常应继承这个类，而避免直接去实现Servlet接口。HttpServlet在实现Servlet接口时，覆写了service方法，该方法体内的代码会自动判断用户的请求方式，如为GET请求，则调用HttpServlet的doGet方法，如为Post请求，则调用doPost方法。因此，开发人员在编写Servlet时，通常只需要覆写doGet或doPost方法，而不要去覆写service方法。<br>ServletDemo1<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletDemo1&quot;)</span><br><span class="line">public class ServletDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">       doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">                response.setContentType(&quot;text/html&quot;);</span><br><span class="line">                 PrintWriter out = response.getWriter();</span><br><span class="line">                 out.println(&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01 Transitional//EN\&quot;&gt;&quot;);</span><br><span class="line">                 out.println(&quot;&lt;HTML&gt;&quot;);</span><br><span class="line">                 out.println(&quot;  &lt;HEAD&gt;&lt;TITLE&gt;A Servlet&lt;/TITLE&gt;&lt;/HEAD&gt;&quot;);</span><br><span class="line">                 out.println(&quot;  &lt;BODY&gt;&quot;);</span><br><span class="line">                 out.print(&quot;    This is &quot;);</span><br><span class="line">                 out.print(this.getClass());</span><br><span class="line">                 out.println(&quot;, using the GET method&quot;);</span><br><span class="line">                out.println(&quot;  &lt;/BODY&gt;&quot;);</span><br><span class="line">                 out.println(&quot;&lt;/HTML&gt;&quot;);</span><br><span class="line">                out.flush();</span><br><span class="line">                out.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>配置web.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;web-app xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;</span><br><span class="line">         version=&quot;4.0&quot;&gt;</span><br><span class="line">    &lt;servlet&gt;</span><br><span class="line">        &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">        &lt;servlet-class&gt;ServletDemo1&lt;/servlet-class&gt;</span><br><span class="line">    &lt;/servlet&gt;</span><br><span class="line">    &lt;servlet-mapping&gt;</span><br><span class="line">        &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">        &lt;url-pattern&gt;/s&lt;/url-pattern&gt;</span><br><span class="line">    &lt;/servlet-mapping&gt;</span><br><span class="line">&lt;/web-app&gt;</span><br></pre></td></tr></table></figure></p>
+<p>然后我们就可以通过浏览器访问ServletDemo1这个Servlet，如下图所示：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/结果.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<h3 id="Servlet开发注意细节"><a href="#Servlet开发注意细节" class="headerlink" title="Servlet开发注意细节"></a>Servlet开发注意细节</h3><h4 id="Servlet-访问URL映射配置"><a href="#Servlet-访问URL映射配置" class="headerlink" title="Servlet 访问URL映射配置"></a>Servlet 访问URL映射配置</h4><p>由于客户端是通过URL地址访问web服务器中的资源，所以Servlet程序若想被外界访问，必须把servlet程序映射到一个URL地址上，这个工作在web.xml文件中使用<servlet>元素和<servlet-mapping>元素完成。<br>　　<servlet>元素用于注册Servlet，它包含有两个主要的子元素：<servlet-name>和<servlet-class>，分别用于设置Servlet的注册名称和Servlet的完整类名。<br>一个<servlet-mapping>元素用于映射一个已注册的Servlet的一个对外访问路径，它包含有两个子元素：<servlet-name>和<url-pattern>，分别用于指定Servlet的注册名称和Servlet的对外访问路径。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> &lt;servlet&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line"> &lt;servlet-class&gt;ServletDemo1&lt;/servlet-class&gt;</span><br><span class="line">&lt;/servlet&gt;</span><br><span class="line">&lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">       &lt;url-pattern&gt;/s&lt;/url-pattern&gt;</span><br><span class="line">&lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure></url-pattern></servlet-name></servlet-mapping></servlet-class></servlet-name></servlet></servlet-mapping></servlet></p>
+<p>同一个Servlet可以被映射到多个URL上，即多个<servlet-mapping>元素的<servlet-name>子元素的设置值可以是同一个Servlet的注册名。 例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line"> &lt;servlet-class&gt;ServletDemo1&lt;/servlet-class&gt;</span><br><span class="line">&lt;/servlet&gt;</span><br><span class="line">&lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">       &lt;url-pattern&gt;/s&lt;/url-pattern&gt;</span><br><span class="line">&lt;/servlet-mapping&gt;</span><br><span class="line"></span><br><span class="line"> &lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">       &lt;url-pattern&gt;/s1&lt;/url-pattern&gt;</span><br><span class="line">  &lt;/servlet-mapping&gt;</span><br><span class="line">  </span><br><span class="line">   &lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">   &lt;url-pattern&gt;/s.htm&lt;/url-pattern&gt;</span><br><span class="line">   &lt;/servlet-mapping&gt;</span><br><span class="line">   </span><br><span class="line">  &lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">       &lt;url-pattern&gt;/s.jsp&lt;/url-pattern&gt;</span><br><span class="line"> &lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure></servlet-name></servlet-mapping></p>
+<p>通过上面的配置，当我们想访问名称是ServletDemo1的Servlet，可以使用如下的几个地址去访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/s</span><br><span class="line">http://localhost:8080/s1</span><br><span class="line">http://localhost:8080/s.jsp</span><br><span class="line">http://localhost:8080/s.htm</span><br></pre></td></tr></table></figure></p>
+<p>ServletDemo1被映射到了多个URL上。</p>
+<h4 id="Servlet访问URL使用-通配符映射"><a href="#Servlet访问URL使用-通配符映射" class="headerlink" title="Servlet访问URL使用*通配符映射　　"></a>Servlet访问URL使用*通配符映射　　</h4><p>在Servlet映射到的URL中也可以使用*通配符，但是只能有两种固定的格式：一种格式是”*.扩展名”，另一种格式是以正斜杠（/）开头并以”/*”结尾。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">     &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">     &lt;servlet-class&gt;ServletDemo1&lt;/servlet-class&gt;</span><br><span class="line">   &lt;/servlet&gt;</span><br><span class="line"></span><br><span class="line">    &lt;servlet-mapping&gt;</span><br><span class="line">     &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span><br><span class="line">     &lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure></p>
+<p><em>可以匹配任意的字符，所以此时可以用任意的URL去访问ServletDemo1这个Servlet，如下图所示：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/结果2.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure><br>对于如下的一些映射关系：<br>　　Servlet1 映射到 /abc/</em><br>　　Servlet2 映射到 /<em><br>　　Servlet3 映射到 /abc<br>　　Servlet4 映射到 </em>.do<br>问题：<br>　　当请求URL为“/abc/a.html”，“/abc/<em>”和“/</em>”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet1。<br>　　当请求URL为“/abc”时，“/abc/<em>”和“/abc”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet3。<br>　　当请求URL为“/abc/a.do”时，“/abc/</em>”和“<em>.do”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet1。<br>　　当请求URL为“/a.do”时，“/</em>”和“<em>.do”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet2。<br>　　当请求URL为“/xxx/yyy/a.do”时，“/</em>”和“*.do”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet2。<br>　　匹配的原则就是”谁长得更像就找谁”</p>
+<h4 id="Servlet-与普通java类的区别"><a href="#Servlet-与普通java类的区别" class="headerlink" title="Servlet 与普通java类的区别"></a>Servlet 与普通java类的区别</h4><ul>
+<li>Servlet是一个供其他Java程序（Servlet引擎）调用的Java类，它不能独立运行，它的运行完全由Servlet引擎来控制和调度。</li>
+<li>针对客户端的多次Servlet请求，通常情况下，服务器只会创建一个Servlet实例对象，也就是说Servlet实例对象一旦创建，它就会驻留在内存中，为后续的其它请求服务，直至web容器退出，servlet实例对象才会销毁。</li>
+<li>在Servlet的整个生命周期内，Servlet的init方法只被调用一次。而对一个Servlet的每次访问请求都导致Servlet引擎调用一次servlet的service方法。对于每次访问请求，Servlet引擎都会创建一个新的HttpServletRequest请求对象和一个新的HttpServletResponse响应对象，然后将这两个对象作为参数传递给它调用的Servlet的service()方法，service方法再根据请求方式分别调用doXXX方法。</li>
+<li>如果在<servlet>元素中配置了一个<load-on-startup>元素，那么WEB应用程序在启动时，就会装载并创建Servlet的实例对象、以及调用Servlet实例对象的init()方法。</load-on-startup></servlet></li>
+<li>举例：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">    &lt;servlet-name&gt;invoker&lt;/servlet-name&gt;</span><br><span class="line">    &lt;servlet-class&gt;</span><br><span class="line">        org.apache.catalina.servlets.InvokerServlet</span><br><span class="line">    &lt;/servlet-class&gt;</span><br><span class="line">    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span><br><span class="line">&lt;/servlet&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>　　用途：为web应用写一个InitServlet，这个servlet配置为启动时装载，为整个web应用创建必要的数据库表和数据。</p>
+<h4 id="缺省Servlet"><a href="#缺省Servlet" class="headerlink" title="缺省Servlet"></a>缺省Servlet</h4><ul>
+<li>如果某个Servlet的映射路径仅仅为一个正斜杠（/），那么这个Servlet就成为当前Web应用程序的缺省Servlet。 </li>
+<li>凡是在web.xml文件中找不到匹配的<servlet-mapping>元素的URL，它们的访问请求都将交给缺省Servlet处理，也就是说，缺省Servlet用于处理所有其他Servlet都不处理的访问请求。 例如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">      &lt;servlet-name&gt;ServletDemo2&lt;/servlet-name&gt;</span><br><span class="line">      &lt;servlet-class&gt;ServletDemo2&lt;/servlet-class&gt;</span><br><span class="line">      &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span><br><span class="line">    &lt;/servlet&gt;</span><br><span class="line">    </span><br><span class="line">   &lt;!-- 将ServletDemo2配置成缺省Servlet --&gt;</span><br><span class="line">    &lt;servlet-mapping&gt;</span><br><span class="line">      &lt;servlet-name&gt;ServletDemo2&lt;/servlet-name&gt;</span><br><span class="line">     &lt;url-pattern&gt;/&lt;/url-pattern&gt;</span><br><span class="line">   &lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure>
+</servlet-mapping></li>
+</ul>
+<p>当访问不存在的Servlet时，就使用配置的默认Servlet进行处理，如下图所示：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/结果3.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<p>　在&lt;tomcat的安装目录&gt;\conf\web.xml文件中，注册了一个名称为org.apache.catalina.servlets.DefaultServlet的Servlet，并将这个Servlet设置为了缺省Servlet。</p>
+<p>当访问Tomcat服务器中的某个静态HTML文件和图片时，实际上是在访问这个缺省Servlet。</p>
+
+    
+        <div>
+            <a href="/2018/07/20/Servlet 简介/" class="post-more waves-button">
+                阅读全文 »
+            </a>
+        </div>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Servlet/">Servlet</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-XML解析"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a href="/2018/07/20/XML解析/">Android 编程知识</a>
+    </h3>
+  
+
+
+
+
+     <div class="post-meta">
+        <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.793Z"  itemprop="datePublished">2018-07-20</time>
+
+    </div>
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        <h3 id="XML解析"><a href="#XML解析" class="headerlink" title="XML解析"></a>XML解析</h3><h4 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h4><ul>
+<li>Document Object Model，文档对象模型。这种方式是W3C推荐的处理XML的一种标准方式。</li>
+<li>缺点：必须读取整个XML文档，才能构建DOM模型，如果XML文档过大，造成资源的浪费。</li>
+<li>优点：适合对XML中的数据进行操作（CRUD）。<br>利用JAXP进行DOM方式解析<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line">//JAXP进行DOM方式解析的基本操作  </span><br><span class="line">public class JaxpDemo1 &#123;  </span><br><span class="line">    public static void main(String[] args) throws Exception &#123;  </span><br><span class="line">        //得到解析器  </span><br><span class="line">        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  </span><br><span class="line">        DocumentBuilder builder = factory.newDocumentBuilder();  </span><br><span class="line">        //通过解析器就可以得到代表整个内存中XML的Document对象  </span><br><span class="line">        Document document = builder.parse(&quot;src/book.xml&quot;);  </span><br><span class="line">        test8(document);  </span><br><span class="line">    &#125;  </span><br><span class="line">//  1、得到某个具体的节点内容:    </span><br><span class="line">    private static void test1(Document document)&#123;  </span><br><span class="line">        NodeList nl = document.getElementsByTagName(&quot;作者&quot;);  </span><br><span class="line">        Node authorNode = nl.item(0);  </span><br><span class="line">        System.out.println(authorNode.getTextContent());  </span><br><span class="line">    &#125;  </span><br><span class="line">//  2、遍历所有元素节点:打印元素的名称  </span><br><span class="line">    private static void test2(Node node)&#123;  </span><br><span class="line">        //确定node的类型  </span><br><span class="line">        //方式一  </span><br><span class="line">//      if(node.getNodeType()==Node.ELEMENT_NODE)&#123;  </span><br><span class="line">//          //是元素  </span><br><span class="line">//      &#125;  </span><br><span class="line">        //方式二  </span><br><span class="line">        if(node instanceof Element)&#123;  </span><br><span class="line">            //是元素  </span><br><span class="line">            Element e = (Element)node;  </span><br><span class="line">            System.out.println(e.getNodeName());//打印元素名称  </span><br><span class="line">        &#125;  </span><br><span class="line">        //判断有没有子节点  </span><br><span class="line">        NodeList nl = node.getChildNodes();  </span><br><span class="line">        for(int i=0;i&lt;nl.getLength();i++)&#123;  </span><br><span class="line">            Node n = nl.item(i);  </span><br><span class="line">            test2(n);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">//  3、修改某个元素节点的主体内容:&lt;售价&gt;39.00元&lt;/售价&gt;---&gt;10元  </span><br><span class="line">    private static void test3(Document document) throws Exception&#123;  </span><br><span class="line">        //得到售价  </span><br><span class="line">        Node priceNode = document.getElementsByTagName(&quot;售价&quot;).item(0);  </span><br><span class="line">        priceNode.setTextContent(&quot;10元&quot;);  </span><br><span class="line">        //更新XML文件  </span><br><span class="line">        TransformerFactory tf = TransformerFactory.newInstance();  </span><br><span class="line">        Transformer t = tf.newTransformer();  </span><br><span class="line">        //构建输入源：  </span><br><span class="line">        Source source = new DOMSource(document);  </span><br><span class="line">        //构建目标：  </span><br><span class="line">        Result result = new StreamResult(&quot;src/book.xml&quot;);  </span><br><span class="line">          </span><br><span class="line">        t.transform(source, result);  </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">//  4、向指定元素节点中增加子元素节点:第一本书添加子元素 &lt;出版社&gt;黑马程序员&lt;/出版社&gt;  </span><br><span class="line">    private static void test4(Document document) throws Exception&#123;  </span><br><span class="line">        //创建：&lt;出版社&gt;黑马程序员&lt;/出版社&gt;  </span><br><span class="line">        Element e = document.createElement(&quot;出版社&quot;);  </span><br><span class="line">        e.setTextContent(&quot;黑马程序员&quot;);  </span><br><span class="line">        //得到书，把新节点挂上去  </span><br><span class="line">        Node bookNode = document.getElementsByTagName(&quot;书&quot;).item(0);  </span><br><span class="line">        bookNode.appendChild(e);  </span><br><span class="line">        //更新XML文件  </span><br><span class="line">        TransformerFactory tf = TransformerFactory.newInstance();  </span><br><span class="line">        Transformer t = tf.newTransformer();  </span><br><span class="line">        //构建输入源：  </span><br><span class="line">        Source source = new DOMSource(document);  </span><br><span class="line">        //构建目标：  </span><br><span class="line">        Result result = new StreamResult(&quot;src/book.xml&quot;);  </span><br><span class="line">          </span><br><span class="line">        t.transform(source, result);  </span><br><span class="line">    &#125;  </span><br><span class="line">//  5、向指定元素节点上增加同级元素节点:第一本书&lt;售价&gt;前面添加&lt;批发价&gt;30&lt;/批发价&gt;  </span><br><span class="line">    private static void test5(Document document) throws Exception&#123;  </span><br><span class="line">        //创建新节点  </span><br><span class="line">        Element e = document.createElement(&quot;批发价&quot;);  </span><br><span class="line">        e.setTextContent(&quot;30元&quot;);  </span><br><span class="line">        //找到&lt;售价&gt;  </span><br><span class="line">        Node priceNode = document.getElementsByTagName(&quot;售价&quot;).item(0);  </span><br><span class="line">        //父标签：调用insertBefore(新节点,参考节点);  </span><br><span class="line">          </span><br><span class="line">        Node bookNode = priceNode.getParentNode();  </span><br><span class="line">        bookNode.insertBefore(e, priceNode);  </span><br><span class="line">        //更新XML文件  </span><br><span class="line">        TransformerFactory tf = TransformerFactory.newInstance();  </span><br><span class="line">        Transformer t = tf.newTransformer();  </span><br><span class="line">        //构建输入源：  </span><br><span class="line">        Source source = new DOMSource(document);  </span><br><span class="line">        //构建目标：  </span><br><span class="line">        Result result = new StreamResult(&quot;src/book.xml&quot;);  </span><br><span class="line">          </span><br><span class="line">        t.transform(source, result);  </span><br><span class="line">    &#125;  </span><br><span class="line">//  6、删除指定元素节点:删除批发价  </span><br><span class="line">    private static void test6(Document document) throws Exception&#123;  </span><br><span class="line">        Node priceNode = document.getElementsByTagName(&quot;批发价&quot;).item(0);  </span><br><span class="line">        priceNode.getParentNode().removeChild(priceNode);  </span><br><span class="line">        //更新XML文件  </span><br><span class="line">        TransformerFactory tf = TransformerFactory.newInstance();  </span><br><span class="line">        Transformer t = tf.newTransformer();  </span><br><span class="line">        //构建输入源：  </span><br><span class="line">        Source source = new DOMSource(document);  </span><br><span class="line">        //构建目标：  </span><br><span class="line">        Result result = new StreamResult(&quot;src/book.xml&quot;);  </span><br><span class="line">          </span><br><span class="line">        t.transform(source, result);  </span><br><span class="line">    &#125;  </span><br><span class="line">//  7、操作XML文件属性:书籍添加一个属性：ISBN=“ABC”  </span><br><span class="line">    private static void test7(Document document) throws Exception&#123;  </span><br><span class="line">        Node bookNode = document.getElementsByTagName(&quot;书&quot;).item(0);  </span><br><span class="line">        if(bookNode instanceof Element)&#123;  </span><br><span class="line">            Element e = (Element)bookNode;  </span><br><span class="line">            e.setAttribute(&quot;ISBN&quot;, &quot;ABC&quot;);  </span><br><span class="line">        &#125;  </span><br><span class="line">        //更新XML文件  </span><br><span class="line">        TransformerFactory tf = TransformerFactory.newInstance();  </span><br><span class="line">        Transformer t = tf.newTransformer();  </span><br><span class="line">        //构建输入源：  </span><br><span class="line">        Source source = new DOMSource(document);  </span><br><span class="line">        //构建目标：  </span><br><span class="line">        Result result = new StreamResult(&quot;src/book.xml&quot;);  </span><br><span class="line">          </span><br><span class="line">        t.transform(source, result);  </span><br><span class="line">    &#125;  </span><br><span class="line">//  8、操作XML文件属性:获取ISBN=“ABC”  </span><br><span class="line">    private static void test8(Document document) throws Exception&#123;  </span><br><span class="line">        Node bookNode = document.getElementsByTagName(&quot;书&quot;).item(0);  </span><br><span class="line">        if(bookNode instanceof Element)&#123;  </span><br><span class="line">            Element e = (Element)bookNode;  </span><br><span class="line">            System.out.println(e.getAttribute(&quot;ISBN&quot;));  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="SAX"><a href="#SAX" class="headerlink" title="SAX"></a>SAX</h4><ul>
+<li>SAX：Simple API for XML。这种方式不是官方标准，属于开源社区XML-DEV，几乎所有的XML解析器都支持它。</li>
+<li>sax解析原理<br>在使用 DOM 解析 XML 文档时，需要读取整个 XML 文档，在内存中构架代表整个 DOM 树的Doucment对象，从而再对XML文档进行操作。此种情况下，如果 XML 文档特别大，就会消耗计算机的大量内存，并且容易导致内存溢出。<br>SAX解析允许在读取文档的时候，即对文档进行处理，而不必等到整个文档装载完才会文档进行操作。<br>SAX采用事件处理的方式解析XML文件，利用 SAX 解析 XML 文档，涉及两个部分：<ul>
+<li>解析器和事件处理器： 解析器可以使用JAXP的API创建，创建出SAX解析器后，就可以指定解析器去解析某个XML文档。 解析器采用SAX方式在解析某个XML文档时，它只要解析到XML文档的一个组成部分，都会去调用事件处理器的一个方法，解析器在调用事件处理器的方法时，会把当前解析到的xml文件内容作为方法的参数传递给事件处理器。 </li>
+<li>事件处理器由程序员编写，程序员通过事件处理器中方法的参数，就可以很轻松地得到sax解析器解析到的数据，从而可以决定如何对数据进行处理</li>
+</ul>
+</li>
+<li>基本解析操作<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//1解析器</span><br><span class="line">   SAXParser parse = SAXParserFactory.newInstance().newSAXParser();</span><br><span class="line">   //2获取xml读取器</span><br><span class="line">   XMLReader reader = parse.getXMLReader();</span><br><span class="line">   //3注册内容处理器</span><br><span class="line">   reader.setContentHandler(new ContentHandler1());</span><br><span class="line">   //4读取xml文档</span><br><span class="line">   reader.parse(&quot;src/book.xml&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+    
+        <div>
+            <a href="/2018/07/20/XML解析/" class="post-more waves-button">
+                阅读全文 »
+            </a>
+        </div>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/XML/">XML</a></li></ul>
 
     </div>
     
@@ -736,143 +964,6 @@
     <div class="post-footer">
         
 	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/初识Linux命令/">初识Linux命令</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-单片机"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a href="/2018/07/20/单片机/">单片机</a>
-    </h3>
-  
-
-
-
-
-     <div class="post-meta">
-        <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.793Z"  itemprop="datePublished">2018-07-20</time>
-
-    </div>
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <h3 id="单片机"><a href="#单片机" class="headerlink" title="单片机"></a>单片机</h3><h5 id="4、89C51共有哪些中断源？对其中端请求如何进行控制？"><a href="#4、89C51共有哪些中断源？对其中端请求如何进行控制？" class="headerlink" title="4、89C51共有哪些中断源？对其中端请求如何进行控制？"></a>4、89C51共有哪些中断源？对其中端请求如何进行控制？</h5><p>答：（1）89C51有如下中断源<br>①:外部中断0请求，低电平有效<br>②:外部中断1请求，低电平有效<br>③T0：定时器、计数器0溢出中断请求<br>④T1：定时器、计数器1溢出中断请求<br>⑤TX/RX：串行接口中断请求<br>（2）通过对特殊功能寄存器TCON、SCON、IE、IP的各位进行置位或复位等操作，可实现各种中断控制功能</p>
-<h5 id="5、什么是中断优先级？中断优先处理的原则是什么？"><a href="#5、什么是中断优先级？中断优先处理的原则是什么？" class="headerlink" title="5、什么是中断优先级？中断优先处理的原则是什么？"></a>5、什么是中断优先级？中断优先处理的原则是什么？</h5><p>答：中断优先级是CPU相应中断的先后顺序。原则：<br>（1）  先响应优先级高的中断请求，再响应优先级低的<br>（2）  如果一个中断请求已经被响应，同级的其它中断请求将被禁止<br>（3）  如果同级的多个请求同时出现，则CPU通过内部硬件查询电路，按查询顺序确定应该响应哪个中断请求<br>查询顺序：外部中断0→定时器0中断→外部中断1→定时器1中断→串行接口中断</p>
-<h5 id="11、当正在执行某一个中断源的中断服务程序时，如果有新的中断请求出现，试问在什么情况下可响应新的中断请求？在什么情况下不能响应新的中断请求？"><a href="#11、当正在执行某一个中断源的中断服务程序时，如果有新的中断请求出现，试问在什么情况下可响应新的中断请求？在什么情况下不能响应新的中断请求？" class="headerlink" title="11、当正在执行某一个中断源的中断服务程序时，如果有新的中断请求出现，试问在什么情况下可响应新的中断请求？在什么情况下不能响应新的中断请求？"></a>11、当正在执行某一个中断源的中断服务程序时，如果有新的中断请求出现，试问在什么情况下可响应新的中断请求？在什么情况下不能响应新的中断请求？</h5><p>答：（1）符合以下6个条件可响应新的中断请求：<br>a)       有中断源发出中断请求<br>b)       中断允许位EA=1，即CPU开中断<br>c)       申请中断的中断源的中断允许位为1，即中断没有被屏蔽<br>d)       无同级或更高级中断正在被服务<br>e)       当前的指令周期已结束<br>f)        若现行指令为RETI或访问IE或IP指令时，该指令以及紧接着的另一条指令已被执行完</p>
-<h5 id="14、89C51各中断源的中断标志是如何产生的？又是如何清0的？CPU响应中断时，中断入口地址各是多少？"><a href="#14、89C51各中断源的中断标志是如何产生的？又是如何清0的？CPU响应中断时，中断入口地址各是多少？" class="headerlink" title="14、89C51各中断源的中断标志是如何产生的？又是如何清0的？CPU响应中断时，中断入口地址各是多少？"></a>14、89C51各中断源的中断标志是如何产生的？又是如何清0的？CPU响应中断时，中断入口地址各是多少？</h5><p>答：各中断标志的产生和清“0”如下：<br>（1）  外部中断类<br>外部中断是由外部原因引起的，可以通过两个固定引脚，即外部中断0和外部中断1输入信号。<br>外部中断0请求信号，由P3.2脚输入。通过IT0来决定中断请求信号是低电平有效还是下跳变有效。一旦输入信号有效，则向CPU申请中断，并且使IE0=1。硬件复位。<br>外部中断1请求信号，功能与用法类似外部中断0<br>（2）  定时中断类<br>定时中断是为满足定时或计数溢出处理需要而设置的。当定时器/计数器中的计数结构发生计数溢出的，即表明定时时间到或计数值已满，这时就以计数溢出信号作为中断请求，去置位一个溢出标志位。这种中断请求是在单片机芯片内部发生的，无需在芯片上设置引入端，但在计数方式时，中断源可以由外部引入。<br>TF0：定时器T0溢出中断请求。当定时器T0产生溢出时，定时器T0请求标志TF0=1，请求中断处理。使用中断时由硬件复位，在查询方式下可由软件复位。<br>TF1：定时器T1溢出中断请求。功能与用法类似定时器T0<br>（3）  串行口中断类<br>串行口中断是为串行数据的传送需要而设置的。串行中断请求也是在单片机芯片内部发生的，但当串行口作为接收端时，必须有一完整的串行帧数据从RI端引入芯片，才可能引发中断。<br>RI或TI：串行口中断请求。当接收或发送一串帧数据时，使内部串行口中断请求标志RI或TI=1，并请求中断。响应后必须软件复位。<br> CPU响应中断时，中断入口地址如下：<br> 中断源       入口地址<br>外部中断0    0003H<br>定时器T0中断000BH<br>外部中断1    0013H<br>定时器T1中断001BH<br>串行口中断    0023H</p>
-<p>答案：<br>        1）首先判断有无键按下：  (3分)<br>        将列线全部置0，读行线状态，若P1.0~P1.3全为1，则表明无键按下，若出现低电平即0，则有键按下，记录下行号 i ;<br>        2) 其次，如有键按下，判断具体键号  (7分)<br>        方法如下：逐列为低，其它为高，再读行线状态，如出现哪一行为低，记录此时的列号j ， 则证明第i行第j列的按键被按下，至此完成键盘的行列式扫描。</p>
-
-    
-        <div>
-            <a href="/2018/07/20/单片机/" class="post-more waves-button">
-                阅读全文 »
-            </a>
-        </div>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/单片机/">单片机</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-面试题一"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a href="/2018/07/20/面试题一/">java 基础题(一)</a>
-    </h3>
-  
-
-
-
-
-     <div class="post-meta">
-        <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.793Z"  itemprop="datePublished">2018-07-20</time>
-
-    </div>
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <p>1、一个”.java”源文件中是否可以包括多个类（不是内部类）？有什么限制？</p>
-<ul>
-<li>可以有多个类，但只能有一个public的类，并且public的类名必须与文件名相一致。</li>
-</ul>
-<p>2、Java有没有goto?</p>
-<ul>
-<li>java中的保留字，现在没有在java中使用。</li>
-</ul>
-<p>3、说说&amp;和&amp;&amp;的区别。</p>
-<ul>
-<li>&amp;和&amp;&amp;都可以用作逻辑与的运算符，表示逻辑与（and），当运算符两边的表达式的结果都为true时，整个运算结果才为true，否则，只要有一方为false，则结果为false。</li>
-<li>&amp;&amp;还具有短路的功能，即如果第一个表达式为false，则不再计算第二个表达式，例如，对于if(str!= null&amp;&amp; !str.equals(s))表达式，当str为null时，后面的表达式不会执行，所以不会出现NullPointerException如果将&amp;&amp;改为&amp;，则会抛出NullPointerException异常。If(x==33 &amp;++y&gt;0) y会增长，If(x==33 &amp;&amp; ++y&gt;0)不会增长</li>
-<li>&amp;还可以用作位运算符，当&amp;操作符两边的表达式不是boolean类型时，&amp;表示按位与操作，我们通常使用0x0f来与一个整数进行&amp;运算，来获取该整数的最低4个bit位，例如，0x31 &amp; 0x0f的结果为0x01。</li>
-</ul>
-<p>4、在JAVA中如何跳出当前的多重嵌套循环？<br>        在Java中，要想跳出多重循环，可以在外面的循环语句前定义一个标号，让外层的循环条件表达式的结果可以受到里层循环体代码的控制，例如，要在二维数组中查找到某个数字。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">int arr[][] =&#123;&#123;1,2,3&#125;,&#123;4,5,6,7&#125;,&#123;9&#125;&#125;;</span><br><span class="line">boolean found = false;</span><br><span class="line">for(int i=0;i&lt;arr.length&amp;&amp;!found;i++)       &#123;</span><br><span class="line">        for(intj=0;j&lt;arr[i].length;j++)&#123;</span><br><span class="line">              System.out.println(“i=” + i + “,j=” + j);</span><br><span class="line">              if(arr[i][j] ==5) &#123;</span><br><span class="line">                      found =true;</span><br><span class="line">                      break;</span><br><span class="line">              &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>5、switch语句能否作用在byte上，能否作用在long上，能否作用在String上?</p>
-<ul>
-<li>在switch（e）中，e只能是一个整数表达式或者枚举常量（更大字体），整数表达式可以是int基本类型或Integer包装类型，由于byte,short,char都可以隐含转换为int，所以，这些类型以及这些类型的包装类型也是可以的。显然，long和String类型都不符合switch的语法规定，并且不能被隐式转换成int类型，所以，它们不能作用于swtich语句中。</li>
-<li>switch语句能否作用在String上说错了，Java1.7之后已经支持这种写法了！</li>
-</ul>
-<p>6、short s1= 1; s1 = （s1+1）（（s1+1）是int类型，而等号左边的是short类型，所以需要强转）1 + 1;有什么错? short s1 = 1; s1 += 1;有什么错?(没有错)</p>
-<ul>
-<li>对于short s1= 1; s1 = s1 + 1;由于s1+1运算时会自动提升表达式的类型，所以结果是int型，再赋值给short类型s1时，编译器将报告需要强制转换类型的错误。</li>
-<li>对于short s1= 1; s1 += 1;由于 +=是java语言规定的运算符，java编译器会对它进行特殊处理，因此可以正确编译。</li>
-</ul>
-<p>7、char型变量中能不能存贮一个中文汉字?为什么?</p>
-<ul>
-<li>char型变量是用来存储Unicode编码的字符的，unicode编码字符集中包含了汉字，所以，char型变量中当然可以存储汉字啦。不过，如果某个特殊的汉字没有被包含在unicode编码字符集中，那么，这个char型变量中就不能存储这个特殊汉字。</li>
-<li>补充说明：unicode编码占用两个字节，所以，char类型的变量也是占用两个字节。</li>
-</ul>
-<p>8、用最有效率的方法算出2乘以8等於几?</p>
-<ul>
-<li>2&lt;&lt; 3，(左移三位)因为将一个数左移n位，就相当于乘以了2的n次方，那么，一个数乘以8只要将其左移3位即可，而位运算cpu直接支持的，效率最高，所以，2乘以8等於几的最效率的方法是2&lt;&lt; 3。</li>
-</ul>
-<p>9、使用final关键字修饰一个变量时，是引用不能变，还是引用的对象不能变？</p>
-<ul>
-<li>使用final关键字修饰一个变量时，是指引用变量不能变，引用变量所指向的对象中的内容还是可以改变的。例如，对于如下语句：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> finalStringBuffer a=new StringBuffer(&quot;immutable&quot;);</span><br><span class="line">执行如下语句将报告编译期错误：</span><br><span class="line">a=new StringBuffer(&quot;&quot;);</span><br><span class="line">但是，执行如下语句则可以通过编译：</span><br><span class="line">a.append(&quot; broken!&quot;);</span><br><span class="line">有人在定义方法的参数时，可能想采用如下形式来阻止方法内部修改传进来的参数对象：</span><br><span class="line">public void method(final  StringBuffer param)&#123;</span><br><span class="line">&#125;</span><br><span class="line">实际上，这是办不到的，在该方法内部仍然可以增加如下代码来修改参数对象：</span><br><span class="line">        param.append(&quot;a&quot;);</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>10，静态变量和实例变量的区别？</p>
-<ul>
-<li>在语法定义上的区别：静态变量前要加static关键字，而实例变量前则不加。</li>
-<li>在程序运行时的区别：实例变量属于某个对象的属性，必须创建了实例对象，其中的实例变量才会被分配空间，才能使用这个实例变量。静态变量不属于某个实例对象，而是属于类，所以也称为类变量，只要程序加载了类的字节码，不用创建任何实例对象，静态变量就会被分配空间，静态变量就可以被使用了。总之，实例变量必须创建对象后才可以通过这个对象来使用，静态变量则可以直接使用类名来引用。</li>
-<li>例如，对于下面的程序，无论创建多少个实例对象，永远都只分配了一个staticVar变量，并且每创建一个实例对象，这个staticVar就会加1；但是，每创建一个实例对象，就会分配一个instanceVar，即可能分配多个instanceVar，并且每个instanceVar的值都只自加了1次。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class VariantTest&#123;</span><br><span class="line">        publicstatic int staticVar = 0;</span><br><span class="line">        publicint instanceVar = 0;</span><br><span class="line">        publicVariantTest()&#123;</span><br><span class="line">              staticVar++;</span><br><span class="line">              instanceVar++;</span><br><span class="line">              System.out.println(staticVar +instanceVar);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-
-    
-        <div>
-            <a href="/2018/07/20/面试题一/" class="post-more waves-button">
-                阅读全文 »
-            </a>
-        </div>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java题/">java题</a></li></ul>
 
     </div>
     

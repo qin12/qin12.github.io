@@ -191,88 +191,6 @@
     <ul class="post-list">
     
         <li class="post-list-item fade">
-            <article id="post-我的第一个原型设计——模仿知乎的注册界面"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a href="/2018/07/20/我的第一个原型设计——模仿知乎的注册界面/">我的第一个原型设计——模仿知乎的注册界面</a>
-    </h3>
-  
-
-
-
-
-     <div class="post-meta">
-        <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.793Z"  itemprop="datePublished">2018-07-20</time>
-
-    </div>
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <h3 id="我的第一个原型设计——模仿知乎的注册界面"><a href="#我的第一个原型设计——模仿知乎的注册界面" class="headerlink" title="我的第一个原型设计——模仿知乎的注册界面"></a>我的第一个原型设计——模仿知乎的注册界面</h3><h4 id="一-模仿什么？"><a href="#一-模仿什么？" class="headerlink" title="一.模仿什么？"></a>一.模仿什么？</h4><p>模仿一个网站，从两个方面来看。首先是用元件所呈现的这个界面最直观的部分，然后就是交互部分。</p>
-<h5 id="1-元件布局"><a href="#1-元件布局" class="headerlink" title="1.元件布局"></a>1.元件布局</h5><p>首先我们来看一下知乎注册界面：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/zhihu.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-<p>从这个布局，我们很容易分析出来它的各个元件，如下：</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/zhihu2.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-<h5 id="2-交互效果"><a href="#2-交互效果" class="headerlink" title="2.交互效果"></a>2.交互效果</h5><p>从上往下看</p>
-<ul>
-<li><p>（1）logo和标语，没有什么交互效果，只需要填充相应的数据就可以了。</p>
-</li>
-<li><p>（2）注册矩形框，和下面的条条一样是蓝色的。</p>
-</li>
-<li><p>（3）登录矩形框 </p>
-</li>
-</ul>
-<ul>
-<li>鼠标悬浮的时候，颜色会变浅 </li>
-<li>点击登陆后，登录的字体的颜色会变蓝色 </li>
-<li>注册的字体颜色会变成灰色 </li>
-<li>下面的蓝色小条条会移动到登录矩形框的下面 </li>
-<li>界面也会变成登陆的时的界面。</li>
-</ul>
-<ul>
-<li><p>（4）输入，包括姓名、手机号和密码<br>对于页面载入时，鼠标的光标的焦点在姓名输入框；<br>如果三个文本框都没有输入文字，点击注册按钮，这时在姓名文本框后面就会出现一个提示“姓名不能为空”，并且这个文字会抖动一下。<br>同样姓名填了，手机号没有填，右侧就会提醒手机号不能为空，文字也会抖几下，密码同上。<br>当出现提示文字的时候，如果把鼠标的焦点移到该输入文本框时候，提示文字就会从右侧逐渐消退。</p>
-</li>
-<li><p>（5）提示中的知乎协议和下载知乎APP,点击就会进入另外的界面。</p>
-</li>
-</ul>
-
-    
-        <div>
-            <a href="/2018/07/20/我的第一个原型设计——模仿知乎的注册界面/" class="post-more waves-button">
-                阅读全文 »
-            </a>
-        </div>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Axure/">Axure</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
             <article id="post-详细讲解Android Studio中使用Git"
   class="article-card article-type-post" itemprop="blogPost">
 
@@ -710,7 +628,7 @@
         </li>
     
         <li class="post-list-item fade">
-            <article id="post-XML解析"
+            <article id="post-面试题一"
   class="article-card article-type-post" itemprop="blogPost">
 
     
@@ -718,7 +636,7 @@
 
   
     <h3 class="post-title" itemprop="name">
-      <a href="/2018/07/20/XML解析/">Android 编程知识</a>
+      <a href="/2018/07/20/面试题一/">java 基础题(一)</a>
     </h3>
   
 
@@ -733,197 +651,56 @@
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        <h3 id="XML解析"><a href="#XML解析" class="headerlink" title="XML解析"></a>XML解析</h3><h4 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h4><ul>
-<li>Document Object Model，文档对象模型。这种方式是W3C推荐的处理XML的一种标准方式。</li>
-<li>缺点：必须读取整个XML文档，才能构建DOM模型，如果XML文档过大，造成资源的浪费。</li>
-<li>优点：适合对XML中的数据进行操作（CRUD）。<br>利用JAXP进行DOM方式解析<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line">//JAXP进行DOM方式解析的基本操作  </span><br><span class="line">public class JaxpDemo1 &#123;  </span><br><span class="line">    public static void main(String[] args) throws Exception &#123;  </span><br><span class="line">        //得到解析器  </span><br><span class="line">        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  </span><br><span class="line">        DocumentBuilder builder = factory.newDocumentBuilder();  </span><br><span class="line">        //通过解析器就可以得到代表整个内存中XML的Document对象  </span><br><span class="line">        Document document = builder.parse(&quot;src/book.xml&quot;);  </span><br><span class="line">        test8(document);  </span><br><span class="line">    &#125;  </span><br><span class="line">//  1、得到某个具体的节点内容:    </span><br><span class="line">    private static void test1(Document document)&#123;  </span><br><span class="line">        NodeList nl = document.getElementsByTagName(&quot;作者&quot;);  </span><br><span class="line">        Node authorNode = nl.item(0);  </span><br><span class="line">        System.out.println(authorNode.getTextContent());  </span><br><span class="line">    &#125;  </span><br><span class="line">//  2、遍历所有元素节点:打印元素的名称  </span><br><span class="line">    private static void test2(Node node)&#123;  </span><br><span class="line">        //确定node的类型  </span><br><span class="line">        //方式一  </span><br><span class="line">//      if(node.getNodeType()==Node.ELEMENT_NODE)&#123;  </span><br><span class="line">//          //是元素  </span><br><span class="line">//      &#125;  </span><br><span class="line">        //方式二  </span><br><span class="line">        if(node instanceof Element)&#123;  </span><br><span class="line">            //是元素  </span><br><span class="line">            Element e = (Element)node;  </span><br><span class="line">            System.out.println(e.getNodeName());//打印元素名称  </span><br><span class="line">        &#125;  </span><br><span class="line">        //判断有没有子节点  </span><br><span class="line">        NodeList nl = node.getChildNodes();  </span><br><span class="line">        for(int i=0;i&lt;nl.getLength();i++)&#123;  </span><br><span class="line">            Node n = nl.item(i);  </span><br><span class="line">            test2(n);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">//  3、修改某个元素节点的主体内容:&lt;售价&gt;39.00元&lt;/售价&gt;---&gt;10元  </span><br><span class="line">    private static void test3(Document document) throws Exception&#123;  </span><br><span class="line">        //得到售价  </span><br><span class="line">        Node priceNode = document.getElementsByTagName(&quot;售价&quot;).item(0);  </span><br><span class="line">        priceNode.setTextContent(&quot;10元&quot;);  </span><br><span class="line">        //更新XML文件  </span><br><span class="line">        TransformerFactory tf = TransformerFactory.newInstance();  </span><br><span class="line">        Transformer t = tf.newTransformer();  </span><br><span class="line">        //构建输入源：  </span><br><span class="line">        Source source = new DOMSource(document);  </span><br><span class="line">        //构建目标：  </span><br><span class="line">        Result result = new StreamResult(&quot;src/book.xml&quot;);  </span><br><span class="line">          </span><br><span class="line">        t.transform(source, result);  </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">//  4、向指定元素节点中增加子元素节点:第一本书添加子元素 &lt;出版社&gt;黑马程序员&lt;/出版社&gt;  </span><br><span class="line">    private static void test4(Document document) throws Exception&#123;  </span><br><span class="line">        //创建：&lt;出版社&gt;黑马程序员&lt;/出版社&gt;  </span><br><span class="line">        Element e = document.createElement(&quot;出版社&quot;);  </span><br><span class="line">        e.setTextContent(&quot;黑马程序员&quot;);  </span><br><span class="line">        //得到书，把新节点挂上去  </span><br><span class="line">        Node bookNode = document.getElementsByTagName(&quot;书&quot;).item(0);  </span><br><span class="line">        bookNode.appendChild(e);  </span><br><span class="line">        //更新XML文件  </span><br><span class="line">        TransformerFactory tf = TransformerFactory.newInstance();  </span><br><span class="line">        Transformer t = tf.newTransformer();  </span><br><span class="line">        //构建输入源：  </span><br><span class="line">        Source source = new DOMSource(document);  </span><br><span class="line">        //构建目标：  </span><br><span class="line">        Result result = new StreamResult(&quot;src/book.xml&quot;);  </span><br><span class="line">          </span><br><span class="line">        t.transform(source, result);  </span><br><span class="line">    &#125;  </span><br><span class="line">//  5、向指定元素节点上增加同级元素节点:第一本书&lt;售价&gt;前面添加&lt;批发价&gt;30&lt;/批发价&gt;  </span><br><span class="line">    private static void test5(Document document) throws Exception&#123;  </span><br><span class="line">        //创建新节点  </span><br><span class="line">        Element e = document.createElement(&quot;批发价&quot;);  </span><br><span class="line">        e.setTextContent(&quot;30元&quot;);  </span><br><span class="line">        //找到&lt;售价&gt;  </span><br><span class="line">        Node priceNode = document.getElementsByTagName(&quot;售价&quot;).item(0);  </span><br><span class="line">        //父标签：调用insertBefore(新节点,参考节点);  </span><br><span class="line">          </span><br><span class="line">        Node bookNode = priceNode.getParentNode();  </span><br><span class="line">        bookNode.insertBefore(e, priceNode);  </span><br><span class="line">        //更新XML文件  </span><br><span class="line">        TransformerFactory tf = TransformerFactory.newInstance();  </span><br><span class="line">        Transformer t = tf.newTransformer();  </span><br><span class="line">        //构建输入源：  </span><br><span class="line">        Source source = new DOMSource(document);  </span><br><span class="line">        //构建目标：  </span><br><span class="line">        Result result = new StreamResult(&quot;src/book.xml&quot;);  </span><br><span class="line">          </span><br><span class="line">        t.transform(source, result);  </span><br><span class="line">    &#125;  </span><br><span class="line">//  6、删除指定元素节点:删除批发价  </span><br><span class="line">    private static void test6(Document document) throws Exception&#123;  </span><br><span class="line">        Node priceNode = document.getElementsByTagName(&quot;批发价&quot;).item(0);  </span><br><span class="line">        priceNode.getParentNode().removeChild(priceNode);  </span><br><span class="line">        //更新XML文件  </span><br><span class="line">        TransformerFactory tf = TransformerFactory.newInstance();  </span><br><span class="line">        Transformer t = tf.newTransformer();  </span><br><span class="line">        //构建输入源：  </span><br><span class="line">        Source source = new DOMSource(document);  </span><br><span class="line">        //构建目标：  </span><br><span class="line">        Result result = new StreamResult(&quot;src/book.xml&quot;);  </span><br><span class="line">          </span><br><span class="line">        t.transform(source, result);  </span><br><span class="line">    &#125;  </span><br><span class="line">//  7、操作XML文件属性:书籍添加一个属性：ISBN=“ABC”  </span><br><span class="line">    private static void test7(Document document) throws Exception&#123;  </span><br><span class="line">        Node bookNode = document.getElementsByTagName(&quot;书&quot;).item(0);  </span><br><span class="line">        if(bookNode instanceof Element)&#123;  </span><br><span class="line">            Element e = (Element)bookNode;  </span><br><span class="line">            e.setAttribute(&quot;ISBN&quot;, &quot;ABC&quot;);  </span><br><span class="line">        &#125;  </span><br><span class="line">        //更新XML文件  </span><br><span class="line">        TransformerFactory tf = TransformerFactory.newInstance();  </span><br><span class="line">        Transformer t = tf.newTransformer();  </span><br><span class="line">        //构建输入源：  </span><br><span class="line">        Source source = new DOMSource(document);  </span><br><span class="line">        //构建目标：  </span><br><span class="line">        Result result = new StreamResult(&quot;src/book.xml&quot;);  </span><br><span class="line">          </span><br><span class="line">        t.transform(source, result);  </span><br><span class="line">    &#125;  </span><br><span class="line">//  8、操作XML文件属性:获取ISBN=“ABC”  </span><br><span class="line">    private static void test8(Document document) throws Exception&#123;  </span><br><span class="line">        Node bookNode = document.getElementsByTagName(&quot;书&quot;).item(0);  </span><br><span class="line">        if(bookNode instanceof Element)&#123;  </span><br><span class="line">            Element e = (Element)bookNode;  </span><br><span class="line">            System.out.println(e.getAttribute(&quot;ISBN&quot;));  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="SAX"><a href="#SAX" class="headerlink" title="SAX"></a>SAX</h4><ul>
-<li>SAX：Simple API for XML。这种方式不是官方标准，属于开源社区XML-DEV，几乎所有的XML解析器都支持它。</li>
-<li>sax解析原理<br>在使用 DOM 解析 XML 文档时，需要读取整个 XML 文档，在内存中构架代表整个 DOM 树的Doucment对象，从而再对XML文档进行操作。此种情况下，如果 XML 文档特别大，就会消耗计算机的大量内存，并且容易导致内存溢出。<br>SAX解析允许在读取文档的时候，即对文档进行处理，而不必等到整个文档装载完才会文档进行操作。<br>SAX采用事件处理的方式解析XML文件，利用 SAX 解析 XML 文档，涉及两个部分：<ul>
-<li>解析器和事件处理器： 解析器可以使用JAXP的API创建，创建出SAX解析器后，就可以指定解析器去解析某个XML文档。 解析器采用SAX方式在解析某个XML文档时，它只要解析到XML文档的一个组成部分，都会去调用事件处理器的一个方法，解析器在调用事件处理器的方法时，会把当前解析到的xml文件内容作为方法的参数传递给事件处理器。 </li>
-<li>事件处理器由程序员编写，程序员通过事件处理器中方法的参数，就可以很轻松地得到sax解析器解析到的数据，从而可以决定如何对数据进行处理</li>
-</ul>
-</li>
-<li>基本解析操作<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//1解析器</span><br><span class="line">   SAXParser parse = SAXParserFactory.newInstance().newSAXParser();</span><br><span class="line">   //2获取xml读取器</span><br><span class="line">   XMLReader reader = parse.getXMLReader();</span><br><span class="line">   //3注册内容处理器</span><br><span class="line">   reader.setContentHandler(new ContentHandler1());</span><br><span class="line">   //4读取xml文档</span><br><span class="line">   reader.parse(&quot;src/book.xml&quot;);</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-
-    
-        <div>
-            <a href="/2018/07/20/XML解析/" class="post-more waves-button">
-                阅读全文 »
-            </a>
-        </div>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/XML/">XML</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-Servlet 简介"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a href="/2018/07/20/Servlet 简介/">javaweb (一)</a>
-    </h3>
-  
-
-
-
-
-     <div class="post-meta">
-        <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.793Z"  itemprop="datePublished">2018-07-20</time>
-
-    </div>
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <h3 id="Servlet-简介"><a href="#Servlet-简介" class="headerlink" title="Servlet 简介"></a>Servlet 简介</h3><ul>
-<li>Servlet是sun公司提供的一门用于开发动态web资源的技术。</li>
-<li>Sun公司在其API中提供了一个servlet接口，用户若想用发一个动态web资源(即开发一个Java程序向浏览器输出数据)，需要完成以下2个步骤：<ul>
-<li>1、编写一个Java类，实现servlet接口。</li>
-<li>2、把开发好的Java类部署到web服务器中。</li>
-</ul>
-</li>
-</ul>
-<p>按照一种约定俗成的称呼习惯，通常我们也把实现了servlet接口的java程序，称之为Servlet。</p>
-<h3 id="Servlet-的运行过程"><a href="#Servlet-的运行过程" class="headerlink" title="Servlet 的运行过程"></a>Servlet 的运行过程</h3><p>Servlet 程序是由WEB服务器收到客户端的Servlet访问请求后</p>
+        <p>1、一个”.java”源文件中是否可以包括多个类（不是内部类）？有什么限制？</p>
 <ul>
-<li><ol>
-<li>web服务器首先检查是否已经装载并创建了该Servlet的实例对象，如果是，则执行第4步，否则，执行第2步。</li>
-</ol>
-</li>
-<li>2.装载并创建该Servlet 的一个实例对象</li>
-<li>3.调用Servlet实例对象的init()方法。</li>
-<li>4.创建一个用于封装HTTP请求消息的HttpServletRequest对象和一个代表HTTP响应消息的HttpServletResponse对象，然后调用Servlet的service()方法并将请求和响应对象作为参数传递进去。</li>
-<li>web应用程序被停止或重新启动之前，Servlet 引擎将卸载Servlet，并在卸载之前调用Servlet的destory()方法。<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/servlet1.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/servlet2.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/servlet3.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/servlet4.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/servlet5.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/servlet6.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/servlet7.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/servlet8.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-<h3 id="在IDEA中开发Servlet"><a href="#在IDEA中开发Servlet" class="headerlink" title="在IDEA中开发Servlet"></a>在IDEA中开发Servlet</h3>在IDEA中新建一个Web project工程。<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/创建webproject.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure></li>
-<li>Servlet接口SUN公司定义了两个默认实现类，分别为：GenericServlet、HttpServlet。</li>
-<li>HttpServlet指能够处理HTTP请求的servlet，它在原有Servlet接口上添加了一些与HTTP协议处理方法，它比Servlet接口的功能更为强大。因此开发人员在编写Servlet时，通常应继承这个类，而避免直接去实现Servlet接口。HttpServlet在实现Servlet接口时，覆写了service方法，该方法体内的代码会自动判断用户的请求方式，如为GET请求，则调用HttpServlet的doGet方法，如为Post请求，则调用doPost方法。因此，开发人员在编写Servlet时，通常只需要覆写doGet或doPost方法，而不要去覆写service方法。<br>ServletDemo1<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletDemo1&quot;)</span><br><span class="line">public class ServletDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">       doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">                response.setContentType(&quot;text/html&quot;);</span><br><span class="line">                 PrintWriter out = response.getWriter();</span><br><span class="line">                 out.println(&quot;&lt;!DOCTYPE HTML PUBLIC \&quot;-//W3C//DTD HTML 4.01 Transitional//EN\&quot;&gt;&quot;);</span><br><span class="line">                 out.println(&quot;&lt;HTML&gt;&quot;);</span><br><span class="line">                 out.println(&quot;  &lt;HEAD&gt;&lt;TITLE&gt;A Servlet&lt;/TITLE&gt;&lt;/HEAD&gt;&quot;);</span><br><span class="line">                 out.println(&quot;  &lt;BODY&gt;&quot;);</span><br><span class="line">                 out.print(&quot;    This is &quot;);</span><br><span class="line">                 out.print(this.getClass());</span><br><span class="line">                 out.println(&quot;, using the GET method&quot;);</span><br><span class="line">                out.println(&quot;  &lt;/BODY&gt;&quot;);</span><br><span class="line">                 out.println(&quot;&lt;/HTML&gt;&quot;);</span><br><span class="line">                out.flush();</span><br><span class="line">                out.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>可以有多个类，但只能有一个public的类，并且public的类名必须与文件名相一致。</li>
+</ul>
+<p>2、Java有没有goto?</p>
+<ul>
+<li>java中的保留字，现在没有在java中使用。</li>
+</ul>
+<p>3、说说&amp;和&amp;&amp;的区别。</p>
+<ul>
+<li>&amp;和&amp;&amp;都可以用作逻辑与的运算符，表示逻辑与（and），当运算符两边的表达式的结果都为true时，整个运算结果才为true，否则，只要有一方为false，则结果为false。</li>
+<li>&amp;&amp;还具有短路的功能，即如果第一个表达式为false，则不再计算第二个表达式，例如，对于if(str!= null&amp;&amp; !str.equals(s))表达式，当str为null时，后面的表达式不会执行，所以不会出现NullPointerException如果将&amp;&amp;改为&amp;，则会抛出NullPointerException异常。If(x==33 &amp;++y&gt;0) y会增长，If(x==33 &amp;&amp; ++y&gt;0)不会增长</li>
+<li>&amp;还可以用作位运算符，当&amp;操作符两边的表达式不是boolean类型时，&amp;表示按位与操作，我们通常使用0x0f来与一个整数进行&amp;运算，来获取该整数的最低4个bit位，例如，0x31 &amp; 0x0f的结果为0x01。</li>
+</ul>
+<p>4、在JAVA中如何跳出当前的多重嵌套循环？<br>        在Java中，要想跳出多重循环，可以在外面的循环语句前定义一个标号，让外层的循环条件表达式的结果可以受到里层循环体代码的控制，例如，要在二维数组中查找到某个数字。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">int arr[][] =&#123;&#123;1,2,3&#125;,&#123;4,5,6,7&#125;,&#123;9&#125;&#125;;</span><br><span class="line">boolean found = false;</span><br><span class="line">for(int i=0;i&lt;arr.length&amp;&amp;!found;i++)       &#123;</span><br><span class="line">        for(intj=0;j&lt;arr[i].length;j++)&#123;</span><br><span class="line">              System.out.println(“i=” + i + “,j=” + j);</span><br><span class="line">              if(arr[i][j] ==5) &#123;</span><br><span class="line">                      found =true;</span><br><span class="line">                      break;</span><br><span class="line">              &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>5、switch语句能否作用在byte上，能否作用在long上，能否作用在String上?</p>
+<ul>
+<li>在switch（e）中，e只能是一个整数表达式或者枚举常量（更大字体），整数表达式可以是int基本类型或Integer包装类型，由于byte,short,char都可以隐含转换为int，所以，这些类型以及这些类型的包装类型也是可以的。显然，long和String类型都不符合switch的语法规定，并且不能被隐式转换成int类型，所以，它们不能作用于swtich语句中。</li>
+<li>switch语句能否作用在String上说错了，Java1.7之后已经支持这种写法了！</li>
+</ul>
+<p>6、short s1= 1; s1 = （s1+1）（（s1+1）是int类型，而等号左边的是short类型，所以需要强转）1 + 1;有什么错? short s1 = 1; s1 += 1;有什么错?(没有错)</p>
+<ul>
+<li>对于short s1= 1; s1 = s1 + 1;由于s1+1运算时会自动提升表达式的类型，所以结果是int型，再赋值给short类型s1时，编译器将报告需要强制转换类型的错误。</li>
+<li>对于short s1= 1; s1 += 1;由于 +=是java语言规定的运算符，java编译器会对它进行特殊处理，因此可以正确编译。</li>
+</ul>
+<p>7、char型变量中能不能存贮一个中文汉字?为什么?</p>
+<ul>
+<li>char型变量是用来存储Unicode编码的字符的，unicode编码字符集中包含了汉字，所以，char型变量中当然可以存储汉字啦。不过，如果某个特殊的汉字没有被包含在unicode编码字符集中，那么，这个char型变量中就不能存储这个特殊汉字。</li>
+<li>补充说明：unicode编码占用两个字节，所以，char类型的变量也是占用两个字节。</li>
+</ul>
+<p>8、用最有效率的方法算出2乘以8等於几?</p>
+<ul>
+<li>2&lt;&lt; 3，(左移三位)因为将一个数左移n位，就相当于乘以了2的n次方，那么，一个数乘以8只要将其左移3位即可，而位运算cpu直接支持的，效率最高，所以，2乘以8等於几的最效率的方法是2&lt;&lt; 3。</li>
+</ul>
+<p>9、使用final关键字修饰一个变量时，是引用不能变，还是引用的对象不能变？</p>
+<ul>
+<li>使用final关键字修饰一个变量时，是指引用变量不能变，引用变量所指向的对象中的内容还是可以改变的。例如，对于如下语句：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> finalStringBuffer a=new StringBuffer(&quot;immutable&quot;);</span><br><span class="line">执行如下语句将报告编译期错误：</span><br><span class="line">a=new StringBuffer(&quot;&quot;);</span><br><span class="line">但是，执行如下语句则可以通过编译：</span><br><span class="line">a.append(&quot; broken!&quot;);</span><br><span class="line">有人在定义方法的参数时，可能想采用如下形式来阻止方法内部修改传进来的参数对象：</span><br><span class="line">public void method(final  StringBuffer param)&#123;</span><br><span class="line">&#125;</span><br><span class="line">实际上，这是办不到的，在该方法内部仍然可以增加如下代码来修改参数对象：</span><br><span class="line">        param.append(&quot;a&quot;);</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>配置web.xml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;web-app xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;</span><br><span class="line">         version=&quot;4.0&quot;&gt;</span><br><span class="line">    &lt;servlet&gt;</span><br><span class="line">        &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">        &lt;servlet-class&gt;ServletDemo1&lt;/servlet-class&gt;</span><br><span class="line">    &lt;/servlet&gt;</span><br><span class="line">    &lt;servlet-mapping&gt;</span><br><span class="line">        &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">        &lt;url-pattern&gt;/s&lt;/url-pattern&gt;</span><br><span class="line">    &lt;/servlet-mapping&gt;</span><br><span class="line">&lt;/web-app&gt;</span><br></pre></td></tr></table></figure></p>
-<p>然后我们就可以通过浏览器访问ServletDemo1这个Servlet，如下图所示：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/结果.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure></p>
-<h3 id="Servlet开发注意细节"><a href="#Servlet开发注意细节" class="headerlink" title="Servlet开发注意细节"></a>Servlet开发注意细节</h3><h4 id="Servlet-访问URL映射配置"><a href="#Servlet-访问URL映射配置" class="headerlink" title="Servlet 访问URL映射配置"></a>Servlet 访问URL映射配置</h4><p>由于客户端是通过URL地址访问web服务器中的资源，所以Servlet程序若想被外界访问，必须把servlet程序映射到一个URL地址上，这个工作在web.xml文件中使用<servlet>元素和<servlet-mapping>元素完成。<br>　　<servlet>元素用于注册Servlet，它包含有两个主要的子元素：<servlet-name>和<servlet-class>，分别用于设置Servlet的注册名称和Servlet的完整类名。<br>一个<servlet-mapping>元素用于映射一个已注册的Servlet的一个对外访问路径，它包含有两个子元素：<servlet-name>和<url-pattern>，分别用于指定Servlet的注册名称和Servlet的对外访问路径。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> &lt;servlet&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line"> &lt;servlet-class&gt;ServletDemo1&lt;/servlet-class&gt;</span><br><span class="line">&lt;/servlet&gt;</span><br><span class="line">&lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">       &lt;url-pattern&gt;/s&lt;/url-pattern&gt;</span><br><span class="line">&lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure></url-pattern></servlet-name></servlet-mapping></servlet-class></servlet-name></servlet></servlet-mapping></servlet></p>
-<p>同一个Servlet可以被映射到多个URL上，即多个<servlet-mapping>元素的<servlet-name>子元素的设置值可以是同一个Servlet的注册名。 例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line"> &lt;servlet-class&gt;ServletDemo1&lt;/servlet-class&gt;</span><br><span class="line">&lt;/servlet&gt;</span><br><span class="line">&lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">       &lt;url-pattern&gt;/s&lt;/url-pattern&gt;</span><br><span class="line">&lt;/servlet-mapping&gt;</span><br><span class="line"></span><br><span class="line"> &lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">       &lt;url-pattern&gt;/s1&lt;/url-pattern&gt;</span><br><span class="line">  &lt;/servlet-mapping&gt;</span><br><span class="line">  </span><br><span class="line">   &lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">   &lt;url-pattern&gt;/s.htm&lt;/url-pattern&gt;</span><br><span class="line">   &lt;/servlet-mapping&gt;</span><br><span class="line">   </span><br><span class="line">  &lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">       &lt;url-pattern&gt;/s.jsp&lt;/url-pattern&gt;</span><br><span class="line"> &lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure></servlet-name></servlet-mapping></p>
-<p>通过上面的配置，当我们想访问名称是ServletDemo1的Servlet，可以使用如下的几个地址去访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/s</span><br><span class="line">http://localhost:8080/s1</span><br><span class="line">http://localhost:8080/s.jsp</span><br><span class="line">http://localhost:8080/s.htm</span><br></pre></td></tr></table></figure></p>
-<p>ServletDemo1被映射到了多个URL上。</p>
-<h4 id="Servlet访问URL使用-通配符映射"><a href="#Servlet访问URL使用-通配符映射" class="headerlink" title="Servlet访问URL使用*通配符映射　　"></a>Servlet访问URL使用*通配符映射　　</h4><p>在Servlet映射到的URL中也可以使用*通配符，但是只能有两种固定的格式：一种格式是”*.扩展名”，另一种格式是以正斜杠（/）开头并以”/*”结尾。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">     &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">     &lt;servlet-class&gt;ServletDemo1&lt;/servlet-class&gt;</span><br><span class="line">   &lt;/servlet&gt;</span><br><span class="line"></span><br><span class="line">    &lt;servlet-mapping&gt;</span><br><span class="line">     &lt;servlet-name&gt;ServletDemo1&lt;/servlet-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;</span><br><span class="line">     &lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure></p>
-<p><em>可以匹配任意的字符，所以此时可以用任意的URL去访问ServletDemo1这个Servlet，如下图所示：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/结果2.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>对于如下的一些映射关系：<br>　　Servlet1 映射到 /abc/</em><br>　　Servlet2 映射到 /<em><br>　　Servlet3 映射到 /abc<br>　　Servlet4 映射到 </em>.do<br>问题：<br>　　当请求URL为“/abc/a.html”，“/abc/<em>”和“/</em>”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet1。<br>　　当请求URL为“/abc”时，“/abc/<em>”和“/abc”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet3。<br>　　当请求URL为“/abc/a.do”时，“/abc/</em>”和“<em>.do”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet1。<br>　　当请求URL为“/a.do”时，“/</em>”和“<em>.do”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet2。<br>　　当请求URL为“/xxx/yyy/a.do”时，“/</em>”和“*.do”都匹配，哪个servlet响应<br>    　　Servlet引擎将调用Servlet2。<br>　　匹配的原则就是”谁长得更像就找谁”</p>
-<h4 id="Servlet-与普通java类的区别"><a href="#Servlet-与普通java类的区别" class="headerlink" title="Servlet 与普通java类的区别"></a>Servlet 与普通java类的区别</h4><ul>
-<li>Servlet是一个供其他Java程序（Servlet引擎）调用的Java类，它不能独立运行，它的运行完全由Servlet引擎来控制和调度。</li>
-<li>针对客户端的多次Servlet请求，通常情况下，服务器只会创建一个Servlet实例对象，也就是说Servlet实例对象一旦创建，它就会驻留在内存中，为后续的其它请求服务，直至web容器退出，servlet实例对象才会销毁。</li>
-<li>在Servlet的整个生命周期内，Servlet的init方法只被调用一次。而对一个Servlet的每次访问请求都导致Servlet引擎调用一次servlet的service方法。对于每次访问请求，Servlet引擎都会创建一个新的HttpServletRequest请求对象和一个新的HttpServletResponse响应对象，然后将这两个对象作为参数传递给它调用的Servlet的service()方法，service方法再根据请求方式分别调用doXXX方法。</li>
-<li>如果在<servlet>元素中配置了一个<load-on-startup>元素，那么WEB应用程序在启动时，就会装载并创建Servlet的实例对象、以及调用Servlet实例对象的init()方法。</load-on-startup></servlet></li>
-<li>举例：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">    &lt;servlet-name&gt;invoker&lt;/servlet-name&gt;</span><br><span class="line">    &lt;servlet-class&gt;</span><br><span class="line">        org.apache.catalina.servlets.InvokerServlet</span><br><span class="line">    &lt;/servlet-class&gt;</span><br><span class="line">    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span><br><span class="line">&lt;/servlet&gt;</span><br></pre></td></tr></table></figure>
+<p>10，静态变量和实例变量的区别？</p>
+<ul>
+<li>在语法定义上的区别：静态变量前要加static关键字，而实例变量前则不加。</li>
+<li>在程序运行时的区别：实例变量属于某个对象的属性，必须创建了实例对象，其中的实例变量才会被分配空间，才能使用这个实例变量。静态变量不属于某个实例对象，而是属于类，所以也称为类变量，只要程序加载了类的字节码，不用创建任何实例对象，静态变量就会被分配空间，静态变量就可以被使用了。总之，实例变量必须创建对象后才可以通过这个对象来使用，静态变量则可以直接使用类名来引用。</li>
+<li>例如，对于下面的程序，无论创建多少个实例对象，永远都只分配了一个staticVar变量，并且每创建一个实例对象，这个staticVar就会加1；但是，每创建一个实例对象，就会分配一个instanceVar，即可能分配多个instanceVar，并且每个instanceVar的值都只自加了1次。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class VariantTest&#123;</span><br><span class="line">        publicstatic int staticVar = 0;</span><br><span class="line">        publicint instanceVar = 0;</span><br><span class="line">        publicVariantTest()&#123;</span><br><span class="line">              staticVar++;</span><br><span class="line">              instanceVar++;</span><br><span class="line">              System.out.println(staticVar +instanceVar);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>　　用途：为web应用写一个InitServlet，这个servlet配置为启动时装载，为整个web应用创建必要的数据库表和数据。</p>
-<h4 id="缺省Servlet"><a href="#缺省Servlet" class="headerlink" title="缺省Servlet"></a>缺省Servlet</h4><ul>
-<li>如果某个Servlet的映射路径仅仅为一个正斜杠（/），那么这个Servlet就成为当前Web应用程序的缺省Servlet。 </li>
-<li>凡是在web.xml文件中找不到匹配的<servlet-mapping>元素的URL，它们的访问请求都将交给缺省Servlet处理，也就是说，缺省Servlet用于处理所有其他Servlet都不处理的访问请求。 例如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">      &lt;servlet-name&gt;ServletDemo2&lt;/servlet-name&gt;</span><br><span class="line">      &lt;servlet-class&gt;ServletDemo2&lt;/servlet-class&gt;</span><br><span class="line">      &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span><br><span class="line">    &lt;/servlet&gt;</span><br><span class="line">    </span><br><span class="line">   &lt;!-- 将ServletDemo2配置成缺省Servlet --&gt;</span><br><span class="line">    &lt;servlet-mapping&gt;</span><br><span class="line">      &lt;servlet-name&gt;ServletDemo2&lt;/servlet-name&gt;</span><br><span class="line">     &lt;url-pattern&gt;/&lt;/url-pattern&gt;</span><br><span class="line">   &lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure>
-</servlet-mapping></li>
-</ul>
-<p>当访问不存在的Servlet时，就使用配置的默认Servlet进行处理，如下图所示：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/结果3.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure></p>
-<p>　在&lt;tomcat的安装目录&gt;\conf\web.xml文件中，注册了一个名称为org.apache.catalina.servlets.DefaultServlet的Servlet，并将这个Servlet设置为了缺省Servlet。</p>
-<p>当访问Tomcat服务器中的某个静态HTML文件和图片时，实际上是在访问这个缺省Servlet。</p>
 
     
         <div>
-            <a href="/2018/07/20/Servlet 简介/" class="post-more waves-button">
+            <a href="/2018/07/20/面试题一/" class="post-more waves-button">
                 阅读全文 »
             </a>
         </div>
@@ -931,7 +708,7 @@
     
     <div class="post-footer">
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Servlet/">Servlet</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java题/">java题</a></li></ul>
 
     </div>
     
@@ -940,7 +717,7 @@
         </li>
     
         <li class="post-list-item fade">
-            <article id="post-在LitePal中解析XML"
+            <article id="post-我的第一个原型设计——模仿知乎的注册界面"
   class="article-card article-type-post" itemprop="blogPost">
 
     
@@ -948,7 +725,7 @@
 
   
     <h3 class="post-title" itemprop="name">
-      <a href="/2018/07/20/在LitePal中解析XML/">Android 编程知识</a>
+      <a href="/2018/07/20/我的第一个原型设计——模仿知乎的注册界面/">我的第一个原型设计——模仿知乎的注册界面</a>
     </h3>
   
 
@@ -956,22 +733,56 @@
 
 
      <div class="post-meta">
-        <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.789Z"  itemprop="datePublished">2018-07-20</time>
+        <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.793Z"  itemprop="datePublished">2018-07-20</time>
 
     </div>
 
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        <h3 id="在LitePal中解析XML"><a href="#在LitePal中解析XML" class="headerlink" title="在LitePal中解析XML"></a>在LitePal中解析XML</h3><p>在使用LitePal的时候有些关键步骤不可获取，其中一个是创建litepal.xml文件，放到assets目录下，里面有一些数据库名、版本号、映射列表等。那么LitePal需要怎么获取到我们配置的数据呢？这里就要去解析xml文件了。LitePal默认使用的是SAX解析。还有Pull和DOM解析未来将会被引入。</p>
-<h4 id="LitePalParser"><a href="#LitePalParser" class="headerlink" title="LitePalParser"></a>LitePalParser</h4><p>下面先列出几个需要解析的node和attribute：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">static final String NODE_DB_NAME = &quot;dbname&quot;;</span><br><span class="line">      static final String NODE_VERSION = &quot;version&quot;;</span><br><span class="line">      static final String NODE_LIST = &quot;list&quot;;</span><br><span class="line">      static final String NODE_MAPPING = &quot;mapping&quot;;</span><br><span class="line">      static final String NODE_CASES = &quot;cases&quot;;</span><br><span class="line">      static final String ATTR_VALUE = &quot;value&quot;;</span><br><span class="line">      static final String ATTR_CLASS = &quot;class&quot;;</span><br></pre></td></tr></table></figure></p>
-<p>默认会使用SAX解析，首先要从根目录的assests目录下面去遍历到literpal.xml，然后转成数据流给解析器 解析。</p>
-<h4 id="LitePalAttr"><a href="#LitePalAttr" class="headerlink" title="LitePalAttr"></a>LitePalAttr</h4><p>从litepal.xml里面解析出来的一些属性将会存到这个类。单例模式，全局只有一个。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private static LitePalAttr litePalAttr;</span><br><span class="line">      private int version ;</span><br><span class="line">      private String dbName ;</span><br><span class="line">      private String cases ;</span><br><span class="line">      private List&lt;String&gt; classNames ;</span><br></pre></td></tr></table></figure></p>
-<h4 id="LitePalContentHandler"><a href="#LitePalContentHandler" class="headerlink" title="LitePalContentHandler"></a>LitePalContentHandler</h4><p>继承了sax解析的DefaultHandler用来解析litepal.xml文件。然后把值set到LitePalAttr里面。</p>
+        <h3 id="我的第一个原型设计——模仿知乎的注册界面"><a href="#我的第一个原型设计——模仿知乎的注册界面" class="headerlink" title="我的第一个原型设计——模仿知乎的注册界面"></a>我的第一个原型设计——模仿知乎的注册界面</h3><h4 id="一-模仿什么？"><a href="#一-模仿什么？" class="headerlink" title="一.模仿什么？"></a>一.模仿什么？</h4><p>模仿一个网站，从两个方面来看。首先是用元件所呈现的这个界面最直观的部分，然后就是交互部分。</p>
+<h5 id="1-元件布局"><a href="#1-元件布局" class="headerlink" title="1.元件布局"></a>1.元件布局</h5><p>首先我们来看一下知乎注册界面：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/zhihu.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>从这个布局，我们很容易分析出来它的各个元件，如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/zhihu2.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h5 id="2-交互效果"><a href="#2-交互效果" class="headerlink" title="2.交互效果"></a>2.交互效果</h5><p>从上往下看</p>
+<ul>
+<li><p>（1）logo和标语，没有什么交互效果，只需要填充相应的数据就可以了。</p>
+</li>
+<li><p>（2）注册矩形框，和下面的条条一样是蓝色的。</p>
+</li>
+<li><p>（3）登录矩形框 </p>
+</li>
+</ul>
+<ul>
+<li>鼠标悬浮的时候，颜色会变浅 </li>
+<li>点击登陆后，登录的字体的颜色会变蓝色 </li>
+<li>注册的字体颜色会变成灰色 </li>
+<li>下面的蓝色小条条会移动到登录矩形框的下面 </li>
+<li>界面也会变成登陆的时的界面。</li>
+</ul>
+<ul>
+<li><p>（4）输入，包括姓名、手机号和密码<br>对于页面载入时，鼠标的光标的焦点在姓名输入框；<br>如果三个文本框都没有输入文字，点击注册按钮，这时在姓名文本框后面就会出现一个提示“姓名不能为空”，并且这个文字会抖动一下。<br>同样姓名填了，手机号没有填，右侧就会提醒手机号不能为空，文字也会抖几下，密码同上。<br>当出现提示文字的时候，如果把鼠标的焦点移到该输入文本框时候，提示文字就会从右侧逐渐消退。</p>
+</li>
+<li><p>（5）提示中的知乎协议和下载知乎APP,点击就会进入另外的界面。</p>
+</li>
+</ul>
 
     
         <div>
-            <a href="/2018/07/20/在LitePal中解析XML/" class="post-more waves-button">
+            <a href="/2018/07/20/我的第一个原型设计——模仿知乎的注册界面/" class="post-more waves-button">
                 阅读全文 »
             </a>
         </div>
@@ -979,7 +790,88 @@
     
     <div class="post-footer">
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/litepal/">litepal</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Axure/">Axure</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-JAVA线程池原理详解"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a href="/2018/07/20/JAVA线程池原理详解/">JAVA线程池原理详解</a>
+    </h3>
+  
+
+
+
+
+     <div class="post-meta">
+        <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.793Z"  itemprop="datePublished">2018-07-20</time>
+
+    </div>
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        <h3 id="JAVA线程池原理详解"><a href="#JAVA线程池原理详解" class="headerlink" title="JAVA线程池原理详解"></a>JAVA线程池原理详解</h3><h4 id="线程池的优点"><a href="#线程池的优点" class="headerlink" title="线程池的优点"></a>线程池的优点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1、线程是稀缺资源，使用线程池可以减少创建和销毁线程的次数，每个工作线程都可以重复使用。</span><br><span class="line">2、可以根据系统的承受能力，调整线程池中工作线程的数量，防止因为消耗过多内存导致服务器崩溃。</span><br></pre></td></tr></table></figure>
+<h4 id="线程池的创建"><a href="#线程池的创建" class="headerlink" title="线程池的创建"></a>线程池的创建</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public ThreadPoolExecutor(</span><br><span class="line">   int corePoolSize,</span><br><span class="line">   int maximumPoolSize,</span><br><span class="line">   long keepAliveTime,</span><br><span class="line">   TimeUnit unit,</span><br><span class="line">   BlockingQueue&lt;Runnable&gt; workQueue,</span><br><span class="line">   RejectedExecutionHandler handler)</span><br><span class="line">corePoolSize：线程池核心线程数量</span><br><span class="line">maximumPoolSize:线程池最大线程数量</span><br><span class="line">keepAliverTime：当活跃线程数大于核心线程数时，空闲的多余线程最大存活时间</span><br><span class="line">unit：存活时间的单位</span><br><span class="line">workQueue：存放任务的队列</span><br><span class="line">handler：超出线程范围和队列容量的任务的处理程序</span><br></pre></td></tr></table></figure>
+<h4 id="线程池的实现原理"><a href="#线程池的实现原理" class="headerlink" title="线程池的实现原理"></a>线程池的实现原理</h4><p>提交一个任务到线程池中，线程池的处理流程如下：</p>
+<ul>
+<li>1、判断线程池里的核心线程是否都在执行任务，如果不是（核心线程空闲或者还有核心线程没有被创建）则创建一个新的工作线程来执行任务。如果核心线程都在执行任务，则进入下个流程。</li>
+<li>2、线程池判断工作队列是否已满，如果工作队列没有满，则将新提交的任务存储在这个工作队列里。如果工作队列满了，则进入下个流程。</li>
+<li>3、判断线程池里的线程是否都处于工作状态，如果没有，则创建一个新的工作线程来执行任务。如果已经满了，则交给饱和策略来处理这个任务。</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/xiancheng.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<h4 id="线程池的源码解读"><a href="#线程池的源码解读" class="headerlink" title="线程池的源码解读"></a>线程池的源码解读</h4><h5 id="1、ThreadPoolExecutor的execute-方法"><a href="#1、ThreadPoolExecutor的execute-方法" class="headerlink" title="1、ThreadPoolExecutor的execute()方法"></a>1、ThreadPoolExecutor的execute()方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public void execute(Runnable command) &#123;</span><br><span class="line">    if (command == null)</span><br><span class="line">       throw new NullPointerException();</span><br><span class="line">　　　//如果线程数大于等于基本线程数或者线程创建失败，将任务加入队列</span><br><span class="line">    if (poolSize &gt;= corePoolSize || !addIfUnderCorePoolSize(command)) &#123;</span><br><span class="line">　　　　//线程池处于运行状态并且加入队列成功</span><br><span class="line">       if (runState == RUNNING &amp;&amp; workQueue.offer(command)) &#123;</span><br><span class="line">          if (runState != RUNNING || poolSize == 0)</span><br><span class="line">             ensureQueuedTaskHandled(command);</span><br><span class="line">          &#125;</span><br><span class="line">　　　　　　//线程池不处于运行状态或者加入队列失败，则创建线程（创建的是非核心线程）</span><br><span class="line">       else if (!addIfUnderMaximumPoolSize(command))</span><br><span class="line">　　　　　　  //创建线程失败，则采取阻塞处理的方式</span><br><span class="line">         reject(command); // is shutdown or saturated</span><br><span class="line">      &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="2、创建线程的方法：addIfUnderCorePoolSize-command"><a href="#2、创建线程的方法：addIfUnderCorePoolSize-command" class="headerlink" title="2、创建线程的方法：addIfUnderCorePoolSize(command)"></a>2、创建线程的方法：addIfUnderCorePoolSize(command)</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">private boolean addIfUnderCorePoolSize(Runnable firstTask) &#123;</span><br><span class="line">    Thread t = null;</span><br><span class="line">    final ReentrantLock mainLock = this.mainLock;</span><br><span class="line">    mainLock.lock();</span><br><span class="line">    try &#123;</span><br><span class="line">        if (poolSize &lt; corePoolSize &amp;&amp; runState == RUNNING)</span><br><span class="line">           t = addThread(firstTask);</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">        mainLock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">    if (t == null)</span><br><span class="line">       return false;</span><br><span class="line">    t.start();</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们重点来看第7行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private Thread addThread(Runnable firstTask) &#123;</span><br><span class="line">     Worker w = new Worker(firstTask);</span><br><span class="line">     Thread t = threadFactory.newThread(w);</span><br><span class="line">     if (t != null) &#123;</span><br><span class="line">        w.thread = t;</span><br><span class="line">        workers.add(w);</span><br><span class="line">        int nt = ++poolSize;</span><br><span class="line">        if (nt &gt; largestPoolSize)</span><br><span class="line">           largestPoolSize = nt;</span><br><span class="line">      &#125;</span><br><span class="line">     return t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里将线程封装成工作线程worker，并放入工作线程组里，worker类的方法run方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public void run() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">       Runnable task = firstTask;</span><br><span class="line">       firstTask = null;</span><br><span class="line">       while (task != null || (task = getTask()) != null) &#123;</span><br><span class="line">           runTask(task);</span><br><span class="line">            task = null;</span><br><span class="line">        &#125;</span><br><span class="line">     &#125; finally &#123;</span><br><span class="line">        workerDone(this);</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>worker在执行完任务后，还会通过getTask方法循环获取工作队里里的任务来执行。<br>我们通过一个程序来观察线程池的工作原理：<br>1、创建一个线程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadPoolTest implements Runnable</span><br><span class="line">&#123;</span><br><span class="line">   @Override</span><br><span class="line">   public void run()</span><br><span class="line">   &#123;</span><br><span class="line">       try</span><br><span class="line">       &#123;</span><br><span class="line">           Thread.sleep(300);</span><br><span class="line">       &#125;</span><br><span class="line">       catch (InterruptedException e)</span><br><span class="line">       &#123;</span><br><span class="line">           e.printStackTrace();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2、线程池循环运行16个线程：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args)</span><br><span class="line">   &#123;</span><br><span class="line">       LinkedBlockingQueue&lt;Runnable&gt; queue =</span><br><span class="line">           new LinkedBlockingQueue&lt;Runnable&gt;(5);</span><br><span class="line">       ThreadPoolExecutor threadPool = new ThreadPoolExecutor(5, 10, 60, TimeUnit.SECONDS, queue);</span><br><span class="line">       for (int i = 0; i &lt; 16 ; i++)</span><br><span class="line">       &#123;</span><br><span class="line">           threadPool.execute(</span><br><span class="line">               new Thread(new ThreadPoolTest(), &quot;Thread&quot;.concat(i + &quot;&quot;)));</span><br><span class="line">           System.out.println(&quot;线程池中活跃的线程数： &quot; + threadPool.getPoolSize());</span><br><span class="line">           if (queue.size() &gt; 0)</span><br><span class="line">           &#123;</span><br><span class="line">               System.out.println(&quot;----------------队列中阻塞的线程数&quot; + queue.size());</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       threadPool.shutdown();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">线程池中活跃的线程数： 1</span><br><span class="line">线程池中活跃的线程数： 2</span><br><span class="line">线程池中活跃的线程数： 3</span><br><span class="line">线程池中活跃的线程数： 4</span><br><span class="line">线程池中活跃的线程数： 5</span><br><span class="line">线程池中活跃的线程数： 5</span><br><span class="line">----------------队列中阻塞的线程数1</span><br><span class="line">线程池中活跃的线程数： 5</span><br><span class="line">----------------队列中阻塞的线程数2</span><br><span class="line">线程池中活跃的线程数： 5</span><br><span class="line">----------------队列中阻塞的线程数3</span><br><span class="line">线程池中活跃的线程数： 5</span><br><span class="line">----------------队列中阻塞的线程数4</span><br><span class="line">线程池中活跃的线程数： 5</span><br><span class="line">----------------队列中阻塞的线程数5</span><br><span class="line">线程池中活跃的线程数： 6</span><br><span class="line">----------------队列中阻塞的线程数5</span><br><span class="line">线程池中活跃的线程数： 7</span><br><span class="line">----------------队列中阻塞的线程数5</span><br><span class="line">线程池中活跃的线程数： 8</span><br><span class="line">----------------队列中阻塞的线程数5</span><br><span class="line">线程池中活跃的线程数： 9</span><br><span class="line">----------------队列中阻塞的线程数5</span><br><span class="line">线程池中活跃的线程数： 10</span><br><span class="line">----------------队列中阻塞的线程数5</span><br><span class="line">Exception in thread &quot;main&quot; java.util.concurrent.RejectedExecutionException: Task Thread[Thread15,5,main] rejected from java.util.concurrent.ThreadPoolExecutor@232204a1[Running, pool size = 10, active threads = 10, queued tasks = 5, completed tasks = 0]</span><br><span class="line">   at java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2047)</span><br><span class="line">   at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:823)</span><br><span class="line">   at java.util.concurrent.ThreadPoolExecutor.execute(ThreadPoolExecutor.java:1369)</span><br><span class="line">   at test.ThreadTest.main(ThreadTest.java:17)</span><br></pre></td></tr></table></figure></p>
+<p>从结果可以观察出：<br>创建的线程池具体配置为：核心线程数量为5个；全部线程数量为10个；工作队列的长度为5。<br>我们通过queue.size()的方法来获取工作队列中的任务数。<br>运行原理：<br>        刚开始都是在创建新的线程，达到核心线程数量5个后，新的任务进来后不再创建新的线程，而是将任务加入工作队列，任务队列到达上线5个后，新的任务又会创建新的普通线程，直到达到线程池最大的线程数量10个，后面的任务则根据配置的饱和策略来处理。我们这里没有具体配置，使用的是默认的配置AbortPolicy:直接抛出异常。<br>        当然，为了达到我需要的效果，上述线程处理的任务都是利用休眠导致线程没有释放！！</p>
+<p>RejectedExecutionHandler：饱和策略<br>当队列和线程池都满了，说明线程池处于饱和状态，那么必须对新提交的任务采用一种特殊的策略来进行处理。这个策略默认配置是AbortPolicy，表示无法处理新的任务而抛出异常。JAVA提供了4中策略：</p>
+<ul>
+<li>AbortPolicy：直接抛出异常</li>
+<li>CallerRunsPolicy：只用调用所在的线程运行任务</li>
+<li>DiscardOldestPolicy：丢弃队列里最近的一个任务，并执行当前任务。</li>
+<li>DiscardPolicy：不处理，丢弃掉。</li>
+</ul>
+<p>我们现在用第四种策略来处理上面的程序：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args)</span><br><span class="line">   &#123;</span><br><span class="line">       LinkedBlockingQueue&lt;Runnable&gt; queue =</span><br><span class="line">           new LinkedBlockingQueue&lt;Runnable&gt;(3);</span><br><span class="line">       RejectedExecutionHandler handler = new ThreadPoolExecutor.DiscardPolicy();</span><br><span class="line"></span><br><span class="line">       ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 5, 60, TimeUnit.SECONDS, queue,handler);</span><br><span class="line">       for (int i = 0; i &lt; 9 ; i++)</span><br><span class="line">       &#123;</span><br><span class="line">           threadPool.execute(</span><br><span class="line">               new Thread(new ThreadPoolTest(), &quot;Thread&quot;.concat(i + &quot;&quot;)));</span><br><span class="line">           System.out.println(&quot;线程池中活跃的线程数： &quot; + threadPool.getPoolSize());</span><br><span class="line">           if (queue.size() &gt; 0)</span><br><span class="line">           &#123;</span><br><span class="line">               System.out.println(&quot;----------------队列中阻塞的线程数&quot; + queue.size());</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       threadPool.shutdown();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">执行结果</span><br><span class="line">线程池中活跃的线程数： 1</span><br><span class="line">线程池中活跃的线程数： 2</span><br><span class="line">线程池中活跃的线程数： 2</span><br><span class="line">----------------队列中阻塞的线程数1</span><br><span class="line">线程池中活跃的线程数： 2</span><br><span class="line">----------------队列中阻塞的线程数2</span><br><span class="line">线程池中活跃的线程数： 2</span><br><span class="line">----------------队列中阻塞的线程数3</span><br><span class="line">线程池中活跃的线程数： 3</span><br><span class="line">----------------队列中阻塞的线程数3</span><br><span class="line">线程池中活跃的线程数： 4</span><br><span class="line">----------------队列中阻塞的线程数3</span><br><span class="line">线程池中活跃的线程数： 5</span><br><span class="line">----------------队列中阻塞的线程数3</span><br><span class="line">线程池中活跃的线程数： 5</span><br><span class="line">----------------队列中阻塞的线程数3</span><br></pre></td></tr></table></figure></p>
+<p>这里采用了丢弃策略后，就没有再抛出异常，而是直接丢弃。在某些重要的场景下，可以采用记录日志或者存储到数据库中，而不应该直接丢弃。<br>设置策略有两种方式：</p>
+<ul>
+<li><p>第一种：<br>RejectedExecutionHandler handler = new ThreadPoolExecutor.DiscardPolicy();<br>ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 5, 60, TimeUnit.SECONDS, queue,handler);</p>
+</li>
+<li><p>第二种：<br>ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 5, 60, TimeUnit.SECONDS, queue);<br>threadPool.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());</p>
+</li>
+</ul>
+
+    
+        <div>
+            <a href="/2018/07/20/JAVA线程池原理详解/" class="post-more waves-button">
+                阅读全文 »
+            </a>
+        </div>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JAVA线程池原理详解/">JAVA线程池原理详解</a></li></ul>
 
     </div>
     
@@ -1043,7 +935,7 @@
         </li>
     
         <li class="post-list-item fade">
-            <article id="post-commons-dbutils简介"
+            <article id="post-一、Session简单介绍"
   class="article-card article-type-post" itemprop="blogPost">
 
     
@@ -1051,7 +943,7 @@
 
   
     <h3 class="post-title" itemprop="name">
-      <a href="/2018/07/20/commons-dbutils简介/">javaweb (八)</a>
+      <a href="/2018/07/20/一、Session简单介绍/">javaweb (十一 )</a>
     </h3>
   
 
@@ -1066,28 +958,36 @@
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        <h3 id="commons-dbutils简介"><a href="#commons-dbutils简介" class="headerlink" title="commons-dbutils简介　"></a>commons-dbutils简介　</h3><p>　　commons-dbutils 是 Apache 组织提供的一个开源 JDBC工具类库，它是对JDBC的简单封装，学习成本极低，并且使用dbutils能极大简化jdbc编码的工作量，同时也不会影响程序的性能。因此dbutils成为很多不喜欢hibernate的公司的首选。<br>commons-dbutilsAPI介绍：</p>
-<ul>
-<li>org.apache.commons.dbutils.QueryRunner</li>
-<li><p>org.apache.commons.dbutils.ResultSetHandler<br>工具类</p>
-</li>
-<li><p>org.apache.commons.dbutils.DbUtils</p>
+        <h3 id="一、Session简单介绍"><a href="#一、Session简单介绍" class="headerlink" title="一、Session简单介绍"></a>一、Session简单介绍</h3><p>在WEB开发中，服务器可以为每个用户浏览器创建一个会话对象（session对象），注意：一个浏览器独占一个session对象(默认情况下)。因此，在需要保存用户数据时，服务器程序可以把用户数据写到用户浏览器独占的session中，当用户使用浏览器访问其它程序时，其它程序可以从用户的session中取出该用户的数据，为用户服务。</p>
+<h3 id="二、Session和Cookie的主要区别"><a href="#二、Session和Cookie的主要区别" class="headerlink" title="二、Session和Cookie的主要区别"></a>二、Session和Cookie的主要区别</h3><ul>
+<li>Cookie是把用户的数据写给用户的浏览器。</li>
+<li>Session技术把用户的数据写到用户独占的session中。</li>
+<li>Session对象由服务器创建，开发人员可以调用request对象的getSession方法得到session对象。<h3 id="三、session实现原理"><a href="#三、session实现原理" class="headerlink" title="三、session实现原理"></a>三、session实现原理</h3><h4 id="3-1、服务器是如何实现一个session为一个用户浏览器服务的？"><a href="#3-1、服务器是如何实现一个session为一个用户浏览器服务的？" class="headerlink" title="3.1、服务器是如何实现一个session为一个用户浏览器服务的？"></a>3.1、服务器是如何实现一个session为一个用户浏览器服务的？</h4>　　服务器创建session出来后，会把session的id号，以cookie的形式回写给客户机，这样，只要客户机的浏览器不关，再去访问服务器时，都会带着session的id号去，服务器发现客户机浏览器带session id过来了，就会使用内存中与之对应的session为之服务。可以用如下的代码证明：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">package qgx.session;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import javax.servlet.http.HttpSession;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;SessionDemo1&quot;)</span><br><span class="line">public class SessionDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        response.setCharacterEncoding(&quot;utf-8&quot;);</span><br><span class="line">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        HttpSession session = request.getSession();</span><br><span class="line">        session.setAttribute(&quot;data&quot;, &quot;刘俭梅&quot;);</span><br><span class="line">        String sessionId = session.getId();</span><br><span class="line">        if (session.isNew()) &#123;</span><br><span class="line">            response.getWriter().print(&quot;session创建成功，session的id为:&quot; + sessionId);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            response.getWriter().print(&quot;服务器已经存在该session了，session的is为:&quot; + sessionId);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h3 id="QueryRunner类使用讲解"><a href="#QueryRunner类使用讲解" class="headerlink" title="QueryRunner类使用讲解"></a>QueryRunner类使用讲解</h3><p>　　该类简单化了SQL查询，它与ResultSetHandler组合在一起使用可以完成大部分的数据库操作，能够大大减少编码量。<br>　　QueryRunner类提供了两个构造方法：</p>
-<ul>
-<li>默认的构造方法</li>
-<li>需要一个 javax.sql.DataSource 来作参数的构造方法。<h4 id="QueryRunner类的主要方法"><a href="#QueryRunner类的主要方法" class="headerlink" title="QueryRunner类的主要方法"></a>QueryRunner类的主要方法</h4></li>
-<li>public Object query(Connection conn, String sql, Object[] params, ResultSetHandler rsh) throws SQLException：执行一个查询操作，在这个查询中，对象数组中的每个元素值被用来作为查询语句的置换参数。该方法会自行处理 PreparedStatement 和 ResultSet 的创建和关闭。</li>
-<li>public Object query(String sql, Object[] params, ResultSetHandler rsh) throws SQLException:　几乎与第一种方法一样；唯一的不同在于它不将数据库连接提供给方法，并且它是从提供给构造方法的数据源(DataSource) 或使用的setDataSource 方法中重新获得 Connection。</li>
-<li>public Object query(Connection conn, String sql, ResultSetHandler rsh) throws SQLException : 执行一个不需要置换参数的查询操作。</li>
-<li>public int update(Connection conn, String sql, Object[] params) throws SQLException:用来执行一个更新（插入、更新或删除）操作。</li>
-<li>public int update(Connection conn, String sql) throws SQLException：用来执行一个不需要置换参数的更新操作。</li>
-</ul>
-<h4 id="使用QueryRunner类实现CRUD"><a href="#使用QueryRunner类实现CRUD" class="headerlink" title="使用QueryRunner类实现CRUD"></a>使用QueryRunner类实现CRUD</h4>
+<p>第一次访问时，服务器会创建一个新的sesion，并且把session的Id以cookie的形式发送给客户端浏览器，如下图所示：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/session1.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure><br>　点击刷新按钮，再次请求服务器，此时就可以看到浏览器再请求服务器时，会把存储到cookie中的session的Id一起传递到服务器端了，如下图所示：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/session2.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure><br>request.getSession()方法内部新创建了Session之后一定是做了如下的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//获取session的Id</span><br><span class="line"> String sessionId = session.getId();</span><br><span class="line"> //将session的Id存储到名字为JSESSIONID的cookie中</span><br><span class="line"> Cookie cookie = new Cookie(&quot;JSESSIONID&quot;, sessionId);</span><br><span class="line">//设置cookie的有效路径</span><br><span class="line"> cookie.setPath(request.getContextPath());</span><br><span class="line"> response.addCookie(cookie);</span><br></pre></td></tr></table></figure>
+<h3 id="四、session对象的创建和销毁时机"><a href="#四、session对象的创建和销毁时机" class="headerlink" title="四、session对象的创建和销毁时机"></a>四、session对象的创建和销毁时机</h3><h4 id="4-1、session对象的创建时机"><a href="#4-1、session对象的创建时机" class="headerlink" title="4.1、session对象的创建时机"></a>4.1、session对象的创建时机</h4><p>在程序中第一次调用request.getSession()方法时就会创建一个新的Session，可以用isNew()方法来判断Session是不是新创建的</p>
+<p>范例：创建session<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//使用request对象的getSession()获取session，如果session不存在则创建一个</span><br><span class="line">HttpSession session = request.getSession();</span><br><span class="line">//获取session的Id</span><br><span class="line">String sessionId = session.getId();</span><br><span class="line">//判断session是不是新创建的</span><br><span class="line">if (session.isNew()) &#123;</span><br><span class="line">    response.getWriter().print(&quot;session创建成功，session的id是：&quot;+sessionId);</span><br><span class="line">&#125;else &#123;</span><br><span class="line">    response.getWriter().print(&quot;服务器已经存在session，session的id是：&quot;+sessionId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="4-2、session对象的销毁时机"><a href="#4-2、session对象的销毁时机" class="headerlink" title="4.2、session对象的销毁时机"></a>4.2、session对象的销毁时机</h4><p>　　session对象默认30分钟没有使用，则服务器会自动销毁session，在web.xml文件中可以手工<br>配置session的失效时间，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 设置Session的有效时间:以分钟为单位--&gt;</span><br><span class="line">    &lt;session-config&gt;</span><br><span class="line">        &lt;session-timeout&gt;15&lt;/session-timeout&gt;</span><br><span class="line">    &lt;/session-config&gt;</span><br></pre></td></tr></table></figure>
+<p>当需要在程序中手动设置Session失效时，可以手工调用session.invalidate方法，摧毁session。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HttpSession session = request.getSession();</span><br><span class="line">//手工调用session.invalidate方法，摧毁session</span><br><span class="line">session.invalidate();</span><br></pre></td></tr></table></figure></p>
+
     
         <div>
-            <a href="/2018/07/20/commons-dbutils简介/" class="post-more waves-button">
+            <a href="/2018/07/20/一、Session简单介绍/" class="post-more waves-button">
                 阅读全文 »
             </a>
         </div>
@@ -1095,81 +995,7 @@
     
     <div class="post-footer">
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/commons-dbutils/">commons-dbutils</a></li></ul>
-
-    </div>
-    
-</article>
-
-        </li>
-    
-        <li class="post-list-item fade">
-            <article id="post-验证码图片"
-  class="article-card article-type-post" itemprop="blogPost">
-
-    
-
-
-  
-    <h3 class="post-title" itemprop="name">
-      <a href="/2018/07/20/验证码图片/">javaweb (八)</a>
-    </h3>
-  
-
-
-
-
-     <div class="post-meta">
-        <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.789Z"  itemprop="datePublished">2018-07-20</time>
-
-    </div>
-
-    <div class="post-content" id="post-content" itemprop="postContent">
-
-    
-        <h3 id="验证码图片"><a href="#验证码图片" class="headerlink" title="验证码图片"></a>验证码图片</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.imageio.ImageIO;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.awt.*;</span><br><span class="line">import java.awt.image.BufferedImage;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.Random;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;DrawImage&quot;)</span><br><span class="line">public class DrawImage extends HttpServlet &#123;</span><br><span class="line">    public static final int WIDTH = 120;//生成的图片的宽度</span><br><span class="line">    public static final int HEIGHT = 30;//生成的图片的高度</span><br><span class="line"></span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">//接收客户端传递的createTypeFlag标识</span><br><span class="line">        String createTypeFlag = request.getParameter(&quot;createTypeFlag&quot;);</span><br><span class="line">//1.在内存中创建一张图片</span><br><span class="line">        BufferedImage bi = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);</span><br><span class="line">        //2. 得到图片</span><br><span class="line">        Graphics g = bi.getGraphics();</span><br><span class="line">        //3.设置图片的背景色</span><br><span class="line">        setBackGround(g);</span><br><span class="line">        //4. 设置图片的边框</span><br><span class="line">        setBorder(g);</span><br><span class="line">        //5. 在图片上画干扰线</span><br><span class="line">        drawRandomLine(g);</span><br><span class="line">        //6.写在图片上随机数</span><br><span class="line">        String random = drawRandomNum((Graphics2D) g, createTypeFlag);//根据客户端传递的createTypeFlag标识生成验证码图片</span><br><span class="line">        //7.将随机数存在session中</span><br><span class="line">        request.getSession().setAttribute(&quot;checkcode&quot;, random);</span><br><span class="line">        //8.设置响应头通知浏览器以图片的形式打开</span><br><span class="line">        response.setContentType(&quot;image/jpeg&quot;);//等同于response.setHeader(&quot;Content-Type&quot;, &quot;image/jpeg&quot;);</span><br><span class="line">        //9.设置响应头控制浏览器不要缓存</span><br><span class="line">        response.setDateHeader(&quot;expries&quot;, -1);</span><br><span class="line">        response.setHeader(&quot;Cache-Control&quot;, &quot;no-cache&quot;);</span><br><span class="line">        response.setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);</span><br><span class="line">        //10.将图片写给浏览器</span><br><span class="line">        ImageIO.write(bi, &quot;jpg&quot;, response.getOutputStream());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 画随机字符</span><br><span class="line">     *</span><br><span class="line">     * @param g</span><br><span class="line">     * @param createTypeFlag</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private String drawRandomNum(Graphics2D g, String... createTypeFlag) &#123;</span><br><span class="line">        // 设置颜色</span><br><span class="line">        g.setColor(Color.RED);</span><br><span class="line">        // 设置字体</span><br><span class="line">        g.setFont(new Font(&quot;行书&quot;, Font.BOLD, 20));</span><br><span class="line">        //常用的中国汉字</span><br><span class="line">        String baseChineseChar = &quot;\u5218\u4FED\u6885&quot;;</span><br><span class="line">//        String baseChineseChar = &quot;\u7684\u4e00\u4e86\u662f\u6211\u4e0d\u5728\u4eba\u4eec\u6709\u6765\u4ed6\u8fd9\u4e0a\u7740\u4e2a\u5730\u5230\u5927\u91cc\u8bf4\u5c31\u53bb\u5b50\u5f97\u4e5f\u548c\u90a3\u8981\u4e0b\u770b\u5929\u65f6\u8fc7\u51fa\u5c0f\u4e48\u8d77\u4f60\u90fd\u628a\u597d\u8fd8\u591a\u6ca1\u4e3a\u53c8\u53ef\u5bb6\u5b66\u53ea\u4ee5\u4e3b\u4f1a\u6837\u5e74\u60f3\u751f\u540c\u8001\u4e2d\u5341\u4ece\u81ea\u9762\u524d\u5934\u9053\u5b83\u540e\u7136\u8d70\u5f88\u50cf\u89c1\u4e24\u7528\u5979\u56fd\u52a8\u8fdb\u6210\u56de\u4ec0\u8fb9\u4f5c\u5bf9\u5f00\u800c\u5df1\u4e9b&quot; +</span><br><span class="line">//                &quot;\u73b0\u5c71\u6c11\u5019\u7ecf\u53d1\u5de5\u5411\u4e8b\u547d\u7ed9\u957f\u6c34\u51e0\u4e49\u4e09\u58f0\u4e8e\u9ad8\u624b\u77e5\u7406\u773c\u5fd7\u70b9\u5fc3\u6218\u4e8c\u95ee\u4f46\u8eab\u65b9\u5b9e\u5403\u505a\u53eb\u5f53\u4f4f\u542c\u9769\u6253\u5462\u771f\u5168\u624d\u56db\u5df2\u6240\u654c\u4e4b\u6700\u5149\u4ea7\u60c5\u8def\u5206\u603b\u6761\u767d\u8bdd\u4e1c\u5e2d\u6b21\u4eb2\u5982\u88ab\u82b1\u53e3\u653e\u513f\u5e38\u6c14\u4e94\u7b2c\u4f7f\u5199\u519b\u5427\u6587\u8fd0\u518d\u679c\u600e\u5b9a\u8bb8\u5feb\u660e\u884c\u56e0\u522b\u98de\u5916\u6811\u7269&quot; +</span><br><span class="line">//                &quot;\u6d3b\u90e8\u95e8\u65e0\u5f80\u8239\u671b\u65b0\u5e26\u961f\u5148\u529b\u5b8c\u5374&quot; +</span><br><span class="line">//                &quot;\u7ad9\u4ee3\u5458\u673a\u66f4\u4e5d\u60a8\u6bcf\u98ce\u7ea7\u8ddf\u7b11\u554a\u5b69\u4e07\u5c11\u76f4\u610f\u591c\u6bd4\u9636\u8fde\u8f66\u91cd\u4fbf\u6597\u9a6c\u54ea\u5316\u592a\u6307\u53d8\u793e\u4f3c\u58eb\u8005\u5e72\u77f3\u6ee1\u65e5\u51b3\u767e\u539f\u62ff\u7fa4\u7a76\u5404\u516d\u672c\u601d\u89e3\u7acb\u6cb3\u6751\u516b\u96be\u65e9\u8bba\u5417\u6839\u5171\u8ba9\u76f8\u7814\u4eca\u5176\u4e66\u5750\u63a5\u5e94\u5173\u4fe1\u89c9\u6b65\u53cd\u5904\u8bb0\u5c06\u5343\u627e\u4e89\u9886\u6216\u5e08\u7ed3\u5757\u8dd1\u8c01\u8349\u8d8a\u5b57\u52a0\u811a\u7d27\u7231&quot; +</span><br><span class="line">//                &quot;\u7b49\u4e60\u9635\u6015\u6708\u9752\u534a\u706b\u6cd5\u9898\u5efa\u8d76\u4f4d\u5531\u6d77\u4e03\u5973\u4efb\u4ef6\u611f\u51c6\u5f20\u56e2\u5c4b\u79bb\u8272\u8138\u7247\u79d1\u5012\u775b\u5229\u4e16\u521a\u4e14\u7531\u9001\u5207\u661f\u5bfc\u665a\u8868\u591f\u6574\u8ba4\u54cd\u96ea\u6d41\u672a\u573a\u8be5\u5e76\u5e95\u6df1\u523b\u5e73\u4f1f\u5fd9\u63d0\u786e\u8fd1\u4eae\u8f7b\u8bb2\u519c\u53e4\u9ed1\u544a\u754c\u62c9\u540d\u5440\u571f\u6e05\u9633\u7167\u529e\u53f2\u6539\u5386\u8f6c\u753b\u9020\u5634\u6b64\u6cbb\u5317\u5fc5\u670d\u96e8\u7a7f\u5185\u8bc6\u9a8c\u4f20\u4e1a&quot; +</span><br><span class="line">//                &quot;\u83dc\u722c\u7761\u5174\u5f62\u91cf\u54b1\u89c2\u82e6\u4f53\u4f17\u901a\u51b2\u5408\u7834\u53cb\u5ea6\u672f\u996d\u516c\u65c1\u623f\u6781\u5357\u67aa\u8bfb\u6c99\u5c81\u7ebf\u91ce\u575a\u7a7a\u6536\u7b97\u81f3\u653f\u57ce\u52b3\u843d\u94b1\u7279\u56f4\u5f1f\u80dc\u6559\u70ed\u5c55\u5305\u6b4c\u7c7b\u6e10\u5f3a\u6570\u4e61\u547c\u6027\u97f3\u7b54\u54e5\u9645\u65e7\u795e\u5ea7\u7ae0\u5e2e\u5566\u53d7\u7cfb\u4ee4\u8df3\u975e\u4f55\u725b\u53d6\u5165\u5cb8\u6562\u6389\u5ffd\u79cd\u88c5\u9876\u6025\u6797\u505c\u606f\u53e5\u533a\u8863\u822c\u62a5\u53f6\u538b\u6162\u53d4\u80cc\u7ec6&quot;;</span><br><span class="line">        //数字和字母的组合</span><br><span class="line">        String baseNumLetter = &quot;0123456789ABCDEFGHJKLMNOPQRSTUVWXYZ&quot;;</span><br><span class="line">        //纯数字</span><br><span class="line">        String baseNum = &quot;0123456789&quot;;</span><br><span class="line">        //纯字母</span><br><span class="line">        String baseLetter = &quot;ABCDEFGHJKLMNOPQRSTUVWXYZ&quot;;</span><br><span class="line">        //createTypeFlag[0]==null表示没有传递参数</span><br><span class="line">        if (createTypeFlag.length &gt; 0 &amp;&amp; null != createTypeFlag[0]) &#123;</span><br><span class="line">            if (createTypeFlag[0].equals(&quot;ch&quot;)) &#123;</span><br><span class="line">                // 截取汉字</span><br><span class="line">                return createRandomChar(g, baseChineseChar);</span><br><span class="line">            &#125; else if (createTypeFlag[0].equals(&quot;nl&quot;)) &#123;</span><br><span class="line">                // 截取数字和字母的组合</span><br><span class="line">                return createRandomChar(g, baseNumLetter);</span><br><span class="line">            &#125; else if (createTypeFlag[0].equals(&quot;n&quot;)) &#123;</span><br><span class="line">                // 截取数字</span><br><span class="line">                return createRandomChar(g, baseNum);</span><br><span class="line">            &#125; else if (createTypeFlag[0].equals(&quot;l&quot;)) &#123;</span><br><span class="line">                // 截取字母</span><br><span class="line">                return createRandomChar(g, baseLetter);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 默认截取数字和字母的组合</span><br><span class="line">            return createRandomChar(g, baseNumLetter);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String createRandomChar(Graphics2D g, String baseChar) &#123;</span><br><span class="line">        StringBuffer sb = new StringBuffer();</span><br><span class="line">        int x = 5;</span><br><span class="line">        String ch = &quot;&quot;;</span><br><span class="line">        // 控制字数</span><br><span class="line">        for (int i = 0; i &lt; 4; i++) &#123;</span><br><span class="line">            // 设置字体旋转角度</span><br><span class="line">            int degree = new Random().nextInt() % 30;</span><br><span class="line">            ch = baseChar.charAt(new Random().nextInt(baseChar.length())) + &quot;&quot;;</span><br><span class="line">            sb.append(ch);</span><br><span class="line">            // 正向角度</span><br><span class="line">            g.rotate(degree * Math.PI / 180, x, 20);</span><br><span class="line">            g.drawString(ch, x, 20);</span><br><span class="line">            // 反向角度</span><br><span class="line">            g.rotate(-degree * Math.PI / 180, x, 20);</span><br><span class="line">            x += 30;</span><br><span class="line">        &#125;</span><br><span class="line">        return sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 在图片上画干扰线</span><br><span class="line">     *</span><br><span class="line">     * @param g</span><br><span class="line">     */</span><br><span class="line">    private void drawRandomLine(Graphics g) &#123;</span><br><span class="line">        // 设置颜色</span><br><span class="line">        g.setColor(Color.GREEN);</span><br><span class="line">        // 设置线条个数并画线</span><br><span class="line">        for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">            int x1 = new Random().nextInt(WIDTH);</span><br><span class="line">            int y1 = new Random().nextInt(HEIGHT);</span><br><span class="line">            int x2 = new Random().nextInt(WIDTH);</span><br><span class="line">            int y2 = new Random().nextInt(HEIGHT);</span><br><span class="line">            g.drawLine(x1, y1, x2, y2);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置图片的边框</span><br><span class="line">     *</span><br><span class="line">     * @param g</span><br><span class="line">     */</span><br><span class="line">    private void setBorder(Graphics g) &#123;</span><br><span class="line">        // 设置边框颜色</span><br><span class="line">        g.setColor(Color.BLUE);</span><br><span class="line">        // 边框区域</span><br><span class="line">        g.drawRect(1, 1, WIDTH - 2, HEIGHT - 2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置图片背景色</span><br><span class="line">     *</span><br><span class="line">     * @param g</span><br><span class="line">     */</span><br><span class="line">    private void setBackGround(Graphics g) &#123;</span><br><span class="line">        // 设置颜色</span><br><span class="line">        g.setColor(Color.WHITE);</span><br><span class="line">        // 填充区域</span><br><span class="line">        g.fillRect(0, 0, WIDTH, HEIGHT);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        this.doPost(request, response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行结果：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/Draw.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/Draw1.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure></p>
-<h3 id="在Form表单中使用验证码图片"><a href="#在Form表单中使用验证码图片" class="headerlink" title="在Form表单中使用验证码图片"></a>在Form表单中使用验证码图片</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--</span><br><span class="line">  Created by IntelliJ IDEA.</span><br><span class="line">  User: qgx</span><br><span class="line">  Date: 2018/5/16</span><br><span class="line">  Time: 22:38</span><br><span class="line">  To change this template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;在Form表单中使用验证码&lt;/title&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">        function changeImg()&#123;</span><br><span class="line">            document.getElementById(&quot;validateCodeImg&quot;).src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage?&quot;+Math.random();</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line"> &lt;form action=&quot;$&#123;pageContext.request.contextPath&#125;/&quot; method=&quot;post&quot;&gt;</span><br><span class="line">   验证码：&lt;input type=&quot;text&quot; name=&quot;validateCode&quot;/&gt;</span><br><span class="line">   &lt;img alt=&quot;验证码看不清，换一张&quot; src=&quot;$&#123;pageContext.request.contextPath&#125;/servlet/DrawImage&quot; id=&quot;validateCodeImg&quot; onclick=&quot;changeImg()&quot;&gt;</span><br><span class="line">   &lt;a href=&quot;javascript:void(0)&quot; onclick=&quot;changeImg()&quot;&gt;看不清，换一张&lt;/a&gt;</span><br><span class="line">   &lt;br/&gt;</span><br><span class="line">   &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;</span><br><span class="line"> &lt;/form&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/Draw2.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--</span><br><span class="line">  Created by IntelliJ IDEA.</span><br><span class="line">  User: qgx</span><br><span class="line">  Date: 2018/5/16</span><br><span class="line">  Time: 22:38</span><br><span class="line">  To change this template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;在Form表单中使用验证码&lt;/title&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">        function changeImg(obj,createTypeFlag)&#123;</span><br><span class="line">            document.getElementById(obj.id).src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage?createTypeFlag=&quot;+createTypeFlag+&quot;&amp;&quot;+Math.random();</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line"> &lt;form action=&quot;$&#123;pageContext.request.contextPath&#125;/CheckServlet&quot; method=&quot;post&quot;&gt;</span><br><span class="line">   数字字母混合验证码：&lt;input type=&quot;text&quot; name=&quot;validateCode&quot;/&gt;</span><br><span class="line">                &lt;img alt=&quot;验证码看不清，换一张&quot; src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage&quot; id=&quot;validateCodeImg1&quot; onclick=&quot;changeImg(this,&apos;nl&apos;)&quot;&gt;</span><br><span class="line">                &lt;br/&gt;</span><br><span class="line">                中文验证码：&lt;input type=&quot;text&quot; name=&quot;validateCode&quot;/&gt;</span><br><span class="line">                &lt;img alt=&quot;验证码看不清，换一张&quot; src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage?createTypeFlag=ch&quot; id=&quot;validateCodeImg2&quot; onclick=&quot;changeImg(this,&apos;ch&apos;)&quot;&gt;</span><br><span class="line">                &lt;br/&gt;</span><br><span class="line">               英文验证码：&lt;input type=&quot;text&quot; name=&quot;validateCode&quot;/&gt;</span><br><span class="line">                &lt;img alt=&quot;验证码看不清，换一张&quot; src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage?createTypeFlag=l&quot; id=&quot;validateCodeImg3&quot; onclick=&quot;changeImg(this,&apos;l&apos;)&quot;&gt;</span><br><span class="line">               &lt;br/&gt;</span><br><span class="line">               数字验证码：&lt;input type=&quot;text&quot; name=&quot;validateCode&quot;/&gt;</span><br><span class="line">               &lt;img alt=&quot;验证码看不清，换一张&quot; src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage?createTypeFlag=n&quot; id=&quot;validateCodeImg4&quot; onclick=&quot;changeImg(this,&apos;n&apos;)&quot;&gt;</span><br><span class="line">               &lt;br/&gt;</span><br><span class="line">                &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;</span><br><span class="line">            &lt;/form&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;CheckServlet&quot;)</span><br><span class="line">public class CheckServlet extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String clientCheckcode = request.getParameter(&quot;validateCode&quot;);//接收客户端浏览器提交上来的验证码</span><br><span class="line">        String serverCheckcode = (String) request.getSession().getAttribute(&quot;checkcode&quot;);//从服务器端的session中取出验证码</span><br><span class="line">        if (clientCheckcode.equals(serverCheckcode)) &#123;//将客户端验证码和服务器端验证比较，如果相等，则表示验证通过</span><br><span class="line">            System.out.println(&quot;验证码验证通过！&quot;);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            System.out.println(&quot;验证码验证失败！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/Draw3.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure>
-
-    
-        <div>
-            <a href="/2018/07/20/验证码图片/" class="post-more waves-button">
-                阅读全文 »
-            </a>
-        </div>
-    </div>
-    
-    <div class="post-footer">
-        
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BufferedImage/">BufferedImage</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Session/">Session</a></li></ul>
 
     </div>
     
@@ -1259,7 +1085,7 @@ Fragment必须被写成可重用的模块。因为fragment有自己的layout，�
         </li>
     
         <li class="post-list-item fade">
-            <article id="post-一、Session简单介绍"
+            <article id="post-commons-dbutils简介"
   class="article-card article-type-post" itemprop="blogPost">
 
     
@@ -1267,7 +1093,7 @@ Fragment必须被写成可重用的模块。因为fragment有自己的layout，�
 
   
     <h3 class="post-title" itemprop="name">
-      <a href="/2018/07/20/一、Session简单介绍/">javaweb (十一 )</a>
+      <a href="/2018/07/20/commons-dbutils简介/">javaweb (八)</a>
     </h3>
   
 
@@ -1282,36 +1108,28 @@ Fragment必须被写成可重用的模块。因为fragment有自己的layout，�
     <div class="post-content" id="post-content" itemprop="postContent">
 
     
-        <h3 id="一、Session简单介绍"><a href="#一、Session简单介绍" class="headerlink" title="一、Session简单介绍"></a>一、Session简单介绍</h3><p>在WEB开发中，服务器可以为每个用户浏览器创建一个会话对象（session对象），注意：一个浏览器独占一个session对象(默认情况下)。因此，在需要保存用户数据时，服务器程序可以把用户数据写到用户浏览器独占的session中，当用户使用浏览器访问其它程序时，其它程序可以从用户的session中取出该用户的数据，为用户服务。</p>
-<h3 id="二、Session和Cookie的主要区别"><a href="#二、Session和Cookie的主要区别" class="headerlink" title="二、Session和Cookie的主要区别"></a>二、Session和Cookie的主要区别</h3><ul>
-<li>Cookie是把用户的数据写给用户的浏览器。</li>
-<li>Session技术把用户的数据写到用户独占的session中。</li>
-<li>Session对象由服务器创建，开发人员可以调用request对象的getSession方法得到session对象。<h3 id="三、session实现原理"><a href="#三、session实现原理" class="headerlink" title="三、session实现原理"></a>三、session实现原理</h3><h4 id="3-1、服务器是如何实现一个session为一个用户浏览器服务的？"><a href="#3-1、服务器是如何实现一个session为一个用户浏览器服务的？" class="headerlink" title="3.1、服务器是如何实现一个session为一个用户浏览器服务的？"></a>3.1、服务器是如何实现一个session为一个用户浏览器服务的？</h4>　　服务器创建session出来后，会把session的id号，以cookie的形式回写给客户机，这样，只要客户机的浏览器不关，再去访问服务器时，都会带着session的id号去，服务器发现客户机浏览器带session id过来了，就会使用内存中与之对应的session为之服务。可以用如下的代码证明：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">package qgx.session;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import javax.servlet.http.HttpSession;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;SessionDemo1&quot;)</span><br><span class="line">public class SessionDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        response.setCharacterEncoding(&quot;utf-8&quot;);</span><br><span class="line">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        HttpSession session = request.getSession();</span><br><span class="line">        session.setAttribute(&quot;data&quot;, &quot;刘俭梅&quot;);</span><br><span class="line">        String sessionId = session.getId();</span><br><span class="line">        if (session.isNew()) &#123;</span><br><span class="line">            response.getWriter().print(&quot;session创建成功，session的id为:&quot; + sessionId);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            response.getWriter().print(&quot;服务器已经存在该session了，session的is为:&quot; + sessionId);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h3 id="commons-dbutils简介"><a href="#commons-dbutils简介" class="headerlink" title="commons-dbutils简介　"></a>commons-dbutils简介　</h3><p>　　commons-dbutils 是 Apache 组织提供的一个开源 JDBC工具类库，它是对JDBC的简单封装，学习成本极低，并且使用dbutils能极大简化jdbc编码的工作量，同时也不会影响程序的性能。因此dbutils成为很多不喜欢hibernate的公司的首选。<br>commons-dbutilsAPI介绍：</p>
+<ul>
+<li>org.apache.commons.dbutils.QueryRunner</li>
+<li><p>org.apache.commons.dbutils.ResultSetHandler<br>工具类</p>
+</li>
+<li><p>org.apache.commons.dbutils.DbUtils</p>
 </li>
 </ul>
-<p>第一次访问时，服务器会创建一个新的sesion，并且把session的Id以cookie的形式发送给客户端浏览器，如下图所示：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/session1.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>　点击刷新按钮，再次请求服务器，此时就可以看到浏览器再请求服务器时，会把存储到cookie中的session的Id一起传递到服务器端了，如下图所示：<br><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="/img/session2.png" alt="" title="">
-                </div>
-                <div class="image-caption"></div>
-            </figure><br>request.getSession()方法内部新创建了Session之后一定是做了如下的处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//获取session的Id</span><br><span class="line"> String sessionId = session.getId();</span><br><span class="line"> //将session的Id存储到名字为JSESSIONID的cookie中</span><br><span class="line"> Cookie cookie = new Cookie(&quot;JSESSIONID&quot;, sessionId);</span><br><span class="line">//设置cookie的有效路径</span><br><span class="line"> cookie.setPath(request.getContextPath());</span><br><span class="line"> response.addCookie(cookie);</span><br></pre></td></tr></table></figure>
-<h3 id="四、session对象的创建和销毁时机"><a href="#四、session对象的创建和销毁时机" class="headerlink" title="四、session对象的创建和销毁时机"></a>四、session对象的创建和销毁时机</h3><h4 id="4-1、session对象的创建时机"><a href="#4-1、session对象的创建时机" class="headerlink" title="4.1、session对象的创建时机"></a>4.1、session对象的创建时机</h4><p>在程序中第一次调用request.getSession()方法时就会创建一个新的Session，可以用isNew()方法来判断Session是不是新创建的</p>
-<p>范例：创建session<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//使用request对象的getSession()获取session，如果session不存在则创建一个</span><br><span class="line">HttpSession session = request.getSession();</span><br><span class="line">//获取session的Id</span><br><span class="line">String sessionId = session.getId();</span><br><span class="line">//判断session是不是新创建的</span><br><span class="line">if (session.isNew()) &#123;</span><br><span class="line">    response.getWriter().print(&quot;session创建成功，session的id是：&quot;+sessionId);</span><br><span class="line">&#125;else &#123;</span><br><span class="line">    response.getWriter().print(&quot;服务器已经存在session，session的id是：&quot;+sessionId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="4-2、session对象的销毁时机"><a href="#4-2、session对象的销毁时机" class="headerlink" title="4.2、session对象的销毁时机"></a>4.2、session对象的销毁时机</h4><p>　　session对象默认30分钟没有使用，则服务器会自动销毁session，在web.xml文件中可以手工<br>配置session的失效时间，例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 设置Session的有效时间:以分钟为单位--&gt;</span><br><span class="line">    &lt;session-config&gt;</span><br><span class="line">        &lt;session-timeout&gt;15&lt;/session-timeout&gt;</span><br><span class="line">    &lt;/session-config&gt;</span><br></pre></td></tr></table></figure>
-<p>当需要在程序中手动设置Session失效时，可以手工调用session.invalidate方法，摧毁session。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HttpSession session = request.getSession();</span><br><span class="line">//手工调用session.invalidate方法，摧毁session</span><br><span class="line">session.invalidate();</span><br></pre></td></tr></table></figure></p>
-
+<h3 id="QueryRunner类使用讲解"><a href="#QueryRunner类使用讲解" class="headerlink" title="QueryRunner类使用讲解"></a>QueryRunner类使用讲解</h3><p>　　该类简单化了SQL查询，它与ResultSetHandler组合在一起使用可以完成大部分的数据库操作，能够大大减少编码量。<br>　　QueryRunner类提供了两个构造方法：</p>
+<ul>
+<li>默认的构造方法</li>
+<li>需要一个 javax.sql.DataSource 来作参数的构造方法。<h4 id="QueryRunner类的主要方法"><a href="#QueryRunner类的主要方法" class="headerlink" title="QueryRunner类的主要方法"></a>QueryRunner类的主要方法</h4></li>
+<li>public Object query(Connection conn, String sql, Object[] params, ResultSetHandler rsh) throws SQLException：执行一个查询操作，在这个查询中，对象数组中的每个元素值被用来作为查询语句的置换参数。该方法会自行处理 PreparedStatement 和 ResultSet 的创建和关闭。</li>
+<li>public Object query(String sql, Object[] params, ResultSetHandler rsh) throws SQLException:　几乎与第一种方法一样；唯一的不同在于它不将数据库连接提供给方法，并且它是从提供给构造方法的数据源(DataSource) 或使用的setDataSource 方法中重新获得 Connection。</li>
+<li>public Object query(Connection conn, String sql, ResultSetHandler rsh) throws SQLException : 执行一个不需要置换参数的查询操作。</li>
+<li>public int update(Connection conn, String sql, Object[] params) throws SQLException:用来执行一个更新（插入、更新或删除）操作。</li>
+<li>public int update(Connection conn, String sql) throws SQLException：用来执行一个不需要置换参数的更新操作。</li>
+</ul>
+<h4 id="使用QueryRunner类实现CRUD"><a href="#使用QueryRunner类实现CRUD" class="headerlink" title="使用QueryRunner类实现CRUD"></a>使用QueryRunner类实现CRUD</h4>
     
         <div>
-            <a href="/2018/07/20/一、Session简单介绍/" class="post-more waves-button">
+            <a href="/2018/07/20/commons-dbutils简介/" class="post-more waves-button">
                 阅读全文 »
             </a>
         </div>
@@ -1319,7 +1137,129 @@ Fragment必须被写成可重用的模块。因为fragment有自己的layout，�
     
     <div class="post-footer">
         
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Session/">Session</a></li></ul>
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/commons-dbutils/">commons-dbutils</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-在LitePal中解析XML"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a href="/2018/07/20/在LitePal中解析XML/">Android 编程知识</a>
+    </h3>
+  
+
+
+
+
+     <div class="post-meta">
+        <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.789Z"  itemprop="datePublished">2018-07-20</time>
+
+    </div>
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        <h3 id="在LitePal中解析XML"><a href="#在LitePal中解析XML" class="headerlink" title="在LitePal中解析XML"></a>在LitePal中解析XML</h3><p>在使用LitePal的时候有些关键步骤不可获取，其中一个是创建litepal.xml文件，放到assets目录下，里面有一些数据库名、版本号、映射列表等。那么LitePal需要怎么获取到我们配置的数据呢？这里就要去解析xml文件了。LitePal默认使用的是SAX解析。还有Pull和DOM解析未来将会被引入。</p>
+<h4 id="LitePalParser"><a href="#LitePalParser" class="headerlink" title="LitePalParser"></a>LitePalParser</h4><p>下面先列出几个需要解析的node和attribute：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">static final String NODE_DB_NAME = &quot;dbname&quot;;</span><br><span class="line">      static final String NODE_VERSION = &quot;version&quot;;</span><br><span class="line">      static final String NODE_LIST = &quot;list&quot;;</span><br><span class="line">      static final String NODE_MAPPING = &quot;mapping&quot;;</span><br><span class="line">      static final String NODE_CASES = &quot;cases&quot;;</span><br><span class="line">      static final String ATTR_VALUE = &quot;value&quot;;</span><br><span class="line">      static final String ATTR_CLASS = &quot;class&quot;;</span><br></pre></td></tr></table></figure></p>
+<p>默认会使用SAX解析，首先要从根目录的assests目录下面去遍历到literpal.xml，然后转成数据流给解析器 解析。</p>
+<h4 id="LitePalAttr"><a href="#LitePalAttr" class="headerlink" title="LitePalAttr"></a>LitePalAttr</h4><p>从litepal.xml里面解析出来的一些属性将会存到这个类。单例模式，全局只有一个。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private static LitePalAttr litePalAttr;</span><br><span class="line">      private int version ;</span><br><span class="line">      private String dbName ;</span><br><span class="line">      private String cases ;</span><br><span class="line">      private List&lt;String&gt; classNames ;</span><br></pre></td></tr></table></figure></p>
+<h4 id="LitePalContentHandler"><a href="#LitePalContentHandler" class="headerlink" title="LitePalContentHandler"></a>LitePalContentHandler</h4><p>继承了sax解析的DefaultHandler用来解析litepal.xml文件。然后把值set到LitePalAttr里面。</p>
+
+    
+        <div>
+            <a href="/2018/07/20/在LitePal中解析XML/" class="post-more waves-button">
+                阅读全文 »
+            </a>
+        </div>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/litepal/">litepal</a></li></ul>
+
+    </div>
+    
+</article>
+
+        </li>
+    
+        <li class="post-list-item fade">
+            <article id="post-验证码图片"
+  class="article-card article-type-post" itemprop="blogPost">
+
+    
+
+
+  
+    <h3 class="post-title" itemprop="name">
+      <a href="/2018/07/20/验证码图片/">javaweb (八)</a>
+    </h3>
+  
+
+
+
+
+     <div class="post-meta">
+        <time class="post-time" title="2018-07-20 12:10:37" datetime="2018-07-20T04:10:37.789Z"  itemprop="datePublished">2018-07-20</time>
+
+    </div>
+
+    <div class="post-content" id="post-content" itemprop="postContent">
+
+    
+        <h3 id="验证码图片"><a href="#验证码图片" class="headerlink" title="验证码图片"></a>验证码图片</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.imageio.ImageIO;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.awt.*;</span><br><span class="line">import java.awt.image.BufferedImage;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.Random;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;DrawImage&quot;)</span><br><span class="line">public class DrawImage extends HttpServlet &#123;</span><br><span class="line">    public static final int WIDTH = 120;//生成的图片的宽度</span><br><span class="line">    public static final int HEIGHT = 30;//生成的图片的高度</span><br><span class="line"></span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">//接收客户端传递的createTypeFlag标识</span><br><span class="line">        String createTypeFlag = request.getParameter(&quot;createTypeFlag&quot;);</span><br><span class="line">//1.在内存中创建一张图片</span><br><span class="line">        BufferedImage bi = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);</span><br><span class="line">        //2. 得到图片</span><br><span class="line">        Graphics g = bi.getGraphics();</span><br><span class="line">        //3.设置图片的背景色</span><br><span class="line">        setBackGround(g);</span><br><span class="line">        //4. 设置图片的边框</span><br><span class="line">        setBorder(g);</span><br><span class="line">        //5. 在图片上画干扰线</span><br><span class="line">        drawRandomLine(g);</span><br><span class="line">        //6.写在图片上随机数</span><br><span class="line">        String random = drawRandomNum((Graphics2D) g, createTypeFlag);//根据客户端传递的createTypeFlag标识生成验证码图片</span><br><span class="line">        //7.将随机数存在session中</span><br><span class="line">        request.getSession().setAttribute(&quot;checkcode&quot;, random);</span><br><span class="line">        //8.设置响应头通知浏览器以图片的形式打开</span><br><span class="line">        response.setContentType(&quot;image/jpeg&quot;);//等同于response.setHeader(&quot;Content-Type&quot;, &quot;image/jpeg&quot;);</span><br><span class="line">        //9.设置响应头控制浏览器不要缓存</span><br><span class="line">        response.setDateHeader(&quot;expries&quot;, -1);</span><br><span class="line">        response.setHeader(&quot;Cache-Control&quot;, &quot;no-cache&quot;);</span><br><span class="line">        response.setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);</span><br><span class="line">        //10.将图片写给浏览器</span><br><span class="line">        ImageIO.write(bi, &quot;jpg&quot;, response.getOutputStream());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 画随机字符</span><br><span class="line">     *</span><br><span class="line">     * @param g</span><br><span class="line">     * @param createTypeFlag</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private String drawRandomNum(Graphics2D g, String... createTypeFlag) &#123;</span><br><span class="line">        // 设置颜色</span><br><span class="line">        g.setColor(Color.RED);</span><br><span class="line">        // 设置字体</span><br><span class="line">        g.setFont(new Font(&quot;行书&quot;, Font.BOLD, 20));</span><br><span class="line">        //常用的中国汉字</span><br><span class="line">        String baseChineseChar = &quot;\u5218\u4FED\u6885&quot;;</span><br><span class="line">//        String baseChineseChar = &quot;\u7684\u4e00\u4e86\u662f\u6211\u4e0d\u5728\u4eba\u4eec\u6709\u6765\u4ed6\u8fd9\u4e0a\u7740\u4e2a\u5730\u5230\u5927\u91cc\u8bf4\u5c31\u53bb\u5b50\u5f97\u4e5f\u548c\u90a3\u8981\u4e0b\u770b\u5929\u65f6\u8fc7\u51fa\u5c0f\u4e48\u8d77\u4f60\u90fd\u628a\u597d\u8fd8\u591a\u6ca1\u4e3a\u53c8\u53ef\u5bb6\u5b66\u53ea\u4ee5\u4e3b\u4f1a\u6837\u5e74\u60f3\u751f\u540c\u8001\u4e2d\u5341\u4ece\u81ea\u9762\u524d\u5934\u9053\u5b83\u540e\u7136\u8d70\u5f88\u50cf\u89c1\u4e24\u7528\u5979\u56fd\u52a8\u8fdb\u6210\u56de\u4ec0\u8fb9\u4f5c\u5bf9\u5f00\u800c\u5df1\u4e9b&quot; +</span><br><span class="line">//                &quot;\u73b0\u5c71\u6c11\u5019\u7ecf\u53d1\u5de5\u5411\u4e8b\u547d\u7ed9\u957f\u6c34\u51e0\u4e49\u4e09\u58f0\u4e8e\u9ad8\u624b\u77e5\u7406\u773c\u5fd7\u70b9\u5fc3\u6218\u4e8c\u95ee\u4f46\u8eab\u65b9\u5b9e\u5403\u505a\u53eb\u5f53\u4f4f\u542c\u9769\u6253\u5462\u771f\u5168\u624d\u56db\u5df2\u6240\u654c\u4e4b\u6700\u5149\u4ea7\u60c5\u8def\u5206\u603b\u6761\u767d\u8bdd\u4e1c\u5e2d\u6b21\u4eb2\u5982\u88ab\u82b1\u53e3\u653e\u513f\u5e38\u6c14\u4e94\u7b2c\u4f7f\u5199\u519b\u5427\u6587\u8fd0\u518d\u679c\u600e\u5b9a\u8bb8\u5feb\u660e\u884c\u56e0\u522b\u98de\u5916\u6811\u7269&quot; +</span><br><span class="line">//                &quot;\u6d3b\u90e8\u95e8\u65e0\u5f80\u8239\u671b\u65b0\u5e26\u961f\u5148\u529b\u5b8c\u5374&quot; +</span><br><span class="line">//                &quot;\u7ad9\u4ee3\u5458\u673a\u66f4\u4e5d\u60a8\u6bcf\u98ce\u7ea7\u8ddf\u7b11\u554a\u5b69\u4e07\u5c11\u76f4\u610f\u591c\u6bd4\u9636\u8fde\u8f66\u91cd\u4fbf\u6597\u9a6c\u54ea\u5316\u592a\u6307\u53d8\u793e\u4f3c\u58eb\u8005\u5e72\u77f3\u6ee1\u65e5\u51b3\u767e\u539f\u62ff\u7fa4\u7a76\u5404\u516d\u672c\u601d\u89e3\u7acb\u6cb3\u6751\u516b\u96be\u65e9\u8bba\u5417\u6839\u5171\u8ba9\u76f8\u7814\u4eca\u5176\u4e66\u5750\u63a5\u5e94\u5173\u4fe1\u89c9\u6b65\u53cd\u5904\u8bb0\u5c06\u5343\u627e\u4e89\u9886\u6216\u5e08\u7ed3\u5757\u8dd1\u8c01\u8349\u8d8a\u5b57\u52a0\u811a\u7d27\u7231&quot; +</span><br><span class="line">//                &quot;\u7b49\u4e60\u9635\u6015\u6708\u9752\u534a\u706b\u6cd5\u9898\u5efa\u8d76\u4f4d\u5531\u6d77\u4e03\u5973\u4efb\u4ef6\u611f\u51c6\u5f20\u56e2\u5c4b\u79bb\u8272\u8138\u7247\u79d1\u5012\u775b\u5229\u4e16\u521a\u4e14\u7531\u9001\u5207\u661f\u5bfc\u665a\u8868\u591f\u6574\u8ba4\u54cd\u96ea\u6d41\u672a\u573a\u8be5\u5e76\u5e95\u6df1\u523b\u5e73\u4f1f\u5fd9\u63d0\u786e\u8fd1\u4eae\u8f7b\u8bb2\u519c\u53e4\u9ed1\u544a\u754c\u62c9\u540d\u5440\u571f\u6e05\u9633\u7167\u529e\u53f2\u6539\u5386\u8f6c\u753b\u9020\u5634\u6b64\u6cbb\u5317\u5fc5\u670d\u96e8\u7a7f\u5185\u8bc6\u9a8c\u4f20\u4e1a&quot; +</span><br><span class="line">//                &quot;\u83dc\u722c\u7761\u5174\u5f62\u91cf\u54b1\u89c2\u82e6\u4f53\u4f17\u901a\u51b2\u5408\u7834\u53cb\u5ea6\u672f\u996d\u516c\u65c1\u623f\u6781\u5357\u67aa\u8bfb\u6c99\u5c81\u7ebf\u91ce\u575a\u7a7a\u6536\u7b97\u81f3\u653f\u57ce\u52b3\u843d\u94b1\u7279\u56f4\u5f1f\u80dc\u6559\u70ed\u5c55\u5305\u6b4c\u7c7b\u6e10\u5f3a\u6570\u4e61\u547c\u6027\u97f3\u7b54\u54e5\u9645\u65e7\u795e\u5ea7\u7ae0\u5e2e\u5566\u53d7\u7cfb\u4ee4\u8df3\u975e\u4f55\u725b\u53d6\u5165\u5cb8\u6562\u6389\u5ffd\u79cd\u88c5\u9876\u6025\u6797\u505c\u606f\u53e5\u533a\u8863\u822c\u62a5\u53f6\u538b\u6162\u53d4\u80cc\u7ec6&quot;;</span><br><span class="line">        //数字和字母的组合</span><br><span class="line">        String baseNumLetter = &quot;0123456789ABCDEFGHJKLMNOPQRSTUVWXYZ&quot;;</span><br><span class="line">        //纯数字</span><br><span class="line">        String baseNum = &quot;0123456789&quot;;</span><br><span class="line">        //纯字母</span><br><span class="line">        String baseLetter = &quot;ABCDEFGHJKLMNOPQRSTUVWXYZ&quot;;</span><br><span class="line">        //createTypeFlag[0]==null表示没有传递参数</span><br><span class="line">        if (createTypeFlag.length &gt; 0 &amp;&amp; null != createTypeFlag[0]) &#123;</span><br><span class="line">            if (createTypeFlag[0].equals(&quot;ch&quot;)) &#123;</span><br><span class="line">                // 截取汉字</span><br><span class="line">                return createRandomChar(g, baseChineseChar);</span><br><span class="line">            &#125; else if (createTypeFlag[0].equals(&quot;nl&quot;)) &#123;</span><br><span class="line">                // 截取数字和字母的组合</span><br><span class="line">                return createRandomChar(g, baseNumLetter);</span><br><span class="line">            &#125; else if (createTypeFlag[0].equals(&quot;n&quot;)) &#123;</span><br><span class="line">                // 截取数字</span><br><span class="line">                return createRandomChar(g, baseNum);</span><br><span class="line">            &#125; else if (createTypeFlag[0].equals(&quot;l&quot;)) &#123;</span><br><span class="line">                // 截取字母</span><br><span class="line">                return createRandomChar(g, baseLetter);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 默认截取数字和字母的组合</span><br><span class="line">            return createRandomChar(g, baseNumLetter);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String createRandomChar(Graphics2D g, String baseChar) &#123;</span><br><span class="line">        StringBuffer sb = new StringBuffer();</span><br><span class="line">        int x = 5;</span><br><span class="line">        String ch = &quot;&quot;;</span><br><span class="line">        // 控制字数</span><br><span class="line">        for (int i = 0; i &lt; 4; i++) &#123;</span><br><span class="line">            // 设置字体旋转角度</span><br><span class="line">            int degree = new Random().nextInt() % 30;</span><br><span class="line">            ch = baseChar.charAt(new Random().nextInt(baseChar.length())) + &quot;&quot;;</span><br><span class="line">            sb.append(ch);</span><br><span class="line">            // 正向角度</span><br><span class="line">            g.rotate(degree * Math.PI / 180, x, 20);</span><br><span class="line">            g.drawString(ch, x, 20);</span><br><span class="line">            // 反向角度</span><br><span class="line">            g.rotate(-degree * Math.PI / 180, x, 20);</span><br><span class="line">            x += 30;</span><br><span class="line">        &#125;</span><br><span class="line">        return sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 在图片上画干扰线</span><br><span class="line">     *</span><br><span class="line">     * @param g</span><br><span class="line">     */</span><br><span class="line">    private void drawRandomLine(Graphics g) &#123;</span><br><span class="line">        // 设置颜色</span><br><span class="line">        g.setColor(Color.GREEN);</span><br><span class="line">        // 设置线条个数并画线</span><br><span class="line">        for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">            int x1 = new Random().nextInt(WIDTH);</span><br><span class="line">            int y1 = new Random().nextInt(HEIGHT);</span><br><span class="line">            int x2 = new Random().nextInt(WIDTH);</span><br><span class="line">            int y2 = new Random().nextInt(HEIGHT);</span><br><span class="line">            g.drawLine(x1, y1, x2, y2);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置图片的边框</span><br><span class="line">     *</span><br><span class="line">     * @param g</span><br><span class="line">     */</span><br><span class="line">    private void setBorder(Graphics g) &#123;</span><br><span class="line">        // 设置边框颜色</span><br><span class="line">        g.setColor(Color.BLUE);</span><br><span class="line">        // 边框区域</span><br><span class="line">        g.drawRect(1, 1, WIDTH - 2, HEIGHT - 2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置图片背景色</span><br><span class="line">     *</span><br><span class="line">     * @param g</span><br><span class="line">     */</span><br><span class="line">    private void setBackGround(Graphics g) &#123;</span><br><span class="line">        // 设置颜色</span><br><span class="line">        g.setColor(Color.WHITE);</span><br><span class="line">        // 填充区域</span><br><span class="line">        g.fillRect(0, 0, WIDTH, HEIGHT);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        this.doPost(request, response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/Draw.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure><br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/Draw1.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure></p>
+<h3 id="在Form表单中使用验证码图片"><a href="#在Form表单中使用验证码图片" class="headerlink" title="在Form表单中使用验证码图片"></a>在Form表单中使用验证码图片</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--</span><br><span class="line">  Created by IntelliJ IDEA.</span><br><span class="line">  User: qgx</span><br><span class="line">  Date: 2018/5/16</span><br><span class="line">  Time: 22:38</span><br><span class="line">  To change this template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;在Form表单中使用验证码&lt;/title&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">        function changeImg()&#123;</span><br><span class="line">            document.getElementById(&quot;validateCodeImg&quot;).src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage?&quot;+Math.random();</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line"> &lt;form action=&quot;$&#123;pageContext.request.contextPath&#125;/&quot; method=&quot;post&quot;&gt;</span><br><span class="line">   验证码：&lt;input type=&quot;text&quot; name=&quot;validateCode&quot;/&gt;</span><br><span class="line">   &lt;img alt=&quot;验证码看不清，换一张&quot; src=&quot;$&#123;pageContext.request.contextPath&#125;/servlet/DrawImage&quot; id=&quot;validateCodeImg&quot; onclick=&quot;changeImg()&quot;&gt;</span><br><span class="line">   &lt;a href=&quot;javascript:void(0)&quot; onclick=&quot;changeImg()&quot;&gt;看不清，换一张&lt;/a&gt;</span><br><span class="line">   &lt;br/&gt;</span><br><span class="line">   &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;</span><br><span class="line"> &lt;/form&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/Draw2.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--</span><br><span class="line">  Created by IntelliJ IDEA.</span><br><span class="line">  User: qgx</span><br><span class="line">  Date: 2018/5/16</span><br><span class="line">  Time: 22:38</span><br><span class="line">  To change this template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;在Form表单中使用验证码&lt;/title&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">        function changeImg(obj,createTypeFlag)&#123;</span><br><span class="line">            document.getElementById(obj.id).src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage?createTypeFlag=&quot;+createTypeFlag+&quot;&amp;&quot;+Math.random();</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line"> &lt;form action=&quot;$&#123;pageContext.request.contextPath&#125;/CheckServlet&quot; method=&quot;post&quot;&gt;</span><br><span class="line">   数字字母混合验证码：&lt;input type=&quot;text&quot; name=&quot;validateCode&quot;/&gt;</span><br><span class="line">                &lt;img alt=&quot;验证码看不清，换一张&quot; src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage&quot; id=&quot;validateCodeImg1&quot; onclick=&quot;changeImg(this,&apos;nl&apos;)&quot;&gt;</span><br><span class="line">                &lt;br/&gt;</span><br><span class="line">                中文验证码：&lt;input type=&quot;text&quot; name=&quot;validateCode&quot;/&gt;</span><br><span class="line">                &lt;img alt=&quot;验证码看不清，换一张&quot; src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage?createTypeFlag=ch&quot; id=&quot;validateCodeImg2&quot; onclick=&quot;changeImg(this,&apos;ch&apos;)&quot;&gt;</span><br><span class="line">                &lt;br/&gt;</span><br><span class="line">               英文验证码：&lt;input type=&quot;text&quot; name=&quot;validateCode&quot;/&gt;</span><br><span class="line">                &lt;img alt=&quot;验证码看不清，换一张&quot; src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage?createTypeFlag=l&quot; id=&quot;validateCodeImg3&quot; onclick=&quot;changeImg(this,&apos;l&apos;)&quot;&gt;</span><br><span class="line">               &lt;br/&gt;</span><br><span class="line">               数字验证码：&lt;input type=&quot;text&quot; name=&quot;validateCode&quot;/&gt;</span><br><span class="line">               &lt;img alt=&quot;验证码看不清，换一张&quot; src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage?createTypeFlag=n&quot; id=&quot;validateCodeImg4&quot; onclick=&quot;changeImg(this,&apos;n&apos;)&quot;&gt;</span><br><span class="line">               &lt;br/&gt;</span><br><span class="line">                &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;</span><br><span class="line">            &lt;/form&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;CheckServlet&quot;)</span><br><span class="line">public class CheckServlet extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String clientCheckcode = request.getParameter(&quot;validateCode&quot;);//接收客户端浏览器提交上来的验证码</span><br><span class="line">        String serverCheckcode = (String) request.getSession().getAttribute(&quot;checkcode&quot;);//从服务器端的session中取出验证码</span><br><span class="line">        if (clientCheckcode.equals(serverCheckcode)) &#123;//将客户端验证码和服务器端验证比较，如果相等，则表示验证通过</span><br><span class="line">            System.out.println(&quot;验证码验证通过！&quot;);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            System.out.println(&quot;验证码验证失败！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="/img/Draw3.png" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+    
+        <div>
+            <a href="/2018/07/20/验证码图片/" class="post-more waves-button">
+                阅读全文 »
+            </a>
+        </div>
+    </div>
+    
+    <div class="post-footer">
+        
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BufferedImage/">BufferedImage</a></li></ul>
 
     </div>
     
