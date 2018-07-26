@@ -365,7 +365,7 @@
                 
               
 
-              <time title="创建时间：2018-07-26 22:48:32" itemprop="dateCreated datePublished" datetime="2018-07-26T22:48:32+08:00">2018-07-26</time>
+              <time title="创建时间：2018-07-26 22:57:28" itemprop="dateCreated datePublished" datetime="2018-07-26T22:57:28+08:00">2018-07-26</time>
             
 
             
@@ -421,7 +421,7 @@
           
             <h3 id="Spring核心机制：依赖注入-控制反转"><a href="#Spring核心机制：依赖注入-控制反转" class="headerlink" title="Spring核心机制：依赖注入/控制反转"></a>Spring核心机制：依赖注入/控制反转</h3><h4 id="初涉依赖注入"><a href="#初涉依赖注入" class="headerlink" title="初涉依赖注入"></a>初涉依赖注入</h4><p>　　对于spring而言，将自己置身于spring的立场上去看，当调用方需要某一个类的时候我就为你提供这个类的实例，就是说spring负责将被依赖的这个对象赋值给调用方，那么就相当于我为调用方注入了这样的一个实例。从这方面来看是依赖注入。</p>
 <p>　</p>
-<p>####　浅谈控制反转（Inversion of Control，IOC）<br>　我们首先先来了解一下控制二字，也就是在控制“正”转的情况下，在任何一个有请求作用的系统当中，至少需要有两个类互相配合工作，在一个入口类下使用new关键字创建另一个类的对象实例，这就好比在面向对象编程的思想下，“我“充当一个入口类，在这个入口类中，我每次吃饭的时候都要买一双一次性筷子（每一次使用都要new一次），在这样的关系下，是”我“（即调用者）每次都要”主动“去买一次性筷子（另一个类），我对筷子说你老老实实的过来我的手上，是我控制了筷子，那好，在这种控制正转的关系下，放在现实生活当中，肯定是不现实的，而且人是懒惰的，他总会去创造出更加方便自己生活的想法，更确切的做法是，买一双普通的筷子（非一次性），把他放在一个容器当中（在Spring中叫做IOC容器），你需要使用的时候就对容器说：IOC我想要用筷子（向容器发出请求），接着筷子就会”注入“到的手上，而在这个过程当中，你不再是控制方，反而演变成一名请求者（虽然本身还是调用者），依赖于容器给予你资源，控制权坐落到了容器身上，于是这就是人们俗称的控制反转。</p>
+<h4 id="浅谈控制反转（Inversion-of-Control，IOC）"><a href="#浅谈控制反转（Inversion-of-Control，IOC）" class="headerlink" title="浅谈控制反转（Inversion of Control，IOC）"></a>浅谈控制反转（Inversion of Control，IOC）</h4><p>　我们首先先来了解一下控制二字，也就是在控制“正”转的情况下，在任何一个有请求作用的系统当中，至少需要有两个类互相配合工作，在一个入口类下使用new关键字创建另一个类的对象实例，这就好比在面向对象编程的思想下，“我“充当一个入口类，在这个入口类中，我每次吃饭的时候都要买一双一次性筷子（每一次使用都要new一次），在这样的关系下，是”我“（即调用者）每次都要”主动“去买一次性筷子（另一个类），我对筷子说你老老实实的过来我的手上，是我控制了筷子，那好，在这种控制正转的关系下，放在现实生活当中，肯定是不现实的，而且人是懒惰的，他总会去创造出更加方便自己生活的想法，更确切的做法是，买一双普通的筷子（非一次性），把他放在一个容器当中（在Spring中叫做IOC容器），你需要使用的时候就对容器说：IOC我想要用筷子（向容器发出请求），接着筷子就会”注入“到的手上，而在这个过程当中，你不再是控制方，反而演变成一名请求者（虽然本身还是调用者），依赖于容器给予你资源，控制权坐落到了容器身上，于是这就是人们俗称的控制反转。</p>
 <h4 id="依赖注入两种方式"><a href="#依赖注入两种方式" class="headerlink" title="依赖注入两种方式"></a>依赖注入两种方式</h4><p><strong>1.设值注入</strong><br>设值注入:通过set的方式注入值.Ioc容器通过成员变量的setter方法来注入被依赖的对象，这种注入方式简单，直观，因而在spring中大量的使用。<br>下面我们采用实际的例子来体会一下：<br>假设这样的一个场景，我想打印消息，这样一件事情<br>首先定义一个MessageService的接口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">package com.qgx.spring;</span><br><span class="line"></span><br><span class="line">public interface MessageService &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 消息打印</span><br><span class="line">     */</span><br><span class="line">    public void printMessage();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>然后实现这个接口，并实现这个方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">package com.qgx.spring;</span><br><span class="line"></span><br><span class="line">public class MessagePrinter implements MessageService &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void printMessage() &#123;</span><br><span class="line">        System.out.println(&quot;输出消息&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>定义一个person的接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">package com.qgx.spring;</span><br><span class="line"></span><br><span class="line">public interface Person &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 人发送消息</span><br><span class="line">     */</span><br><span class="line">    public void sendMessage();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -1210,6 +1210,173 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Tomcat 部署项目的三种方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/Tomcat 部署项目的三种方法/" itemprop="url">
+                  springboot
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="/img/ali.png" alt=""></p>
+<h3 id="Tomcat-部署项目的三种方法"><a href="#Tomcat-部署项目的三种方法" class="headerlink" title="Tomcat 部署项目的三种方法"></a>Tomcat 部署项目的三种方法</h3><p>作者：YSOcean<br>链接：cnblogs.com/ysocean/p/6893446.html</p>
+<h4 id="1、下载-Tomcat-服务器"><a href="#1、下载-Tomcat-服务器" class="headerlink" title="1、下载 Tomcat 服务器"></a>1、下载 Tomcat 服务器</h4><p>官网下载地址：<a href="http://tomcat.apache.org/" target="_blank" rel="noopener">http://tomcat.apache.org/</a></p>
+<h4 id="2、启动并部署-Tomcat-服务器"><a href="#2、启动并部署-Tomcat-服务器" class="headerlink" title="2、启动并部署 Tomcat 服务器"></a>2、启动并部署 Tomcat 服务器</h4><p>①、解压 tomcat 安装包到一个非中文目录下<br>②、配置环境变量。JAVA_HOME(指向 JDK 安装的根目录)<br>③、双击 apache-tomcat-6.0.16\bin 目录下的 startup.bat，启动服务器(如果一闪而过，那就是没有配置 JAVA_HOME 的环境变量)<br>④、在浏览器中输入 <a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a></p>
+<p><strong>注意：Tomcat 启动不了的时候注意配置 JAVA_HOME:C:\Program Files\Java\jdk1.6.0_43这是安装 JDK的根目录</strong></p>
+<h4 id="3、Tomcat-的目录结构"><a href="#3、Tomcat-的目录结构" class="headerlink" title="3、Tomcat 的目录结构"></a>3、Tomcat 的目录结构</h4><p><img src="/img/tomcat1.png" alt=""></p>
+<h4 id="4、部署项目的第一种方法（项目直接放入-webapps-目录中）"><a href="#4、部署项目的第一种方法（项目直接放入-webapps-目录中）" class="headerlink" title="4、部署项目的第一种方法（项目直接放入 webapps 目录中）"></a>4、部署项目的第一种方法（项目直接放入 webapps 目录中）</h4><p>1、将编写并编译好的web项目(注意要是编译好的，如果是 eclipse，可以将项目打成 war 包放入)，放入到 webapps 中<br><img src="/img/tomcat2.png" alt=""><br>2、启动tomcat服务器（双击 apache-tomcat-6.0.16\bin 目录下的 startup.bat，启动服务器）<br><img src="/img/tomcat3.png" alt=""><br>3、在浏览器输入：<a href="http://localhost:8080/项目名/访问的文件名" target="_blank" rel="noopener">http://localhost:8080/项目名/访问的文件名</a><br><img src="/img/tomcat4.png" alt=""></p>
+<h4 id="5、部署项目的第二种方法（修改-conf-server-xml-文件-）"><a href="#5、部署项目的第二种方法（修改-conf-server-xml-文件-）" class="headerlink" title="5、部署项目的第二种方法（修改 conf/server.xml 文件 ）"></a>5、部署项目的第二种方法（修改 conf/server.xml 文件 ）</h4><p>①、打开tomcat下conf/server.xml，在<host> </host>标签之间输入项目配置信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Context path=&quot;/WebProject&quot; docBase=&quot;D:/WebProject&quot; reloadable=&quot;true&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>path:</strong> 浏览器访问时的路径名<br><strong>docBase:</strong> web项目的WebRoot所在的路径，注意是WebRoot的路径，不是项目的路径。其实也就是编译后的项目<br><strong>reloadble:</strong> 设定项目有改动时，tomcat是否重新加载该项目<br>②、双击 startup.bat，启动 tomcat 服务器，然后在浏览器输入访问的项目名称路径、<br><img src="/img/tomcat5.png" alt=""><br><strong>注意：如果你配置的 path=”/xx”,那么访问的时候就是这样：</strong><br><img src="/img/tomcat6.png" alt=""></p>
+<h4 id="6、部署项目的第三种方法（apache-tomcat-7-0-52-conf-Catalina-localhost-）"><a href="#6、部署项目的第三种方法（apache-tomcat-7-0-52-conf-Catalina-localhost-）" class="headerlink" title="6、部署项目的第三种方法（apache-tomcat-7.0.52\conf\Catalina\localhost ）"></a>6、部署项目的第三种方法（apache-tomcat-7.0.52\conf\Catalina\localhost ）</h4><p>①、进入到 apache-tomcat-7.0.52\conf\Catalina\localhost 目录，新建一个 项目名.xml 文件<br><img src="/img/tomcat7.png" alt=""><br>②、在 那个新建的 xml 文件中，增加下面配置语句（和上面的是一样的,但是不需要 path 配置，加上也没什么用）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Context  docBase=&quot;D:/WebProject&quot; reloadable=&quot;true&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/img/tomcat8.png" alt=""><br>③、在浏览器输入路径：localhost:8080/xml文件名/访问的文件名<br><img src="/img/tomcat9.png" alt=""><br>总结：<br>①、第一种方法比较普通，但是我们需要将编译好的项目重新 copy 到 webapps 目录下，多出了两步操作。</p>
+<p>②、第二种方法直接在 server.xml 文件中配置，但是从 tomcat5.0版本开始后，server.xml 文件作为 tomcat 启动的主要配置文件，一旦 tomcat 启动后，便不会再读取这个文件，因此无法再 tomcat 服务启动后发布 web 项目。</p>
+<p>③、第三种方法是最好的，每个项目分开配置，tomcat 将以\conf\Catalina\localhost 目录下的 xml 文件的文件名作为 web 应用的上下文路径，而不再理会 <context>中配置的 path 路径，因此在配置的时候，可以不写 path。</context></p>
+<p>通常我们使用第三种方法.</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Android 多线程编程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1548,7 +1715,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Tomcat 部署项目的三种方法/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/OkHttp：从深入了解到源码分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -1567,8 +1734,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/Tomcat 部署项目的三种方法/" itemprop="url">
-                  springboot
+                <a class="post-title-link" href="/2018/07/20/OkHttp：从深入了解到源码分析/" itemprop="url">
+                  重识OkHttp
                 </a>
               
             
@@ -1612,7 +1779,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
 
                 
                 
@@ -1648,20 +1815,74 @@
       
         
           
-            <p><img src="/img/ali.png" alt=""></p>
-<h3 id="Tomcat-部署项目的三种方法"><a href="#Tomcat-部署项目的三种方法" class="headerlink" title="Tomcat 部署项目的三种方法"></a>Tomcat 部署项目的三种方法</h3><p>作者：YSOcean<br>链接：cnblogs.com/ysocean/p/6893446.html</p>
-<h4 id="1、下载-Tomcat-服务器"><a href="#1、下载-Tomcat-服务器" class="headerlink" title="1、下载 Tomcat 服务器"></a>1、下载 Tomcat 服务器</h4><p>官网下载地址：<a href="http://tomcat.apache.org/" target="_blank" rel="noopener">http://tomcat.apache.org/</a></p>
-<h4 id="2、启动并部署-Tomcat-服务器"><a href="#2、启动并部署-Tomcat-服务器" class="headerlink" title="2、启动并部署 Tomcat 服务器"></a>2、启动并部署 Tomcat 服务器</h4><p>①、解压 tomcat 安装包到一个非中文目录下<br>②、配置环境变量。JAVA_HOME(指向 JDK 安装的根目录)<br>③、双击 apache-tomcat-6.0.16\bin 目录下的 startup.bat，启动服务器(如果一闪而过，那就是没有配置 JAVA_HOME 的环境变量)<br>④、在浏览器中输入 <a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a></p>
-<p><strong>注意：Tomcat 启动不了的时候注意配置 JAVA_HOME:C:\Program Files\Java\jdk1.6.0_43这是安装 JDK的根目录</strong></p>
-<h4 id="3、Tomcat-的目录结构"><a href="#3、Tomcat-的目录结构" class="headerlink" title="3、Tomcat 的目录结构"></a>3、Tomcat 的目录结构</h4><p><img src="/img/tomcat1.png" alt=""></p>
-<h4 id="4、部署项目的第一种方法（项目直接放入-webapps-目录中）"><a href="#4、部署项目的第一种方法（项目直接放入-webapps-目录中）" class="headerlink" title="4、部署项目的第一种方法（项目直接放入 webapps 目录中）"></a>4、部署项目的第一种方法（项目直接放入 webapps 目录中）</h4><p>1、将编写并编译好的web项目(注意要是编译好的，如果是 eclipse，可以将项目打成 war 包放入)，放入到 webapps 中<br><img src="/img/tomcat2.png" alt=""><br>2、启动tomcat服务器（双击 apache-tomcat-6.0.16\bin 目录下的 startup.bat，启动服务器）<br><img src="/img/tomcat3.png" alt=""><br>3、在浏览器输入：<a href="http://localhost:8080/项目名/访问的文件名" target="_blank" rel="noopener">http://localhost:8080/项目名/访问的文件名</a><br><img src="/img/tomcat4.png" alt=""></p>
-<h4 id="5、部署项目的第二种方法（修改-conf-server-xml-文件-）"><a href="#5、部署项目的第二种方法（修改-conf-server-xml-文件-）" class="headerlink" title="5、部署项目的第二种方法（修改 conf/server.xml 文件 ）"></a>5、部署项目的第二种方法（修改 conf/server.xml 文件 ）</h4><p>①、打开tomcat下conf/server.xml，在<host> </host>标签之间输入项目配置信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Context path=&quot;/WebProject&quot; docBase=&quot;D:/WebProject&quot; reloadable=&quot;true&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
-<p><strong>path:</strong> 浏览器访问时的路径名<br><strong>docBase:</strong> web项目的WebRoot所在的路径，注意是WebRoot的路径，不是项目的路径。其实也就是编译后的项目<br><strong>reloadble:</strong> 设定项目有改动时，tomcat是否重新加载该项目<br>②、双击 startup.bat，启动 tomcat 服务器，然后在浏览器输入访问的项目名称路径、<br><img src="/img/tomcat5.png" alt=""><br><strong>注意：如果你配置的 path=”/xx”,那么访问的时候就是这样：</strong><br><img src="/img/tomcat6.png" alt=""></p>
-<h4 id="6、部署项目的第三种方法（apache-tomcat-7-0-52-conf-Catalina-localhost-）"><a href="#6、部署项目的第三种方法（apache-tomcat-7-0-52-conf-Catalina-localhost-）" class="headerlink" title="6、部署项目的第三种方法（apache-tomcat-7.0.52\conf\Catalina\localhost ）"></a>6、部署项目的第三种方法（apache-tomcat-7.0.52\conf\Catalina\localhost ）</h4><p>①、进入到 apache-tomcat-7.0.52\conf\Catalina\localhost 目录，新建一个 项目名.xml 文件<br><img src="/img/tomcat7.png" alt=""><br>②、在 那个新建的 xml 文件中，增加下面配置语句（和上面的是一样的,但是不需要 path 配置，加上也没什么用）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Context  docBase=&quot;D:/WebProject&quot; reloadable=&quot;true&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
-<p><img src="/img/tomcat8.png" alt=""><br>③、在浏览器输入路径：localhost:8080/xml文件名/访问的文件名<br><img src="/img/tomcat9.png" alt=""><br>总结：<br>①、第一种方法比较普通，但是我们需要将编译好的项目重新 copy 到 webapps 目录下，多出了两步操作。</p>
-<p>②、第二种方法直接在 server.xml 文件中配置，但是从 tomcat5.0版本开始后，server.xml 文件作为 tomcat 启动的主要配置文件，一旦 tomcat 启动后，便不会再读取这个文件，因此无法再 tomcat 服务启动后发布 web 项目。</p>
-<p>③、第三种方法是最好的，每个项目分开配置，tomcat 将以\conf\Catalina\localhost 目录下的 xml 文件的文件名作为 web 应用的上下文路径，而不再理会 <context>中配置的 path 路径，因此在配置的时候，可以不写 path。</context></p>
-<p>通常我们使用第三种方法.</p>
+            <h3 id="OkHttp：从深入了解到源码分析"><a href="#OkHttp：从深入了解到源码分析" class="headerlink" title="OkHttp：从深入了解到源码分析"></a>OkHttp：从深入了解到源码分析</h3><p>作者博客：<a href="http://www.jianshu.com/u/16925b46816d" target="_blank" rel="noopener">http://www.jianshu.com/u/16925b46816d</a></p>
+<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>本文的分析基于OkHttp3.4，不展示完整的代码示例，具体可以看这个官方例子或者项目中的例子。<br><a href="https://github.com/square/okhttp/wiki/Recipes" target="_blank" rel="noopener">https://github.com/square/okhttp/wiki/Recipes</a><br>OkHttp作为square公司出品的一个网络请求框架，应该算是目前Android端最火爆的网络框架了。我公司目前的项目中采用的都是Rxjava结合Retrofit进行网络请求的处理，对于底层真正实现网络请求的OkHttp关注的不是很多。最近探究了一下OkHttp的源码，对OkHttp的使用有了一些新的认识，在此做一下总结。</p>
+<p>###目录</p>
+<h4 id="使用篇"><a href="#使用篇" class="headerlink" title="使用篇"></a>使用篇</h4><ul>
+<li>OkHttp的优点</li>
+<li><p>网络处理3要素<br>1 请求Request</p>
+<pre><code>- 1、表单FormBody
+- 2、分块MultipartBody
+-  3、客户端OkHttpClient
+</code></pre><p> 2、同步请求和异步请求<br>3、其他</p>
+<ul>
+<li>配置响应缓存</li>
+<li>取消请求</li>
+<li>Response读取响应结果<br>4、总结<h4 id="分析篇"><a href="#分析篇" class="headerlink" title="分析篇"></a>分析篇</h4></li>
+</ul>
+</li>
+<li>客户端完整的请求</li>
+<li>探究源码<ul>
+<li>Call的实现类RealCall</li>
+<li>RealCall的enqueue( Callback callBack)</li>
+<li>Dispatcher的enqueue</li>
+<li>getResponseWithInterceptorChain()</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>同步请求</li>
+<li>总结</li>
+</ul>
+<h4 id="使用篇-1"><a href="#使用篇-1" class="headerlink" title="使用篇"></a>使用篇</h4><h5 id="1-OkHttp的优点"><a href="#1-OkHttp的优点" class="headerlink" title="1.OkHttp的优点"></a>1.OkHttp的优点</h5><p>OkHttp作为当前Android端最火热的网络请求框架，必然有很多的优点。</p>
+<p>支持HTTP / 2协议，允许连接到同一个主机地址的所有请求共享Socket。这必然会提高请求效率。<br>在HTTP / 2协议不可用的情况下，通过连接池减少请求的延迟。<br>GZip透明压缩减少传输的数据包大小。<br>响应缓存，避免同一个重复的网络请求。</p>
+<h5 id="2-网络处理3要素"><a href="#2-网络处理3要素" class="headerlink" title="2.网络处理3要素"></a>2.网络处理3要素</h5><p>对于客户端来讲，我们关注的就是把正确的请求发送到服务端并拿到结果来进行处理。在OkHttp中，我认为可以分为3个部分：</p>
+<p><strong>请求类封装客户端发送的请求，包括请求的url，请求方法（主要是GET和POST方法），请求头标题以及请求体requestBody;</strong></p>
+<p>响应类封装了服务器响应的数据，包括代码，消息，主体，头等。<br>OkHttpClient负责发送请求请求并通过同步或者异步的方式返回服务器的响应响应，就好比是一个浏览器。</p>
+<p><strong>OkHttp中通过建造者模式来构建OkHttpClient，请求和响应对于客户端来讲，我们不需要过多关注响应是如何构建的，因为这个是OkHttp对响应结果进行了封装处理。我们只关注请求请求和客户端OkHttpClient如何构建即可。</strong></p>
+<h5 id="2-1请求Request"><a href="#2-1请求Request" class="headerlink" title="2.1请求Request"></a>2.1请求Request</h5><p>请求采用建模者模式来配置url，请求方法method，header，tag和cacheControl。</p>
+<p><strong>设置url</strong>。可以是String类型，URL类型和HttpUrl类型。最终都是用到HttpUrl类型。<br><strong>设置方法</strong>，包含get，post方法等。默认的是get方法.post方法要传RequestBody，类似的还有delete，put，patch。<br><strong>设置头</strong>，方法有addHeader（String name，String value），removeHeader（String name），header（String name，String value），headers（Headers headers）.headers（Headers headers）调用之后其它的头都会被移除，只添加这一个标题。而头（String name，String value）方法调用之后，其它与这个名称同名的标题都会被移除，只保留这一个标题。<br><strong>设置标签</strong>，设置标签可以用来取消这一请求。如果未指定标签或者标签为null，那么这个请求本身就会当做是一个标签用来被取消请求。<br><strong>设置cacheControl</strong>，这个是设置到请求头中。用来替换其它名称是“Cache-Control”的头。如果cacheControl是空的话就会移除请求头中名是“Cache-Control”的头。<br><img src="/img/okhttp1.png" alt=""></p>
+<p>OkHttp采用POST方法向服务器发送一个请求体，在OkHttp中这个请求体是RequestBody。这个请求体可以是：</p>
+<p><strong>字符串类型</strong><br><strong>流流类型</strong><br><strong>文件类型</strong><br><strong>表单形式的键值类型</strong><br><strong>类似Html文件上传表单的复杂请求体类型（多块请求）</strong></p>
+<p>RequestBody有几个静态方法用于创建不同类型的请求体：<br><img src="/img/okhttp2.png" alt=""><br>最终都是相当于重写了RequestBody的两个抽象方法来写入流，如果传递流类型的参数，只要重写这两个抽象方法即可。<br><img src="/img/okhttp3.jpg" alt=""><br>例如，我们提交一个String：<br><img src="/img/okhttp4.png" alt=""><br>提交File：<br><img src="/img/okhttp5.png" alt=""><br>提交流：<br><img src="/img/okhttp6.png" alt=""><br>对于提交表单和分块请求，OkHttp提供了两个RequestBody的子类，<strong>FormBody</strong>和<strong>MultipartBody</strong></p>
+<h5 id="2-1-1-表单FormBody"><a href="#2-1-1-表单FormBody" class="headerlink" title="2.1.1 表单FormBody"></a>2.1.1 表单FormBody</h5><p>FormBody也是采用建造者模式， 这个很简单，添加key-value形式的键值对即可。<br>添加键值对有两个方法：<br><img src="/img/okhttp7.png" alt=""><br>例如：<br><img src="/img/okhttp8.png" alt=""></p>
+<h5 id="2-1-2-分块MultipartBody"><a href="#2-1-2-分块MultipartBody" class="headerlink" title="2.1.2 分块MultipartBody"></a>2.1.2 分块MultipartBody</h5><p>MultipartBody也是采用建造者模式，MultipartBody.Builder可以构建兼容Html文件上传表单的复杂请求体。每一部分的多块请求体都是它自身的请求体，并且可以定义它自己的请求头。如果存在的话，这些请求头用来描述这部分的请求体。例如Content-Disposition、Content-Length 和 Content-Type如果可用就会被自动添加到头。</p>
+<p>MIME类型有：<br><img src="/img/okhttp9.png" alt=""><br>有几个主要的方法：<br><img src="/img/okhttp10.png" alt=""><br>例如提交一个图片文件：<br><img src="/img/okhttp11.png" alt=""></p>
+<h5 id="2-2-客户端OkHttpClient"><a href="#2-2-客户端OkHttpClient" class="headerlink" title="2.2 客户端OkHttpClient"></a>2.2 客户端OkHttpClient</h5><p>OkHttpClient采用建造者模式，通过Builder可以配置连接超时时间、读写时间，是否缓存、是否重连，还可以设置各种拦截器interceptor等。<br>建议在一个App中，OkHttpClient保持一个实例。一个OkHttpClient支持一定数量的并发，请求同一个主机最大并发是5，所有的并发最大是64。这个与OkHttp中的调度器Dispatcher有关，可以设置并发数。本文不对Dispatcher进行讨论。<br><img src="/img/okhttp12.png" alt=""><br>一个例子：<br><img src="/img/okhttp13.png" alt=""><br>OkHttpClient支持单独配置，例如原来设置不同的请求时间，可以通过OkHttpClient的newBuilder()方法来重新构造一个OkHttpClient。例如：<br><img src="/img/okhttp14.png" alt=""></p>
+<h4 id="3-同步请求和异步请求"><a href="#3-同步请求和异步请求" class="headerlink" title="3.同步请求和异步请求"></a>3.同步请求和异步请求</h4><p>上面已经讲了如何创建Request和OkHttpClient，剩下的就是发送请求并得到服务器的响应了。OkHttp发送请求可分为同步和异步。OkHttpClient首先通过Request构建一个Call，通过这个Call去执行同步或者异步请求。<br><img src="/img/okhttp15.png" alt=""><br>同步方式，调用Call的execute()方法，返回Response，会阻塞当前线程：<br><img src="/img/okhttp16.png" alt=""><br>异步方式，调用Call的enqueue(CallBack callBack)方法，会在另一个线程中返回结果。<br><img src="/img/okhttp17.png" alt=""></p>
+<h4 id="4-其他"><a href="#4-其他" class="headerlink" title="4.其他"></a>4.其他</h4><h5 id="4-1-配置响应缓存"><a href="#4-1-配置响应缓存" class="headerlink" title="4.1 配置响应缓存"></a>4.1 配置响应缓存</h5><p>为了缓存响应，需要一个可读写并且设置大小Size的缓存目录。缓存目录需要私有，其它不信任的应用不能访问这个文件。<br>如果同时有多个缓存访问同一个缓存目录会报错。所以最好只在App中初始化一次OkHttpClient，给这个实例配置缓存，在整个App生命周期内都用这一个缓存。否则几个缓存会相互影响，导致缓存出错，引起程序崩溃。<br>响应缓存采用Http头来配置，你可以添加这样的请求头Cache-Control: max-stale=3600。 max-age指的是客户端可以接收生存期不大于指定时间（以秒为单位）的响应。<br>为了防止响应使用缓存，可以用CacheControl.FORCE_NETWORK。为了防止使用网络，采用 CacheControl.FORCE_CACHE。</p>
+<p><strong>注意:如果使用FORCE_CACHE禁止使用网络，而响应又没有缓存存在，OkHttp会报504 Unsatisfiable Request 响应错误。</strong></p>
+<h5 id="4-2-取消请求"><a href="#4-2-取消请求" class="headerlink" title="4.2 取消请求"></a>4.2 取消请求</h5><p>调用Call.cancel()方法可以立即取消一个网络请求。如果当前线程正在写request或者读response会报IO异常。如果不再需要网络请求，采用这种方法是比较方便的。例如在App中返回了上一页。无论是同步还是异步的请求都可以被取消。</p>
+<h5 id="4-3-Response读取响应结果"><a href="#4-3-Response读取响应结果" class="headerlink" title="4.3 Response读取响应结果"></a>4.3 Response读取响应结果</h5><p>可以通过Response的code来判断请求是否成功，如果服务器返回的有数据，可以通过Response的body得到一个ResponseBody读取。<br>如果采用ResponseBody的string()方法会一次性把数据读取到内存中，如果数据超过1MB可能会报内存溢出，所以对于超过1MB的数据，建议采用流的方式去读取，如ResponseBody的byteStream()方法。</p>
+<p>需要说明的是：</p>
+<p><strong>如果ResponseBody的内容不读取的话，不会触发IO流的读取操作<br>内容读取之后，这个body需要关闭。</strong></p>
+<h4 id="5-总结"><a href="#5-总结" class="headerlink" title="5 总结"></a>5 总结</h4><p>OkHttp中的很多类都用到了建造者模式，可以根据需要灵活配置。采用建造者模式的有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">OkHttpClient.Builder</span><br><span class="line">Request.Builder</span><br><span class="line">FormBody.Builder</span><br><span class="line">MultipartBody.Builder</span><br><span class="line">Response.Builder</span><br></pre></td></tr></table></figure></p>
+<p>如果单独使用OkHttp进行网络请求，通常需要开发者自己再封装一下，如果不想重复造轮子，Github上面的有一些优秀开源库可以拿来使用（本文只列出star较多的几个）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hongyangAndroid/okhttputils（曾经在项目中用过）</span><br><span class="line">jeasonlzy/okhttp-OkGo</span><br><span class="line">yanzhenjie/NoHttp</span><br></pre></td></tr></table></figure></p>
+<h3 id="分析篇-1"><a href="#分析篇-1" class="headerlink" title="分析篇"></a>分析篇</h3><h4 id="1-客户端完整的请求"><a href="#1-客户端完整的请求" class="headerlink" title="1.客户端完整的请求"></a>1.客户端完整的请求</h4><p>OkHttp发送一个请求需要4步：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1  构建OkHttpClient</span><br><span class="line">2  构建Request</span><br><span class="line">3  创建一个Call</span><br><span class="line">4  执行Call的同步或者异步方法，处理响应。</span><br></pre></td></tr></table></figure></p>
+<p>我们只以一个简单的异步get请求来举例：<br><img src="/img/okhttp18.png" alt=""><br>Request和OkHttpClient都是我们自己创建的，不再讨论了。就从这个Call来展开讨论。</p>
+<h4 id="2-探究源码"><a href="#2-探究源码" class="headerlink" title="2.探究源码"></a>2.探究源码</h4><h5 id="2-1-Call的实现类RealCall"><a href="#2-1-Call的实现类RealCall" class="headerlink" title="2.1 Call的实现类RealCall"></a>2.1 Call的实现类RealCall</h5><p>Call是一个准备执行的请求，它是一个接口。含有一个内部接口Factory 用于生成Call。<br><img src="/img/okhttp19.png" alt=""><br>OkHttpClient实现了Call.Factory接口，所以有一个newCall方法，这个方法中干了这么个事：<br><img src="/img/okhttp20.png" alt=""><br>可以看到，返回了一个RealCall，这个RealCall是OkHttp中Call的唯一实现类。说明我们执行请求，是通过RealCall发出的。<br>在RealCall的构造方法中，我们还创建了一个拦截器RetryAndFollowUpInterceptor，通过名字我们可以猜测一下这个拦截器的作用是重试和跟进，这个负责是否断线重连和重定向，可以看到这个拦截器跟OkHttpClient有关联，我们可以在配置OkHttpClient的时候配置断线重连等，默认的都是true。</p>
+<p><strong>在OkHttp中以Real为前缀的类，都是真正干活的类</strong></p>
+<h5 id="2-2-RealCall的enqueue-Callback-callBack-方法"><a href="#2-2-RealCall的enqueue-Callback-callBack-方法" class="headerlink" title="2.2 RealCall的enqueue( Callback callBack)方法"></a>2.2 RealCall的enqueue( Callback callBack)方法</h5><p>OkHttpClient的newCall方法只是创建了一个RealCall，RealCall的enqueue方法传递了一个CallBack用于处理回调，那我们看看这个方法都干了些什么:<br><img src="/img/okhttp21.png" alt=""><br>从上面可以看出，同一个Call只能执行一次，否则会报错。<br>client.dispatcher()返回的是与OkHttpClient绑定的一个Dispatcher。这个Dispatcher用来管理请求的调度。在使用篇我们简单的也提到过这个类。这个类主要是用来管理异步请求的调度，同步请求中虽然也参与了，但只是简单的统计正在执行的Call并在Call执行完毕之后做相应的处理。</p>
+<p>AsyncCall是RealCall的内部类，继承了NamedRunnable，实际上也是一个Runnable实现类。这个AsyncCall 包装了Callback。它的run()方法中最终会调用它自己的execute()方法。后面我们会讲到AsyncCall的execute()方法。<br><img src="/img/okhttp22.jpg" alt=""><br>RealCall的enqueue( Callback callBack)实际上最后调用了Dispatcher的enqueue(AsyncCall call)方法。</p>
+<h5 id="2-3-Dispatcher的enqueue方法"><a href="#2-3-Dispatcher的enqueue方法" class="headerlink" title="2.3 Dispatcher的enqueue方法"></a>2.3 Dispatcher的enqueue方法</h5><p>Dispatcher的enqueue方法是这样的：<br><img src="/img/okhttp23.jpg" alt=""><br>这个方法中首先会判断当前正在执行的Call的数量以及访问同一个主机地址的Call的数量是否在限定范围内。Dispatcher默认的Call的并发数是64，同一个主机地址的并发数是5。这个并发数可以更改。<br>如果满足条件，就向代表当前正在执行的Call的集合中添加该Call，并且去执行它。否则就会向等待的集合中添加该Call，等待被执行。</p>
+<p>executorService()返回的是ExecutorService对象，调用ExecutorService的execute(call)方法实际上最后调用的就是AsyncCall 的execute()方法。<br><img src="/img/okhttp24.png" alt=""><br>在这个execute()方法中，能获得返回Response，之后做回调处理，Dispatcher也会对Call进行管理。核心的方法是getResponseWithInterceptorChain()。</p>
+<p>#####2.4 核心方法getResponseWithInterceptorChain()<br><img src="/img/okhttp25.png" alt=""><br><img src="/img/okhttp26.png" alt=""><br>在这个getResponseWithInterceptorChain()方法中，有大量的Interceptors，有开发者自己定义的Interceptor也有OkHttp自己的Interceptor。这些Interceptor都存入到了ArrayList集合，我们在这里就可以大胆猜测一下这个Interceptor应该是顺序执行的。最后创建了一个RealInterceptorChain，通过调用它的proceed(request)方法开始处理原始的request，然后我们就拿到了我们想要的Response。</p>
+<p>RealInterceptorChain是Interceptor.Chain的实现类，看这个Real前缀就知道它干的绝对是重要的事。它是一个具体的拦截器链，我们存放在List<interceptor> interceptors集合中的拦截器之间的传递都要靠它。</interceptor></p>
+<p>它的proceed(request)最终会调用到四个参数的重载方法：<br><img src="/img/okhttp27.png" alt=""><br>上述代码部分就是这个方法的核心，能够把Request依次传递给下一个Interceptor去处理。<br>拦截器Interceptor的设计真是很赞，每一个Interceptor在发送Request的时候只处理自己那一部分Request，然后通过RealInterceptorChain的带动传递给下一个Interceptor进行处理，最后一个Interceptor发送完请求得到服务器的响应Response，经过自己的处理之后返回给它之前的那个Interceptor进行处理，依次进行，最后一个处理完毕的Response返回给开发者用户。<br>形象一点，Interceptor就像是生产线上的工人，Request是物料，Response是产品，RealInterceptorChain是一节一节的传送带。每个工人同时负责处理自己那一部分的Request和Response，由传送带进行传递，各司其职，最后完成一件对用户来讲完美的产品。<br><img src="/img/okhttp28.png" alt=""><br>我第一次看OkHttp3.4源码的的时候真是一脸懵逼继而叹为观止。后来看了其它文章，才知道原来这个设计模式叫作责任链模式。在Android源码设计模式解析与实战这本书中介绍了Android的事件分发处理采用的也是责任链模式。</p>
+<p>具体到每个拦截器都是怎么处理Request和Response的，最好自己去看一下，我们就不展开讨论了。</p>
+<h4 id="3-同步请求"><a href="#3-同步请求" class="headerlink" title="3.同步请求"></a>3.同步请求</h4><p>看了异步请求的调用，同步请求的分析就比较简单最终调用的是getResponseWithInterceptorChain()这个核心方法。<br><img src="/img/okhttp29.png" alt=""><br>4.总结</p>
+<p>本文对OkHttp一个完整的请求过程做了简单的说明，限于篇幅有些地方讲的不是很详细，有兴趣的读者可以自己去探索一下这个流程，尤其是在拦截器那一部分，掌握好了之后对我们平时灵活运用OkHttp会有很大帮助，如配置我们自定义的缓存拦截器，或者在拦截器中监听下载进度，网上也有很多文章可供参考。</p>
+<p><strong>参考:<br>OkHttp官方Wiki文档<br>从OKHttp框架看代码设计<br>拆轮子系列：拆 OkHttp</strong></p>
 
           
         
@@ -1833,182 +2054,6 @@
 <p><strong>问题描述</strong><br>SpringBoot扫描包提示找不到mapper的问题，异常信息：<br>Consider defining a bean of type in your configuration</p>
 <p><strong>分析原因</strong><br>Spring Boot项目的Bean装配默认规则是根据Application类所在的包位置从上往下扫描，“Application类”是指Spring Boot项目入口类。如果Application类所在的包为：com.yoodb.blog，则只会扫描com.yoodb.blog包及其所有子包，如果service或dao所在包不在com.yoodb.blog及其子包下，则不会被扫描。</p>
 <p><strong>解决方法</strong><br>方式一：使用注解@ComponentScan(value=”com.yoodb.blog”)，其中，com.yoodb.blog为包路径。<br>方式二：将启动类Application放在上一级包中，注意的是Application启动类必须要保证在包的根目录下。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Git 指令/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/Git 指令/" itemprop="url">
-                  Git
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Git-指令"><a href="#Git-指令" class="headerlink" title="Git 指令"></a>Git 指令</h3><p><strong>git init</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在本地新建一个repo,进入一个项目目录,执行git init,会初始化一个repo,并在当前文件夹下创建一个.git文件夹.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git clone</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">获取一个url对应的远程Git repo, 创建一个local copy.</span><br><span class="line">一般的格式是git clone [url].</span><br><span class="line">clone下来的repo会以url最后一个斜线后面的名称命名,创建一个文件夹,如果想要指定特定的名称,可以git clone [url] newname指定.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git status</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">查询repo的状态.</span><br><span class="line">git status -s: -s表示short, -s的输出标记会有两列,第一列是对staging区域而言,第二列是对working目录而言.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git log</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">show commit history of a branch.</span><br><span class="line">git log --oneline --number: 每条log只显示一行,显示number条.</span><br><span class="line">git log --oneline --graph:可以图形化地表示出分支合并历史.</span><br><span class="line">git log branchname可以显示特定分支的log.</span><br><span class="line">git log --oneline branch1 ^branch2,可以查看在分支1,却不在分支2中的提交.^表示排除这个分支(Window下可能要给^branch2加上引号).</span><br><span class="line">git log --decorate会显示出tag信息.</span><br><span class="line">git log --author=[author name] 可以指定作者的提交历史.</span><br><span class="line">git log --since --before --until --after 根据提交时间筛选log.</span><br><span class="line">--no-merges可以将merge的commits排除在外.</span><br><span class="line">git log --grep 根据commit信息过滤log: git log --grep=keywords</span><br><span class="line">默认情况下, git log --grep --author是OR的关系,即满足一条即被返回,如果你想让它们是AND的关系,可以加上--all-match的option.</span><br><span class="line">git log -S: filter by introduced diff.</span><br><span class="line">比如: git log -SmethodName (注意S和后面的词之间没有等号分隔).</span><br><span class="line">git log -p: show patch introduced at each commit.</span><br><span class="line">每一个提交都是一个快照(snapshot),Git会把每次提交的diff计算出来,作为一个patch显示给你看.</span><br><span class="line">另一种方法是git show [SHA].</span><br><span class="line">git log --stat: show diffstat of changes introduced at each commit.</span><br><span class="line">同样是用来看改动的相对信息的,--stat比-p的输出更简单一些.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git add</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">在提交之前,Git有一个暂存区(staging area),可以放入新添加的文件或者加入新的改动. commit时提交的改动是上一次加入到staging area中的改动,而不是我们disk上的改动.</span><br><span class="line">git add .</span><br><span class="line">会递归地添加当前工作目录中的所有文件.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git diff</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">不加参数的git diff:</span><br><span class="line">show diff of unstaged changes.</span><br><span class="line">此命令比较的是工作目录中当前文件和暂存区域快照之间的差异,也就是修改之后还没有暂存起来的变化内容.</span><br><span class="line"></span><br><span class="line">若要看已经暂存起来的文件和上次提交时的快照之间的差异,可以用:</span><br><span class="line">git diff --cached 命令.</span><br><span class="line">show diff of staged changes.</span><br><span class="line">(Git 1.6.1 及更高版本还允许使用 git diff --staged，效果是相同的).</span><br><span class="line">git diff HEAD</span><br><span class="line">show diff of all staged or unstated changes.</span><br><span class="line">也即比较woking directory和上次提交之间所有的改动.</span><br><span class="line"></span><br><span class="line">如果想看自从某个版本之后都改动了什么,可以用:</span><br><span class="line">git diff [version tag]</span><br><span class="line">跟log命令一样,diff也可以加上--stat参数来简化输出.</span><br><span class="line"></span><br><span class="line">git diff [branchA] [branchB]可以用来比较两个分支.</span><br><span class="line">它实际上会返回一个由A到B的patch,不是我们想要的结果.</span><br><span class="line">一般我们想要的结果是两个分支分开以后各自的改动都是什么,是由命令:</span><br><span class="line">git diff [branchA]…[branchB]给出的.</span><br><span class="line">实际上它是:git diff $(git merge-base [branchA] [branchB]) [branchB]的结果.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git commit</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">提交已经被add进来的改动.</span><br><span class="line">git commit -m “the commit message&quot;</span><br><span class="line">git commit -a 会先把所有已经track的文件的改动add进来,然后提交(有点像svn的一次提交,不用先暂存). 对于没有track的文件,还是需要git add一下.</span><br><span class="line">git commit --amend 增补提交. 会使用与当前提交节点相同的父节点进行一次新的提交,旧的提交将会被取消.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git reset</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">undo changes and commits.</span><br><span class="line">这里的HEAD关键字指的是当前分支最末梢最新的一个提交.也就是版本库中该分支上的最新版本.</span><br><span class="line">git reset HEAD: unstage files from index and reset pointer to HEAD</span><br><span class="line">这个命令用来把不小心add进去的文件从staged状态取出来,可以单独针对某一个文件操作: git reset HEAD - - filename, 这个- - 也可以不加.</span><br><span class="line">git reset --soft</span><br><span class="line">move HEAD to specific commit reference, index and staging are untouched.</span><br><span class="line">git reset --hard</span><br><span class="line">unstage files AND undo any changes in the working directory since last commit.</span><br><span class="line">使用git reset —hard HEAD进行reset,即上次提交之后,所有staged的改动和工作目录的改动都会消失,还原到上次提交的状态.</span><br><span class="line">这里的HEAD可以被写成任何一次提交的SHA-1.</span><br><span class="line">不带soft和hard参数的git reset,实际上带的是默认参数mixed.</span><br><span class="line"></span><br><span class="line">总结:</span><br><span class="line">git reset --mixed id,是将git的HEAD变了(也就是提交记录变了),但文件并没有改变，(也就是working tree并没有改变). 取消了commit和add的内容.</span><br><span class="line">git reset --soft id. 实际上，是git reset –mixed id 后,又做了一次git add.即取消了commit的内容.</span><br><span class="line">git reset --hard id.是将git的HEAD变了,文件也变了.</span><br><span class="line">按改动范围排序如下:</span><br><span class="line">soft (commit) &lt; mixed (commit + add) &lt; hard (commit + add + local working)</span><br></pre></td></tr></table></figure></p>
-<p><strong>git revert</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">反转撤销提交.只要把出错的提交(commit)的名字(reference)作为参数传给命令就可以了.</span><br><span class="line">git revert HEAD: 撤销最近的一个提交.</span><br><span class="line">git revert会创建一个反向的新提交,可以通过参数-n来告诉Git先不要提交.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git rm</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm file: 从staging区移除文件,同时也移除出工作目录.</span><br><span class="line">git rm --cached: 从staging区移除文件,但留在工作目录中.</span><br><span class="line">git rm --cached从功能上等同于git reset HEAD,清除了缓存区,但不动工作目录树.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git clean</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clean是从工作目录中移除没有track的文件.</span><br><span class="line">通常的参数是git clean -df:</span><br><span class="line">-d表示同时移除目录,-f表示force,因为在git的配置文件中, clean.requireForce=true,如果不加-f,clean将会拒绝执行.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git mv</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm - - cached orig; mv orig new; git add new</span><br></pre></td></tr></table></figure></p>
-<p><strong>git stash</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">把当前的改动压入一个栈.</span><br><span class="line">git stash将会把当前目录和index中的所有改动(但不包括未track的文件)压入一个栈,然后留给你一个clean的工作状态,即处于上一次最新提交处.</span><br><span class="line">git stash list会显示这个栈的list.</span><br><span class="line">git stash apply:取出stash中的上一个项目(stash@&#123;0&#125;),并且应用于当前的工作目录.</span><br><span class="line">也可以指定别的项目,比如git stash apply stash@&#123;1&#125;.</span><br><span class="line">如果你在应用stash中项目的同时想要删除它,可以用git stash pop</span><br><span class="line"></span><br><span class="line">删除stash中的项目:</span><br><span class="line">git stash drop: 删除上一个,也可指定参数删除指定的一个项目.</span><br><span class="line">git stash clear: 删除所有项目.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git branch</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git branch可以用来列出分支,创建分支和删除分支.</span><br><span class="line">git branch -v可以看见每一个分支的最后一次提交.</span><br><span class="line">git branch: 列出本地所有分支,当前分支会被星号标示出.</span><br><span class="line">git branch (branchname): 创建一个新的分支(当你用这种方式创建分支的时候,分支是基于你的上一次提交建立的). </span><br><span class="line">git branch -d (branchname): 删除一个分支.</span><br><span class="line">删除remote的分支:</span><br><span class="line">git push (remote-name) :(branch-name): delete a remote branch.</span><br><span class="line">这个是因为完整的命令形式是:</span><br><span class="line">git push remote-name local-branch:remote-branch</span><br><span class="line">而这里local-branch的部分为空,就意味着删除了remote-branch</span><br></pre></td></tr></table></figure></p>
-<p><strong>git checkout</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git checkout（branchname）</span><br><span class="line">切换到一个分支.</span><br><span class="line">git checkout -b (branchname): 创建并切换到新的分支.</span><br><span class="line">这个命令是将git branch newbranch和git checkout newbranch合在一起的结果.</span><br><span class="line">checkout还有另一个作用:替换本地改动:</span><br><span class="line">git checkout --&lt;filename&gt;</span><br><span class="line">此命令会使用HEAD中的最新内容替换掉你的工作目录中的文件.已添加到暂存区的改动以及新文件都不会受到影响.</span><br><span class="line">注意:git checkout filename会删除该文件中所有没有暂存和提交的改动,这个操作是不可逆的.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git merge</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">把一个分支merge进当前的分支.</span><br><span class="line">git merge [alias]/[branch]</span><br><span class="line">把远程分支merge到当前分支.</span><br><span class="line"></span><br><span class="line">如果出现冲突,需要手动修改,可以用git mergetool.</span><br><span class="line">解决冲突的时候可以用到git diff,解决完之后用git add添加,即表示冲突已经被resolved.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git tag</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">tag a point in history as import.</span><br><span class="line">会在一个提交上建立永久性的书签,通常是发布一个release版本或者ship了什么东西之后加tag.</span><br><span class="line">比如: git tag v1.0</span><br><span class="line">git tag -a v1.0, -a参数会允许你添加一些信息,即make an annotated tag.</span><br><span class="line">当你运行git tag -a命令的时候,Git会打开一个编辑器让你输入tag信息.</span><br><span class="line"></span><br><span class="line">我们可以利用commit SHA来给一个过去的提交打tag:</span><br><span class="line">git tag -a v0.9 XXXX</span><br><span class="line"></span><br><span class="line">push的时候是不包含tag的,如果想包含,可以在push时加上--tags参数.</span><br><span class="line">fetch的时候,branch HEAD可以reach的tags是自动被fetch下来的, tags that aren’t reachable from branch heads will be skipped.如果想确保所有的tags都被包含进来,需要加上--tags选项.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git remote</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">list, add and delete remote repository aliases.</span><br><span class="line">因为不需要每次都用完整的url,所以Git为每一个remote repo的url都建立一个别名,然后用git remote来管理这个list.</span><br><span class="line">git remote: 列出remote aliases.</span><br><span class="line">如果你clone一个project,Git会自动将原来的url添加进来,别名就叫做:origin.</span><br><span class="line">git remote -v:可以看见每一个别名对应的实际url.</span><br><span class="line">git remote add [alias] [url]: 添加一个新的remote repo.</span><br><span class="line">git remote rm [alias]: 删除一个存在的remote alias.</span><br><span class="line">git remote rename [old-alias] [new-alias]: 重命名.</span><br><span class="line">git remote set-url [alias] [url]:更新url. 可以加上—push和fetch参数,为同一个别名set不同的存取地址.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git fetch</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">download new branches and data from a remote repository.</span><br><span class="line">可以git fetch [alias]取某一个远程repo,也可以git fetch --all取到全部repo</span><br><span class="line">fetch将会取到所有你本地没有的数据,所有取下来的分支可以被叫做remote branches,它们和本地分支一样(可以看diff,log等,也可以merge到其他分支),但是Git不允许你checkout到它们.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git pull</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fetch from a remote repo and try to merge into the current branch.</span><br><span class="line">pull == fetch + merge FETCH_HEAD</span><br><span class="line">git pull会首先执行git fetch,然后执行git merge,把取来的分支的head merge到当前分支.这个merge操作会产生一个新的commit.    </span><br><span class="line">如果使用--rebase参数,它会执行git rebase来取代原来的git merge.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git rebase</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">--rebase不会产生合并的提交,它会将本地的所有提交临时保存为补丁(patch),放在”.git/rebase”目录中,然后将当前分支更新到最新的分支尖端,最后把保存的补丁应用到分支上.</span><br><span class="line">rebase的过程中,也许会出现冲突,Git会停止rebase并让你解决冲突,在解决完冲突之后,用git add去更新这些内容,然后无需执行commit,只需要:</span><br><span class="line">git rebase --continue就会继续打余下的补丁.</span><br><span class="line">git rebase --abort将会终止rebase,当前分支将会回到rebase之前的状态.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git push</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push your new branches and data to a remote repository.</span><br><span class="line">git push [alias] [branch]</span><br><span class="line">将会把当前分支merge到alias上的[branch]分支.如果分支已经存在,将会更新,如果不存在,将会添加这个分支.</span><br><span class="line">如果有多个人向同一个remote repo push代码, Git会首先在你试图push的分支上运行git log,检查它的历史中是否能看到server上的branch现在的tip,如果本地历史中不能看到server的tip,说明本地的代码不是最新的,Git会拒绝你的push,让你先fetch,merge,之后再push,这样就保证了所有人的改动都会被考虑进来.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git reflog</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git reflog是对reflog进行管理的命令,reflog是git用来记录引用变化的一种机制,比如记录分支的变化或者是HEAD引用的变化.</span><br><span class="line">当git reflog不指定引用的时候,默认列出HEAD的reflog.</span><br><span class="line">HEAD@&#123;0&#125;代表HEAD当前的值,HEAD@&#123;3&#125;代表HEAD在3次变化之前的值.</span><br><span class="line">git会将变化记录到HEAD对应的reflog文件中,其路径为.git/logs/HEAD, 分支的reflog文件都放在.git/logs/refs目录下的子目录中.</span><br></pre></td></tr></table></figure></p>
 
           
         

@@ -319,7 +319,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/commons-dbutils简介/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/一、Session简单介绍/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -338,8 +338,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/commons-dbutils简介/" itemprop="url">
-                  javaweb (八)
+                <a class="post-title-link" href="/2018/07/20/一、Session简单介绍/" itemprop="url">
+                  javaweb (十一 )
                 </a>
               
             
@@ -419,25 +419,21 @@
       
         
           
-            <h3 id="commons-dbutils简介"><a href="#commons-dbutils简介" class="headerlink" title="commons-dbutils简介　"></a>commons-dbutils简介　</h3><p>　　commons-dbutils 是 Apache 组织提供的一个开源 JDBC工具类库，它是对JDBC的简单封装，学习成本极低，并且使用dbutils能极大简化jdbc编码的工作量，同时也不会影响程序的性能。因此dbutils成为很多不喜欢hibernate的公司的首选。<br>commons-dbutilsAPI介绍：</p>
-<ul>
-<li>org.apache.commons.dbutils.QueryRunner</li>
-<li><p>org.apache.commons.dbutils.ResultSetHandler<br>工具类</p>
-</li>
-<li><p>org.apache.commons.dbutils.DbUtils</p>
+            <h3 id="一、Session简单介绍"><a href="#一、Session简单介绍" class="headerlink" title="一、Session简单介绍"></a>一、Session简单介绍</h3><p>在WEB开发中，服务器可以为每个用户浏览器创建一个会话对象（session对象），注意：一个浏览器独占一个session对象(默认情况下)。因此，在需要保存用户数据时，服务器程序可以把用户数据写到用户浏览器独占的session中，当用户使用浏览器访问其它程序时，其它程序可以从用户的session中取出该用户的数据，为用户服务。</p>
+<h3 id="二、Session和Cookie的主要区别"><a href="#二、Session和Cookie的主要区别" class="headerlink" title="二、Session和Cookie的主要区别"></a>二、Session和Cookie的主要区别</h3><ul>
+<li>Cookie是把用户的数据写给用户的浏览器。</li>
+<li>Session技术把用户的数据写到用户独占的session中。</li>
+<li>Session对象由服务器创建，开发人员可以调用request对象的getSession方法得到session对象。<h3 id="三、session实现原理"><a href="#三、session实现原理" class="headerlink" title="三、session实现原理"></a>三、session实现原理</h3><h4 id="3-1、服务器是如何实现一个session为一个用户浏览器服务的？"><a href="#3-1、服务器是如何实现一个session为一个用户浏览器服务的？" class="headerlink" title="3.1、服务器是如何实现一个session为一个用户浏览器服务的？"></a>3.1、服务器是如何实现一个session为一个用户浏览器服务的？</h4>　　服务器创建session出来后，会把session的id号，以cookie的形式回写给客户机，这样，只要客户机的浏览器不关，再去访问服务器时，都会带着session的id号去，服务器发现客户机浏览器带session id过来了，就会使用内存中与之对应的session为之服务。可以用如下的代码证明：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">package qgx.session;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import javax.servlet.http.HttpSession;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;SessionDemo1&quot;)</span><br><span class="line">public class SessionDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        response.setCharacterEncoding(&quot;utf-8&quot;);</span><br><span class="line">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        HttpSession session = request.getSession();</span><br><span class="line">        session.setAttribute(&quot;data&quot;, &quot;刘俭梅&quot;);</span><br><span class="line">        String sessionId = session.getId();</span><br><span class="line">        if (session.isNew()) &#123;</span><br><span class="line">            response.getWriter().print(&quot;session创建成功，session的id为:&quot; + sessionId);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            response.getWriter().print(&quot;服务器已经存在该session了，session的is为:&quot; + sessionId);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h3 id="QueryRunner类使用讲解"><a href="#QueryRunner类使用讲解" class="headerlink" title="QueryRunner类使用讲解"></a>QueryRunner类使用讲解</h3><p>　　该类简单化了SQL查询，它与ResultSetHandler组合在一起使用可以完成大部分的数据库操作，能够大大减少编码量。<br>　　QueryRunner类提供了两个构造方法：</p>
-<ul>
-<li>默认的构造方法</li>
-<li>需要一个 javax.sql.DataSource 来作参数的构造方法。<h4 id="QueryRunner类的主要方法"><a href="#QueryRunner类的主要方法" class="headerlink" title="QueryRunner类的主要方法"></a>QueryRunner类的主要方法</h4></li>
-<li>public Object query(Connection conn, String sql, Object[] params, ResultSetHandler rsh) throws SQLException：执行一个查询操作，在这个查询中，对象数组中的每个元素值被用来作为查询语句的置换参数。该方法会自行处理 PreparedStatement 和 ResultSet 的创建和关闭。</li>
-<li>public Object query(String sql, Object[] params, ResultSetHandler rsh) throws SQLException:　几乎与第一种方法一样；唯一的不同在于它不将数据库连接提供给方法，并且它是从提供给构造方法的数据源(DataSource) 或使用的setDataSource 方法中重新获得 Connection。</li>
-<li>public Object query(Connection conn, String sql, ResultSetHandler rsh) throws SQLException : 执行一个不需要置换参数的查询操作。</li>
-<li>public int update(Connection conn, String sql, Object[] params) throws SQLException:用来执行一个更新（插入、更新或删除）操作。</li>
-<li>public int update(Connection conn, String sql) throws SQLException：用来执行一个不需要置换参数的更新操作。</li>
-</ul>
-<h4 id="使用QueryRunner类实现CRUD"><a href="#使用QueryRunner类实现CRUD" class="headerlink" title="使用QueryRunner类实现CRUD"></a>使用QueryRunner类实现CRUD</h4>
+<p>第一次访问时，服务器会创建一个新的sesion，并且把session的Id以cookie的形式发送给客户端浏览器，如下图所示：<br><img src="/img/session1.png" alt=""><br>　点击刷新按钮，再次请求服务器，此时就可以看到浏览器再请求服务器时，会把存储到cookie中的session的Id一起传递到服务器端了，如下图所示：<br><img src="/img/session2.png" alt=""><br>request.getSession()方法内部新创建了Session之后一定是做了如下的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//获取session的Id</span><br><span class="line"> String sessionId = session.getId();</span><br><span class="line"> //将session的Id存储到名字为JSESSIONID的cookie中</span><br><span class="line"> Cookie cookie = new Cookie(&quot;JSESSIONID&quot;, sessionId);</span><br><span class="line">//设置cookie的有效路径</span><br><span class="line"> cookie.setPath(request.getContextPath());</span><br><span class="line"> response.addCookie(cookie);</span><br></pre></td></tr></table></figure>
+<h3 id="四、session对象的创建和销毁时机"><a href="#四、session对象的创建和销毁时机" class="headerlink" title="四、session对象的创建和销毁时机"></a>四、session对象的创建和销毁时机</h3><h4 id="4-1、session对象的创建时机"><a href="#4-1、session对象的创建时机" class="headerlink" title="4.1、session对象的创建时机"></a>4.1、session对象的创建时机</h4><p>在程序中第一次调用request.getSession()方法时就会创建一个新的Session，可以用isNew()方法来判断Session是不是新创建的</p>
+<p>范例：创建session<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//使用request对象的getSession()获取session，如果session不存在则创建一个</span><br><span class="line">HttpSession session = request.getSession();</span><br><span class="line">//获取session的Id</span><br><span class="line">String sessionId = session.getId();</span><br><span class="line">//判断session是不是新创建的</span><br><span class="line">if (session.isNew()) &#123;</span><br><span class="line">    response.getWriter().print(&quot;session创建成功，session的id是：&quot;+sessionId);</span><br><span class="line">&#125;else &#123;</span><br><span class="line">    response.getWriter().print(&quot;服务器已经存在session，session的id是：&quot;+sessionId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="4-2、session对象的销毁时机"><a href="#4-2、session对象的销毁时机" class="headerlink" title="4.2、session对象的销毁时机"></a>4.2、session对象的销毁时机</h4><p>　　session对象默认30分钟没有使用，则服务器会自动销毁session，在web.xml文件中可以手工<br>配置session的失效时间，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 设置Session的有效时间:以分钟为单位--&gt;</span><br><span class="line">    &lt;session-config&gt;</span><br><span class="line">        &lt;session-timeout&gt;15&lt;/session-timeout&gt;</span><br><span class="line">    &lt;/session-config&gt;</span><br></pre></td></tr></table></figure>
+<p>当需要在程序中手动设置Session失效时，可以手工调用session.invalidate方法，摧毁session。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HttpSession session = request.getSession();</span><br><span class="line">//手工调用session.invalidate方法，摧毁session</span><br><span class="line">session.invalidate();</span><br></pre></td></tr></table></figure></p>
+
           
         
       
@@ -490,7 +486,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/一、Fragment的基础知识介绍/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/在LitePal中解析XML/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -509,8 +505,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/一、Fragment的基础知识介绍/" itemprop="url">
-                  Fragment  的详细介绍和使用方法
+                <a class="post-title-link" href="/2018/07/20/在LitePal中解析XML/" itemprop="url">
+                  Android 编程知识
                 </a>
               
             
@@ -590,25 +586,11 @@
       
         
           
-            <p>转载:<a href="http://blog.csdn.net/yangyu20121224/article/details/8995025" target="_blank" rel="noopener">http://blog.csdn.net/yangyu20121224/article/details/8995025</a></p>
-<p>&amp;#8195&amp;#8195由于TabActivity在Android4.0以后已经被完全弃用，那么我就不再浪费口水继续讲解它了，取而代之的是Fragment。Fragment是Android3.0新增的概念，Fragment翻译成中文是碎片的意思，不过却和Activity十分的相似，这一篇我花大量的篇幅来详细的讲解Fragment的介绍和使用方法。</p>
-<h2 id="一、Fragment的基础知识介绍"><a href="#一、Fragment的基础知识介绍" class="headerlink" title="一、Fragment的基础知识介绍"></a>一、Fragment的基础知识介绍</h2><h3 id="1-1概述"><a href="#1-1概述" class="headerlink" title="1.1概述"></a>1.1概述</h3><h4 id="1-1-1-特性"><a href="#1-1-1-特性" class="headerlink" title="1.1.1 特性"></a>1.1.1 特性</h4><p>&amp;#8195&amp;#8195Fragment是activity的界面中的一部分或一种行为。可以把多个Fragment组合到一个activity中来创建一个多界面<br>并且可以在多个activity中重用一个Fragment。可以把Fragment任务模块化的一段activity，它具有自己的生命周期，接收它自己的事件，并可以在activity运行时被添加或删除。<br>&amp;#8195&amp;#8195 Fragment不能独立存在，它必须嵌入到activity中，而且Fragment的生命周期直接受所在的activity的影响。例<br>如：当activity暂停时，他拥有的所有的Fragment都暂停了，当activity销毁时，他拥有的所有Fragment都被销毁。然<br>而，当activity运行时（在onResume()之后，onPause()之前），可以单独地操作每个Fragment，比如添加或删除它<br>们。当中执行上述针对Fragment的事务时，可以将事务添加到一个栈中，这个栈被activity管理，栈中的每一条都是一<br>个Fragment的一次事务。有了这个栈，就可以反向执行Fragment的事务，这样就可以在Fragment级支持“返回”键<br>（向后导航）。<br>&amp;#8195&amp;#8195当向activity中添加一个Fragment时，它须置于ViewGroup控件中，并且需定义Fragment自己的界面。可以在<br>layout.xml布局文件中声明Fragment，元素为：<fragment>；也可以在代码中创建Fragment，然后把它加入到<br>ViewGroup控件中。然而，Fragment不一定非要放在activity的界面中，它可以隐藏在后台为activity工作。</fragment></p>
-<h4 id="1-1-2-生命周期"><a href="#1-1-2-生命周期" class="headerlink" title="1.1.2 生命周期"></a>1.1.2 生命周期</h4><p>onCreate()：<br>&amp;#8195&amp;#8195当创建fragment时系统调用此方法。在其中必须初始化fragment的基础组件们。可参考activity的说明；</p>
-<p>onCreateView()：<br>&amp;#8195&amp;#8195系统在fragment要画自己的界面时调用（在真正显示之前）此方法，这个方法必须返回fragment的layout的根控<br>件，如果这个fragment不提供界面，那它应返回null；</p>
-<p>onPause()：<br>&amp;#8195&amp;#8195大多数程序应最少对fragment实现这三个方法，当然还有其它几个回调方法可应该按情况实现之，所有的声明周期。<br>下图为fragment的生命周期（它所在的activity处于运行状态）<br><img src="/img/fragment.jpg" alt=""><br> Activity和Fragment生命周期对比图如下：<br> <img src="/img/fragment1.png" alt=""><br> 两个的生命周期很类似，也息息相关。</p>
-<h4 id="1-1-3-派生类"><a href="#1-1-3-派生类" class="headerlink" title="1.1.3 派生类"></a>1.1.3 派生类</h4><p>DialogFragment</p>
-<ul>
-<li>显示一个浮动的对话框。使用这个类创建对话框是替代activity创建对话框的最佳选择。因为可以把fragmentdialog<br>放入到activity的返回栈中，使用户能再返回到这个对话框。</li>
-</ul>
-<p>ListFragment</p>
-<ul>
-<li>显示一个列表控件，就像ListActivity类，它提供了很多管理列表的方法，比如onListItemClick()方法响应click事件。</li>
-</ul>
-<p>PreferenceFragment</p>
-<ul>
-<li>显示一个由Preference对象组成的列表，与PreferenceActivity相同。它用于为程序创建“设置”activity。<h3 id="1-2-范例"><a href="#1-2-范例" class="headerlink" title="1.2 范例"></a>1.2 范例</h3>写一个读新闻的程序，可以用一个fragment显示标题列表，另一个fragment显示选中标题的内容，这两个fragment<br>都在一个activity上，并排显示。那么这两个fragment都有自己的生命周期并响应自己感兴趣的事件。于是，不需要再<br>像手机上那样用一个activity显示标题列表，用另一个activity显示新闻内容；现在可以把两者放在一个activity上同时显<br>示出来。如下图：<br><img src="/img/fragment2.jpg" alt=""><br>Fragment必须被写成可重用的模块。因为fragment有自己的layout，自己进行事件响应，拥有自己的生命周期和<br>行为，所以可以在多个activity中包含同一个Fragment的不同实例。这对于让世界在不同的屏幕尺寸下都能给用户完美<br>的体验尤其重要。比如可以在程序运行于大屏幕中时启动包含很多fragment的activity，而在运行小屏幕时启动一个包<br>含少量fragment的activity。<pre><code>刚才读新闻的程序，当检测到程序运行于大屏幕时，启动activityA，将标题列表和新闻内容这两个fragment都放
-</code></pre>在activityA中；当检测到程序运行于小屏幕时，还是启动activityA，但此时A中只有标题列表fragment，当选中一个标<br>题时，activityA启动activityB，B中含有新闻内容fragment。</li>
-</ul>
+            <h3 id="在LitePal中解析XML"><a href="#在LitePal中解析XML" class="headerlink" title="在LitePal中解析XML"></a>在LitePal中解析XML</h3><p>在使用LitePal的时候有些关键步骤不可获取，其中一个是创建litepal.xml文件，放到assets目录下，里面有一些数据库名、版本号、映射列表等。那么LitePal需要怎么获取到我们配置的数据呢？这里就要去解析xml文件了。LitePal默认使用的是SAX解析。还有Pull和DOM解析未来将会被引入。</p>
+<h4 id="LitePalParser"><a href="#LitePalParser" class="headerlink" title="LitePalParser"></a>LitePalParser</h4><p>下面先列出几个需要解析的node和attribute：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">static final String NODE_DB_NAME = &quot;dbname&quot;;</span><br><span class="line">      static final String NODE_VERSION = &quot;version&quot;;</span><br><span class="line">      static final String NODE_LIST = &quot;list&quot;;</span><br><span class="line">      static final String NODE_MAPPING = &quot;mapping&quot;;</span><br><span class="line">      static final String NODE_CASES = &quot;cases&quot;;</span><br><span class="line">      static final String ATTR_VALUE = &quot;value&quot;;</span><br><span class="line">      static final String ATTR_CLASS = &quot;class&quot;;</span><br></pre></td></tr></table></figure></p>
+<p>默认会使用SAX解析，首先要从根目录的assests目录下面去遍历到literpal.xml，然后转成数据流给解析器 解析。</p>
+<h4 id="LitePalAttr"><a href="#LitePalAttr" class="headerlink" title="LitePalAttr"></a>LitePalAttr</h4><p>从litepal.xml里面解析出来的一些属性将会存到这个类。单例模式，全局只有一个。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private static LitePalAttr litePalAttr;</span><br><span class="line">      private int version ;</span><br><span class="line">      private String dbName ;</span><br><span class="line">      private String cases ;</span><br><span class="line">      private List&lt;String&gt; classNames ;</span><br></pre></td></tr></table></figure></p>
+<h4 id="LitePalContentHandler"><a href="#LitePalContentHandler" class="headerlink" title="LitePalContentHandler"></a>LitePalContentHandler</h4><p>继承了sax解析的DefaultHandler用来解析litepal.xml文件。然后把值set到LitePalAttr里面。</p>
 
           
         
