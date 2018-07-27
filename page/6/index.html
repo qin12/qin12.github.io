@@ -319,6 +319,351 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Handler/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/Handler/" itemprop="url">
+                  Handler
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Handler"><a href="#Handler" class="headerlink" title="Handler"></a>Handler</h3><p>作者博客：<a href="https://blog.csdn.net/ClAndEllen/article/details/79343538" target="_blank" rel="noopener">https://blog.csdn.net/ClAndEllen/article/details/79343538</a></p>
+<h4 id="1-什么是Handler？"><a href="#1-什么是Handler？" class="headerlink" title="1.什么是Handler？"></a>1.什么是Handler？</h4><p>  Handler是可以通过发送和处理Message和Runnable对象来关联相应线程的MessageQueue。通常我们认为它是一种异步机制。</p>
+<ul>
+<li>a.可以让对应的Message和Runnable在未来的某个时间点进行相应的处理。</li>
+<li>b.让自己想要的耗时操作在子线程中完成，让更新UI的操作在主线程中完成，而子线程与主线程之间的通信就是靠Handler来完成。</li>
+</ul>
+<h4 id="2-Handler的使用方法"><a href="#2-Handler的使用方法" class="headerlink" title="2.Handler的使用方法"></a>2.Handler的使用方法</h4><ul>
+<li><p>a.post(Runnable)</p>
+</li>
+<li><p>b.sendMessage(Message)</p>
+</li>
+</ul>
+<h4 id="3-Handler内部的实现机制"><a href="#3-Handler内部的实现机制" class="headerlink" title="3.Handler内部的实现机制"></a>3.Handler内部的实现机制</h4><p>  Handler机制也可叫异步消息机制，它主要由4个部分组成：<strong>Message,Handler,MessageQueue,Looper,</strong>在上面我们已经接触到了Message和Handler,接下来我们对4个成员进行着重的了解：</p>
+<p><strong>1.Message</strong><br>  Message是在线程之间传递的消息，它可以在内部携带少量的信息，用于在不同线程之间交换数据。使用Message的arg1和arg2便可携带int数据，使用obj便可携带Object类型数据。</p>
+<p><strong>2.Handler</strong><br>  Handler顾名思义就是处理者的意思，它只要用于在子线程发送消息对象Message,在UI线程处理消息对象Message，在子线程调用sendMessage方法发送消息对象Message，而发送的消息经过一系列地辗转之后最终会被传递到Handler的handleMessage方法中,最终在handleMessage方法中消息对象Message被处理。</p>
+<p><strong>3.MessageQueue</strong><br>  MessageQueue就是消息队列的意思,它只要用于存放所有通过Handler发送过来的消息。这部分消息会一直存放于消息队列当中，等待被处理。每个线程中只会有一个MessageQueue对象，请牢记这句话。其实从字面上就可以看出，MessageQueue底层数据结构是队列，而且这个队列只存放Message对象。</p>
+<p><strong>4.Looper</strong><br>  Looper是每个线程中的MessageQueue的管家，调用Looper的loop()方法后，就会进入到一个无限循环当中，然后每当MesssageQueue中存在一条消息，Looper就会将这条消息取出，并将它传递到Handler的handleMessage()方法中。每个线程只有一个Looper对象。</p>
+<p>  了解了上述Handler机制的4个成员后，我们再来把思路理一遍：首先在UI线程我们创建了一个Handler实例对象，无论是匿名内部类还是自定义类生成的Handler实例对象，我们都需要对handleMessage方法进行重写，在handleMessage方法中我们可以通过参数msg来写接受消息过后UIi线程的逻辑处理，接着我们创建子线程，在子线程中需要更新UI的时候，新建一个Message对象，并且将消息的数据记录在这个消息对象Message的内部，比如arg1,arg2,obj等，然后通过前面的Handler实例对象调用sendMessge方法把这个Message实例对象发送出去，之后这个消息会被存放于MessageQueue中等待被处理，此时MessageQueue的管家Looper正在不停的把MessageQueue存在的消息取出来，通过回调dispatchMessage方法将消息传递给Handler的handleMessage方法，最终前面提到的消息会被Looper从MessageQueue中取出来传递给handleMessage方法，最终得到处理。这就是Handler机制整个的工作流程，怎么样？你懂了吗？看看下面的图你就更懂了：<br><img src="/img/handler1.png" alt=""></p>
+<h4 id="4-Handler引起的内存泄漏以及解决方法"><a href="#4-Handler引起的内存泄漏以及解决方法" class="headerlink" title="4.Handler引起的内存泄漏以及解决方法"></a>4.Handler引起的内存泄漏以及解决方法</h4><p>原因：<strong>非静态内部类持有外部类的匿名引用，导致外部activity无法得到释放。</strong></p>
+<p>解决方法：handler内部持有外部的弱引用，并把handler改为<strong>静态内部类</strong>，<strong>在activity的onDestory()中调用handler的removeCallback()方法。</strong></p>
+<h4 id="Handler的产生背景"><a href="#Handler的产生背景" class="headerlink" title="Handler的产生背景"></a>Handler的产生背景</h4><p>  开启子线程进行耗时操作，多次创建和销毁子线程是很耗费资源的，但是木有关系，谷歌考虑了这点为我们专门开发出了HandlerThread机制，那么它有什么特点呢？请看下面：</p>
+<h4 id="HandlerThread是什么？"><a href="#HandlerThread是什么？" class="headerlink" title="HandlerThread是什么？"></a>HandlerThread是什么？</h4><p>  本质：Handler + Thread + Looper，是一个Thread内部有Looper。当你被面试官问道HandlerThread是什么，有何特点，那么你应该这么回答：</p>
+<p>  a.HandlerThread本质上是一个线程类，它继承了Thread。</p>
+<p>  b.HandlerThread有自己内部的Looper对象，可以进行Looper循环。</p>
+<p>  c.通过获取HandlerThread的Looper对象传递给Handler对象，可以在handlerMessage方法中执行异步任务。</p>
+<p>  d.优点是不会有堵塞，减少对性能的消耗，缺点是不能进行多任务的处理，需要等待进行处理，处理效率较低。</p>
+<p>  e.与线程池注重并发不同，HandlerThread是一个串行队列，HandlerThread背后只有一个线程。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Spring Boot中使用JdbcTemplate访问数据库/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/Spring Boot中使用JdbcTemplate访问数据库/" itemprop="url">
+                  Spring Boot(六)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Spring-Boot中使用JdbcTemplate访问数据库"><a href="#Spring-Boot中使用JdbcTemplate访问数据库" class="headerlink" title="Spring Boot中使用JdbcTemplate访问数据库"></a>Spring Boot中使用JdbcTemplate访问数据库</h3><h4 id="数据源配置"><a href="#数据源配置" class="headerlink" title="数据源配置"></a>数据源配置</h4><p>在我们访问数据库的时候，需要先配置一个数据源，下面分别介绍一下几种不同的数据库配置方式。</p>
+<p>首先，为了连接数据库需要引入jdbc支持，在pom.xml中引入如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="嵌入式数据库支持"><a href="#嵌入式数据库支持" class="headerlink" title="嵌入式数据库支持"></a>嵌入式数据库支持</h4><p>嵌入式数据库通常用于开发和测试环境，不推荐用于生产环境。Spring Boot提供自动配置的嵌入式数据库有H2、HSQL、Derby，你不需要提供任何连接配置就能使用。</p>
+<p>比如，我们可以在pom.xml中引入如下配置使用HSQL<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.hsqldb&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;hsqldb&lt;/artifactId&gt;</span><br><span class="line">    &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="连接生产数据源"><a href="#连接生产数据源" class="headerlink" title="连接生产数据源"></a>连接生产数据源</h4><p>以MySQL数据库为例，先引入MySQL连接的依赖包，在pom.xml中加入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;5.1.21&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>在src/main/resources/application.properties中配置数据源信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spring.datasource.url=jdbc:mysql://localhost:3306/test</span><br><span class="line">spring.datasource.username=root</span><br><span class="line">spring.datasource.password=</span><br><span class="line">spring.datasource.driver-class-name=com.mysql.jdbc.Driver</span><br></pre></td></tr></table></figure></p>
+<h4 id="连接JNDI数据源"><a href="#连接JNDI数据源" class="headerlink" title="连接JNDI数据源"></a>连接JNDI数据源</h4><p>当你将应用部署于应用服务器上的时候想让数据源由应用服务器管理，那么可以使用如下配置方式引入JNDI数据源。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spring.datasource.jndi-name=java:jboss/datasources/customers</span><br></pre></td></tr></table></figure></p>
+<h4 id="使用JdbcTemplate操作数据库"><a href="#使用JdbcTemplate操作数据库" class="headerlink" title="使用JdbcTemplate操作数据库"></a>使用JdbcTemplate操作数据库</h4><p>Spring的JdbcTemplate是自动配置的，你可以直接使用@Autowired来注入到你自己的bean中来使用。</p>
+<p>举例：我们在创建User表，包含属性name、age，下面来编写数据访问对象和单元测试用例。</p>
+<p>定义包含有插入、删除、查询的抽象接口UserService<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public interface UserService &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 新增一个用户</span><br><span class="line">     * @param name</span><br><span class="line">     * @param age</span><br><span class="line">     */</span><br><span class="line">    void create(String name, Integer age);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 根据name删除一个用户高</span><br><span class="line">     * @param name</span><br><span class="line">     */</span><br><span class="line">    void deleteByName(String name);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取用户总量</span><br><span class="line">     */</span><br><span class="line">    Integer getAllUsers();</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 删除所有用户</span><br><span class="line">     */</span><br><span class="line">    void deleteAllUsers();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过JdbcTemplate实现UserService中定义的数据访问操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class UserServiceImpl implements UserService &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private JdbcTemplate jdbcTemplate;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void create(String name, Integer age) &#123;</span><br><span class="line">        jdbcTemplate.update(&quot;insert into USER(NAME, AGE) values(?, ?)&quot;, name, age);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void deleteByName(String name) &#123;</span><br><span class="line">        jdbcTemplate.update(&quot;delete from USER where NAME = ?&quot;, name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Integer getAllUsers() &#123;</span><br><span class="line">        return jdbcTemplate.queryForObject(&quot;select count(1) from USER&quot;, Integer.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void deleteAllUsers() &#123;</span><br><span class="line">        jdbcTemplate.update(&quot;delete from USER&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建对UserService的单元测试用例，通过创建、删除和查询来验证数据库操作的正确性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">@RunWith(SpringJUnit4ClassRunner.class)</span><br><span class="line">@SpringApplicationConfiguration(Application.class)</span><br><span class="line">public class ApplicationTests &#123;</span><br><span class="line"></span><br><span class="line">	@Autowired</span><br><span class="line">	private UserService userSerivce;</span><br><span class="line"></span><br><span class="line">	@Before</span><br><span class="line">	public void setUp() &#123;</span><br><span class="line">		// 准备，清空user表</span><br><span class="line">		userSerivce.deleteAllUsers();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Test</span><br><span class="line">	public void test() throws Exception &#123;</span><br><span class="line">		// 插入5个用户</span><br><span class="line">		userSerivce.create(&quot;a&quot;, 1);</span><br><span class="line">		userSerivce.create(&quot;b&quot;, 2);</span><br><span class="line">		userSerivce.create(&quot;c&quot;, 3);</span><br><span class="line">		userSerivce.create(&quot;d&quot;, 4);</span><br><span class="line">		userSerivce.create(&quot;e&quot;, 5);</span><br><span class="line"></span><br><span class="line">		// 查数据库，应该有5个用户</span><br><span class="line">		Assert.assertEquals(5, userSerivce.getAllUsers().intValue());</span><br><span class="line"></span><br><span class="line">		// 删除两个用户</span><br><span class="line">		userSerivce.deleteByName(&quot;a&quot;);</span><br><span class="line">		userSerivce.deleteByName(&quot;e&quot;);</span><br><span class="line"></span><br><span class="line">		// 查数据库，应该有5个用户</span><br><span class="line">		Assert.assertEquals(3, userSerivce.getAllUsers().intValue());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -485,7 +830,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/引入web模块/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/HttpServletResponse对象介绍/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -504,8 +849,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/引入web模块/" itemprop="url">
-                  Spring Boot(三)
+                <a class="post-title-link" href="/2018/07/20/HttpServletResponse对象介绍/" itemprop="url">
+                  javaweb (五 )
                 </a>
               
             
@@ -549,7 +894,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
 
                 
                 
@@ -585,28 +930,393 @@
       
         
           
-            <h4 id="引入web模块"><a href="#引入web模块" class="headerlink" title="引入web模块"></a>引入web模块</h4><p><strong>1.pom.xml中添加支持web的模块（测试模块）：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!--测试依赖--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
-<p><strong>pom.xml文件中默认有两个模块：</strong><br><strong>spring-boot-starter：</strong>核心模块，包括自动配置支持、日志和YAML；<br><strong>spring-boot-starter-test：</strong>测试模块，包括JUnit、Hamcrest、Mockito。</p>
-<p>详细pom.xml文件内容，具体如下（注意parent配置，因为1.5.6.RELEASE配置了版本信息，所以所有子项目中的相对应包不需要再次配置版本号）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; </span><br><span class="line">    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 </span><br><span class="line">    http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line">    &lt;groupId&gt;com.example&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;Spring-Boot&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">    &lt;packaging&gt;jar&lt;/packaging&gt;</span><br><span class="line"></span><br><span class="line">    &lt;name&gt;demo&lt;/name&gt;</span><br><span class="line">    &lt;description&gt;SpringBootDemo1 project for Spring Boot&lt;/description&gt;</span><br><span class="line"></span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;1.5.6.RELEASE&lt;/version&gt;</span><br><span class="line">        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line"></span><br><span class="line">    &lt;properties&gt;</span><br><span class="line">        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;</span><br><span class="line">        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;</span><br><span class="line">        &lt;java.version&gt;1.8&lt;/java.version&gt;</span><br><span class="line">    &lt;/properties&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;build&gt;</span><br><span class="line">        &lt;plugins&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line">        &lt;/plugins&gt;</span><br><span class="line">    &lt;/build&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure></p>
-<p><strong>2. 编写controller</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line">@RestController</span><br><span class="line"></span><br><span class="line">public class HelloWorldController &#123; </span><br><span class="line">   @RequestMapping(&quot;/hello&quot;) </span><br><span class="line">   public String index() &#123; </span><br><span class="line">       return &quot;Hello World&quot;;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">@RestController的含义是controller里面的方法都以json格式输出</span><br></pre></td></tr></table></figure>
-<p><strong>3. 启动主程序</strong><br>打开浏览器访问<a href="http://localhost:8080/hello，就可以看到效果了，是不是感觉很简单！" target="_blank" rel="noopener">http://localhost:8080/hello，就可以看到效果了，是不是感觉很简单！</a></p>
-<p><strong>如何做单元测试？</strong><br>打开的src/test/下的测试入口，编写简单的http请求来测试；使用mockmvc进行，利用MockMvcResultHandlers.print()打印出执行结果。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@RunWith(SpringJUnit4ClassRunner.class)</span><br><span class="line">@SpringApplicationConfiguration(classes = MockServletContext.class)</span><br><span class="line">@WebAppConfiguration</span><br><span class="line">public class HelloWorldControlerTests &#123;</span><br><span class="line">    private MockMvc mvc;</span><br><span class="line">    @Before</span><br><span class="line">    public void setUp() throws Exception &#123;</span><br><span class="line">        mvc = MockMvcBuilders.standaloneSetup(</span><br><span class="line">            new HelloWorldController()).build();</span><br><span class="line">    &#125;</span><br><span class="line">    @Test</span><br><span class="line">    public void getHello() throws Exception &#123;</span><br><span class="line">    mvc.perform(MockMvcRequestBuilders.get(&quot;/hello&quot;)</span><br><span class="line">                .accept(MediaType.APPLICATION_JSON))</span><br><span class="line">                .andExpect(MockMvcResultMatchers.status().isOk())</span><br><span class="line">                .andDo(MockMvcResultHandlers.print())</span><br><span class="line">                .andReturn();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>开发环境的调试</strong><br>热启动在正常开发项目中已经很常见了吧，虽然平时开发web项目过程中，改动项目启重启总是报错；但springBoot对调试支持很好，修改之后可以实时生效，需要添加以下的配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;</span><br><span class="line">        &lt;optional&gt;true&lt;/optional&gt;</span><br><span class="line">   &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br><span class="line">&lt;build&gt;</span><br><span class="line">    &lt;plugins&gt;</span><br><span class="line">        &lt;plugin&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">            &lt;configuration&gt;</span><br><span class="line">                &lt;fork&gt;true&lt;/fork&gt;</span><br><span class="line">            &lt;/configuration&gt;</span><br><span class="line">        &lt;/plugin&gt;</span><br><span class="line">   &lt;/plugins&gt;</span><br><span class="line">&lt;/build&gt;</span><br></pre></td></tr></table></figure></p>
-<p>注意：该模块在完整的打包环境下运行的时候会被禁用。如果你使用java -jar启动应用或者用一个特定的classloader启动，它会认为这是一个“生产环境”。</p>
-<h4 id="Spring-Boot-Maven插件"><a href="#Spring-Boot-Maven插件" class="headerlink" title="Spring Boot Maven插件"></a>Spring Boot Maven插件</h4><p>Spring Boot Maven插件提供了使用Spring Boot应用程序步骤如下:</p>
-<p><strong>重新打包：</strong>创建一个可自动执行的jar或war文件。它可以替换常规工件，或者可以使用单独的分类器附加到构建生命周期。<br><strong>运行：</strong>运行您的Spring引导应用程序与几个选项传递参数。<br><strong>启动和停止：</strong>将Spring Boot应用程序集成到集成测试阶段，以便应用程序在其之前启动。<br><strong>构建信息：</strong>生成可由致动器使用的构建信息。</p>
-<p><strong>重新打包一个应用程序</strong><br>为了重新打包应用程序，只需要在pom.xml中添加对插件的引用，具体配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;build&gt;</span><br><span class="line">  ...</span><br><span class="line">  &lt;plugins&gt;</span><br><span class="line">    ...</span><br><span class="line">    &lt;plugin&gt;</span><br><span class="line">      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;1.5.6.RELEASE&lt;/version&gt;</span><br><span class="line">      &lt;executions&gt;</span><br><span class="line">        &lt;execution&gt;</span><br><span class="line">          &lt;goals&gt;</span><br><span class="line">            &lt;goal&gt;repackage&lt;/goal&gt;</span><br><span class="line">          &lt;/goals&gt;</span><br><span class="line">        &lt;/execution&gt;</span><br><span class="line">      &lt;/executions&gt;</span><br><span class="line">    &lt;/plugin&gt;</span><br><span class="line">    ...</span><br><span class="line">  &lt;/plugins&gt;</span><br><span class="line">  ...</span><br><span class="line">&lt;/build&gt;</span><br></pre></td></tr></table></figure></p>
-<p>重新打包在Maven生命周期的包阶段中构建的jar或war，包括在项目中定义的任何提供的依赖关系。</p>
-<p>默认情况下会自动排除Devtools（您可以使用excludeDevtools属性来控制）。为了使这些工作与war包装相匹配，“spring-boot-devtools”依赖关系必须设置为可选的或提供的范围。原始（即非可执行）文件默认情况下重命名为.original，但也可以使用自定义分类器保留原始工件。</p>
-<p>Spring Boot Maven插件会重写配置，特别是它管理Main-Class和Start-Class条目，因此如果默认值不起作用，则必须配置它们（不在jar插件中）。主类实际上是由引导插件的布局属性控制的，实例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;build&gt;</span><br><span class="line">  ...</span><br><span class="line">  &lt;plugins&gt;</span><br><span class="line">    ...</span><br><span class="line">    &lt;plugin&gt;</span><br><span class="line">      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;1.5.6.RELEASE&lt;/version&gt;</span><br><span class="line">      &lt;configuration&gt;</span><br><span class="line">        &lt;mainClass&gt;$&#123;start-class&#125;&lt;/mainClass&gt;</span><br><span class="line">        &lt;layout&gt;ZIP&lt;/layout&gt;</span><br><span class="line">      &lt;/configuration&gt;</span><br><span class="line">      &lt;executions&gt;</span><br><span class="line">        &lt;execution&gt;</span><br><span class="line">          &lt;goals&gt;</span><br><span class="line">            &lt;goal&gt;repackage&lt;/goal&gt;</span><br><span class="line">          &lt;/goals&gt;</span><br><span class="line">        &lt;/execution&gt;</span><br><span class="line">      &lt;/executions&gt;</span><br><span class="line">    &lt;/plugin&gt;</span><br><span class="line">    ...</span><br><span class="line">  &lt;/plugins&gt;</span><br><span class="line">  ...</span><br><span class="line">&lt;/build&gt;</span><br></pre></td></tr></table></figure></p>
-<p>该布局属性基归档类型（(jar或者war）。可以在以下布局中使用：<br><strong>JAR：</strong>常规可执行JAR布局。<br><strong>WAR：</strong>可执行WAR布局。提供的依赖关系放置在WEB-INF/lib中，以避免战争部署在servlet容器中时发生冲突。<br><strong>ZIP（DIR的别名）：</strong>类似于使用PropertiesLauncher的JAR布局。<br><strong>MODULE：</strong>捆绑依赖（不包括提供的范围）和项目资源，不捆绑引导加载程序。<br><strong>NONE：</strong>捆绑所有依赖项和资源，不捆绑引导加载程序。<br><strong>运行应用程序</strong><br>Spring Boot Maven插件可以用于从命令行启动应用程序，具体执行命令如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn spring-boot:run</span><br></pre></td></tr></table></figure></p>
-<p>默认情况下，该应用程序直接从Maven JVM执行。如果需要在分叉进程中运行，可以使用’fork’选项。如果指定了’jvmArguments’或’agent’选项，或者如果存在devtools，则也会发生分岔。</p>
-<p>如果需要指定一些JVM参数（即用于调试目的），可以使用jvmArguments参数。为方便起见，要启用的配置文件由特定属性（配置文件）处理。</p>
-<p><strong>使用集成测试</strong><br>为了确保Spring Boot应用程序的生命周期在集成测试中得到妥善管理，可以使用如下所述的启动和终止：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;build&gt;</span><br><span class="line">  ...</span><br><span class="line">  &lt;plugins&gt;</span><br><span class="line">    ...</span><br><span class="line">    &lt;plugin&gt;</span><br><span class="line">      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;1.5.6.RELEASE&lt;/version&gt;</span><br><span class="line">      &lt;executions&gt;</span><br><span class="line">        &lt;execution&gt;</span><br><span class="line">          &lt;id&gt;pre-integration-test&lt;/id&gt;</span><br><span class="line">          &lt;goals&gt;</span><br><span class="line">            &lt;goal&gt;start&lt;/goal&gt;</span><br><span class="line">          &lt;/goals&gt;</span><br><span class="line">        &lt;/execution&gt;</span><br><span class="line">        &lt;execution&gt;</span><br><span class="line">          &lt;id&gt;post-integration-test&lt;/id&gt;</span><br><span class="line">          &lt;goals&gt;</span><br><span class="line">            &lt;goal&gt;stop&lt;/goal&gt;</span><br><span class="line">          &lt;/goals&gt;</span><br><span class="line">        &lt;/execution&gt;</span><br><span class="line">      &lt;/executions&gt;</span><br><span class="line">    &lt;/plugin&gt;</span><br><span class="line">    ...</span><br><span class="line">  &lt;/plugins&gt;</span><br><span class="line">  ...</span><br><span class="line">&lt;/build&gt;</span><br></pre></td></tr></table></figure></p>
-<p>还可以配置更高级的设置，以便在设置特定属性时跳过集成测试：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&lt;properties&gt;</span><br><span class="line">  &lt;it.skip&gt;false&lt;/it.skip&gt;</span><br><span class="line">&lt;/properties&gt;</span><br><span class="line">&lt;build&gt;</span><br><span class="line">  &lt;plugins&gt;</span><br><span class="line">    &lt;plugin&gt;</span><br><span class="line">      &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;maven-failsafe-plugin&lt;/artifactId&gt;</span><br><span class="line">      &lt;configuration&gt;</span><br><span class="line">        &lt;skip&gt;$&#123;it.skip&#125;&lt;/skip&gt;</span><br><span class="line">      &lt;/configuration&gt;</span><br><span class="line">    &lt;/plugin&gt;</span><br><span class="line">    &lt;plugin&gt;</span><br><span class="line">      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;1.5.6.RELEASE&lt;/version&gt;</span><br><span class="line">      &lt;executions&gt;</span><br><span class="line">        &lt;execution&gt;</span><br><span class="line">          &lt;id&gt;pre-integration-test&lt;/id&gt;</span><br><span class="line">          &lt;goals&gt;</span><br><span class="line">            &lt;goal&gt;start&lt;/goal&gt;</span><br><span class="line">          &lt;/goals&gt;</span><br><span class="line">          &lt;configuration&gt;</span><br><span class="line">            &lt;skip&gt;$&#123;it.skip&#125;&lt;/skip&gt;</span><br><span class="line">          &lt;/configuration&gt;</span><br><span class="line">        &lt;/execution&gt;</span><br><span class="line">        &lt;execution&gt;</span><br><span class="line">          &lt;id&gt;post-integration-test&lt;/id&gt;</span><br><span class="line">          &lt;goals&gt;</span><br><span class="line">            &lt;goal&gt;stop&lt;/goal&gt;</span><br><span class="line">          &lt;/goals&gt;</span><br><span class="line">          &lt;configuration&gt;</span><br><span class="line">            &lt;skip&gt;$&#123;it.skip&#125;&lt;/skip&gt;</span><br><span class="line">          &lt;/configuration&gt;</span><br><span class="line">        &lt;/execution&gt;</span><br><span class="line">      &lt;/executions&gt;</span><br><span class="line">    &lt;/plugin&gt;</span><br><span class="line">  &lt;/plugins&gt;</span><br><span class="line">&lt;/build&gt;</span><br></pre></td></tr></table></figure></p>
-<p>注意：如果运行mvn verify -Dit.skip=true，那么集成测试将被完全跳过。</p>
+            <ul>
+<li>Web服务器收到客户端的http请求，会针对每一次请求，分别创建一个用于代表请求的request对象、和代表响应的response对象。</li>
+<li>request和response对象即然代表请求和响应，那我们要获取客户机提交过来的数据，只需要找request对象就行了。要向客户机输出数据，只需要找response对象就行了。</li>
+</ul>
+<h3 id="HttpServletResponse对象介绍"><a href="#HttpServletResponse对象介绍" class="headerlink" title="HttpServletResponse对象介绍"></a>HttpServletResponse对象介绍</h3><p>HttpServletResponse对象代表服务器的响应。这个对象中封装了向客户端发送数据、发送响应头，发送响应状态码的方法。查看HttpServletResponse的API，可以看到这些相关的方法。</p>
+<h4 id="负责向客户端-浏览器-发送数据的相关方法"><a href="#负责向客户端-浏览器-发送数据的相关方法" class="headerlink" title="负责向客户端(浏览器)发送数据的相关方法"></a>负责向客户端(浏览器)发送数据的相关方法</h4><p><img src="/img/response.png" alt=""></p>
+<h4 id="负责向客户端-浏览器-发送响应头的相关方法"><a href="#负责向客户端-浏览器-发送响应头的相关方法" class="headerlink" title="负责向客户端(浏览器)发送响应头的相关方法"></a>负责向客户端(浏览器)发送响应头的相关方法</h4><p><img src="/img/response1.png" alt=""><br><img src="/img/response2.png" alt=""></p>
+<h4 id="负责向客户端-浏览器-发送响应状态码的相关方法"><a href="#负责向客户端-浏览器-发送响应状态码的相关方法" class="headerlink" title="负责向客户端(浏览器)发送响应状态码的相关方法"></a>负责向客户端(浏览器)发送响应状态码的相关方法</h4><p><img src="/img/response3.png" alt=""></p>
+<h4 id="响应状态码的常量"><a href="#响应状态码的常量" class="headerlink" title="响应状态码的常量"></a>响应状态码的常量</h4><p>　HttpServletResponse定义了很多状态码的常量(具体可以查看Servlet的API)，当需要向客户端发送响应状态码时，可以使用这些常量，避免了直接写数字，常见的状态码对应的常量：<br><em>状态码404对应的常量</em><br><img src="/img/response4.png" alt=""><br><em>状态码200对应的常量</em><br><img src="/img/response5.png" alt=""><br><em>状态码500对应的常量</em><br><img src="/img/response6.png" alt=""></p>
+<h3 id="HttpServletResponse对象常见应用"><a href="#HttpServletResponse对象常见应用" class="headerlink" title="HttpServletResponse对象常见应用"></a>HttpServletResponse对象常见应用</h3><h4 id="使用OutputStream流向客户端浏览器输出中文数据"><a href="#使用OutputStream流向客户端浏览器输出中文数据" class="headerlink" title="使用OutputStream流向客户端浏览器输出中文数据"></a>使用OutputStream流向客户端浏览器输出中文数据</h4><p>使用OutputStream流输出中文注意问题：在服务器端，数据是以哪个码表输出的，那么就要控制客户端浏览器以相应的码表打开，比如：outputStream.write(“刘俭梅”.getBytes(“UTF-8”));使用OutputStream流向客户端浏览器输出中文，以UTF-8的编码进行输出，此时就要控制客户端浏览器以UTF-8的编码打开，否则显示的时候就会出现中文乱码，那么在服务器端如何控制客户端浏览器以以UTF-8的编码显示数据呢？可以通过设置响应头控制浏览器的行为，例如：response.setHeader(“content-type”, “text/html;charset=UTF-8”);通过设置响应头控制浏览器以UTF-8的编码显示数据。<br>范例：使用OutputStream流向客户端浏览器输出”刘俭梅”这三个汉字<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo1&quot;)</span><br><span class="line">public class ResponseDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;刘俭梅&quot;;</span><br><span class="line">        //获取OutputStream输出流</span><br><span class="line">        OutputStream outputStream = response.getOutputStream();</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        //将字符转换成字节数组，指定以UTF-8编码进行转换</span><br><span class="line">        byte[] dataByteArr = data.getBytes(&quot;UTF-8&quot;);</span><br><span class="line">        outputStream.write(dataByteArr);//使用OutputStream流向客户端输出字节数组</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><img src="/img/ResponseDemo.png" alt=""></p>
+<h4 id="使用PrintWriter流向客户端浏览器输出中文数据"><a href="#使用PrintWriter流向客户端浏览器输出中文数据" class="headerlink" title="使用PrintWriter流向客户端浏览器输出中文数据"></a>使用PrintWriter流向客户端浏览器输出中文数据</h4><p>2.2、使用PrintWriter流向客户端浏览器输出中文数据<br>使用PrintWriter流输出中文注意问题：<br>　　在获取PrintWriter输出流之前首先使用”response.setCharacterEncoding(charset)”设置字符以什么样的编码输出到浏览器，如：response.setCharacterEncoding(“UTF-8”);设置将字符以”UTF-8”编码输出到客户端浏览器，然后再使用response.getWriter();获取PrintWriter输出流，这两个步骤不能颠倒，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">response.setCharacterEncoding(&quot;UTF-8&quot;);//设置将字符以&quot;UTF-8&quot;编码输出到客户端浏览器</span><br><span class="line">PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">/**PrintWriter out = response.getWriter();这句代码必须放在*response.setCharacterEncoding(&quot;UTF-8&quot;);之后</span><br><span class="line">*否则response.setCharacterEncoding(&quot;UTF-8&quot;)这行代码的设置将无效，浏览器显示的时候还是乱码*/</span><br></pre></td></tr></table></figure></p>
+<p>然后再使用response.setHeader(“content-type”, “text/html;charset=字符编码”);设置响应头，控制浏览器以指定的字符编码编码进行显示，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>复制代码<br>范例：使用PrintWriter流向客户端浏览器输出”刘俭梅”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo1&quot;)</span><br><span class="line">public class ResponseDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;刘俭梅&quot;;</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);//设置将字符以&quot;UTF-8&quot;编码输出到客户端浏览器</span><br><span class="line">        PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">        out.write(data);//使用PrintWriter流向客户端输出字符</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当需要向浏览器输出字符数据时，使用PrintWriter比较方便，省去了将字符转换成字节数组那一步。</p>
+<h4 id="使用OutputStream或者PrintWriter向客户端浏览器输出数字"><a href="#使用OutputStream或者PrintWriter向客户端浏览器输出数字" class="headerlink" title="使用OutputStream或者PrintWriter向客户端浏览器输出数字"></a>使用OutputStream或者PrintWriter向客户端浏览器输出数字</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo1&quot;)</span><br><span class="line">public class ResponseDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        outputOneByOutputStream(response);//使用OutputStream输出1到客户端浏览器</span><br><span class="line">        outputOneByPrintWriter(response);//使用PrintWriter输出1到客户端浏览器</span><br><span class="line">        String data = &quot;刘俭梅&quot;;</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);//设置将字符以&quot;UTF-8&quot;编码输出到客户端浏览器</span><br><span class="line">        PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">        out.write(data);//使用PrintWriter流向客户端输出字符</span><br><span class="line">        //获取OutputStream输出流</span><br><span class="line">        OutputStream outputStream = response.getOutputStream();</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        //将字符转换成字节数组，指定以UTF-8编码进行转换</span><br><span class="line">        byte[] dataByteArr = data.getBytes(&quot;UTF-8&quot;);</span><br><span class="line">        outputStream.write(dataByteArr);//使用OutputStream流向客户端输出字节数组</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 使用PrintWriter流输出数字1</span><br><span class="line">     * @param response</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    private void outputOneByPrintWriter(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span><br><span class="line">        PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">        out.write(&quot;使用PrintWriter流输出数字1：&quot;);</span><br><span class="line">        out.write(1 + &quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 使用OutputStream流输出数字1</span><br><span class="line">     *</span><br><span class="line">     * @param response</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    private void outputOneByOutputStream(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        OutputStream outputStream = response.getOutputStream();</span><br><span class="line">        outputStream.write(&quot;使用OutputStream流输出数字1：&quot;.getBytes(&quot;UTF-8&quot;));</span><br><span class="line">        outputStream.write((1 + &quot;&quot;).getBytes());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>1+””这一步是将数字1和一个空字符串相加，这样处理之后，数字1就变成了字符串1了，然后再将字符串1转换成字节数组使用OutputStream进行输出</li>
+</ul>
+<h5 id="在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。"><a href="#在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。" class="headerlink" title="在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。"></a>在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。</h5><h5 id="如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出"><a href="#如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出" class="headerlink" title="如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出"></a>如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出</h5>
+          
+        
+      
+    </div>
 
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/策略模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/策略模式/" itemprop="url">
+                  策略模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>定义一组算法，将每个算法都封装起来，并且使他们之间可以互换。</p>
+<h4 id="类型："><a href="#类型：" class="headerlink" title="类型："></a>类型：</h4><p>行为类模式</p>
+<h4 id="需求1，父类实现"><a href="#需求1，父类实现" class="headerlink" title="需求1，父类实现"></a>需求1，父类实现</h4><h5 id="问题由来"><a href="#问题由来" class="headerlink" title="问题由来"></a>问题由来</h5><p>现在要设计一只鸭子类，所有的鸭子都可以游泳，不同的鸭子样外貌可能不一样。</p>
+<p>刚拿到这个需求，很简答的想法设计一个Duck类，拥有共有的方法swim，并且包含一个抽象方法display展示形态。</p>
+<h5 id="Duck-java"><a href="#Duck-java" class="headerlink" title="Duck.java"></a>Duck.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">abstract class Duck&#123;</span><br><span class="line">    </span><br><span class="line">    public void swim()&#123;</span><br><span class="line">        System.out.println(&quot;I am swimming&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public abstract void display();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="GreenDuck-java"><a href="#GreenDuck-java" class="headerlink" title="GreenDuck.java"></a>GreenDuck.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class GreenDuck extends Duck&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void display() &#123;</span><br><span class="line">        System.out.println(&quot;my color is green&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="RedDuck-java"><a href="#RedDuck-java" class="headerlink" title="RedDuck.java"></a>RedDuck.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class RedDuck extends Duck&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void display() &#123;</span><br><span class="line">        System.out.println(&quot;my color is red&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="为什么swim-方法是普通方法，display-方法是抽象方法呢？"><a href="#为什么swim-方法是普通方法，display-方法是抽象方法呢？" class="headerlink" title="为什么swim()方法是普通方法，display() 方法是抽象方法呢？"></a>为什么swim()方法是普通方法，display() 方法是抽象方法呢？</h5><p>这里是为了体现，所有的都会游泳，并且都一样。所有鸭子都有外貌，但是是由各自决定，所以必须子类来重写。</p>
+<h4 id="需求2，接口实现"><a href="#需求2，接口实现" class="headerlink" title="需求2，接口实现"></a>需求2，接口实现</h4><p>这时候需求变更，有些鸭子可以飞。</p>
+<p>注意，这里的关键词是可以。如果这个时候我们把 fly() 方法写在子类 Duck 中，那就表示所有的鸭子都会飞。所以这个时候我们想到了接口，定义 Flyable 接口，让会飞的鸭子实现接口，并重写方法。</p>
+<h5 id="Flyable-java"><a href="#Flyable-java" class="headerlink" title="Flyable.java"></a>Flyable.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public interface Flyable &#123;</span><br><span class="line">    </span><br><span class="line">    void fly();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="GreenDuck-java-1"><a href="#GreenDuck-java-1" class="headerlink" title="GreenDuck.java"></a>GreenDuck.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class GreenDuck extends Duck implements Flyable&#123;</span><br><span class="line"></span><br><span class="line">    public void fly() &#123;</span><br><span class="line">        System.out.println(&quot;I am flying with wing&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void display() &#123;</span><br><span class="line">        System.out.println(&quot;my color is green&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>假设GreenDuck会飞，那么它需要实现flyable接口，然后写自己会飞。RedDuck不会飞，所以不实现flyable接口。<br>看似问题解决了，但是如果这个时候我们系统中有几十种鸭子，而且会飞只分用翅膀飞，不能飞，用喷气式火箭飞3种，如果采用接口来实现，几十种鸭子都需要自己去实现方法，无法代码重用，这种设计是不是很不好呢，代码重用率太低。而且，如果后面我们还要添加其他的属性，比如说话Speakable，那我们需要添加一个新接口，并且以前的鸭子都要从新实现一遍，完全违反了开闭原则。<br>而且，如果后面我们还要添加其他的属性，比如说话Speakable，那我们需要添加一个新接口，并且以前的鸭子都要从新实现一遍，完全违反了开闭原则。</p>
+<h4 id="需求3，策略模式实现"><a href="#需求3，策略模式实现" class="headerlink" title="需求3，策略模式实现"></a>需求3，策略模式实现</h4><p>策略模式说，我们需要把最公有的相同的方法放在父类中，将可以变化的方法抽取成接口，并通过组合的方式放到父类中，子类通过插入不同的接口实现，完成类的配置。<br>Duck类中，swim() 方法属于共有并且都相同的方法，display() 属于都有，但是需要自己去实现的方法。fly和speak是有些子类有的方法，并且实现有相同有不同，我们应该抽取成接口放在父类中。来看看代码：<br>修改Duck类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">abstract class Duck&#123;</span><br><span class="line">    </span><br><span class="line">    protected Flyable flyable;</span><br><span class="line">    </span><br><span class="line">    public void swim()&#123;</span><br><span class="line">        System.out.println(&quot;I am swimming&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public abstract void display();</span><br><span class="line">    </span><br><span class="line">    public void performFly()&#123;</span><br><span class="line">        // 通过多态机制，动态决定到底怎么飞</span><br><span class="line">        flyable.fly();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    // 设置飞的具体实现，并随时可以改变</span><br><span class="line">    public void setFlayable(Flyable flyable)&#123;</span><br><span class="line">        //TODO:添加非空判断</span><br><span class="line">        this.flyable = flyable;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>实现3中飞的行为：</p>
+<h5 id="Flyable-java-1"><a href="#Flyable-java-1" class="headerlink" title="Flyable.java"></a>Flyable.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface Flyable &#123;</span><br><span class="line">    void fly();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="FlyNoWay-java-不能飞"><a href="#FlyNoWay-java-不能飞" class="headerlink" title="FlyNoWay.java 不能飞"></a>FlyNoWay.java 不能飞</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class FlyNoWay implements Flyable&#123;</span><br><span class="line"></span><br><span class="line">    public void fly() &#123;</span><br><span class="line">        System.out.println(&quot;can not fly&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="FlyWithWing-java-用翅膀飞"><a href="#FlyWithWing-java-用翅膀飞" class="headerlink" title="FlyWithWing.java 用翅膀飞"></a>FlyWithWing.java 用翅膀飞</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class FlyWithWing implements Flyable&#123;</span><br><span class="line"></span><br><span class="line">    public void fly() &#123;</span><br><span class="line">        System.out.println(&quot;fly with wing&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="FlyWithRocket-用火箭飞"><a href="#FlyWithRocket-用火箭飞" class="headerlink" title="FlyWithRocket 用火箭飞"></a>FlyWithRocket 用火箭飞</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class FlyWithRocket implements Flyable&#123;</span><br><span class="line"></span><br><span class="line">    public void fly() &#123;</span><br><span class="line">        System.out.println(&quot;fly with rocket&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果现在要让 GreenDuck 有飞的属性，应该这样做：</p>
+<h5 id="GreenDuck-java-2"><a href="#GreenDuck-java-2" class="headerlink" title="GreenDuck.java"></a>GreenDuck.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class GreenDuck extends Duck&#123;</span><br><span class="line">    </span><br><span class="line">    public GreenDuck()&#123;</span><br><span class="line">        this.flyable = new FlyNoWay();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void display() &#123;</span><br><span class="line">        System.out.println(&quot;my color is green&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Main-java"><a href="#Main-java" class="headerlink" title="Main.java"></a>Main.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class Main &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">        GreenDuck gDuck = new GreenDuck();</span><br><span class="line">        gDuck.performFly();</span><br><span class="line">        gDuck.setFlayable(new FlyWithWing());</span><br><span class="line">        gDuck.performFly();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>默认GreenDuck是不会飞的，然后可以通过动态的设置飞属性给鸭子，让他具有各种飞的属性。将飞与类解耦，并且也达到了飞实现重用的目的。</p>
+<p>策略模式大概就是这样，如果这个时候我们要添加 Speak 属性，怎么做么？</p>
+<h4 id="添加新功能"><a href="#添加新功能" class="headerlink" title="添加新功能"></a>添加新功能</h4><h5 id="step1-添加-Speakable接口，和两种实现"><a href="#step1-添加-Speakable接口，和两种实现" class="headerlink" title="step1: 添加 Speakable接口，和两种实现"></a>step1: 添加 Speakable接口，和两种实现</h5><h5 id="Speakable-java"><a href="#Speakable-java" class="headerlink" title="Speakable.java"></a>Speakable.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface Speakable &#123;</span><br><span class="line">    void speak();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="SpeakDuckLaguage-java"><a href="#SpeakDuckLaguage-java" class="headerlink" title="SpeakDuckLaguage .java"></a>SpeakDuckLaguage .java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class SpeakDuckLaguage implements Speakable &#123;</span><br><span class="line"></span><br><span class="line">    public void speak() &#123;</span><br><span class="line">        System.out.println(&quot;I can speak duck language&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="SpeakHumanLaguage-java"><a href="#SpeakHumanLaguage-java" class="headerlink" title="SpeakHumanLaguage.java"></a>SpeakHumanLaguage.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class SpeakHumanLaguage implements Speakable &#123;</span><br><span class="line">    public void speak() &#123;</span><br><span class="line">        System.out.println(&quot;I can speak human language&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="step2-Duck类中添加Speakable属性，并且提供set方法，然后提供一个执行speak的方法"><a href="#step2-Duck类中添加Speakable属性，并且提供set方法，然后提供一个执行speak的方法" class="headerlink" title="step2: Duck类中添加Speakable属性，并且提供set方法，然后提供一个执行speak的方法"></a>step2: Duck类中添加Speakable属性，并且提供set方法，然后提供一个执行speak的方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">abstract class Duck&#123;</span><br><span class="line">    </span><br><span class="line">    protected Flyable flyable;</span><br><span class="line">    protected Speakable speakable;</span><br><span class="line">    </span><br><span class="line">    //...</span><br><span class="line">    </span><br><span class="line">    public void performSpeak()&#123;</span><br><span class="line">        speakable.speak();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public void setSpeakable(Speakable speakable)&#123;</span><br><span class="line">        //TODO: 非空判断</span><br><span class="line">        this.speakable = speakable;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="step3-给红鸭子添加会说话属性"><a href="#step3-给红鸭子添加会说话属性" class="headerlink" title="step3: 给红鸭子添加会说话属性"></a>step3: 给红鸭子添加会说话属性</h5><h5 id="RedDuck-java-默认说鸭子语言"><a href="#RedDuck-java-默认说鸭子语言" class="headerlink" title="RedDuck.java 默认说鸭子语言"></a>RedDuck.java 默认说鸭子语言</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class RedDuck extends Duck&#123;</span><br><span class="line">    </span><br><span class="line">    // 默认说鸭子语言</span><br><span class="line">    public RedDuck()&#123;</span><br><span class="line">        this.speakable = new SpeakDuckLaguage();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void display() &#123;</span><br><span class="line">        System.out.println(&quot;my color is red&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Main-java-客户端调用"><a href="#Main-java-客户端调用" class="headerlink" title="Main.java 客户端调用"></a>Main.java 客户端调用</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class Main &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        GreenDuck gDuck = new GreenDuck();</span><br><span class="line">        gDuck.performFly();</span><br><span class="line">        gDuck.setFlayable(new FlyWithWing());</span><br><span class="line">        gDuck.performFly();</span><br><span class="line">        </span><br><span class="line">        RedDuck rDuck = new RedDuck();</span><br><span class="line">        rDuck.performSpeak();</span><br><span class="line">        rDuck.setSpeakable(new SpeakHumanLaguage());</span><br><span class="line">        rDuck.performSpeak();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="策略模式的优缺点"><a href="#策略模式的优缺点" class="headerlink" title="策略模式的优缺点"></a>策略模式的优缺点</h4><h5 id="策略模式的主要优点有："><a href="#策略模式的主要优点有：" class="headerlink" title="策略模式的主要优点有："></a>策略模式的主要优点有：</h5><ul>
+<li>策略类之间可以自由切换，由于策略类实现自同一个抽象，所以他们之间可以自由切换。</li>
+<li>易于扩展，增加一个新的策略对策略模式来说非常容易，基本上可以在不改变原有代码的基础上进行扩展。</li>
+<li>避免使用多重条件，如果不使用策略模式，对于所有的算法，必须使用条件语句进行连接，通过条件判断来决定使用哪一种算法，在上一篇文章中我们已经提到，使用多重条件判断是非常不容易维护的。</li>
+</ul>
+<h5 id="策略模式的缺点主要有两个："><a href="#策略模式的缺点主要有两个：" class="headerlink" title="策略模式的缺点主要有两个："></a>策略模式的缺点主要有两个：</h5><ul>
+<li>维护各个策略类会给开发带来额外开销，可能大家在这方面都有经验：一般来说，策略类的数量超过5个，就比较令人头疼了。</li>
+<li>必须对客户端（调用者）暴露所有的策略类，因为使用哪种策略是由客户端来决定的，因此，客户端应该知道有什么策略，并且了解各种策略之间的区别，否则，后果很严重。例如，有一个排序算法的策略模式，提供了快速排序、冒泡排序、选择排序这三种算法，客户端在使用这些算法之前，是不是先要明白这三种算法的适用情况？再比如，客户端要使用一个容器，有链表实现的，也有数组实现的，客户端是不是也要明白链表和数组有什么区别？就这一点来说是有悖于迪米特法则的。</li>
+</ul>
+<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><ul>
+<li>做面向对象设计的，对策略模式一定很熟悉，因为它实质上就是面向对象中的继承和多态，在看完策略模式的通用代码后，我想，即使之前从来没有听说过策略模式，在开发过程中也一定使用过它吧？至少在在以下两种情况下，大家可以考虑使用策略模式：</li>
+<li>几个类的主要逻辑相同，只在部分逻辑的算法和行为上稍有区别的情况。</li>
+<li>有几种相似的行为，或者说算法，客户端需要动态地决定使用哪一种，那么可以使用策略模式，将这些算法封装起来供客户端调用。</li>
+<li>策略模式是一种简单常用的模式，我们在进行开发的时候，会经常有意无意地使用它，一般来说，策略模式不会单独使用，跟模版方法模式、工厂模式等混合使用的情况比较多。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/原型模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/原型模式/" itemprop="url">
+                  原型模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>通过复制现有的对象实例来创建新的对象实例。</p>
+<h4 id="实现："><a href="#实现：" class="headerlink" title="实现："></a>实现：</h4><h5 id="实现Cloneable接口："><a href="#实现Cloneable接口：" class="headerlink" title="实现Cloneable接口："></a>实现Cloneable接口：</h5><pre><code>Cloneable接口的作用是在运行时通知虚拟机可以安全地在实现了此接口的类上使用clone方法。在java虚拟机中，只有实现了这个接口的类才可以被拷贝，否则在运行时会抛出CloneNotSupportedException异常。
+</code></pre><h5 id="重写Object类中的clone方法："><a href="#重写Object类中的clone方法：" class="headerlink" title="重写Object类中的clone方法："></a>重写Object类中的clone方法：</h5><pre><code>Java中，所有类的父类都是Object类，Object类中有一个clone方法，作用是返回对象的一个拷贝，但是其作用域protected类型的，一般的类无法调用，因此，原型类需要将clone方法的作用域修改为public类型。
+</code></pre><h5 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h5><p>例如，对于拿邮件发邀请函，邮件类大部分内容都是一样的：邀请原由、相邀地点，相聚时间等等，但对于被邀请者的名称和发送的邮件地址是不同的。</p>
+<h5 id="定义Mail类："><a href="#定义Mail类：" class="headerlink" title="定义Mail类："></a>定义Mail类：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">public class Mail implements Cloneable &#123;    </span><br><span class="line">    private String receiver;    </span><br><span class="line">    private String subject;    </span><br><span class="line">    private String content;    </span><br><span class="line">    private String tail;    </span><br><span class="line">    public Mail(EventTemplate et) &#123;        </span><br><span class="line">        this.tail = et.geteventContent();        </span><br><span class="line">        this.subject = et.geteventSubject();</span><br><span class="line">    &#125;    </span><br><span class="line">    @Override</span><br><span class="line">    public Mail clone() &#123;</span><br><span class="line">        Mail mail = null;        </span><br><span class="line">    try &#123;</span><br><span class="line">            mail = (Mail) super.clone();            </span><br><span class="line">        &#125; catch (CloneNotSupportedException e) &#123;            </span><br><span class="line">        // TODO Auto-generated catch block</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;        return mail;</span><br><span class="line">    &#125;</span><br><span class="line">//get、set.....</span><br><span class="line">&#125;</span><br><span class="line">测试方法：</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    int i = 0;</span><br><span class="line">    int MAX_COUNT = 10;</span><br><span class="line">    EventTemplate et = </span><br><span class="line">new EventTemplate(&quot;邀请函（不变）&quot;, &quot;婚嫁生日啥的....（不变部分）&quot;);</span><br><span class="line">    Mail mail = new Mail(et);    </span><br><span class="line">    while (i &lt; MAX_COUNT) &#123;</span><br><span class="line">        Mail cloneMail = mail.clone();</span><br><span class="line">        cloneMail.setContent(&quot;XXX先生（女士）（变化部分）&quot;</span><br><span class="line">     + mail.getTail());</span><br><span class="line">        cloneMail.setReceiver(&quot;每个人的邮箱地址...com（变化部分）&quot;);</span><br><span class="line">        sendMail(cloneMail);</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h5><pre><code>1、使用原型模型创建一个对象比直接new一个对象更有效率，因为它直接操作内存中的二进制流，特别是复制大对象时，性能的差别非常明显。
+2、隐藏了制造新实例的复杂性，使得创建对象就像我们在编辑文档时的复制粘贴一样简单。
+</code></pre><h5 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h5><pre><code>1、由于使用原型模式复制对象时不会调用类的构造方法，所以原型模式无法和单例模式组合使用，因为原型类需要将clone方法的作用域修改为public类型，那么单例模式的条件就无法满足了。
+2、使用原型模式时不能有final对象。
+3、Object类的clone方法只会拷贝对象中的基本数据类型，对于数组，引用对象等只能另行拷贝。这里涉及到深拷贝和浅拷贝的概念。
+</code></pre><h4 id="深拷贝与浅拷贝："><a href="#深拷贝与浅拷贝：" class="headerlink" title="深拷贝与浅拷贝："></a>深拷贝与浅拷贝：</h4><h5 id="浅拷贝："><a href="#浅拷贝：" class="headerlink" title="浅拷贝："></a>浅拷贝：</h5><pre><code>将一个对象复制后，基本数据类型的变量都会重新创建，而引用类型，指向的还是原对象所指向的（这样不安全）。
+</code></pre><h5 id="深拷贝："><a href="#深拷贝：" class="headerlink" title="深拷贝："></a>深拷贝：</h5><pre><code>将一个对象复制后，不论是基本数据类型还有引用类型，都是重新创建的。
+</code></pre><p>那么深拷贝如何具体实现呢？<br>继续上面的例子，增加了一个ArrayList属性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private String receiver;</span><br><span class="line">private String subject;</span><br><span class="line">private String content;</span><br><span class="line">private String tail;</span><br><span class="line">private ArrayList&lt;String&gt; ars;</span><br><span class="line">此时，单mail = (Mail) super.clone();无法将ars指向的地址区域改变，必须另行拷贝：</span><br><span class="line">try &#123;</span><br><span class="line">       mail = (Mail) super.clone();       </span><br><span class="line">       mail.ars = (ArrayList&lt;String&gt;)this.ars.clone();</span><br><span class="line">      &#125; catch (CloneNotSupportedException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="适用场景："><a href="#适用场景：" class="headerlink" title="适用场景："></a>适用场景：</h4><pre><code>1、复制对象的结构和数据。
+2、希望对目标对象的修改不影响既有的原型对象。
+3、创建一个对象的成本比较大。
+</code></pre>
           
         
       
@@ -1051,866 +1761,6 @@ s = (Student)person ;
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/原型模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/原型模式/" itemprop="url">
-                  原型模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>通过复制现有的对象实例来创建新的对象实例。</p>
-<h4 id="实现："><a href="#实现：" class="headerlink" title="实现："></a>实现：</h4><h5 id="实现Cloneable接口："><a href="#实现Cloneable接口：" class="headerlink" title="实现Cloneable接口："></a>实现Cloneable接口：</h5><pre><code>Cloneable接口的作用是在运行时通知虚拟机可以安全地在实现了此接口的类上使用clone方法。在java虚拟机中，只有实现了这个接口的类才可以被拷贝，否则在运行时会抛出CloneNotSupportedException异常。
-</code></pre><h5 id="重写Object类中的clone方法："><a href="#重写Object类中的clone方法：" class="headerlink" title="重写Object类中的clone方法："></a>重写Object类中的clone方法：</h5><pre><code>Java中，所有类的父类都是Object类，Object类中有一个clone方法，作用是返回对象的一个拷贝，但是其作用域protected类型的，一般的类无法调用，因此，原型类需要将clone方法的作用域修改为public类型。
-</code></pre><h5 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h5><p>例如，对于拿邮件发邀请函，邮件类大部分内容都是一样的：邀请原由、相邀地点，相聚时间等等，但对于被邀请者的名称和发送的邮件地址是不同的。</p>
-<h5 id="定义Mail类："><a href="#定义Mail类：" class="headerlink" title="定义Mail类："></a>定义Mail类：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">public class Mail implements Cloneable &#123;    </span><br><span class="line">    private String receiver;    </span><br><span class="line">    private String subject;    </span><br><span class="line">    private String content;    </span><br><span class="line">    private String tail;    </span><br><span class="line">    public Mail(EventTemplate et) &#123;        </span><br><span class="line">        this.tail = et.geteventContent();        </span><br><span class="line">        this.subject = et.geteventSubject();</span><br><span class="line">    &#125;    </span><br><span class="line">    @Override</span><br><span class="line">    public Mail clone() &#123;</span><br><span class="line">        Mail mail = null;        </span><br><span class="line">    try &#123;</span><br><span class="line">            mail = (Mail) super.clone();            </span><br><span class="line">        &#125; catch (CloneNotSupportedException e) &#123;            </span><br><span class="line">        // TODO Auto-generated catch block</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;        return mail;</span><br><span class="line">    &#125;</span><br><span class="line">//get、set.....</span><br><span class="line">&#125;</span><br><span class="line">测试方法：</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    int i = 0;</span><br><span class="line">    int MAX_COUNT = 10;</span><br><span class="line">    EventTemplate et = </span><br><span class="line">new EventTemplate(&quot;邀请函（不变）&quot;, &quot;婚嫁生日啥的....（不变部分）&quot;);</span><br><span class="line">    Mail mail = new Mail(et);    </span><br><span class="line">    while (i &lt; MAX_COUNT) &#123;</span><br><span class="line">        Mail cloneMail = mail.clone();</span><br><span class="line">        cloneMail.setContent(&quot;XXX先生（女士）（变化部分）&quot;</span><br><span class="line">     + mail.getTail());</span><br><span class="line">        cloneMail.setReceiver(&quot;每个人的邮箱地址...com（变化部分）&quot;);</span><br><span class="line">        sendMail(cloneMail);</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h5><pre><code>1、使用原型模型创建一个对象比直接new一个对象更有效率，因为它直接操作内存中的二进制流，特别是复制大对象时，性能的差别非常明显。
-2、隐藏了制造新实例的复杂性，使得创建对象就像我们在编辑文档时的复制粘贴一样简单。
-</code></pre><h5 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h5><pre><code>1、由于使用原型模式复制对象时不会调用类的构造方法，所以原型模式无法和单例模式组合使用，因为原型类需要将clone方法的作用域修改为public类型，那么单例模式的条件就无法满足了。
-2、使用原型模式时不能有final对象。
-3、Object类的clone方法只会拷贝对象中的基本数据类型，对于数组，引用对象等只能另行拷贝。这里涉及到深拷贝和浅拷贝的概念。
-</code></pre><h4 id="深拷贝与浅拷贝："><a href="#深拷贝与浅拷贝：" class="headerlink" title="深拷贝与浅拷贝："></a>深拷贝与浅拷贝：</h4><h5 id="浅拷贝："><a href="#浅拷贝：" class="headerlink" title="浅拷贝："></a>浅拷贝：</h5><pre><code>将一个对象复制后，基本数据类型的变量都会重新创建，而引用类型，指向的还是原对象所指向的（这样不安全）。
-</code></pre><h5 id="深拷贝："><a href="#深拷贝：" class="headerlink" title="深拷贝："></a>深拷贝：</h5><pre><code>将一个对象复制后，不论是基本数据类型还有引用类型，都是重新创建的。
-</code></pre><p>那么深拷贝如何具体实现呢？<br>继续上面的例子，增加了一个ArrayList属性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private String receiver;</span><br><span class="line">private String subject;</span><br><span class="line">private String content;</span><br><span class="line">private String tail;</span><br><span class="line">private ArrayList&lt;String&gt; ars;</span><br><span class="line">此时，单mail = (Mail) super.clone();无法将ars指向的地址区域改变，必须另行拷贝：</span><br><span class="line">try &#123;</span><br><span class="line">       mail = (Mail) super.clone();       </span><br><span class="line">       mail.ars = (ArrayList&lt;String&gt;)this.ars.clone();</span><br><span class="line">      &#125; catch (CloneNotSupportedException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="适用场景："><a href="#适用场景：" class="headerlink" title="适用场景："></a>适用场景：</h4><pre><code>1、复制对象的结构和数据。
-2、希望对目标对象的修改不影响既有的原型对象。
-3、创建一个对象的成本比较大。
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/单一职责原则/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/单一职责原则/" itemprop="url">
-                  单一职责原则
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="单一职责原则"><a href="#单一职责原则" class="headerlink" title="单一职责原则"></a>单一职责原则</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。</p>
-<h4 id="问题由来："><a href="#问题由来：" class="headerlink" title="问题由来："></a>问题由来：</h4><p>类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2功能发生故障。</p>
-<h4 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h4><p>遵循单一职责原则。分别建立两个类T1、T2，使T1完成职责P1功能，T2完成职责P2功能。这样，当修改类T1时，不会使职责P2发生故障风险；同理，当修改T2时，也不会使职责P1发生故障风险。<br>举例说明，用一个类描述动物呼吸这个场景：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Animal&#123;  </span><br><span class="line">       public void breathe(String animal)&#123;  </span><br><span class="line">           System.out.println(animal+&quot;呼吸空气&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;  </span><br><span class="line">   public class Client&#123;  </span><br><span class="line">       public static void main(String[] args)&#123;  </span><br><span class="line">           Animal animal = new Animal();  </span><br><span class="line">           animal.breathe(&quot;牛&quot;);  </span><br><span class="line">           animal.breathe(&quot;羊&quot;);  </span><br><span class="line">           animal.breathe(&quot;猪&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">运行结果：</span><br><span class="line">牛呼吸空气</span><br><span class="line">羊呼吸空气</span><br><span class="line">猪呼吸空气</span><br></pre></td></tr></table></figure></p>
-<p>   程序上线后，发现问题了，并不是所有的动物都呼吸空气的，比如鱼就是呼吸水的。修改时如果遵循单一职责原则，需要将Animal类细分为陆生动物类Terrestrial，水生动物Aquatic，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class Terrestrial&#123;  </span><br><span class="line">   public void breathe(String animal)&#123;  </span><br><span class="line">       System.out.println(animal+&quot;呼吸空气&quot;);  </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">class Aquatic&#123;  </span><br><span class="line">   public void breathe(String animal)&#123;  </span><br><span class="line">       System.out.println(animal+&quot;呼吸水&quot;);  </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"> </span><br><span class="line">public class Client&#123;  </span><br><span class="line">   public static void main(String[] args)&#123;  </span><br><span class="line">       Terrestrial terrestrial = new Terrestrial();  </span><br><span class="line">       terrestrial.breathe(&quot;牛&quot;);  </span><br><span class="line">       terrestrial.breathe(&quot;羊&quot;);  </span><br><span class="line">       terrestrial.breathe(&quot;猪&quot;);  </span><br><span class="line">         </span><br><span class="line">       Aquatic aquatic = new Aquatic();  </span><br><span class="line">       aquatic.breathe(&quot;鱼&quot;);  </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">运行结果：</span><br><span class="line">牛呼吸空气</span><br><span class="line">羊呼吸空气</span><br><span class="line">猪呼吸空气</span><br><span class="line">鱼呼吸水</span><br></pre></td></tr></table></figure></p>
-<p>我们会发现如果这样修改花销是很大的，除了将原来的类分解之外，还需要修改客户端。而直接修改类Animal来达成目的虽然违背了单一职责原则，但花销却小的多，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Animal&#123;  </span><br><span class="line">       public void breathe(String animal)&#123;  </span><br><span class="line">           if(&quot;鱼&quot;.equals(animal))&#123;  </span><br><span class="line">               System.out.println(animal+&quot;呼吸水&quot;);  </span><br><span class="line">           &#125;else&#123;  </span><br><span class="line">               System.out.println(animal+&quot;呼吸空气&quot;);  </span><br><span class="line">           &#125;  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;  </span><br><span class="line">     </span><br><span class="line">   public class Client&#123;  </span><br><span class="line">       public static void main(String[] args)&#123;  </span><br><span class="line">           Animal animal = new Animal();  </span><br><span class="line">           animal.breathe(&quot;牛&quot;);  </span><br><span class="line">           animal.breathe(&quot;羊&quot;);  </span><br><span class="line">           animal.breathe(&quot;猪&quot;);  </span><br><span class="line">           animal.breathe(&quot;鱼&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以看到，这种修改方式要简单的多。但是却存在着隐患：有一天需要将鱼分为呼吸淡水的鱼和呼吸海水的鱼，则又需要修改Animal类的breathe方法，而对原有代码的修改会对调用“猪”“牛”“羊”等相关功能带来风险，也许某一天你会发现程序运行的结果变为“牛呼吸水”了。这种修改方式直接在代码级别上违背了单一职责原则，虽然修改起来最简单，但隐患却是最大的。还有一种修改方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Animal&#123;  </span><br><span class="line">       public void breathe(String animal)&#123;  </span><br><span class="line">           System.out.println(animal+&quot;呼吸空气&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">     </span><br><span class="line">       public void breathe2(String animal)&#123;  </span><br><span class="line">           System.out.println(animal+&quot;呼吸水&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;  </span><br><span class="line">     </span><br><span class="line">   public class Client&#123;  </span><br><span class="line">       public static void main(String[] args)&#123;  </span><br><span class="line">           Animal animal = new Animal();  </span><br><span class="line">           animal.breathe(&quot;牛&quot;);  </span><br><span class="line">           animal.breathe(&quot;羊&quot;);  </span><br><span class="line">           animal.breathe(&quot;猪&quot;);  </span><br><span class="line">           animal.breathe2(&quot;鱼&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以看到，这种修改方式没有改动原来的方法，而是在类中新加了一个方法，这样虽然也违背了单一职责原则，但在方法级别上却是符合单一职责原则的，因为它并没有动原来方法的代码。这三种方式各有优缺点，那么在实际编程中，采用哪一中呢？其实这真的比较难说，需要根据实际情况来确定。我的原则是：只有逻辑足够简单，才可以在代码级别上违反单一职责原则；只有类中方法数量足够少，才可以在方法级别上违反单一职责原则；<br>        例如本文所举的这个例子，它太简单了，它只有一个方法，所以，无论是在代码级别上违反单一职责原则，还是在方法级别上违反，都不会造成太大的影响。实际应用中的类都要复杂的多，一旦发生职责扩散而需要修改类时，除非这个类本身非常简单，否则还是遵循单一职责原则的好。</p>
-<h4 id="遵循单一职责原的优点有："><a href="#遵循单一职责原的优点有：" class="headerlink" title="遵循单一职责原的优点有："></a>遵循单一职责原的优点有：</h4><p>1、可以降低类的复杂度，一个类只负责一项职责，其逻辑肯定要比负责多项职责简单的多；<br>2、提高类的可读性，提高系统的可维护性；<br>3、变更引起的风险降低，变更是必然的，如果单一职责原则遵守的好，当修改一个功能时，可以显著降低对其他功能的影响。<br>        需要说明的一点是单一职责原则不只是面向对象编程思想所特有的，只要是模块化的程序设计，都适用单一职责原则。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/策略模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/策略模式/" itemprop="url">
-                  策略模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>定义一组算法，将每个算法都封装起来，并且使他们之间可以互换。</p>
-<h4 id="类型："><a href="#类型：" class="headerlink" title="类型："></a>类型：</h4><p>行为类模式</p>
-<h4 id="需求1，父类实现"><a href="#需求1，父类实现" class="headerlink" title="需求1，父类实现"></a>需求1，父类实现</h4><h5 id="问题由来"><a href="#问题由来" class="headerlink" title="问题由来"></a>问题由来</h5><p>现在要设计一只鸭子类，所有的鸭子都可以游泳，不同的鸭子样外貌可能不一样。</p>
-<p>刚拿到这个需求，很简答的想法设计一个Duck类，拥有共有的方法swim，并且包含一个抽象方法display展示形态。</p>
-<h5 id="Duck-java"><a href="#Duck-java" class="headerlink" title="Duck.java"></a>Duck.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">abstract class Duck&#123;</span><br><span class="line">    </span><br><span class="line">    public void swim()&#123;</span><br><span class="line">        System.out.println(&quot;I am swimming&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public abstract void display();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="GreenDuck-java"><a href="#GreenDuck-java" class="headerlink" title="GreenDuck.java"></a>GreenDuck.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class GreenDuck extends Duck&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void display() &#123;</span><br><span class="line">        System.out.println(&quot;my color is green&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="RedDuck-java"><a href="#RedDuck-java" class="headerlink" title="RedDuck.java"></a>RedDuck.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class RedDuck extends Duck&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void display() &#123;</span><br><span class="line">        System.out.println(&quot;my color is red&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="为什么swim-方法是普通方法，display-方法是抽象方法呢？"><a href="#为什么swim-方法是普通方法，display-方法是抽象方法呢？" class="headerlink" title="为什么swim()方法是普通方法，display() 方法是抽象方法呢？"></a>为什么swim()方法是普通方法，display() 方法是抽象方法呢？</h5><p>这里是为了体现，所有的都会游泳，并且都一样。所有鸭子都有外貌，但是是由各自决定，所以必须子类来重写。</p>
-<h4 id="需求2，接口实现"><a href="#需求2，接口实现" class="headerlink" title="需求2，接口实现"></a>需求2，接口实现</h4><p>这时候需求变更，有些鸭子可以飞。</p>
-<p>注意，这里的关键词是可以。如果这个时候我们把 fly() 方法写在子类 Duck 中，那就表示所有的鸭子都会飞。所以这个时候我们想到了接口，定义 Flyable 接口，让会飞的鸭子实现接口，并重写方法。</p>
-<h5 id="Flyable-java"><a href="#Flyable-java" class="headerlink" title="Flyable.java"></a>Flyable.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public interface Flyable &#123;</span><br><span class="line">    </span><br><span class="line">    void fly();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="GreenDuck-java-1"><a href="#GreenDuck-java-1" class="headerlink" title="GreenDuck.java"></a>GreenDuck.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class GreenDuck extends Duck implements Flyable&#123;</span><br><span class="line"></span><br><span class="line">    public void fly() &#123;</span><br><span class="line">        System.out.println(&quot;I am flying with wing&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void display() &#123;</span><br><span class="line">        System.out.println(&quot;my color is green&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>假设GreenDuck会飞，那么它需要实现flyable接口，然后写自己会飞。RedDuck不会飞，所以不实现flyable接口。<br>看似问题解决了，但是如果这个时候我们系统中有几十种鸭子，而且会飞只分用翅膀飞，不能飞，用喷气式火箭飞3种，如果采用接口来实现，几十种鸭子都需要自己去实现方法，无法代码重用，这种设计是不是很不好呢，代码重用率太低。而且，如果后面我们还要添加其他的属性，比如说话Speakable，那我们需要添加一个新接口，并且以前的鸭子都要从新实现一遍，完全违反了开闭原则。<br>而且，如果后面我们还要添加其他的属性，比如说话Speakable，那我们需要添加一个新接口，并且以前的鸭子都要从新实现一遍，完全违反了开闭原则。</p>
-<h4 id="需求3，策略模式实现"><a href="#需求3，策略模式实现" class="headerlink" title="需求3，策略模式实现"></a>需求3，策略模式实现</h4><p>策略模式说，我们需要把最公有的相同的方法放在父类中，将可以变化的方法抽取成接口，并通过组合的方式放到父类中，子类通过插入不同的接口实现，完成类的配置。<br>Duck类中，swim() 方法属于共有并且都相同的方法，display() 属于都有，但是需要自己去实现的方法。fly和speak是有些子类有的方法，并且实现有相同有不同，我们应该抽取成接口放在父类中。来看看代码：<br>修改Duck类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">abstract class Duck&#123;</span><br><span class="line">    </span><br><span class="line">    protected Flyable flyable;</span><br><span class="line">    </span><br><span class="line">    public void swim()&#123;</span><br><span class="line">        System.out.println(&quot;I am swimming&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public abstract void display();</span><br><span class="line">    </span><br><span class="line">    public void performFly()&#123;</span><br><span class="line">        // 通过多态机制，动态决定到底怎么飞</span><br><span class="line">        flyable.fly();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    // 设置飞的具体实现，并随时可以改变</span><br><span class="line">    public void setFlayable(Flyable flyable)&#123;</span><br><span class="line">        //TODO:添加非空判断</span><br><span class="line">        this.flyable = flyable;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>实现3中飞的行为：</p>
-<h5 id="Flyable-java-1"><a href="#Flyable-java-1" class="headerlink" title="Flyable.java"></a>Flyable.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface Flyable &#123;</span><br><span class="line">    void fly();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="FlyNoWay-java-不能飞"><a href="#FlyNoWay-java-不能飞" class="headerlink" title="FlyNoWay.java 不能飞"></a>FlyNoWay.java 不能飞</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class FlyNoWay implements Flyable&#123;</span><br><span class="line"></span><br><span class="line">    public void fly() &#123;</span><br><span class="line">        System.out.println(&quot;can not fly&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="FlyWithWing-java-用翅膀飞"><a href="#FlyWithWing-java-用翅膀飞" class="headerlink" title="FlyWithWing.java 用翅膀飞"></a>FlyWithWing.java 用翅膀飞</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class FlyWithWing implements Flyable&#123;</span><br><span class="line"></span><br><span class="line">    public void fly() &#123;</span><br><span class="line">        System.out.println(&quot;fly with wing&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="FlyWithRocket-用火箭飞"><a href="#FlyWithRocket-用火箭飞" class="headerlink" title="FlyWithRocket 用火箭飞"></a>FlyWithRocket 用火箭飞</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class FlyWithRocket implements Flyable&#123;</span><br><span class="line"></span><br><span class="line">    public void fly() &#123;</span><br><span class="line">        System.out.println(&quot;fly with rocket&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果现在要让 GreenDuck 有飞的属性，应该这样做：</p>
-<h5 id="GreenDuck-java-2"><a href="#GreenDuck-java-2" class="headerlink" title="GreenDuck.java"></a>GreenDuck.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class GreenDuck extends Duck&#123;</span><br><span class="line">    </span><br><span class="line">    public GreenDuck()&#123;</span><br><span class="line">        this.flyable = new FlyNoWay();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void display() &#123;</span><br><span class="line">        System.out.println(&quot;my color is green&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="Main-java"><a href="#Main-java" class="headerlink" title="Main.java"></a>Main.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class Main &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">        GreenDuck gDuck = new GreenDuck();</span><br><span class="line">        gDuck.performFly();</span><br><span class="line">        gDuck.setFlayable(new FlyWithWing());</span><br><span class="line">        gDuck.performFly();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>默认GreenDuck是不会飞的，然后可以通过动态的设置飞属性给鸭子，让他具有各种飞的属性。将飞与类解耦，并且也达到了飞实现重用的目的。</p>
-<p>策略模式大概就是这样，如果这个时候我们要添加 Speak 属性，怎么做么？</p>
-<h4 id="添加新功能"><a href="#添加新功能" class="headerlink" title="添加新功能"></a>添加新功能</h4><h5 id="step1-添加-Speakable接口，和两种实现"><a href="#step1-添加-Speakable接口，和两种实现" class="headerlink" title="step1: 添加 Speakable接口，和两种实现"></a>step1: 添加 Speakable接口，和两种实现</h5><h5 id="Speakable-java"><a href="#Speakable-java" class="headerlink" title="Speakable.java"></a>Speakable.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface Speakable &#123;</span><br><span class="line">    void speak();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="SpeakDuckLaguage-java"><a href="#SpeakDuckLaguage-java" class="headerlink" title="SpeakDuckLaguage .java"></a>SpeakDuckLaguage .java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class SpeakDuckLaguage implements Speakable &#123;</span><br><span class="line"></span><br><span class="line">    public void speak() &#123;</span><br><span class="line">        System.out.println(&quot;I can speak duck language&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="SpeakHumanLaguage-java"><a href="#SpeakHumanLaguage-java" class="headerlink" title="SpeakHumanLaguage.java"></a>SpeakHumanLaguage.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class SpeakHumanLaguage implements Speakable &#123;</span><br><span class="line">    public void speak() &#123;</span><br><span class="line">        System.out.println(&quot;I can speak human language&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="step2-Duck类中添加Speakable属性，并且提供set方法，然后提供一个执行speak的方法"><a href="#step2-Duck类中添加Speakable属性，并且提供set方法，然后提供一个执行speak的方法" class="headerlink" title="step2: Duck类中添加Speakable属性，并且提供set方法，然后提供一个执行speak的方法"></a>step2: Duck类中添加Speakable属性，并且提供set方法，然后提供一个执行speak的方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">abstract class Duck&#123;</span><br><span class="line">    </span><br><span class="line">    protected Flyable flyable;</span><br><span class="line">    protected Speakable speakable;</span><br><span class="line">    </span><br><span class="line">    //...</span><br><span class="line">    </span><br><span class="line">    public void performSpeak()&#123;</span><br><span class="line">        speakable.speak();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public void setSpeakable(Speakable speakable)&#123;</span><br><span class="line">        //TODO: 非空判断</span><br><span class="line">        this.speakable = speakable;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="step3-给红鸭子添加会说话属性"><a href="#step3-给红鸭子添加会说话属性" class="headerlink" title="step3: 给红鸭子添加会说话属性"></a>step3: 给红鸭子添加会说话属性</h5><h5 id="RedDuck-java-默认说鸭子语言"><a href="#RedDuck-java-默认说鸭子语言" class="headerlink" title="RedDuck.java 默认说鸭子语言"></a>RedDuck.java 默认说鸭子语言</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class RedDuck extends Duck&#123;</span><br><span class="line">    </span><br><span class="line">    // 默认说鸭子语言</span><br><span class="line">    public RedDuck()&#123;</span><br><span class="line">        this.speakable = new SpeakDuckLaguage();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void display() &#123;</span><br><span class="line">        System.out.println(&quot;my color is red&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="Main-java-客户端调用"><a href="#Main-java-客户端调用" class="headerlink" title="Main.java 客户端调用"></a>Main.java 客户端调用</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class Main &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        GreenDuck gDuck = new GreenDuck();</span><br><span class="line">        gDuck.performFly();</span><br><span class="line">        gDuck.setFlayable(new FlyWithWing());</span><br><span class="line">        gDuck.performFly();</span><br><span class="line">        </span><br><span class="line">        RedDuck rDuck = new RedDuck();</span><br><span class="line">        rDuck.performSpeak();</span><br><span class="line">        rDuck.setSpeakable(new SpeakHumanLaguage());</span><br><span class="line">        rDuck.performSpeak();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="策略模式的优缺点"><a href="#策略模式的优缺点" class="headerlink" title="策略模式的优缺点"></a>策略模式的优缺点</h4><h5 id="策略模式的主要优点有："><a href="#策略模式的主要优点有：" class="headerlink" title="策略模式的主要优点有："></a>策略模式的主要优点有：</h5><ul>
-<li>策略类之间可以自由切换，由于策略类实现自同一个抽象，所以他们之间可以自由切换。</li>
-<li>易于扩展，增加一个新的策略对策略模式来说非常容易，基本上可以在不改变原有代码的基础上进行扩展。</li>
-<li>避免使用多重条件，如果不使用策略模式，对于所有的算法，必须使用条件语句进行连接，通过条件判断来决定使用哪一种算法，在上一篇文章中我们已经提到，使用多重条件判断是非常不容易维护的。</li>
-</ul>
-<h5 id="策略模式的缺点主要有两个："><a href="#策略模式的缺点主要有两个：" class="headerlink" title="策略模式的缺点主要有两个："></a>策略模式的缺点主要有两个：</h5><ul>
-<li>维护各个策略类会给开发带来额外开销，可能大家在这方面都有经验：一般来说，策略类的数量超过5个，就比较令人头疼了。</li>
-<li>必须对客户端（调用者）暴露所有的策略类，因为使用哪种策略是由客户端来决定的，因此，客户端应该知道有什么策略，并且了解各种策略之间的区别，否则，后果很严重。例如，有一个排序算法的策略模式，提供了快速排序、冒泡排序、选择排序这三种算法，客户端在使用这些算法之前，是不是先要明白这三种算法的适用情况？再比如，客户端要使用一个容器，有链表实现的，也有数组实现的，客户端是不是也要明白链表和数组有什么区别？就这一点来说是有悖于迪米特法则的。</li>
-</ul>
-<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><ul>
-<li>做面向对象设计的，对策略模式一定很熟悉，因为它实质上就是面向对象中的继承和多态，在看完策略模式的通用代码后，我想，即使之前从来没有听说过策略模式，在开发过程中也一定使用过它吧？至少在在以下两种情况下，大家可以考虑使用策略模式：</li>
-<li>几个类的主要逻辑相同，只在部分逻辑的算法和行为上稍有区别的情况。</li>
-<li>有几种相似的行为，或者说算法，客户端需要动态地决定使用哪一种，那么可以使用策略模式，将这些算法封装起来供客户端调用。</li>
-<li>策略模式是一种简单常用的模式，我们在进行开发的时候，会经常有意无意地使用它，一般来说，策略模式不会单独使用，跟模版方法模式、工厂模式等混合使用的情况比较多。</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/依赖倒置原则/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/依赖倒置原则/" itemprop="url">
-                  依赖倒置原则
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="依赖倒置原则"><a href="#依赖倒置原则" class="headerlink" title="依赖倒置原则"></a>依赖倒置原则</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>高层模块不应该依赖低层模块，二者都应该依赖其抽象；抽象不应该依赖细节；细节应该依赖抽象。</p>
-<h4 id="问题由来："><a href="#问题由来：" class="headerlink" title="问题由来："></a>问题由来：</h4><p>类A直接依赖类B，假如要将类A改为依赖类C，则必须通过修改类A的代码来达成。这种场景下，类A一般是高层模块，负责复杂的业务逻辑；类B和类C是低层模块，负责基本的原子操作；假如修改类A，会给程序带来不必要的风险。</p>
-<h4 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h4><p>将类A修改为依赖接口I，类B和类C各自实现接口I，类A通过接口I间接与类B或者类C发生联系，则会大大降低修改类A的几率。</p>
-<pre><code>依赖倒置原则基于这样一个事实：相对于细节的多变性，抽象的东西要稳定的多。以抽象为基础搭建起来的架构比以细节为基础搭建起来的架构要稳定的多。在java中，抽象指的是接口或者抽象类，细节就是具体的实现类，使用接口或者抽象类的目的是制定好规范和契约，而不去涉及任何具体的操作，把展现细节的任务交给他们的实现类去完成。
-
-依赖倒置原则的核心思想是面向接口编程，我们依旧用一个例子来说明面向接口编程比相对于面向实现编程好在什么地方。场景是这样的，母亲给孩子讲故事，只要给她一本书，她就可以照着书给孩子讲故事了。代码如下：
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">class Book&#123;  </span><br><span class="line">       public String getContent()&#123;  </span><br><span class="line">           return &quot;很久很久以前有一个阿拉伯的故事……&quot;;  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;  </span><br><span class="line">     </span><br><span class="line">   class Mother&#123;  </span><br><span class="line">       public void narrate(Book book)&#123;  </span><br><span class="line">           System.out.println(&quot;妈妈开始讲故事&quot;);  </span><br><span class="line">           System.out.println(book.getContent());  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;  </span><br><span class="line">     </span><br><span class="line">   public class Client&#123;  </span><br><span class="line">       public static void main(String[] args)&#123;  </span><br><span class="line">           Mother mother = new Mother();  </span><br><span class="line">           mother.narrate(new Book());  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">运行结果：</span><br><span class="line">妈妈开始讲故事</span><br><span class="line">很久很久以前有一个阿拉伯的故事……</span><br><span class="line"></span><br><span class="line">        运行良好，假如有一天，需求变成这样：不是给书而是给一份报纸，让这位母亲讲一下报纸上的故事，报纸的代码如下：</span><br><span class="line">class Newspaper&#123;  </span><br><span class="line">   public String getContent()&#123;  </span><br><span class="line">       return &quot;林书豪38+7领导尼克斯击败湖人……&quot;;  </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>  这位母亲却办不到，因为她居然不会读报纸上的故事，这太荒唐了，只是将书换成报纸，居然必须要修改Mother才能读。假如以后需求换成杂志呢？换成网页呢？还要不断地修改Mother，这显然不是好的设计。原因就是Mother与Book之间的耦合性太高了，必须降低他们之间的耦合度才行。</p>
-<p>我们引入一个抽象的接口IReader。读物，只要是带字的都属于读物：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">interface IReader&#123;  </span><br><span class="line">   public String getContent();  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Mother类与接口IReader发生依赖关系，而Book和Newspaper都属于读物的范畴，他们各自都去实现IReader接口，这样就符合依赖倒置原则了，代码修改为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">class Newspaper implements IReader &#123;  </span><br><span class="line">       public String getContent()&#123;  </span><br><span class="line">           return &quot;林书豪17+9助尼克斯击败老鹰……&quot;;  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;  </span><br><span class="line">   class Book implements IReader&#123;  </span><br><span class="line">       public String getContent()&#123;  </span><br><span class="line">           return &quot;很久很久以前有一个阿拉伯的故事……&quot;;  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;  </span><br><span class="line">     </span><br><span class="line">   class Mother&#123;  </span><br><span class="line">       public void narrate(IReader reader)&#123;  </span><br><span class="line">           System.out.println(&quot;妈妈开始讲故事&quot;);  </span><br><span class="line">           System.out.println(reader.getContent());  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;  </span><br><span class="line">     </span><br><span class="line">   public class Client&#123;  </span><br><span class="line">       public static void main(String[] args)&#123;  </span><br><span class="line">           Mother mother = new Mother();  </span><br><span class="line">           mother.narrate(new Book());  </span><br><span class="line">           mother.narrate(new Newspaper());  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;</span><br><span class="line">运行结果：</span><br><span class="line">妈妈开始讲故事</span><br><span class="line">很久很久以前有一个阿拉伯的故事……</span><br><span class="line">妈妈开始讲故事</span><br><span class="line">林书豪17+9助尼克斯击败老鹰……</span><br></pre></td></tr></table></figure></p>
-<p> 这样修改后，无论以后怎样扩展Client类，都不需要再修改Mother类了。这只是一个简单的例子，实际情况中，代表高层模块的Mother类将负责完成主要的业务逻辑，一旦需要对它进行修改，引入错误的风险极大。所以遵循依赖倒置原则可以降低类之间的耦合性，提高系统的稳定性，降低修改程序造成的风险。</p>
-<p>采用依赖倒置原则给多人并行开发带来了极大的便利，比如上例中，原本Mother类与Book类直接耦合时，Mother类必须等Book类编码完成后才可以进行编码，因为Mother类依赖于Book类。修改后的程序则可以同时开工，互不影响，因为Mother与Book类一点关系也没有。参与协作开发的人越多、项目越庞大，采用依赖导致原则的意义就越重大。现在很流行的TDD开发模式就是依赖倒置原则最成功的应用。</p>
-<p>传递依赖关系有三种方式，以上的例子中使用的方法是接口传递，另外还有两种传递方式：构造方法传递和setter方法传递，相信用过Spring框架的，对依赖的传递方式一定不会陌生。</p>
-<p>在实际编程中，我们一般需要做到如下3点：</p>
-<ul>
-<li>低层模块尽量都要有抽象类或接口，或者两者都有。</li>
-<li>变量的声明类型尽量是抽象类或接口。</li>
-<li>使用继承时遵循里氏替换原则。<br>依赖倒置原则的核心就是要我们面向接口编程，理解了面向接口编程，也就理解了依赖倒置。</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Toast为什么不可以在子线程里面运行/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/Toast为什么不可以在子线程里面运行/" itemprop="url">
-                  我的第一个Android设计——登录和注册
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Toast为什么不可以在子线程里面运行"><a href="#Toast为什么不可以在子线程里面运行" class="headerlink" title="Toast为什么不可以在子线程里面运行"></a>Toast为什么不可以在子线程里面运行</h3><p>Handler不能再子线程里运行的 因为子线程没有创建Looper.prepare(); 所以就报错了。主线程不需要调用，是因为主线程已经默认帮你调用了。</p>
-<p>可以看到一个Toast的创建需要依赖Handler。那么 我不要 我不要 我一定要在子线程使用Toast那怎么办。<br>其实很简单，它却什么就给它什么。</p>
-<h4 id="第一种方法"><a href="#第一种方法" class="headerlink" title="第一种方法"></a>第一种方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">new Thread()&#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            super.run();</span><br><span class="line">            Looper.prepare();</span><br><span class="line">            try &#123;</span><br><span class="line">                Toast.makeText(LoginActivity.this,&quot;keshe&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">            &#125;catch (Exception e) &#123;</span><br><span class="line">                Logger.e(&quot;error&quot;,e.toString());</span><br><span class="line">            &#125;</span><br><span class="line">            Looper.loop();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;.start();</span><br></pre></td></tr></table></figure>
-<p>因为除了Activity ui线程默认创建之外，其他线程不会自动创建调用 Looper.prepare()来给线程创建消息循环，然后再通过，Looper.loop()来使消息循环起作用。</p>
-<h4 id="第二种方法"><a href="#第二种方法" class="headerlink" title="第二种方法"></a>第二种方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">runOnUiThread(new Runnable() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            Toast.makeText(MainActivity.this,&quot;keshe23333&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    new Thread()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;.start();</span><br></pre></td></tr></table></figure>
-<p>Toast的代码创建在Runnable中，然后在需要Toast时，把这个Runnable对象传给runOnUiThread(Runnable)。 这样Runnable对像就能在ui程序中被调用。如果当前线程是UI线程,那么行动是立即执行</p>
-<h4 id="第三种方法"><a href="#第三种方法" class="headerlink" title="第三种方法"></a>第三种方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Handler mHandler = new Handler()&#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void handleMessage(Message msg) &#123;</span><br><span class="line">            super.handleMessage(msg);</span><br><span class="line">     //这里写你的Toast代码Toast.makeText(MainActivity.this,&quot;keshe23333&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    new Thread()&#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            super.run();</span><br><span class="line">          mHandler.sendEmptyMessage(0);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;.start();</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/一、会话的概念/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2129,6 +1979,167 @@ s = (Student)person ;
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/单一职责原则/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/单一职责原则/" itemprop="url">
+                  单一职责原则
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="单一职责原则"><a href="#单一职责原则" class="headerlink" title="单一职责原则"></a>单一职责原则</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。</p>
+<h4 id="问题由来："><a href="#问题由来：" class="headerlink" title="问题由来："></a>问题由来：</h4><p>类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2功能发生故障。</p>
+<h4 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h4><p>遵循单一职责原则。分别建立两个类T1、T2，使T1完成职责P1功能，T2完成职责P2功能。这样，当修改类T1时，不会使职责P2发生故障风险；同理，当修改T2时，也不会使职责P1发生故障风险。<br>举例说明，用一个类描述动物呼吸这个场景：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Animal&#123;  </span><br><span class="line">       public void breathe(String animal)&#123;  </span><br><span class="line">           System.out.println(animal+&quot;呼吸空气&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;  </span><br><span class="line">   public class Client&#123;  </span><br><span class="line">       public static void main(String[] args)&#123;  </span><br><span class="line">           Animal animal = new Animal();  </span><br><span class="line">           animal.breathe(&quot;牛&quot;);  </span><br><span class="line">           animal.breathe(&quot;羊&quot;);  </span><br><span class="line">           animal.breathe(&quot;猪&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">运行结果：</span><br><span class="line">牛呼吸空气</span><br><span class="line">羊呼吸空气</span><br><span class="line">猪呼吸空气</span><br></pre></td></tr></table></figure></p>
+<p>   程序上线后，发现问题了，并不是所有的动物都呼吸空气的，比如鱼就是呼吸水的。修改时如果遵循单一职责原则，需要将Animal类细分为陆生动物类Terrestrial，水生动物Aquatic，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class Terrestrial&#123;  </span><br><span class="line">   public void breathe(String animal)&#123;  </span><br><span class="line">       System.out.println(animal+&quot;呼吸空气&quot;);  </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">class Aquatic&#123;  </span><br><span class="line">   public void breathe(String animal)&#123;  </span><br><span class="line">       System.out.println(animal+&quot;呼吸水&quot;);  </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"> </span><br><span class="line">public class Client&#123;  </span><br><span class="line">   public static void main(String[] args)&#123;  </span><br><span class="line">       Terrestrial terrestrial = new Terrestrial();  </span><br><span class="line">       terrestrial.breathe(&quot;牛&quot;);  </span><br><span class="line">       terrestrial.breathe(&quot;羊&quot;);  </span><br><span class="line">       terrestrial.breathe(&quot;猪&quot;);  </span><br><span class="line">         </span><br><span class="line">       Aquatic aquatic = new Aquatic();  </span><br><span class="line">       aquatic.breathe(&quot;鱼&quot;);  </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">运行结果：</span><br><span class="line">牛呼吸空气</span><br><span class="line">羊呼吸空气</span><br><span class="line">猪呼吸空气</span><br><span class="line">鱼呼吸水</span><br></pre></td></tr></table></figure></p>
+<p>我们会发现如果这样修改花销是很大的，除了将原来的类分解之外，还需要修改客户端。而直接修改类Animal来达成目的虽然违背了单一职责原则，但花销却小的多，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Animal&#123;  </span><br><span class="line">       public void breathe(String animal)&#123;  </span><br><span class="line">           if(&quot;鱼&quot;.equals(animal))&#123;  </span><br><span class="line">               System.out.println(animal+&quot;呼吸水&quot;);  </span><br><span class="line">           &#125;else&#123;  </span><br><span class="line">               System.out.println(animal+&quot;呼吸空气&quot;);  </span><br><span class="line">           &#125;  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;  </span><br><span class="line">     </span><br><span class="line">   public class Client&#123;  </span><br><span class="line">       public static void main(String[] args)&#123;  </span><br><span class="line">           Animal animal = new Animal();  </span><br><span class="line">           animal.breathe(&quot;牛&quot;);  </span><br><span class="line">           animal.breathe(&quot;羊&quot;);  </span><br><span class="line">           animal.breathe(&quot;猪&quot;);  </span><br><span class="line">           animal.breathe(&quot;鱼&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，这种修改方式要简单的多。但是却存在着隐患：有一天需要将鱼分为呼吸淡水的鱼和呼吸海水的鱼，则又需要修改Animal类的breathe方法，而对原有代码的修改会对调用“猪”“牛”“羊”等相关功能带来风险，也许某一天你会发现程序运行的结果变为“牛呼吸水”了。这种修改方式直接在代码级别上违背了单一职责原则，虽然修改起来最简单，但隐患却是最大的。还有一种修改方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Animal&#123;  </span><br><span class="line">       public void breathe(String animal)&#123;  </span><br><span class="line">           System.out.println(animal+&quot;呼吸空气&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">     </span><br><span class="line">       public void breathe2(String animal)&#123;  </span><br><span class="line">           System.out.println(animal+&quot;呼吸水&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;  </span><br><span class="line">     </span><br><span class="line">   public class Client&#123;  </span><br><span class="line">       public static void main(String[] args)&#123;  </span><br><span class="line">           Animal animal = new Animal();  </span><br><span class="line">           animal.breathe(&quot;牛&quot;);  </span><br><span class="line">           animal.breathe(&quot;羊&quot;);  </span><br><span class="line">           animal.breathe(&quot;猪&quot;);  </span><br><span class="line">           animal.breathe2(&quot;鱼&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，这种修改方式没有改动原来的方法，而是在类中新加了一个方法，这样虽然也违背了单一职责原则，但在方法级别上却是符合单一职责原则的，因为它并没有动原来方法的代码。这三种方式各有优缺点，那么在实际编程中，采用哪一中呢？其实这真的比较难说，需要根据实际情况来确定。我的原则是：只有逻辑足够简单，才可以在代码级别上违反单一职责原则；只有类中方法数量足够少，才可以在方法级别上违反单一职责原则；<br>        例如本文所举的这个例子，它太简单了，它只有一个方法，所以，无论是在代码级别上违反单一职责原则，还是在方法级别上违反，都不会造成太大的影响。实际应用中的类都要复杂的多，一旦发生职责扩散而需要修改类时，除非这个类本身非常简单，否则还是遵循单一职责原则的好。</p>
+<h4 id="遵循单一职责原的优点有："><a href="#遵循单一职责原的优点有：" class="headerlink" title="遵循单一职责原的优点有："></a>遵循单一职责原的优点有：</h4><p>1、可以降低类的复杂度，一个类只负责一项职责，其逻辑肯定要比负责多项职责简单的多；<br>2、提高类的可读性，提高系统的可维护性；<br>3、变更引起的风险降低，变更是必然的，如果单一职责原则遵守的好，当修改一个功能时，可以显著降低对其他功能的影响。<br>        需要说明的一点是单一职责原则不只是面向对象编程思想所特有的，只要是模块化的程序设计，都适用单一职责原则。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -2180,7 +2191,7 @@ s = (Student)person ;
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">82</span>
+                    <span class="site-state-item-count">85</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2334,7 +2345,13 @@ s = (Student)person ;
                     
                       
                     
-                    <span class="site-state-item-count">56</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">59</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

@@ -319,7 +319,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/详细讲解Android Studio中使用Git/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/一、commons-dbutils简介/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -338,8 +338,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/详细讲解Android Studio中使用Git/" itemprop="url">
-                  初识GitLab
+                <a class="post-title-link" href="/2018/07/20/一、commons-dbutils简介/" itemprop="url">
+                  Apache的DBUtils框架学习
                 </a>
               
             
@@ -383,7 +383,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
 
                 
                 
@@ -419,81 +419,37 @@
       
         
           
-            <h3 id="详细讲解Android-Studio中使用Git"><a href="#详细讲解Android-Studio中使用Git" class="headerlink" title="详细讲解Android Studio中使用Git"></a>详细讲解Android Studio中使用Git</h3><p>作者博客链接：<br><a href="https://www.jianshu.com/p/059ed1e01229" target="_blank" rel="noopener">https://www.jianshu.com/p/059ed1e01229</a></p>
-<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>以前项目版本管理工具一直用的都是SVN，现在换成Git，并且项目托管平台使用的是GitLab。虽然经常用GitHub，但是却很少使用到分支，因为都是自己在写，也不用开发版与发布版、打Tag那些，所以这篇文章主要讲下GitLab与Git的使用。</p>
-<p>这篇文章还是会按我以前的写作风格，写的通俗易懂，并且全程自己操作一遍，目的是为了初学者也能看懂。</p>
-<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><strong>Git：</strong>Git是一个开源的分布式版本控制系统，可以有效、高速的处理从很小到非常大的项目版本管理。简单说，它就是一个管理项目版本的工具。</p>
-<p><strong>GitLab：</strong>GitLab 是一个用于仓库管理系统的开源项目，使用Git作为代码管理工具，并在此基础上搭建起来的web服务。简单说，GitLab的性质是和GitHub一样的，都是用来存储项目的仓库。</p>
-<h4 id="准备-Git"><a href="#准备-Git" class="headerlink" title="准备 Git"></a>准备 Git</h4><p><strong>3.1 安装Git</strong></p>
-<p>下载地址：<br><a href="http://git-scm.com/download/" target="_blank" rel="noopener">http://git-scm.com/download/</a></p>
-<p>安装步骤：双击安装，按默认选项一路下去即可。<br>安装完成后，在开始菜单里找到“Git”–&gt;“Git Bash”，出现如下图，就说明Git安装成功！<br><img src="/img/gitlab1.png" alt=""></p>
-<p><strong>3.2 配置信息</strong></p>
-<p>在上图命令行中输入你的用户名与邮箱<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name &quot;Your Name&quot;</span><br><span class="line">$ git config --global user.email &quot;email@example.com&quot;</span><br></pre></td></tr></table></figure></p>
-<p>命令中的 –global 参数表示你这台机器上所有的Git仓库都会使用这个配置。</p>
-<p><strong>3.3 Android Studio中配置Git</strong></p>
-<p>在Android Studio中点击Settings–&gt;Version Control –&gt; Git，然后在Path To Git executable上输入你刚刚安装Git的位置，最后点击Test按钮出现Git executed successfully说明配置成功，如下图：<br><img src="/img/gitlab2.png" alt=""></p>
-<h4 id="GitLab-使用"><a href="#GitLab-使用" class="headerlink" title="GitLab 使用"></a>GitLab 使用</h4><p><strong>4.1 注册账号</strong></p>
-<p>这里说下注册账号的时候需要注意的事项。<br>如果注册账号的时候提示如下错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">there was an error with the reCAPTCHA,please solve the reCAPTCHA again</span><br></pre></td></tr></table></figure></p>
-<p>那是因为注册时需要验证码验证，就是reCAPTCHA，是一个图形验证码。但是这个验证码需要FQ才能看得到，否则你一直都注册不了。如图：<br><img src="/img/gitlab3.png" alt=""><br><strong>4.2 GitLab账户配置SSH Keys</strong></p>
-<p><strong>4.2.1 首先需要检查你电脑是否已经有 SSH Keys</strong></p>
-<p>在Git Bash 客户端，输入如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~/.ssh</span><br><span class="line">$ ls</span><br></pre></td></tr></table></figure></p>
-<p>如下说明已经存在，存在就可以忽略步骤4.2.2，直接进入步骤4.2.3</p>
-<p><img src="/img/gitlab4.png" alt=""></p>
-<p><strong>4.2.2 创建一个 SSH Keys</strong></p>
-<p>在Git Bash 客户端，输入如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C &quot;your_email&quot;</span><br></pre></td></tr></table></figure></p>
-<p>然后根据提示进行相应操作，如下图所示：</p>
-<p>第一个Enter表示Keys存储的位置，默认按回车键即可。第二个和第三个Enter表示Push文件的时候要输入的密码，不需要密码就默认按回车键即可，然后出现如图底部信息就说明创建成功了！</p>
-<p><img src="/img/gitlab5.png" alt=""><br><strong>4.2.3 GitLab配置SSH Keys</strong></p>
-<p>进入上图所示存储 id_rsa.pub 的文件夹拷贝该文件中的内容，然后登录你的GitLab账号，点击网页右上角的头像–&gt;Settings，点击左边菜单栏的 SSH Keys 进入页面添加 SSH key。如下操作：<br><img src="/img/gitlab6.png" alt=""><br><img src="/img/gitlab7.png" alt=""></p>
-<p><strong>4.3 创建项目</strong></p>
-<p>在GitLab网站点击导航条上的 “+” 即可进入创建项目的页面，然后根据提示填写相应信息，如下图：<br><img src="/img/gitlab8.png" alt=""><br><img src="/img/gitlab9.png" alt=""></p>
-<p>Project path：项目路径<br>Project name：项目名称<br>Project description (optional)：项目描述（可选项）<br>Visibility Level：可见登记，Private表示私有的，只有你自己或者组内的成员能访问，Internal表示所有登录的用户，Public表示公开的，所有人都可以访问。</p>
-<p>创建完成后是这样的：<br><img src="/img/gitlab10.png" alt=""></p>
-<h4 id="Android-Studio中使用Git"><a href="#Android-Studio中使用Git" class="headerlink" title="Android Studio中使用Git"></a>Android Studio中使用Git</h4><p><strong>5.1 将项目上传到GitLab</strong></p>
-<p>本地已创建好的项目为WildmaGit</p>
-<p><strong>5.1.1 配置忽略文件</strong></p>
-<p>Android Studio创建项目后会自动生成.gitignore文件，这个文件可以用来忽略那些不用加入到仓库的文件。项目根目录下与module目录下都会生成该文件，如下：<br><img src="/img/gitlab11.png" alt=""><br>一般情况下我们只需要将项目根目录下的/.idea/workspace.xml与/.idea/libraries改成.idea即可，其他没有特殊要求就用默认的。如下：</p>
-<p>修改前：<br><img src="/img/gitlab12.png" alt=""><br>修改后：<br><img src="/img/gitlab13.png" alt=""><br><strong>5.1.2 初始化本地Git仓库</strong></p>
-<p>点击Android Studio顶部菜单栏上的VCS–&gt;Import into Version Control–&gt;Create Git Repository，如图：<br><img src="/img/gitlab14.png" alt=""><br>然后选择需要初始化的项目根目录，如图：<br><img src="/img/gitlab15.png" alt=""><br>初始化之后发现文件名由原来的白色变成了红色，这表示文件已经被git跟踪了，但是并没有添加到仓库中。如图：<br><img src="/img/gitlab16.png" alt=""><br><strong>5.1.3 将本地Git仓库已与远程仓库进行关联</strong></p>
-<p>打开项目文件夹，在该文件夹中打开Git Bash。输入如下命令后就代表本地Git仓库已与远程仓库进行关联了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git@gitlab.com:wildma/WildmaGit.git</span><br></pre></td></tr></table></figure></p>
-<p>具体步骤见下图：<br><img src="/img/gitlab17.png" alt=""><br><img src="/img/gitlab18.png" alt=""><br>其中 <a href="mailto:git@gitlab.com" target="_blank" rel="noopener">git@gitlab.com</a>:wildma/WildmaGit.git 为我们项目的远程地址，可以到我们前面创建项目中复制，如下：<br><img src="/img/gitlab19.png" alt=""></p>
-<p><strong>5.1.4 添加文件</strong></p>
-<p>选中项目的根目录，点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Add…，如下图：<br><img src="/img/gitlab20.png" alt=""><br>添加文件后发现文件名由原来的红色变成了绿色，说明已经将文件添加进仓库了。如下图：<br><img src="/img/gitlab21.png" alt=""><br><strong>5.1.5 提交文件</strong></p>
-<p>每次提交前需要先更新项目，原因是如果是多人合作的项目，需要先将远程仓库中他人提交的最新代码更新到本地仓库。如图：<br><img src="/img/gitlab22.png" alt=""><br>然后选中Merge，点击OK，如果本地代码与远程代码有冲突就会弹出冲突提示，根据需求Merge即可，如图：<br><img src="/img/gitlab23.png" alt=""></p>
-<p>Update后就可以提交文件了，选中项目的根目录，点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Commit Directory…，如图：<br><img src="/img/gitlab24.png" alt=""></p>
-<p>然后会弹出如下提交框，这里可以选择你要提交的文件和填写提交信息，如图：<br><img src="/img/gitlab25.png" alt=""><br>提交文件后发现文件名由原来的绿色又变成了最开始的白色，说明已经将文件提交上仓库了。如图：<br><img src="/img/gitlab26.png" alt=""></p>
-<p><strong>5.1.6 将提交的文件推送到远程仓库</strong></p>
-<p>选中项目的根目录，点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Push…，如下图：<br><img src="/img/gitlab27.png" alt=""><br>然后会弹出如下推送框<br><img src="/img/gitlab28.png" alt=""><br>点击Push后，就可以在GitLab上看到刚刚推送的内容了。如下图：<br><img src="/img/gitlab29.png" alt=""></p>
-<p><strong>5.2 从GitLab上clone项目</strong></p>
-<p>首先到GitLab上复制项目的地址，如图：<br><img src="/img/gitlab30.png" alt=""><br>然后点击Android Studio顶部菜单栏上的VCS–&gt;Checkout from Version Control–&gt;Git ，如图：<br><img src="/img/gitlab31.png" alt=""><br>最后填写相应的信息即可，如下图：</p>
-<p>Git Repository URL：填写刚刚复制的项目地址<br>Parent Directory：项目路径<br>Directory Name：项目文件夹名称<br><img src="/img/gitlab32.png" alt=""><br>点击clone后，项目就clone下来了！<br><strong>5.3 分支管理</strong></p>
-<p><strong>5.3.1 分支策略</strong></p>
-<p>在实际开发中，我们会用到很多分支。这里说下各分支的作用。</p>
-<p>master分支：最稳定的分支，保存需要发布的版本，不在该分支上做任何开发。<br>dev分支：开发分支，保存最新的代码，平时开发就在该分支上。当某个版本开发完成后就合并到master分支，然后在master分支进行版本发布。<br>bug分支：用来修复bug的分支，一般是线上版出现bug的时候，从master分支创建一个新的bug分支进行bug修复，修复完成合并到master分支和dev分支（保证master分支与dev分支同步），然后删除该bug分支。</p>
-<p>实际开发中我主要用到这三个分支，当然每个人都不同，有些人还会细分到功能分支，预发分支。其中master分支与dev分支都需要推送到远程，为了其他成员能共同开发，bug分支则放在本地即可，你自己修复完bug删掉即可。</p>
-<p><strong>5.3.2 分支操作</strong></p>
-<p><strong>1. 创建分支</strong></p>
-<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，如图：<br><img src="/img/gitlab33.png" alt=""><br>然后选择New Branch，输入分支的名字，例如“dev”，如图：<br><img src="/img/gitlab34.png" alt=""><br><img src="/img/gitlab35.png" alt=""><br>点击OK，分支dev就创建成功了，并且默认切换到该分支。重复上面的步骤可以看到当前分支显示的是dev，如图：<br><img src="/img/gitlab36.png" alt=""></p>
-<p><strong>2. 推送分支到远程</strong></p>
-<p>这时候我们在dev分支上修改内容，然后按照前面说的提交文件（步骤5.1.5），将提交的文件推送到远程仓库（步骤5.1.6）即可。如图：<br><img src="/img/gitlab37.png" alt=""><br><img src="/img/gitlab38.png" alt=""><br>点击push，然后就可以到Gitlab上看到我们刚刚推送的dev分支了，如图：<br><img src="/img/gitlab39.png" alt=""><br><strong>3. 切换分支</strong></p>
-<p>dev分支上版本V1.0开发完了，需要将代码合并到master上进行发布。因为当前在dev分支，所以需要先切换到master分支，点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，打开Git Branches窗口，然后选择本地分支栏下的master-&gt;origin/master，然后点击Checkout。如图：<br><img src="/img/gitlab40.png" alt=""><br><strong>4. 合并分支</strong></p>
-<p>第三步已经将分支切换到master了，现在进行分支合并。点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，打开Git Branches窗口，然后选择远程分支栏下的origin/dev，然后点击Merge。如图：<br><img src="/img/gitlab41.png" alt=""><br>这个时候到GitLab上却发现master分支上并没有合并到dev分支修改的内容，那是因为刚刚只是将远程dev分支的内容合并到本地master分支，本地master分支还没有push到远程，push一下就可以啦~ 如图：<br><img src="/img/gitlab42.png" alt=""><br>这个时候发现GitLab上master分支与dev分支是保持一致的了。然后将最新的master分支打包发布即可！</p>
-<p><strong>5. 删除分支</strong></p>
-<p><strong>删除本地分支：</strong></p>
-<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，打开Git Branches窗口，选中本地dev分支，选择Delete即可。如图：<br><img src="/img/gitlab43.png" alt=""><br><strong>删除远程分支：</strong></p>
-<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，打开Git Branches窗口，选中远程dev分支，选择Delete即可。如图：<br><img src="/img/gitlab44.png" alt=""><br><strong>5.4 标签(Tag)管理</strong></p>
-<p>标签一般是用于标记某个发布的版本， 例如你发布了版本v1.0，这个时候会打一个v1.0的Tag，主要是方便以后查看和管理某个版本的代码。</p>
-<p><strong>1. 创建标签</strong></p>
-<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Tag…，如图：<br><img src="/img/gitlab45.png" alt=""><br>然后填写Tag名称与Tag信息，点击Create Tag即可创建本地标签。其中Commit可填写以前某次提交记录的id，表示在该次提交上打Tag。如果不填表示Tag打在最新提交的commit上。如图：<br><img src="/img/gitlab46.png" alt=""><br><strong>2. 推送标签到远程</strong></p>
-<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Push…，如图：<br><img src="/img/gitlab47.png" alt=""><br>然后弹出Push框，选中Push Tags，点击Push即可推送到远程。如图：<br><img src="/img/gitlab48.png" alt=""><br>最后到GitLab就可以看到刚刚创建的Tag了，如图：<br><img src="/img/gitlab49.png" alt=""><br><strong>3. checkout某个标签的代码</strong></p>
-<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，如图：<br><img src="/img/gitlab50.png" alt=""><br>然后选择Checkout Tag or Revision…，最后在弹出的Checkout框中填入Tag的名称即可。如图：<br><img src="/img/gitlab51.png" alt=""><br><img src="/img/gitlab52.png" alt=""></p>
-<p><strong>4. 删除标签</strong></p>
-<p>在Android Studio中没找到删除Tag的操作，所以这里用Git命令。（有发现的小伙伴可以告诉我）</p>
-<p><strong>查看本地标签：</strong><br>git tag</p>
-<p><strong>删除本地标签：</strong><br>git tag -d tagName</p>
-<p><strong>删除远程标签：</strong><br>git push origin :refs/tags/tagName</p>
-<p>以上命令需要在Android Studio自带的命令行中输入，如图：<br><img src="/img/gitlab53.png" alt=""><br>希望这种图文结合的方式大家都能看懂吧！写的不好的地方请多交流~</p>
-<p>项目地址：<br><a href="https://gitlab.com/wildma/WildmaGit" target="_blank" rel="noopener">https://gitlab.com/wildma/WildmaGit</a></p>
+            <h3 id="一、commons-dbutils简介"><a href="#一、commons-dbutils简介" class="headerlink" title="一、commons-dbutils简介"></a>一、commons-dbutils简介</h3><p>commons-dbutils 是 Apache 组织提供的一个开源 JDBC工具类库，它是对JDBC的简单封装，学习成本极低，并且使用dbutils能极大简化jdbc编码的工作量，同时也不会影响程序的性能。因此dbutils成为很多不喜欢hibernate的公司的首选。</p>
+<h4 id="commons-dbutilsAPI介绍："><a href="#commons-dbutilsAPI介绍：" class="headerlink" title="commons-dbutilsAPI介绍："></a>commons-dbutilsAPI介绍：</h4><ul>
+<li>org.apache.commons.dbutils.QueryRunner</li>
+<li>org.apache.commons.dbutils.ResultSetHandler<h4 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h4></li>
+<li>org.apache.commons.dbutils.DbUtils</li>
+</ul>
+<h3 id="二、QueryRunner类使用讲解"><a href="#二、QueryRunner类使用讲解" class="headerlink" title="二、QueryRunner类使用讲解"></a>二、QueryRunner类使用讲解</h3><p>该类简单化了SQL查询，它与ResultSetHandler组合在一起使用可以完成大部分的数据库操作，能够大大减少编码量。<br>QueryRunner类提供了两个构造方法：</p>
+<ul>
+<li>默认的构造方法</li>
+<li>需要一个 javax.sql.DataSource 来作参数的构造方法。</li>
+</ul>
+<h4 id="2-1、QueryRunner类的主要方法"><a href="#2-1、QueryRunner类的主要方法" class="headerlink" title="2.1、QueryRunner类的主要方法"></a>2.1、QueryRunner类的主要方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public Object query(Connection conn, String sql, Object[] params, ResultSetHandler rsh) throws SQLException：执行一个查询操作，在这个查询中，对象数组中的每个元素值被用来作为查询语句的置换参数。该方法会自行处理 PreparedStatement 和 ResultSet 的创建和关闭。</span><br><span class="line">public Object query(String sql, Object[] params, ResultSetHandler rsh) throws SQLException:　几乎与第一种方法一样；唯一的不同在于它不将数据库连接提供给方法，并且它是从提供给构造方法的数据源(DataSource) 或使用的setDataSource 方法中重新获得 Connection。</span><br><span class="line">　public Object query(Connection conn, String sql, ResultSetHandler rsh) throws SQLException : 执行一个不需要置换参数的查询操作。</span><br><span class="line">　　public int update(Connection conn, String sql, Object[] params) throws SQLException:用来执行一个更新（插入、更新或删除）操作。</span><br><span class="line">　　public int update(Connection conn, String sql) throws SQLException：用来执行一个不需要置换参数的更新操作。</span><br></pre></td></tr></table></figure>
+<h4 id="2-2、使用QueryRunner类实现CRUD"><a href="#2-2、使用QueryRunner类实现CRUD" class="headerlink" title="2.2、使用QueryRunner类实现CRUD"></a>2.2、使用QueryRunner类实现CRUD</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">package DaoImpl;</span><br><span class="line"></span><br><span class="line">import Dao.AdminDao;</span><br><span class="line">import model.Admin;</span><br><span class="line">import org.apache.commons.dbutils.QueryRunner;</span><br><span class="line">import org.apache.commons.dbutils.ResultSetHandler;</span><br><span class="line">import org.apache.commons.dbutils.handlers.BeanHandler;</span><br><span class="line">import util.DBHelper;</span><br><span class="line"></span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.PreparedStatement;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line"></span><br><span class="line">public class AdminDaoImpl implements AdminDao &#123;</span><br><span class="line">    private Connection connection;</span><br><span class="line">    private QueryRunner queryRunner;</span><br><span class="line">    private PreparedStatement preparedStatement;</span><br><span class="line"></span><br><span class="line">    public AdminDaoImpl() &#123;</span><br><span class="line">        queryRunner = new QueryRunner();</span><br><span class="line">        connection = DBHelper.getConnection();</span><br><span class="line">        if (connection != null) &#123;</span><br><span class="line">            System.out.println(&quot;链接成功&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Admin findByUserName(String username) &#123;</span><br><span class="line">        String sql = &quot;select * from admin where username = ?&quot;;</span><br><span class="line">        ResultSetHandler&lt;Admin&gt; rsHandle = new BeanHandler&lt;Admin&gt;(Admin.class);</span><br><span class="line">        Admin admin = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            admin = queryRunner.query(connection, sql, rsHandle, username);</span><br><span class="line">        &#125; catch (SQLException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        return admin;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean addAdmin(Admin admin) &#123;</span><br><span class="line">        Connection conn = null;</span><br><span class="line">        PreparedStatement stmt = null;</span><br><span class="line">        if (admin != null) &#123;</span><br><span class="line">            String sql = &quot;insert into admin(username,password)&quot; + &quot;values(?,?)&quot;;</span><br><span class="line">            try &#123;</span><br><span class="line">                conn = DBHelper.getConnection();</span><br><span class="line">                stmt = conn.prepareStatement(sql);</span><br><span class="line">                stmt.execute(&quot;set Names utf8&quot;);</span><br><span class="line">                stmt.setString(1, admin.getUsername());</span><br><span class="line">                stmt.setString(2, admin.getPassword());</span><br><span class="line">                stmt.executeUpdate();</span><br><span class="line">                return true;</span><br><span class="line">            &#125; catch (SQLException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public boolean modifyAdmin(Admin admin) &#123;</span><br><span class="line">        String sql = &quot;update admin set username=?,password=? where Id =?&quot;;</span><br><span class="line">        try &#123;</span><br><span class="line">            preparedStatement = connection.prepareStatement(sql);</span><br><span class="line">            preparedStatement.setString(1, admin.getUsername());</span><br><span class="line">            preparedStatement.setString(2, admin.getPassword());</span><br><span class="line">            preparedStatement.setString(3, admin.getId());</span><br><span class="line">            preparedStatement.executeUpdate();</span><br><span class="line">            return true;</span><br><span class="line">        &#125; catch (SQLException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="三、ResultSetHandler接口使用讲解"><a href="#三、ResultSetHandler接口使用讲解" class="headerlink" title="三、ResultSetHandler接口使用讲解"></a>三、ResultSetHandler接口使用讲解</h3><p>　该接口用于处理java.sql.ResultSet，将数据按要求转换为另一种形式。<br>　　ResultSetHandler接口提供了一个单独的方法：Object handle (java.sql.ResultSet .rs)</p>
+<h4 id="3-1、ResultSetHandler接口的实现类"><a href="#3-1、ResultSetHandler接口的实现类" class="headerlink" title="3.1、ResultSetHandler接口的实现类"></a>3.1、ResultSetHandler接口的实现类</h4><ul>
+<li>ArrayHandler：把结果集中的第一行数据转成对象数组。</li>
+<li>ArrayListHandler：把结果集中的每一行数据都转成一个数组，再存放到List中。</li>
+<li>BeanHandler：将结果集中的第一行数据封装到一个对应的JavaBean实例中。</li>
+<li>BeanListHandler：将结果集中的每一行数据都封装到一个对应的JavaBean实例中，存放到List里。</li>
+<li>ColumnListHandler：将结果集中某一列的数据存放到List中。</li>
+<li>KeyedHandler(name)：将结果集中的每一行数据都封装到一个Map里，再把这些map再存到一个map里，其key为指定的key。</li>
+<li>MapHandler：将结果集中的第一行数据封装到一个Map里，key是列名，value就是对应的值。</li>
+<li>MapListHandler：将结果集中的每一行数据都封装到一个Map里，然后再存放到List</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br></pre></td><td class="code"><pre><span class="line">package javatest;</span><br><span class="line"></span><br><span class="line">import org.apache.commons.dbutils.QueryRunner;</span><br><span class="line">import org.apache.commons.dbutils.handlers.*;</span><br><span class="line">import org.junit.Test;</span><br><span class="line">import util.DBHelper;</span><br><span class="line"></span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.ResultSet;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line">import java.util.Arrays;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">public class ResultSetHandlerTest &#123;</span><br><span class="line">    QueryRunner queryRunner = null;</span><br><span class="line">    Connection connection = DBHelper.getConnection();</span><br><span class="line"></span><br><span class="line">    public ResultSetHandlerTest() &#123;</span><br><span class="line">        queryRunner = new QueryRunner();</span><br><span class="line">        connection = DBHelper.getConnection();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 把结果集中的某一行数据转成对象数组。</span><br><span class="line">     *</span><br><span class="line">     * @throws SQLException</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testArrayHandler() throws SQLException &#123;</span><br><span class="line">        String sql = &quot;select * from admin where Id=3&quot;;</span><br><span class="line">        Object result[] = (Object[]) queryRunner.query(connection, sql, new ArrayHandler());</span><br><span class="line">        System.out.println(Arrays.asList(result));  //list  toString()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 把结果集中的每一行数据都转成一个数组，再存放到List中。</span><br><span class="line">     *</span><br><span class="line">     * @throws SQLException</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testArrayListHandler() throws SQLException &#123;</span><br><span class="line"></span><br><span class="line">        QueryRunner queryRunner = new QueryRunner();</span><br><span class="line">        String sql = &quot;select * from admin&quot;;</span><br><span class="line">        List&lt;Object[]&gt; list = (List) queryRunner.query(connection, sql, new ArrayListHandler());</span><br><span class="line">        for (Object[] o : list) &#123;</span><br><span class="line">            System.out.println(Arrays.asList(o));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 将结果集中某一列的数据存放到List中。</span><br><span class="line">     * 获取固定列的所有数据</span><br><span class="line">     *</span><br><span class="line">     * @throws SQLException</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testColumnListHandler() throws SQLException &#123;</span><br><span class="line">        QueryRunner queryRunner = new QueryRunner();</span><br><span class="line">        String sql = &quot;select * from admin&quot;;</span><br><span class="line">        List list = (List) queryRunner.query(connection, sql, new ColumnListHandler(&quot;username&quot;));</span><br><span class="line">        System.out.println(list);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 将结果集中的每一行数据都封装到一个Map里，再把这些map再存到一个map里，其key为指定的key。</span><br><span class="line">     *</span><br><span class="line">     * @throws SQLException</span><br><span class="line">     */</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void testKeyedHandler() throws SQLException &#123;</span><br><span class="line">        QueryRunner queryRunner = new QueryRunner();</span><br><span class="line">        String sql = &quot;select * from admin&quot;;</span><br><span class="line">        Map&lt;Integer, Map&gt; map = (Map) queryRunner.query(connection, sql, new KeyedHandler(&quot;Id&quot;));</span><br><span class="line">        System.out.println(map.entrySet());</span><br><span class="line">        /*</span><br><span class="line">        [1=&#123;Id=1, username=1, password=1&#125;, 2=&#123;Id=2, username=秦, password=123&#125;, 3=&#123;Id=3, username=秦光旭, password=1234567&#125;, 4=&#123;Id=4, username=秦光旭, password=123456&#125;]</span><br><span class="line">         */</span><br><span class="line">        System.out.println(map.get(1));</span><br><span class="line">        //&#123;Id=1, username=1, password=1&#125;</span><br><span class="line">        for (Map.Entry&lt;Integer, Map&gt; me : map.entrySet()) &#123;</span><br><span class="line">            int id = me.getKey();</span><br><span class="line">            Map&lt;String, Object&gt; innermap = me.getValue();</span><br><span class="line">            for (Map.Entry&lt;String, Object&gt; innerme : innermap.entrySet()) &#123;</span><br><span class="line">                String columnName = innerme.getKey();</span><br><span class="line">                Object value = innerme.getValue();</span><br><span class="line">                System.out.println(columnName + &quot;=&quot; + value);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(&quot;----------------&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        /*</span><br><span class="line">Id=1</span><br><span class="line">username=1</span><br><span class="line">password=1</span><br><span class="line">----------------</span><br><span class="line">Id=2</span><br><span class="line">username=秦</span><br><span class="line">password=123</span><br><span class="line">----------------</span><br><span class="line">Id=3</span><br><span class="line">username=秦光旭</span><br><span class="line">password=1234567</span><br><span class="line">----------------</span><br><span class="line">Id=4</span><br><span class="line">username=秦光旭</span><br><span class="line">password=123456</span><br><span class="line">----------------</span><br><span class="line">         */</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 将结果集中的第一行数据封装到一个Map里，key是列名，value就是对应的值。</span><br><span class="line">     *</span><br><span class="line">     * @throws SQLException</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testMapHandler() throws SQLException &#123;</span><br><span class="line">        QueryRunner queryRunner = new QueryRunner();</span><br><span class="line">        String sql = &quot;select * from admin&quot;;</span><br><span class="line">        Map&lt;String, Object&gt; map = queryRunner.query(connection, sql, new MapHandler());</span><br><span class="line">        for (Map.Entry&lt;String,Object&gt; me : map.entrySet())&#123;</span><br><span class="line">            System.out.println(me.getKey() + &quot;=&quot; +me.getValue());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 将结果集中的每一行数据都封装到一个Map里，然后再存放到List</span><br><span class="line">     * @throws SQLException</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testMapListHandler() throws SQLException&#123;</span><br><span class="line">        QueryRunner queryRunner = new QueryRunner();</span><br><span class="line">        String  sql = &quot;select * from admin&quot;;</span><br><span class="line">        List&lt;Map&gt; list = (List) queryRunner.query(connection,sql,new MapListHandler());</span><br><span class="line">        for (Map&lt;String,Object&gt; map:list) &#123;</span><br><span class="line">            for (Map.Entry&lt;String,Object&gt; me:map.entrySet()) &#123;</span><br><span class="line">                System.out.println(me.getKey()+&quot;=&quot;+me.getValue());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     *</span><br><span class="line">     * @throws SQLException</span><br><span class="line">     */</span><br><span class="line">    @Test</span><br><span class="line">    public void testScalarHandler() throws SQLException&#123;</span><br><span class="line">        QueryRunner queryRunner = new QueryRunner();</span><br><span class="line">        String sql = &quot;select count(*) from admin&quot;;</span><br><span class="line">        long count = queryRunner.query(connection,sql,new ScalarHandler&lt;&gt;(1));</span><br><span class="line">       int count1 = Integer.parseInt(String.valueOf(count));</span><br><span class="line">        System.out.println(count);</span><br><span class="line">        System.out.println(count1);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="四、DbUtils类使用讲解"><a href="#四、DbUtils类使用讲解" class="headerlink" title="四、DbUtils类使用讲解"></a>四、DbUtils类使用讲解</h3><h4 id="DbUtils-：提供如关闭连接、装载JDBC驱动程序等常规工作的工具类，里面的所有方法都是静态的。主要方法如下："><a href="#DbUtils-：提供如关闭连接、装载JDBC驱动程序等常规工作的工具类，里面的所有方法都是静态的。主要方法如下：" class="headerlink" title="DbUtils ：提供如关闭连接、装载JDBC驱动程序等常规工作的工具类，里面的所有方法都是静态的。主要方法如下："></a>DbUtils ：提供如关闭连接、装载JDBC驱动程序等常规工作的工具类，里面的所有方法都是静态的。主要方法如下：</h4><ul>
+<li>public static void close(…) throws java.sql.SQLException：　DbUtils类提供了三个重载的关闭方法。这些方法检查所提供的参数是不是NULL，如果不是的话，它们就关闭Connection、Statement和ResultSet。</li>
+<li>public static void closeQuietly(…): 这一类方法不仅能在Connection、Statement和ResultSet为NULL情况下避免关闭，还能隐藏一些在程序中抛出的SQLEeception。</li>
+<li>public static void commitAndCloseQuietly(Connection conn)： 用来提交连接，然后关闭连接，并且在关闭连接时不抛出SQL异常。 </li>
+<li>public static boolean loadDriver(java.lang.String driverClassName)：这一方装载并注册JDBC驱动程序，如果成功就返回true。使用该方法，你不需要捕捉这个异常ClassNotFoundException。</li>
+</ul>
 
           
         
@@ -705,6 +661,374 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/XML解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/XML解析/" itemprop="url">
+                  Android 编程知识
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="XML解析"><a href="#XML解析" class="headerlink" title="XML解析"></a>XML解析</h3><h4 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h4><ul>
+<li>Document Object Model，文档对象模型。这种方式是W3C推荐的处理XML的一种标准方式。</li>
+<li>缺点：必须读取整个XML文档，才能构建DOM模型，如果XML文档过大，造成资源的浪费。</li>
+<li>优点：适合对XML中的数据进行操作（CRUD）。<br>利用JAXP进行DOM方式解析<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line">//JAXP进行DOM方式解析的基本操作  </span><br><span class="line">public class JaxpDemo1 &#123;  </span><br><span class="line">    public static void main(String[] args) throws Exception &#123;  </span><br><span class="line">        //得到解析器  </span><br><span class="line">        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  </span><br><span class="line">        DocumentBuilder builder = factory.newDocumentBuilder();  </span><br><span class="line">        //通过解析器就可以得到代表整个内存中XML的Document对象  </span><br><span class="line">        Document document = builder.parse(&quot;src/book.xml&quot;);  </span><br><span class="line">        test8(document);  </span><br><span class="line">    &#125;  </span><br><span class="line">//  1、得到某个具体的节点内容:    </span><br><span class="line">    private static void test1(Document document)&#123;  </span><br><span class="line">        NodeList nl = document.getElementsByTagName(&quot;作者&quot;);  </span><br><span class="line">        Node authorNode = nl.item(0);  </span><br><span class="line">        System.out.println(authorNode.getTextContent());  </span><br><span class="line">    &#125;  </span><br><span class="line">//  2、遍历所有元素节点:打印元素的名称  </span><br><span class="line">    private static void test2(Node node)&#123;  </span><br><span class="line">        //确定node的类型  </span><br><span class="line">        //方式一  </span><br><span class="line">//      if(node.getNodeType()==Node.ELEMENT_NODE)&#123;  </span><br><span class="line">//          //是元素  </span><br><span class="line">//      &#125;  </span><br><span class="line">        //方式二  </span><br><span class="line">        if(node instanceof Element)&#123;  </span><br><span class="line">            //是元素  </span><br><span class="line">            Element e = (Element)node;  </span><br><span class="line">            System.out.println(e.getNodeName());//打印元素名称  </span><br><span class="line">        &#125;  </span><br><span class="line">        //判断有没有子节点  </span><br><span class="line">        NodeList nl = node.getChildNodes();  </span><br><span class="line">        for(int i=0;i&lt;nl.getLength();i++)&#123;  </span><br><span class="line">            Node n = nl.item(i);  </span><br><span class="line">            test2(n);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">//  3、修改某个元素节点的主体内容:&lt;售价&gt;39.00元&lt;/售价&gt;---&gt;10元  </span><br><span class="line">    private static void test3(Document document) throws Exception&#123;  </span><br><span class="line">        //得到售价  </span><br><span class="line">        Node priceNode = document.getElementsByTagName(&quot;售价&quot;).item(0);  </span><br><span class="line">        priceNode.setTextContent(&quot;10元&quot;);  </span><br><span class="line">        //更新XML文件  </span><br><span class="line">        TransformerFactory tf = TransformerFactory.newInstance();  </span><br><span class="line">        Transformer t = tf.newTransformer();  </span><br><span class="line">        //构建输入源：  </span><br><span class="line">        Source source = new DOMSource(document);  </span><br><span class="line">        //构建目标：  </span><br><span class="line">        Result result = new StreamResult(&quot;src/book.xml&quot;);  </span><br><span class="line">          </span><br><span class="line">        t.transform(source, result);  </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">//  4、向指定元素节点中增加子元素节点:第一本书添加子元素 &lt;出版社&gt;黑马程序员&lt;/出版社&gt;  </span><br><span class="line">    private static void test4(Document document) throws Exception&#123;  </span><br><span class="line">        //创建：&lt;出版社&gt;黑马程序员&lt;/出版社&gt;  </span><br><span class="line">        Element e = document.createElement(&quot;出版社&quot;);  </span><br><span class="line">        e.setTextContent(&quot;黑马程序员&quot;);  </span><br><span class="line">        //得到书，把新节点挂上去  </span><br><span class="line">        Node bookNode = document.getElementsByTagName(&quot;书&quot;).item(0);  </span><br><span class="line">        bookNode.appendChild(e);  </span><br><span class="line">        //更新XML文件  </span><br><span class="line">        TransformerFactory tf = TransformerFactory.newInstance();  </span><br><span class="line">        Transformer t = tf.newTransformer();  </span><br><span class="line">        //构建输入源：  </span><br><span class="line">        Source source = new DOMSource(document);  </span><br><span class="line">        //构建目标：  </span><br><span class="line">        Result result = new StreamResult(&quot;src/book.xml&quot;);  </span><br><span class="line">          </span><br><span class="line">        t.transform(source, result);  </span><br><span class="line">    &#125;  </span><br><span class="line">//  5、向指定元素节点上增加同级元素节点:第一本书&lt;售价&gt;前面添加&lt;批发价&gt;30&lt;/批发价&gt;  </span><br><span class="line">    private static void test5(Document document) throws Exception&#123;  </span><br><span class="line">        //创建新节点  </span><br><span class="line">        Element e = document.createElement(&quot;批发价&quot;);  </span><br><span class="line">        e.setTextContent(&quot;30元&quot;);  </span><br><span class="line">        //找到&lt;售价&gt;  </span><br><span class="line">        Node priceNode = document.getElementsByTagName(&quot;售价&quot;).item(0);  </span><br><span class="line">        //父标签：调用insertBefore(新节点,参考节点);  </span><br><span class="line">          </span><br><span class="line">        Node bookNode = priceNode.getParentNode();  </span><br><span class="line">        bookNode.insertBefore(e, priceNode);  </span><br><span class="line">        //更新XML文件  </span><br><span class="line">        TransformerFactory tf = TransformerFactory.newInstance();  </span><br><span class="line">        Transformer t = tf.newTransformer();  </span><br><span class="line">        //构建输入源：  </span><br><span class="line">        Source source = new DOMSource(document);  </span><br><span class="line">        //构建目标：  </span><br><span class="line">        Result result = new StreamResult(&quot;src/book.xml&quot;);  </span><br><span class="line">          </span><br><span class="line">        t.transform(source, result);  </span><br><span class="line">    &#125;  </span><br><span class="line">//  6、删除指定元素节点:删除批发价  </span><br><span class="line">    private static void test6(Document document) throws Exception&#123;  </span><br><span class="line">        Node priceNode = document.getElementsByTagName(&quot;批发价&quot;).item(0);  </span><br><span class="line">        priceNode.getParentNode().removeChild(priceNode);  </span><br><span class="line">        //更新XML文件  </span><br><span class="line">        TransformerFactory tf = TransformerFactory.newInstance();  </span><br><span class="line">        Transformer t = tf.newTransformer();  </span><br><span class="line">        //构建输入源：  </span><br><span class="line">        Source source = new DOMSource(document);  </span><br><span class="line">        //构建目标：  </span><br><span class="line">        Result result = new StreamResult(&quot;src/book.xml&quot;);  </span><br><span class="line">          </span><br><span class="line">        t.transform(source, result);  </span><br><span class="line">    &#125;  </span><br><span class="line">//  7、操作XML文件属性:书籍添加一个属性：ISBN=“ABC”  </span><br><span class="line">    private static void test7(Document document) throws Exception&#123;  </span><br><span class="line">        Node bookNode = document.getElementsByTagName(&quot;书&quot;).item(0);  </span><br><span class="line">        if(bookNode instanceof Element)&#123;  </span><br><span class="line">            Element e = (Element)bookNode;  </span><br><span class="line">            e.setAttribute(&quot;ISBN&quot;, &quot;ABC&quot;);  </span><br><span class="line">        &#125;  </span><br><span class="line">        //更新XML文件  </span><br><span class="line">        TransformerFactory tf = TransformerFactory.newInstance();  </span><br><span class="line">        Transformer t = tf.newTransformer();  </span><br><span class="line">        //构建输入源：  </span><br><span class="line">        Source source = new DOMSource(document);  </span><br><span class="line">        //构建目标：  </span><br><span class="line">        Result result = new StreamResult(&quot;src/book.xml&quot;);  </span><br><span class="line">          </span><br><span class="line">        t.transform(source, result);  </span><br><span class="line">    &#125;  </span><br><span class="line">//  8、操作XML文件属性:获取ISBN=“ABC”  </span><br><span class="line">    private static void test8(Document document) throws Exception&#123;  </span><br><span class="line">        Node bookNode = document.getElementsByTagName(&quot;书&quot;).item(0);  </span><br><span class="line">        if(bookNode instanceof Element)&#123;  </span><br><span class="line">            Element e = (Element)bookNode;  </span><br><span class="line">            System.out.println(e.getAttribute(&quot;ISBN&quot;));  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="SAX"><a href="#SAX" class="headerlink" title="SAX"></a>SAX</h4><ul>
+<li>SAX：Simple API for XML。这种方式不是官方标准，属于开源社区XML-DEV，几乎所有的XML解析器都支持它。</li>
+<li>sax解析原理<br>在使用 DOM 解析 XML 文档时，需要读取整个 XML 文档，在内存中构架代表整个 DOM 树的Doucment对象，从而再对XML文档进行操作。此种情况下，如果 XML 文档特别大，就会消耗计算机的大量内存，并且容易导致内存溢出。<br>SAX解析允许在读取文档的时候，即对文档进行处理，而不必等到整个文档装载完才会文档进行操作。<br>SAX采用事件处理的方式解析XML文件，利用 SAX 解析 XML 文档，涉及两个部分：<ul>
+<li>解析器和事件处理器： 解析器可以使用JAXP的API创建，创建出SAX解析器后，就可以指定解析器去解析某个XML文档。 解析器采用SAX方式在解析某个XML文档时，它只要解析到XML文档的一个组成部分，都会去调用事件处理器的一个方法，解析器在调用事件处理器的方法时，会把当前解析到的xml文件内容作为方法的参数传递给事件处理器。 </li>
+<li>事件处理器由程序员编写，程序员通过事件处理器中方法的参数，就可以很轻松地得到sax解析器解析到的数据，从而可以决定如何对数据进行处理</li>
+</ul>
+</li>
+<li>基本解析操作<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//1解析器</span><br><span class="line">   SAXParser parse = SAXParserFactory.newInstance().newSAXParser();</span><br><span class="line">   //2获取xml读取器</span><br><span class="line">   XMLReader reader = parse.getXMLReader();</span><br><span class="line">   //3注册内容处理器</span><br><span class="line">   reader.setContentHandler(new ContentHandler1());</span><br><span class="line">   //4读取xml文档</span><br><span class="line">   reader.parse(&quot;src/book.xml&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/面试题一/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/面试题一/" itemprop="url">
+                  java 基础题(一)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1、一个”.java”源文件中是否可以包括多个类（不是内部类）？有什么限制？</p>
+<ul>
+<li>可以有多个类，但只能有一个public的类，并且public的类名必须与文件名相一致。</li>
+</ul>
+<p>2、Java有没有goto?</p>
+<ul>
+<li>java中的保留字，现在没有在java中使用。</li>
+</ul>
+<p>3、说说&amp;和&amp;&amp;的区别。</p>
+<ul>
+<li>&amp;和&amp;&amp;都可以用作逻辑与的运算符，表示逻辑与（and），当运算符两边的表达式的结果都为true时，整个运算结果才为true，否则，只要有一方为false，则结果为false。</li>
+<li>&amp;&amp;还具有短路的功能，即如果第一个表达式为false，则不再计算第二个表达式，例如，对于if(str!= null&amp;&amp; !str.equals(s))表达式，当str为null时，后面的表达式不会执行，所以不会出现NullPointerException如果将&amp;&amp;改为&amp;，则会抛出NullPointerException异常。If(x==33 &amp;++y&gt;0) y会增长，If(x==33 &amp;&amp; ++y&gt;0)不会增长</li>
+<li>&amp;还可以用作位运算符，当&amp;操作符两边的表达式不是boolean类型时，&amp;表示按位与操作，我们通常使用0x0f来与一个整数进行&amp;运算，来获取该整数的最低4个bit位，例如，0x31 &amp; 0x0f的结果为0x01。</li>
+</ul>
+<p>4、在JAVA中如何跳出当前的多重嵌套循环？<br>        在Java中，要想跳出多重循环，可以在外面的循环语句前定义一个标号，让外层的循环条件表达式的结果可以受到里层循环体代码的控制，例如，要在二维数组中查找到某个数字。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">int arr[][] =&#123;&#123;1,2,3&#125;,&#123;4,5,6,7&#125;,&#123;9&#125;&#125;;</span><br><span class="line">boolean found = false;</span><br><span class="line">for(int i=0;i&lt;arr.length&amp;&amp;!found;i++)       &#123;</span><br><span class="line">        for(intj=0;j&lt;arr[i].length;j++)&#123;</span><br><span class="line">              System.out.println(“i=” + i + “,j=” + j);</span><br><span class="line">              if(arr[i][j] ==5) &#123;</span><br><span class="line">                      found =true;</span><br><span class="line">                      break;</span><br><span class="line">              &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>5、switch语句能否作用在byte上，能否作用在long上，能否作用在String上?</p>
+<ul>
+<li>在switch（e）中，e只能是一个整数表达式或者枚举常量（更大字体），整数表达式可以是int基本类型或Integer包装类型，由于byte,short,char都可以隐含转换为int，所以，这些类型以及这些类型的包装类型也是可以的。显然，long和String类型都不符合switch的语法规定，并且不能被隐式转换成int类型，所以，它们不能作用于swtich语句中。</li>
+<li>switch语句能否作用在String上说错了，Java1.7之后已经支持这种写法了！</li>
+</ul>
+<p>6、short s1= 1; s1 = （s1+1）（（s1+1）是int类型，而等号左边的是short类型，所以需要强转）1 + 1;有什么错? short s1 = 1; s1 += 1;有什么错?(没有错)</p>
+<ul>
+<li>对于short s1= 1; s1 = s1 + 1;由于s1+1运算时会自动提升表达式的类型，所以结果是int型，再赋值给short类型s1时，编译器将报告需要强制转换类型的错误。</li>
+<li>对于short s1= 1; s1 += 1;由于 +=是java语言规定的运算符，java编译器会对它进行特殊处理，因此可以正确编译。</li>
+</ul>
+<p>7、char型变量中能不能存贮一个中文汉字?为什么?</p>
+<ul>
+<li>char型变量是用来存储Unicode编码的字符的，unicode编码字符集中包含了汉字，所以，char型变量中当然可以存储汉字啦。不过，如果某个特殊的汉字没有被包含在unicode编码字符集中，那么，这个char型变量中就不能存储这个特殊汉字。</li>
+<li>补充说明：unicode编码占用两个字节，所以，char类型的变量也是占用两个字节。</li>
+</ul>
+<p>8、用最有效率的方法算出2乘以8等於几?</p>
+<ul>
+<li>2&lt;&lt; 3，(左移三位)因为将一个数左移n位，就相当于乘以了2的n次方，那么，一个数乘以8只要将其左移3位即可，而位运算cpu直接支持的，效率最高，所以，2乘以8等於几的最效率的方法是2&lt;&lt; 3。</li>
+</ul>
+<p>9、使用final关键字修饰一个变量时，是引用不能变，还是引用的对象不能变？</p>
+<ul>
+<li>使用final关键字修饰一个变量时，是指引用变量不能变，引用变量所指向的对象中的内容还是可以改变的。例如，对于如下语句：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> finalStringBuffer a=new StringBuffer(&quot;immutable&quot;);</span><br><span class="line">执行如下语句将报告编译期错误：</span><br><span class="line">a=new StringBuffer(&quot;&quot;);</span><br><span class="line">但是，执行如下语句则可以通过编译：</span><br><span class="line">a.append(&quot; broken!&quot;);</span><br><span class="line">有人在定义方法的参数时，可能想采用如下形式来阻止方法内部修改传进来的参数对象：</span><br><span class="line">public void method(final  StringBuffer param)&#123;</span><br><span class="line">&#125;</span><br><span class="line">实际上，这是办不到的，在该方法内部仍然可以增加如下代码来修改参数对象：</span><br><span class="line">        param.append(&quot;a&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>10，静态变量和实例变量的区别？</p>
+<ul>
+<li>在语法定义上的区别：静态变量前要加static关键字，而实例变量前则不加。</li>
+<li>在程序运行时的区别：实例变量属于某个对象的属性，必须创建了实例对象，其中的实例变量才会被分配空间，才能使用这个实例变量。静态变量不属于某个实例对象，而是属于类，所以也称为类变量，只要程序加载了类的字节码，不用创建任何实例对象，静态变量就会被分配空间，静态变量就可以被使用了。总之，实例变量必须创建对象后才可以通过这个对象来使用，静态变量则可以直接使用类名来引用。</li>
+<li>例如，对于下面的程序，无论创建多少个实例对象，永远都只分配了一个staticVar变量，并且每创建一个实例对象，这个staticVar就会加1；但是，每创建一个实例对象，就会分配一个instanceVar，即可能分配多个instanceVar，并且每个instanceVar的值都只自加了1次。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class VariantTest&#123;</span><br><span class="line">        publicstatic int staticVar = 0;</span><br><span class="line">        publicint instanceVar = 0;</span><br><span class="line">        publicVariantTest()&#123;</span><br><span class="line">              staticVar++;</span><br><span class="line">              instanceVar++;</span><br><span class="line">              System.out.println(staticVar +instanceVar);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/JAVA线程池原理详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -835,185 +1159,6 @@
 <li><p>第一种：<br>RejectedExecutionHandler handler = new ThreadPoolExecutor.DiscardPolicy();<br>ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 5, 60, TimeUnit.SECONDS, queue,handler);</p>
 </li>
 <li><p>第二种：<br>ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 5, 60, TimeUnit.SECONDS, queue);<br>threadPool.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());</p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/我的第一个原型设计——模仿知乎的注册界面/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/我的第一个原型设计——模仿知乎的注册界面/" itemprop="url">
-                  我的第一个原型设计——模仿知乎的注册界面
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="我的第一个原型设计——模仿知乎的注册界面"><a href="#我的第一个原型设计——模仿知乎的注册界面" class="headerlink" title="我的第一个原型设计——模仿知乎的注册界面"></a>我的第一个原型设计——模仿知乎的注册界面</h3><h4 id="一-模仿什么？"><a href="#一-模仿什么？" class="headerlink" title="一.模仿什么？"></a>一.模仿什么？</h4><p>模仿一个网站，从两个方面来看。首先是用元件所呈现的这个界面最直观的部分，然后就是交互部分。</p>
-<h5 id="1-元件布局"><a href="#1-元件布局" class="headerlink" title="1.元件布局"></a>1.元件布局</h5><p>首先我们来看一下知乎注册界面：</p>
-<p><img src="/img/zhihu.png" alt=""><br>从这个布局，我们很容易分析出来它的各个元件，如下：</p>
-<p><img src="/img/zhihu2.png" alt=""></p>
-<h5 id="2-交互效果"><a href="#2-交互效果" class="headerlink" title="2.交互效果"></a>2.交互效果</h5><p>从上往下看</p>
-<ul>
-<li><p>（1）logo和标语，没有什么交互效果，只需要填充相应的数据就可以了。</p>
-</li>
-<li><p>（2）注册矩形框，和下面的条条一样是蓝色的。</p>
-</li>
-<li><p>（3）登录矩形框 </p>
-</li>
-</ul>
-<ul>
-<li>鼠标悬浮的时候，颜色会变浅 </li>
-<li>点击登陆后，登录的字体的颜色会变蓝色 </li>
-<li>注册的字体颜色会变成灰色 </li>
-<li>下面的蓝色小条条会移动到登录矩形框的下面 </li>
-<li>界面也会变成登陆的时的界面。</li>
-</ul>
-<ul>
-<li><p>（4）输入，包括姓名、手机号和密码<br>对于页面载入时，鼠标的光标的焦点在姓名输入框；<br>如果三个文本框都没有输入文字，点击注册按钮，这时在姓名文本框后面就会出现一个提示“姓名不能为空”，并且这个文字会抖动一下。<br>同样姓名填了，手机号没有填，右侧就会提醒手机号不能为空，文字也会抖几下，密码同上。<br>当出现提示文字的时候，如果把鼠标的焦点移到该输入文本框时候，提示文字就会从右侧逐渐消退。</p>
-</li>
-<li><p>（5）提示中的知乎协议和下载知乎APP,点击就会进入另外的界面。</p>
 </li>
 </ul>
 
@@ -1270,6 +1415,413 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/我的第一个原型设计——模仿知乎的注册界面/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/我的第一个原型设计——模仿知乎的注册界面/" itemprop="url">
+                  我的第一个原型设计——模仿知乎的注册界面
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="我的第一个原型设计——模仿知乎的注册界面"><a href="#我的第一个原型设计——模仿知乎的注册界面" class="headerlink" title="我的第一个原型设计——模仿知乎的注册界面"></a>我的第一个原型设计——模仿知乎的注册界面</h3><h4 id="一-模仿什么？"><a href="#一-模仿什么？" class="headerlink" title="一.模仿什么？"></a>一.模仿什么？</h4><p>模仿一个网站，从两个方面来看。首先是用元件所呈现的这个界面最直观的部分，然后就是交互部分。</p>
+<h5 id="1-元件布局"><a href="#1-元件布局" class="headerlink" title="1.元件布局"></a>1.元件布局</h5><p>首先我们来看一下知乎注册界面：</p>
+<p><img src="/img/zhihu.png" alt=""><br>从这个布局，我们很容易分析出来它的各个元件，如下：</p>
+<p><img src="/img/zhihu2.png" alt=""></p>
+<h5 id="2-交互效果"><a href="#2-交互效果" class="headerlink" title="2.交互效果"></a>2.交互效果</h5><p>从上往下看</p>
+<ul>
+<li><p>（1）logo和标语，没有什么交互效果，只需要填充相应的数据就可以了。</p>
+</li>
+<li><p>（2）注册矩形框，和下面的条条一样是蓝色的。</p>
+</li>
+<li><p>（3）登录矩形框 </p>
+</li>
+</ul>
+<ul>
+<li>鼠标悬浮的时候，颜色会变浅 </li>
+<li>点击登陆后，登录的字体的颜色会变蓝色 </li>
+<li>注册的字体颜色会变成灰色 </li>
+<li>下面的蓝色小条条会移动到登录矩形框的下面 </li>
+<li>界面也会变成登陆的时的界面。</li>
+</ul>
+<ul>
+<li><p>（4）输入，包括姓名、手机号和密码<br>对于页面载入时，鼠标的光标的焦点在姓名输入框；<br>如果三个文本框都没有输入文字，点击注册按钮，这时在姓名文本框后面就会出现一个提示“姓名不能为空”，并且这个文字会抖动一下。<br>同样姓名填了，手机号没有填，右侧就会提醒手机号不能为空，文字也会抖几下，密码同上。<br>当出现提示文字的时候，如果把鼠标的焦点移到该输入文本框时候，提示文字就会从右侧逐渐消退。</p>
+</li>
+<li><p>（5）提示中的知乎协议和下载知乎APP,点击就会进入另外的界面。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/详细讲解Android Studio中使用Git/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/详细讲解Android Studio中使用Git/" itemprop="url">
+                  初识GitLab
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="详细讲解Android-Studio中使用Git"><a href="#详细讲解Android-Studio中使用Git" class="headerlink" title="详细讲解Android Studio中使用Git"></a>详细讲解Android Studio中使用Git</h3><p>作者博客链接：<br><a href="https://www.jianshu.com/p/059ed1e01229" target="_blank" rel="noopener">https://www.jianshu.com/p/059ed1e01229</a></p>
+<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>以前项目版本管理工具一直用的都是SVN，现在换成Git，并且项目托管平台使用的是GitLab。虽然经常用GitHub，但是却很少使用到分支，因为都是自己在写，也不用开发版与发布版、打Tag那些，所以这篇文章主要讲下GitLab与Git的使用。</p>
+<p>这篇文章还是会按我以前的写作风格，写的通俗易懂，并且全程自己操作一遍，目的是为了初学者也能看懂。</p>
+<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><strong>Git：</strong>Git是一个开源的分布式版本控制系统，可以有效、高速的处理从很小到非常大的项目版本管理。简单说，它就是一个管理项目版本的工具。</p>
+<p><strong>GitLab：</strong>GitLab 是一个用于仓库管理系统的开源项目，使用Git作为代码管理工具，并在此基础上搭建起来的web服务。简单说，GitLab的性质是和GitHub一样的，都是用来存储项目的仓库。</p>
+<h4 id="准备-Git"><a href="#准备-Git" class="headerlink" title="准备 Git"></a>准备 Git</h4><p><strong>3.1 安装Git</strong></p>
+<p>下载地址：<br><a href="http://git-scm.com/download/" target="_blank" rel="noopener">http://git-scm.com/download/</a></p>
+<p>安装步骤：双击安装，按默认选项一路下去即可。<br>安装完成后，在开始菜单里找到“Git”–&gt;“Git Bash”，出现如下图，就说明Git安装成功！<br><img src="/img/gitlab1.png" alt=""></p>
+<p><strong>3.2 配置信息</strong></p>
+<p>在上图命令行中输入你的用户名与邮箱<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name &quot;Your Name&quot;</span><br><span class="line">$ git config --global user.email &quot;email@example.com&quot;</span><br></pre></td></tr></table></figure></p>
+<p>命令中的 –global 参数表示你这台机器上所有的Git仓库都会使用这个配置。</p>
+<p><strong>3.3 Android Studio中配置Git</strong></p>
+<p>在Android Studio中点击Settings–&gt;Version Control –&gt; Git，然后在Path To Git executable上输入你刚刚安装Git的位置，最后点击Test按钮出现Git executed successfully说明配置成功，如下图：<br><img src="/img/gitlab2.png" alt=""></p>
+<h4 id="GitLab-使用"><a href="#GitLab-使用" class="headerlink" title="GitLab 使用"></a>GitLab 使用</h4><p><strong>4.1 注册账号</strong></p>
+<p>这里说下注册账号的时候需要注意的事项。<br>如果注册账号的时候提示如下错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">there was an error with the reCAPTCHA,please solve the reCAPTCHA again</span><br></pre></td></tr></table></figure></p>
+<p>那是因为注册时需要验证码验证，就是reCAPTCHA，是一个图形验证码。但是这个验证码需要FQ才能看得到，否则你一直都注册不了。如图：<br><img src="/img/gitlab3.png" alt=""><br><strong>4.2 GitLab账户配置SSH Keys</strong></p>
+<p><strong>4.2.1 首先需要检查你电脑是否已经有 SSH Keys</strong></p>
+<p>在Git Bash 客户端，输入如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~/.ssh</span><br><span class="line">$ ls</span><br></pre></td></tr></table></figure></p>
+<p>如下说明已经存在，存在就可以忽略步骤4.2.2，直接进入步骤4.2.3</p>
+<p><img src="/img/gitlab4.png" alt=""></p>
+<p><strong>4.2.2 创建一个 SSH Keys</strong></p>
+<p>在Git Bash 客户端，输入如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C &quot;your_email&quot;</span><br></pre></td></tr></table></figure></p>
+<p>然后根据提示进行相应操作，如下图所示：</p>
+<p>第一个Enter表示Keys存储的位置，默认按回车键即可。第二个和第三个Enter表示Push文件的时候要输入的密码，不需要密码就默认按回车键即可，然后出现如图底部信息就说明创建成功了！</p>
+<p><img src="/img/gitlab5.png" alt=""><br><strong>4.2.3 GitLab配置SSH Keys</strong></p>
+<p>进入上图所示存储 id_rsa.pub 的文件夹拷贝该文件中的内容，然后登录你的GitLab账号，点击网页右上角的头像–&gt;Settings，点击左边菜单栏的 SSH Keys 进入页面添加 SSH key。如下操作：<br><img src="/img/gitlab6.png" alt=""><br><img src="/img/gitlab7.png" alt=""></p>
+<p><strong>4.3 创建项目</strong></p>
+<p>在GitLab网站点击导航条上的 “+” 即可进入创建项目的页面，然后根据提示填写相应信息，如下图：<br><img src="/img/gitlab8.png" alt=""><br><img src="/img/gitlab9.png" alt=""></p>
+<p>Project path：项目路径<br>Project name：项目名称<br>Project description (optional)：项目描述（可选项）<br>Visibility Level：可见登记，Private表示私有的，只有你自己或者组内的成员能访问，Internal表示所有登录的用户，Public表示公开的，所有人都可以访问。</p>
+<p>创建完成后是这样的：<br><img src="/img/gitlab10.png" alt=""></p>
+<h4 id="Android-Studio中使用Git"><a href="#Android-Studio中使用Git" class="headerlink" title="Android Studio中使用Git"></a>Android Studio中使用Git</h4><p><strong>5.1 将项目上传到GitLab</strong></p>
+<p>本地已创建好的项目为WildmaGit</p>
+<p><strong>5.1.1 配置忽略文件</strong></p>
+<p>Android Studio创建项目后会自动生成.gitignore文件，这个文件可以用来忽略那些不用加入到仓库的文件。项目根目录下与module目录下都会生成该文件，如下：<br><img src="/img/gitlab11.png" alt=""><br>一般情况下我们只需要将项目根目录下的/.idea/workspace.xml与/.idea/libraries改成.idea即可，其他没有特殊要求就用默认的。如下：</p>
+<p>修改前：<br><img src="/img/gitlab12.png" alt=""><br>修改后：<br><img src="/img/gitlab13.png" alt=""><br><strong>5.1.2 初始化本地Git仓库</strong></p>
+<p>点击Android Studio顶部菜单栏上的VCS–&gt;Import into Version Control–&gt;Create Git Repository，如图：<br><img src="/img/gitlab14.png" alt=""><br>然后选择需要初始化的项目根目录，如图：<br><img src="/img/gitlab15.png" alt=""><br>初始化之后发现文件名由原来的白色变成了红色，这表示文件已经被git跟踪了，但是并没有添加到仓库中。如图：<br><img src="/img/gitlab16.png" alt=""><br><strong>5.1.3 将本地Git仓库已与远程仓库进行关联</strong></p>
+<p>打开项目文件夹，在该文件夹中打开Git Bash。输入如下命令后就代表本地Git仓库已与远程仓库进行关联了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git@gitlab.com:wildma/WildmaGit.git</span><br></pre></td></tr></table></figure></p>
+<p>具体步骤见下图：<br><img src="/img/gitlab17.png" alt=""><br><img src="/img/gitlab18.png" alt=""><br>其中 <a href="mailto:git@gitlab.com" target="_blank" rel="noopener">git@gitlab.com</a>:wildma/WildmaGit.git 为我们项目的远程地址，可以到我们前面创建项目中复制，如下：<br><img src="/img/gitlab19.png" alt=""></p>
+<p><strong>5.1.4 添加文件</strong></p>
+<p>选中项目的根目录，点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Add…，如下图：<br><img src="/img/gitlab20.png" alt=""><br>添加文件后发现文件名由原来的红色变成了绿色，说明已经将文件添加进仓库了。如下图：<br><img src="/img/gitlab21.png" alt=""><br><strong>5.1.5 提交文件</strong></p>
+<p>每次提交前需要先更新项目，原因是如果是多人合作的项目，需要先将远程仓库中他人提交的最新代码更新到本地仓库。如图：<br><img src="/img/gitlab22.png" alt=""><br>然后选中Merge，点击OK，如果本地代码与远程代码有冲突就会弹出冲突提示，根据需求Merge即可，如图：<br><img src="/img/gitlab23.png" alt=""></p>
+<p>Update后就可以提交文件了，选中项目的根目录，点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Commit Directory…，如图：<br><img src="/img/gitlab24.png" alt=""></p>
+<p>然后会弹出如下提交框，这里可以选择你要提交的文件和填写提交信息，如图：<br><img src="/img/gitlab25.png" alt=""><br>提交文件后发现文件名由原来的绿色又变成了最开始的白色，说明已经将文件提交上仓库了。如图：<br><img src="/img/gitlab26.png" alt=""></p>
+<p><strong>5.1.6 将提交的文件推送到远程仓库</strong></p>
+<p>选中项目的根目录，点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Push…，如下图：<br><img src="/img/gitlab27.png" alt=""><br>然后会弹出如下推送框<br><img src="/img/gitlab28.png" alt=""><br>点击Push后，就可以在GitLab上看到刚刚推送的内容了。如下图：<br><img src="/img/gitlab29.png" alt=""></p>
+<p><strong>5.2 从GitLab上clone项目</strong></p>
+<p>首先到GitLab上复制项目的地址，如图：<br><img src="/img/gitlab30.png" alt=""><br>然后点击Android Studio顶部菜单栏上的VCS–&gt;Checkout from Version Control–&gt;Git ，如图：<br><img src="/img/gitlab31.png" alt=""><br>最后填写相应的信息即可，如下图：</p>
+<p>Git Repository URL：填写刚刚复制的项目地址<br>Parent Directory：项目路径<br>Directory Name：项目文件夹名称<br><img src="/img/gitlab32.png" alt=""><br>点击clone后，项目就clone下来了！<br><strong>5.3 分支管理</strong></p>
+<p><strong>5.3.1 分支策略</strong></p>
+<p>在实际开发中，我们会用到很多分支。这里说下各分支的作用。</p>
+<p>master分支：最稳定的分支，保存需要发布的版本，不在该分支上做任何开发。<br>dev分支：开发分支，保存最新的代码，平时开发就在该分支上。当某个版本开发完成后就合并到master分支，然后在master分支进行版本发布。<br>bug分支：用来修复bug的分支，一般是线上版出现bug的时候，从master分支创建一个新的bug分支进行bug修复，修复完成合并到master分支和dev分支（保证master分支与dev分支同步），然后删除该bug分支。</p>
+<p>实际开发中我主要用到这三个分支，当然每个人都不同，有些人还会细分到功能分支，预发分支。其中master分支与dev分支都需要推送到远程，为了其他成员能共同开发，bug分支则放在本地即可，你自己修复完bug删掉即可。</p>
+<p><strong>5.3.2 分支操作</strong></p>
+<p><strong>1. 创建分支</strong></p>
+<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，如图：<br><img src="/img/gitlab33.png" alt=""><br>然后选择New Branch，输入分支的名字，例如“dev”，如图：<br><img src="/img/gitlab34.png" alt=""><br><img src="/img/gitlab35.png" alt=""><br>点击OK，分支dev就创建成功了，并且默认切换到该分支。重复上面的步骤可以看到当前分支显示的是dev，如图：<br><img src="/img/gitlab36.png" alt=""></p>
+<p><strong>2. 推送分支到远程</strong></p>
+<p>这时候我们在dev分支上修改内容，然后按照前面说的提交文件（步骤5.1.5），将提交的文件推送到远程仓库（步骤5.1.6）即可。如图：<br><img src="/img/gitlab37.png" alt=""><br><img src="/img/gitlab38.png" alt=""><br>点击push，然后就可以到Gitlab上看到我们刚刚推送的dev分支了，如图：<br><img src="/img/gitlab39.png" alt=""><br><strong>3. 切换分支</strong></p>
+<p>dev分支上版本V1.0开发完了，需要将代码合并到master上进行发布。因为当前在dev分支，所以需要先切换到master分支，点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，打开Git Branches窗口，然后选择本地分支栏下的master-&gt;origin/master，然后点击Checkout。如图：<br><img src="/img/gitlab40.png" alt=""><br><strong>4. 合并分支</strong></p>
+<p>第三步已经将分支切换到master了，现在进行分支合并。点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，打开Git Branches窗口，然后选择远程分支栏下的origin/dev，然后点击Merge。如图：<br><img src="/img/gitlab41.png" alt=""><br>这个时候到GitLab上却发现master分支上并没有合并到dev分支修改的内容，那是因为刚刚只是将远程dev分支的内容合并到本地master分支，本地master分支还没有push到远程，push一下就可以啦~ 如图：<br><img src="/img/gitlab42.png" alt=""><br>这个时候发现GitLab上master分支与dev分支是保持一致的了。然后将最新的master分支打包发布即可！</p>
+<p><strong>5. 删除分支</strong></p>
+<p><strong>删除本地分支：</strong></p>
+<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，打开Git Branches窗口，选中本地dev分支，选择Delete即可。如图：<br><img src="/img/gitlab43.png" alt=""><br><strong>删除远程分支：</strong></p>
+<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，打开Git Branches窗口，选中远程dev分支，选择Delete即可。如图：<br><img src="/img/gitlab44.png" alt=""><br><strong>5.4 标签(Tag)管理</strong></p>
+<p>标签一般是用于标记某个发布的版本， 例如你发布了版本v1.0，这个时候会打一个v1.0的Tag，主要是方便以后查看和管理某个版本的代码。</p>
+<p><strong>1. 创建标签</strong></p>
+<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Tag…，如图：<br><img src="/img/gitlab45.png" alt=""><br>然后填写Tag名称与Tag信息，点击Create Tag即可创建本地标签。其中Commit可填写以前某次提交记录的id，表示在该次提交上打Tag。如果不填表示Tag打在最新提交的commit上。如图：<br><img src="/img/gitlab46.png" alt=""><br><strong>2. 推送标签到远程</strong></p>
+<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Push…，如图：<br><img src="/img/gitlab47.png" alt=""><br>然后弹出Push框，选中Push Tags，点击Push即可推送到远程。如图：<br><img src="/img/gitlab48.png" alt=""><br>最后到GitLab就可以看到刚刚创建的Tag了，如图：<br><img src="/img/gitlab49.png" alt=""><br><strong>3. checkout某个标签的代码</strong></p>
+<p>点击Android Studio顶部菜单栏上的VCS–&gt;Git–&gt;Branches…，如图：<br><img src="/img/gitlab50.png" alt=""><br>然后选择Checkout Tag or Revision…，最后在弹出的Checkout框中填入Tag的名称即可。如图：<br><img src="/img/gitlab51.png" alt=""><br><img src="/img/gitlab52.png" alt=""></p>
+<p><strong>4. 删除标签</strong></p>
+<p>在Android Studio中没找到删除Tag的操作，所以这里用Git命令。（有发现的小伙伴可以告诉我）</p>
+<p><strong>查看本地标签：</strong><br>git tag</p>
+<p><strong>删除本地标签：</strong><br>git tag -d tagName</p>
+<p><strong>删除远程标签：</strong><br>git push origin :refs/tags/tagName</p>
+<p>以上命令需要在Android Studio自带的命令行中输入，如图：<br><img src="/img/gitlab53.png" alt=""><br>希望这种图文结合的方式大家都能看懂吧！写的不好的地方请多交流~</p>
+<p>项目地址：<br><a href="https://gitlab.com/wildma/WildmaGit" target="_blank" rel="noopener">https://gitlab.com/wildma/WildmaGit</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Linux常用命令学习/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1438,7 +1990,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Linux下安装jdk8步骤详述/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/一、Session简单介绍/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -1457,173 +2009,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/Linux下安装jdk8步骤详述/" itemprop="url">
-                  Linux下安装jdk8步骤详述
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Linux下安装jdk8步骤详述"><a href="#Linux下安装jdk8步骤详述" class="headerlink" title="Linux下安装jdk8步骤详述"></a>Linux下安装jdk8步骤详述</h3><h4 id="下载jdk8"><a href="#下载jdk8" class="headerlink" title="下载jdk8"></a>下载jdk8</h4><p>登录网址：<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a><br>选择对应jdk版本下载。（可在Windows下下载完成后，通过文件夹共享到Linux上）</p>
-<h4 id="登录Linux，切换到root用户"><a href="#登录Linux，切换到root用户" class="headerlink" title="登录Linux，切换到root用户"></a>登录Linux，切换到root用户</h4><p><strong>su root</strong> 获取root用户权限，当前工作目录不变(需要root密码)<br>或<br><strong>sudo -i</strong> 不需要root密码直接切换成root（需要当前用户密码）</p>
-<h4 id="在usr目录下建立java安装目录"><a href="#在usr目录下建立java安装目录" class="headerlink" title="在usr目录下建立java安装目录"></a>在usr目录下建立java安装目录</h4><p><strong>cd /usr</strong><br><strong>mkdir java</strong></p>
-<h4 id="将jdk-8u60-linux-x64-tar-gz拷贝到java目录下"><a href="#将jdk-8u60-linux-x64-tar-gz拷贝到java目录下" class="headerlink" title="将jdk-8u60-linux-x64.tar.gz拷贝到java目录下"></a>将jdk-8u60-linux-x64.tar.gz拷贝到java目录下</h4><p><strong>cp /mnt/hgfs/linux/jdk-8u181-linux-x64.tar.gz /usr/java</strong></p>
-<h4 id="解压jdk到当前目录"><a href="#解压jdk到当前目录" class="headerlink" title="解压jdk到当前目录"></a>解压jdk到当前目录</h4><p><strong>tar -zxvf jdk-8u60-linux-x64.tar.gz</strong></p>
-<h4 id="编辑配置文件，配置环境变量"><a href="#编辑配置文件，配置环境变量" class="headerlink" title="编辑配置文件，配置环境变量"></a>编辑配置文件，配置环境变量</h4><p><strong>vim /etc/profile</strong></p>
-<p>添加如下内容：JAVA_HOME根据实际目录来<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">JAVA_HOME=/usr/java/jdk1.8.0_181</span><br><span class="line">CLASSPATH=$JAVA_HOME/lib/</span><br><span class="line">PATH=$PATH:$JAVA_HOME/bin</span><br><span class="line">export PATH JAVA_HOME CLASSPATH</span><br></pre></td></tr></table></figure></p>
-<h4 id="重启机器或执行命令"><a href="#重启机器或执行命令" class="headerlink" title="重启机器或执行命令"></a>重启机器或执行命令</h4><p>执行命令 ：<strong>source /etc/profile</strong><br>或<br>重启机器：<strong>sudo shutdown -r now</strong></p>
-<h4 id="查看安装情况"><a href="#查看安装情况" class="headerlink" title="查看安装情况"></a>查看安装情况</h4><p><strong>java -version</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java version &quot;1.8.0_181&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_181-b27)</span><br><span class="line">Java HotSpot(TM) Client VM (build 25.181-b23, mixed mode)</span><br></pre></td></tr></table></figure>
-<h4 id="可能出现的错误信息："><a href="#可能出现的错误信息：" class="headerlink" title="可能出现的错误信息："></a>可能出现的错误信息：</h4><p><strong>bash: ./java: cannot execute binary file</strong></p>
-<p>出现这个错误的原因可能是在32位的操作系统上安装了64位的jdk，<br>查看jdk版本和Linux版本位数是否一致。<br>查看你安装的Ubuntu是32位还是64位系统：<br><strong>sudo uname –m</strong><br><strong>i686 //表示是32位</strong><br><strong>x86_64 // 表示是64位</strong></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/commons-dbutils简介/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/commons-dbutils简介/" itemprop="url">
-                  javaweb (八)
+                <a class="post-title-link" href="/2018/07/20/一、Session简单介绍/" itemprop="url">
+                  javaweb (十一 )
                 </a>
               
             
@@ -1703,355 +2090,20 @@
       
         
           
-            <h3 id="commons-dbutils简介"><a href="#commons-dbutils简介" class="headerlink" title="commons-dbutils简介　"></a>commons-dbutils简介　</h3><p>　　commons-dbutils 是 Apache 组织提供的一个开源 JDBC工具类库，它是对JDBC的简单封装，学习成本极低，并且使用dbutils能极大简化jdbc编码的工作量，同时也不会影响程序的性能。因此dbutils成为很多不喜欢hibernate的公司的首选。<br>commons-dbutilsAPI介绍：</p>
-<ul>
-<li>org.apache.commons.dbutils.QueryRunner</li>
-<li><p>org.apache.commons.dbutils.ResultSetHandler<br>工具类</p>
+            <h3 id="一、Session简单介绍"><a href="#一、Session简单介绍" class="headerlink" title="一、Session简单介绍"></a>一、Session简单介绍</h3><p>在WEB开发中，服务器可以为每个用户浏览器创建一个会话对象（session对象），注意：一个浏览器独占一个session对象(默认情况下)。因此，在需要保存用户数据时，服务器程序可以把用户数据写到用户浏览器独占的session中，当用户使用浏览器访问其它程序时，其它程序可以从用户的session中取出该用户的数据，为用户服务。</p>
+<h3 id="二、Session和Cookie的主要区别"><a href="#二、Session和Cookie的主要区别" class="headerlink" title="二、Session和Cookie的主要区别"></a>二、Session和Cookie的主要区别</h3><ul>
+<li>Cookie是把用户的数据写给用户的浏览器。</li>
+<li>Session技术把用户的数据写到用户独占的session中。</li>
+<li>Session对象由服务器创建，开发人员可以调用request对象的getSession方法得到session对象。<h3 id="三、session实现原理"><a href="#三、session实现原理" class="headerlink" title="三、session实现原理"></a>三、session实现原理</h3><h4 id="3-1、服务器是如何实现一个session为一个用户浏览器服务的？"><a href="#3-1、服务器是如何实现一个session为一个用户浏览器服务的？" class="headerlink" title="3.1、服务器是如何实现一个session为一个用户浏览器服务的？"></a>3.1、服务器是如何实现一个session为一个用户浏览器服务的？</h4>　　服务器创建session出来后，会把session的id号，以cookie的形式回写给客户机，这样，只要客户机的浏览器不关，再去访问服务器时，都会带着session的id号去，服务器发现客户机浏览器带session id过来了，就会使用内存中与之对应的session为之服务。可以用如下的代码证明：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">package qgx.session;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import javax.servlet.http.HttpSession;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;SessionDemo1&quot;)</span><br><span class="line">public class SessionDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        response.setCharacterEncoding(&quot;utf-8&quot;);</span><br><span class="line">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        HttpSession session = request.getSession();</span><br><span class="line">        session.setAttribute(&quot;data&quot;, &quot;刘俭梅&quot;);</span><br><span class="line">        String sessionId = session.getId();</span><br><span class="line">        if (session.isNew()) &#123;</span><br><span class="line">            response.getWriter().print(&quot;session创建成功，session的id为:&quot; + sessionId);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            response.getWriter().print(&quot;服务器已经存在该session了，session的is为:&quot; + sessionId);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>org.apache.commons.dbutils.DbUtils</p>
-</li>
 </ul>
-<h3 id="QueryRunner类使用讲解"><a href="#QueryRunner类使用讲解" class="headerlink" title="QueryRunner类使用讲解"></a>QueryRunner类使用讲解</h3><p>　　该类简单化了SQL查询，它与ResultSetHandler组合在一起使用可以完成大部分的数据库操作，能够大大减少编码量。<br>　　QueryRunner类提供了两个构造方法：</p>
-<ul>
-<li>默认的构造方法</li>
-<li>需要一个 javax.sql.DataSource 来作参数的构造方法。<h4 id="QueryRunner类的主要方法"><a href="#QueryRunner类的主要方法" class="headerlink" title="QueryRunner类的主要方法"></a>QueryRunner类的主要方法</h4></li>
-<li>public Object query(Connection conn, String sql, Object[] params, ResultSetHandler rsh) throws SQLException：执行一个查询操作，在这个查询中，对象数组中的每个元素值被用来作为查询语句的置换参数。该方法会自行处理 PreparedStatement 和 ResultSet 的创建和关闭。</li>
-<li>public Object query(String sql, Object[] params, ResultSetHandler rsh) throws SQLException:　几乎与第一种方法一样；唯一的不同在于它不将数据库连接提供给方法，并且它是从提供给构造方法的数据源(DataSource) 或使用的setDataSource 方法中重新获得 Connection。</li>
-<li>public Object query(Connection conn, String sql, ResultSetHandler rsh) throws SQLException : 执行一个不需要置换参数的查询操作。</li>
-<li>public int update(Connection conn, String sql, Object[] params) throws SQLException:用来执行一个更新（插入、更新或删除）操作。</li>
-<li>public int update(Connection conn, String sql) throws SQLException：用来执行一个不需要置换参数的更新操作。</li>
-</ul>
-<h4 id="使用QueryRunner类实现CRUD"><a href="#使用QueryRunner类实现CRUD" class="headerlink" title="使用QueryRunner类实现CRUD"></a>使用QueryRunner类实现CRUD</h4>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/一、Fragment的基础知识介绍/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/一、Fragment的基础知识介绍/" itemprop="url">
-                  Fragment  的详细介绍和使用方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>转载:<a href="http://blog.csdn.net/yangyu20121224/article/details/8995025" target="_blank" rel="noopener">http://blog.csdn.net/yangyu20121224/article/details/8995025</a></p>
-<p>&amp;#8195&amp;#8195由于TabActivity在Android4.0以后已经被完全弃用，那么我就不再浪费口水继续讲解它了，取而代之的是Fragment。Fragment是Android3.0新增的概念，Fragment翻译成中文是碎片的意思，不过却和Activity十分的相似，这一篇我花大量的篇幅来详细的讲解Fragment的介绍和使用方法。</p>
-<h2 id="一、Fragment的基础知识介绍"><a href="#一、Fragment的基础知识介绍" class="headerlink" title="一、Fragment的基础知识介绍"></a>一、Fragment的基础知识介绍</h2><h3 id="1-1概述"><a href="#1-1概述" class="headerlink" title="1.1概述"></a>1.1概述</h3><h4 id="1-1-1-特性"><a href="#1-1-1-特性" class="headerlink" title="1.1.1 特性"></a>1.1.1 特性</h4><p>&amp;#8195&amp;#8195Fragment是activity的界面中的一部分或一种行为。可以把多个Fragment组合到一个activity中来创建一个多界面<br>并且可以在多个activity中重用一个Fragment。可以把Fragment任务模块化的一段activity，它具有自己的生命周期，接收它自己的事件，并可以在activity运行时被添加或删除。<br>&amp;#8195&amp;#8195 Fragment不能独立存在，它必须嵌入到activity中，而且Fragment的生命周期直接受所在的activity的影响。例<br>如：当activity暂停时，他拥有的所有的Fragment都暂停了，当activity销毁时，他拥有的所有Fragment都被销毁。然<br>而，当activity运行时（在onResume()之后，onPause()之前），可以单独地操作每个Fragment，比如添加或删除它<br>们。当中执行上述针对Fragment的事务时，可以将事务添加到一个栈中，这个栈被activity管理，栈中的每一条都是一<br>个Fragment的一次事务。有了这个栈，就可以反向执行Fragment的事务，这样就可以在Fragment级支持“返回”键<br>（向后导航）。<br>&amp;#8195&amp;#8195当向activity中添加一个Fragment时，它须置于ViewGroup控件中，并且需定义Fragment自己的界面。可以在<br>layout.xml布局文件中声明Fragment，元素为：<fragment>；也可以在代码中创建Fragment，然后把它加入到<br>ViewGroup控件中。然而，Fragment不一定非要放在activity的界面中，它可以隐藏在后台为activity工作。</fragment></p>
-<h4 id="1-1-2-生命周期"><a href="#1-1-2-生命周期" class="headerlink" title="1.1.2 生命周期"></a>1.1.2 生命周期</h4><p>onCreate()：<br>&amp;#8195&amp;#8195当创建fragment时系统调用此方法。在其中必须初始化fragment的基础组件们。可参考activity的说明；</p>
-<p>onCreateView()：<br>&amp;#8195&amp;#8195系统在fragment要画自己的界面时调用（在真正显示之前）此方法，这个方法必须返回fragment的layout的根控<br>件，如果这个fragment不提供界面，那它应返回null；</p>
-<p>onPause()：<br>&amp;#8195&amp;#8195大多数程序应最少对fragment实现这三个方法，当然还有其它几个回调方法可应该按情况实现之，所有的声明周期。<br>下图为fragment的生命周期（它所在的activity处于运行状态）<br><img src="/img/fragment.jpg" alt=""><br> Activity和Fragment生命周期对比图如下：<br> <img src="/img/fragment1.png" alt=""><br> 两个的生命周期很类似，也息息相关。</p>
-<h4 id="1-1-3-派生类"><a href="#1-1-3-派生类" class="headerlink" title="1.1.3 派生类"></a>1.1.3 派生类</h4><p>DialogFragment</p>
-<ul>
-<li>显示一个浮动的对话框。使用这个类创建对话框是替代activity创建对话框的最佳选择。因为可以把fragmentdialog<br>放入到activity的返回栈中，使用户能再返回到这个对话框。</li>
-</ul>
-<p>ListFragment</p>
-<ul>
-<li>显示一个列表控件，就像ListActivity类，它提供了很多管理列表的方法，比如onListItemClick()方法响应click事件。</li>
-</ul>
-<p>PreferenceFragment</p>
-<ul>
-<li>显示一个由Preference对象组成的列表，与PreferenceActivity相同。它用于为程序创建“设置”activity。<h3 id="1-2-范例"><a href="#1-2-范例" class="headerlink" title="1.2 范例"></a>1.2 范例</h3>写一个读新闻的程序，可以用一个fragment显示标题列表，另一个fragment显示选中标题的内容，这两个fragment<br>都在一个activity上，并排显示。那么这两个fragment都有自己的生命周期并响应自己感兴趣的事件。于是，不需要再<br>像手机上那样用一个activity显示标题列表，用另一个activity显示新闻内容；现在可以把两者放在一个activity上同时显<br>示出来。如下图：<br><img src="/img/fragment2.jpg" alt=""><br>Fragment必须被写成可重用的模块。因为fragment有自己的layout，自己进行事件响应，拥有自己的生命周期和<br>行为，所以可以在多个activity中包含同一个Fragment的不同实例。这对于让世界在不同的屏幕尺寸下都能给用户完美<br>的体验尤其重要。比如可以在程序运行于大屏幕中时启动包含很多fragment的activity，而在运行小屏幕时启动一个包<br>含少量fragment的activity。<pre><code>刚才读新闻的程序，当检测到程序运行于大屏幕时，启动activityA，将标题列表和新闻内容这两个fragment都放
-</code></pre>在activityA中；当检测到程序运行于小屏幕时，还是启动activityA，但此时A中只有标题列表fragment，当选中一个标<br>题时，activityA启动activityB，B中含有新闻内容fragment。</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/验证码图片/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/验证码图片/" itemprop="url">
-                  javaweb (八)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="验证码图片"><a href="#验证码图片" class="headerlink" title="验证码图片"></a>验证码图片</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.imageio.ImageIO;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.awt.*;</span><br><span class="line">import java.awt.image.BufferedImage;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.Random;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;DrawImage&quot;)</span><br><span class="line">public class DrawImage extends HttpServlet &#123;</span><br><span class="line">    public static final int WIDTH = 120;//生成的图片的宽度</span><br><span class="line">    public static final int HEIGHT = 30;//生成的图片的高度</span><br><span class="line"></span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">//接收客户端传递的createTypeFlag标识</span><br><span class="line">        String createTypeFlag = request.getParameter(&quot;createTypeFlag&quot;);</span><br><span class="line">//1.在内存中创建一张图片</span><br><span class="line">        BufferedImage bi = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);</span><br><span class="line">        //2. 得到图片</span><br><span class="line">        Graphics g = bi.getGraphics();</span><br><span class="line">        //3.设置图片的背景色</span><br><span class="line">        setBackGround(g);</span><br><span class="line">        //4. 设置图片的边框</span><br><span class="line">        setBorder(g);</span><br><span class="line">        //5. 在图片上画干扰线</span><br><span class="line">        drawRandomLine(g);</span><br><span class="line">        //6.写在图片上随机数</span><br><span class="line">        String random = drawRandomNum((Graphics2D) g, createTypeFlag);//根据客户端传递的createTypeFlag标识生成验证码图片</span><br><span class="line">        //7.将随机数存在session中</span><br><span class="line">        request.getSession().setAttribute(&quot;checkcode&quot;, random);</span><br><span class="line">        //8.设置响应头通知浏览器以图片的形式打开</span><br><span class="line">        response.setContentType(&quot;image/jpeg&quot;);//等同于response.setHeader(&quot;Content-Type&quot;, &quot;image/jpeg&quot;);</span><br><span class="line">        //9.设置响应头控制浏览器不要缓存</span><br><span class="line">        response.setDateHeader(&quot;expries&quot;, -1);</span><br><span class="line">        response.setHeader(&quot;Cache-Control&quot;, &quot;no-cache&quot;);</span><br><span class="line">        response.setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);</span><br><span class="line">        //10.将图片写给浏览器</span><br><span class="line">        ImageIO.write(bi, &quot;jpg&quot;, response.getOutputStream());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 画随机字符</span><br><span class="line">     *</span><br><span class="line">     * @param g</span><br><span class="line">     * @param createTypeFlag</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private String drawRandomNum(Graphics2D g, String... createTypeFlag) &#123;</span><br><span class="line">        // 设置颜色</span><br><span class="line">        g.setColor(Color.RED);</span><br><span class="line">        // 设置字体</span><br><span class="line">        g.setFont(new Font(&quot;行书&quot;, Font.BOLD, 20));</span><br><span class="line">        //常用的中国汉字</span><br><span class="line">        String baseChineseChar = &quot;\u5218\u4FED\u6885&quot;;</span><br><span class="line">//        String baseChineseChar = &quot;\u7684\u4e00\u4e86\u662f\u6211\u4e0d\u5728\u4eba\u4eec\u6709\u6765\u4ed6\u8fd9\u4e0a\u7740\u4e2a\u5730\u5230\u5927\u91cc\u8bf4\u5c31\u53bb\u5b50\u5f97\u4e5f\u548c\u90a3\u8981\u4e0b\u770b\u5929\u65f6\u8fc7\u51fa\u5c0f\u4e48\u8d77\u4f60\u90fd\u628a\u597d\u8fd8\u591a\u6ca1\u4e3a\u53c8\u53ef\u5bb6\u5b66\u53ea\u4ee5\u4e3b\u4f1a\u6837\u5e74\u60f3\u751f\u540c\u8001\u4e2d\u5341\u4ece\u81ea\u9762\u524d\u5934\u9053\u5b83\u540e\u7136\u8d70\u5f88\u50cf\u89c1\u4e24\u7528\u5979\u56fd\u52a8\u8fdb\u6210\u56de\u4ec0\u8fb9\u4f5c\u5bf9\u5f00\u800c\u5df1\u4e9b&quot; +</span><br><span class="line">//                &quot;\u73b0\u5c71\u6c11\u5019\u7ecf\u53d1\u5de5\u5411\u4e8b\u547d\u7ed9\u957f\u6c34\u51e0\u4e49\u4e09\u58f0\u4e8e\u9ad8\u624b\u77e5\u7406\u773c\u5fd7\u70b9\u5fc3\u6218\u4e8c\u95ee\u4f46\u8eab\u65b9\u5b9e\u5403\u505a\u53eb\u5f53\u4f4f\u542c\u9769\u6253\u5462\u771f\u5168\u624d\u56db\u5df2\u6240\u654c\u4e4b\u6700\u5149\u4ea7\u60c5\u8def\u5206\u603b\u6761\u767d\u8bdd\u4e1c\u5e2d\u6b21\u4eb2\u5982\u88ab\u82b1\u53e3\u653e\u513f\u5e38\u6c14\u4e94\u7b2c\u4f7f\u5199\u519b\u5427\u6587\u8fd0\u518d\u679c\u600e\u5b9a\u8bb8\u5feb\u660e\u884c\u56e0\u522b\u98de\u5916\u6811\u7269&quot; +</span><br><span class="line">//                &quot;\u6d3b\u90e8\u95e8\u65e0\u5f80\u8239\u671b\u65b0\u5e26\u961f\u5148\u529b\u5b8c\u5374&quot; +</span><br><span class="line">//                &quot;\u7ad9\u4ee3\u5458\u673a\u66f4\u4e5d\u60a8\u6bcf\u98ce\u7ea7\u8ddf\u7b11\u554a\u5b69\u4e07\u5c11\u76f4\u610f\u591c\u6bd4\u9636\u8fde\u8f66\u91cd\u4fbf\u6597\u9a6c\u54ea\u5316\u592a\u6307\u53d8\u793e\u4f3c\u58eb\u8005\u5e72\u77f3\u6ee1\u65e5\u51b3\u767e\u539f\u62ff\u7fa4\u7a76\u5404\u516d\u672c\u601d\u89e3\u7acb\u6cb3\u6751\u516b\u96be\u65e9\u8bba\u5417\u6839\u5171\u8ba9\u76f8\u7814\u4eca\u5176\u4e66\u5750\u63a5\u5e94\u5173\u4fe1\u89c9\u6b65\u53cd\u5904\u8bb0\u5c06\u5343\u627e\u4e89\u9886\u6216\u5e08\u7ed3\u5757\u8dd1\u8c01\u8349\u8d8a\u5b57\u52a0\u811a\u7d27\u7231&quot; +</span><br><span class="line">//                &quot;\u7b49\u4e60\u9635\u6015\u6708\u9752\u534a\u706b\u6cd5\u9898\u5efa\u8d76\u4f4d\u5531\u6d77\u4e03\u5973\u4efb\u4ef6\u611f\u51c6\u5f20\u56e2\u5c4b\u79bb\u8272\u8138\u7247\u79d1\u5012\u775b\u5229\u4e16\u521a\u4e14\u7531\u9001\u5207\u661f\u5bfc\u665a\u8868\u591f\u6574\u8ba4\u54cd\u96ea\u6d41\u672a\u573a\u8be5\u5e76\u5e95\u6df1\u523b\u5e73\u4f1f\u5fd9\u63d0\u786e\u8fd1\u4eae\u8f7b\u8bb2\u519c\u53e4\u9ed1\u544a\u754c\u62c9\u540d\u5440\u571f\u6e05\u9633\u7167\u529e\u53f2\u6539\u5386\u8f6c\u753b\u9020\u5634\u6b64\u6cbb\u5317\u5fc5\u670d\u96e8\u7a7f\u5185\u8bc6\u9a8c\u4f20\u4e1a&quot; +</span><br><span class="line">//                &quot;\u83dc\u722c\u7761\u5174\u5f62\u91cf\u54b1\u89c2\u82e6\u4f53\u4f17\u901a\u51b2\u5408\u7834\u53cb\u5ea6\u672f\u996d\u516c\u65c1\u623f\u6781\u5357\u67aa\u8bfb\u6c99\u5c81\u7ebf\u91ce\u575a\u7a7a\u6536\u7b97\u81f3\u653f\u57ce\u52b3\u843d\u94b1\u7279\u56f4\u5f1f\u80dc\u6559\u70ed\u5c55\u5305\u6b4c\u7c7b\u6e10\u5f3a\u6570\u4e61\u547c\u6027\u97f3\u7b54\u54e5\u9645\u65e7\u795e\u5ea7\u7ae0\u5e2e\u5566\u53d7\u7cfb\u4ee4\u8df3\u975e\u4f55\u725b\u53d6\u5165\u5cb8\u6562\u6389\u5ffd\u79cd\u88c5\u9876\u6025\u6797\u505c\u606f\u53e5\u533a\u8863\u822c\u62a5\u53f6\u538b\u6162\u53d4\u80cc\u7ec6&quot;;</span><br><span class="line">        //数字和字母的组合</span><br><span class="line">        String baseNumLetter = &quot;0123456789ABCDEFGHJKLMNOPQRSTUVWXYZ&quot;;</span><br><span class="line">        //纯数字</span><br><span class="line">        String baseNum = &quot;0123456789&quot;;</span><br><span class="line">        //纯字母</span><br><span class="line">        String baseLetter = &quot;ABCDEFGHJKLMNOPQRSTUVWXYZ&quot;;</span><br><span class="line">        //createTypeFlag[0]==null表示没有传递参数</span><br><span class="line">        if (createTypeFlag.length &gt; 0 &amp;&amp; null != createTypeFlag[0]) &#123;</span><br><span class="line">            if (createTypeFlag[0].equals(&quot;ch&quot;)) &#123;</span><br><span class="line">                // 截取汉字</span><br><span class="line">                return createRandomChar(g, baseChineseChar);</span><br><span class="line">            &#125; else if (createTypeFlag[0].equals(&quot;nl&quot;)) &#123;</span><br><span class="line">                // 截取数字和字母的组合</span><br><span class="line">                return createRandomChar(g, baseNumLetter);</span><br><span class="line">            &#125; else if (createTypeFlag[0].equals(&quot;n&quot;)) &#123;</span><br><span class="line">                // 截取数字</span><br><span class="line">                return createRandomChar(g, baseNum);</span><br><span class="line">            &#125; else if (createTypeFlag[0].equals(&quot;l&quot;)) &#123;</span><br><span class="line">                // 截取字母</span><br><span class="line">                return createRandomChar(g, baseLetter);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 默认截取数字和字母的组合</span><br><span class="line">            return createRandomChar(g, baseNumLetter);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String createRandomChar(Graphics2D g, String baseChar) &#123;</span><br><span class="line">        StringBuffer sb = new StringBuffer();</span><br><span class="line">        int x = 5;</span><br><span class="line">        String ch = &quot;&quot;;</span><br><span class="line">        // 控制字数</span><br><span class="line">        for (int i = 0; i &lt; 4; i++) &#123;</span><br><span class="line">            // 设置字体旋转角度</span><br><span class="line">            int degree = new Random().nextInt() % 30;</span><br><span class="line">            ch = baseChar.charAt(new Random().nextInt(baseChar.length())) + &quot;&quot;;</span><br><span class="line">            sb.append(ch);</span><br><span class="line">            // 正向角度</span><br><span class="line">            g.rotate(degree * Math.PI / 180, x, 20);</span><br><span class="line">            g.drawString(ch, x, 20);</span><br><span class="line">            // 反向角度</span><br><span class="line">            g.rotate(-degree * Math.PI / 180, x, 20);</span><br><span class="line">            x += 30;</span><br><span class="line">        &#125;</span><br><span class="line">        return sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 在图片上画干扰线</span><br><span class="line">     *</span><br><span class="line">     * @param g</span><br><span class="line">     */</span><br><span class="line">    private void drawRandomLine(Graphics g) &#123;</span><br><span class="line">        // 设置颜色</span><br><span class="line">        g.setColor(Color.GREEN);</span><br><span class="line">        // 设置线条个数并画线</span><br><span class="line">        for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">            int x1 = new Random().nextInt(WIDTH);</span><br><span class="line">            int y1 = new Random().nextInt(HEIGHT);</span><br><span class="line">            int x2 = new Random().nextInt(WIDTH);</span><br><span class="line">            int y2 = new Random().nextInt(HEIGHT);</span><br><span class="line">            g.drawLine(x1, y1, x2, y2);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置图片的边框</span><br><span class="line">     *</span><br><span class="line">     * @param g</span><br><span class="line">     */</span><br><span class="line">    private void setBorder(Graphics g) &#123;</span><br><span class="line">        // 设置边框颜色</span><br><span class="line">        g.setColor(Color.BLUE);</span><br><span class="line">        // 边框区域</span><br><span class="line">        g.drawRect(1, 1, WIDTH - 2, HEIGHT - 2);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置图片背景色</span><br><span class="line">     *</span><br><span class="line">     * @param g</span><br><span class="line">     */</span><br><span class="line">    private void setBackGround(Graphics g) &#123;</span><br><span class="line">        // 设置颜色</span><br><span class="line">        g.setColor(Color.WHITE);</span><br><span class="line">        // 填充区域</span><br><span class="line">        g.fillRect(0, 0, WIDTH, HEIGHT);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        this.doPost(request, response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行结果：<br><img src="/img/Draw.png" alt=""><br><img src="/img/Draw1.png" alt=""></p>
-<h3 id="在Form表单中使用验证码图片"><a href="#在Form表单中使用验证码图片" class="headerlink" title="在Form表单中使用验证码图片"></a>在Form表单中使用验证码图片</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--</span><br><span class="line">  Created by IntelliJ IDEA.</span><br><span class="line">  User: qgx</span><br><span class="line">  Date: 2018/5/16</span><br><span class="line">  Time: 22:38</span><br><span class="line">  To change this template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;在Form表单中使用验证码&lt;/title&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">        function changeImg()&#123;</span><br><span class="line">            document.getElementById(&quot;validateCodeImg&quot;).src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage?&quot;+Math.random();</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line"> &lt;form action=&quot;$&#123;pageContext.request.contextPath&#125;/&quot; method=&quot;post&quot;&gt;</span><br><span class="line">   验证码：&lt;input type=&quot;text&quot; name=&quot;validateCode&quot;/&gt;</span><br><span class="line">   &lt;img alt=&quot;验证码看不清，换一张&quot; src=&quot;$&#123;pageContext.request.contextPath&#125;/servlet/DrawImage&quot; id=&quot;validateCodeImg&quot; onclick=&quot;changeImg()&quot;&gt;</span><br><span class="line">   &lt;a href=&quot;javascript:void(0)&quot; onclick=&quot;changeImg()&quot;&gt;看不清，换一张&lt;/a&gt;</span><br><span class="line">   &lt;br/&gt;</span><br><span class="line">   &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;</span><br><span class="line"> &lt;/form&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="/img/Draw2.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--</span><br><span class="line">  Created by IntelliJ IDEA.</span><br><span class="line">  User: qgx</span><br><span class="line">  Date: 2018/5/16</span><br><span class="line">  Time: 22:38</span><br><span class="line">  To change this template use File | Settings | File Templates.</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;title&gt;在Form表单中使用验证码&lt;/title&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot;&gt;</span><br><span class="line">        function changeImg(obj,createTypeFlag)&#123;</span><br><span class="line">            document.getElementById(obj.id).src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage?createTypeFlag=&quot;+createTypeFlag+&quot;&amp;&quot;+Math.random();</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line"> &lt;form action=&quot;$&#123;pageContext.request.contextPath&#125;/CheckServlet&quot; method=&quot;post&quot;&gt;</span><br><span class="line">   数字字母混合验证码：&lt;input type=&quot;text&quot; name=&quot;validateCode&quot;/&gt;</span><br><span class="line">                &lt;img alt=&quot;验证码看不清，换一张&quot; src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage&quot; id=&quot;validateCodeImg1&quot; onclick=&quot;changeImg(this,&apos;nl&apos;)&quot;&gt;</span><br><span class="line">                &lt;br/&gt;</span><br><span class="line">                中文验证码：&lt;input type=&quot;text&quot; name=&quot;validateCode&quot;/&gt;</span><br><span class="line">                &lt;img alt=&quot;验证码看不清，换一张&quot; src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage?createTypeFlag=ch&quot; id=&quot;validateCodeImg2&quot; onclick=&quot;changeImg(this,&apos;ch&apos;)&quot;&gt;</span><br><span class="line">                &lt;br/&gt;</span><br><span class="line">               英文验证码：&lt;input type=&quot;text&quot; name=&quot;validateCode&quot;/&gt;</span><br><span class="line">                &lt;img alt=&quot;验证码看不清，换一张&quot; src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage?createTypeFlag=l&quot; id=&quot;validateCodeImg3&quot; onclick=&quot;changeImg(this,&apos;l&apos;)&quot;&gt;</span><br><span class="line">               &lt;br/&gt;</span><br><span class="line">               数字验证码：&lt;input type=&quot;text&quot; name=&quot;validateCode&quot;/&gt;</span><br><span class="line">               &lt;img alt=&quot;验证码看不清，换一张&quot; src=&quot;$&#123;pageContext.request.contextPath&#125;/DrawImage?createTypeFlag=n&quot; id=&quot;validateCodeImg4&quot; onclick=&quot;changeImg(this,&apos;n&apos;)&quot;&gt;</span><br><span class="line">               &lt;br/&gt;</span><br><span class="line">                &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;</span><br><span class="line">            &lt;/form&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;CheckServlet&quot;)</span><br><span class="line">public class CheckServlet extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String clientCheckcode = request.getParameter(&quot;validateCode&quot;);//接收客户端浏览器提交上来的验证码</span><br><span class="line">        String serverCheckcode = (String) request.getSession().getAttribute(&quot;checkcode&quot;);//从服务器端的session中取出验证码</span><br><span class="line">        if (clientCheckcode.equals(serverCheckcode)) &#123;//将客户端验证码和服务器端验证比较，如果相等，则表示验证通过</span><br><span class="line">            System.out.println(&quot;验证码验证通过！&quot;);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            System.out.println(&quot;验证码验证失败！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/img/Draw3.png" alt=""></p>
+<p>第一次访问时，服务器会创建一个新的sesion，并且把session的Id以cookie的形式发送给客户端浏览器，如下图所示：<br><img src="/img/session1.png" alt=""><br>　点击刷新按钮，再次请求服务器，此时就可以看到浏览器再请求服务器时，会把存储到cookie中的session的Id一起传递到服务器端了，如下图所示：<br><img src="/img/session2.png" alt=""><br>request.getSession()方法内部新创建了Session之后一定是做了如下的处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//获取session的Id</span><br><span class="line"> String sessionId = session.getId();</span><br><span class="line"> //将session的Id存储到名字为JSESSIONID的cookie中</span><br><span class="line"> Cookie cookie = new Cookie(&quot;JSESSIONID&quot;, sessionId);</span><br><span class="line">//设置cookie的有效路径</span><br><span class="line"> cookie.setPath(request.getContextPath());</span><br><span class="line"> response.addCookie(cookie);</span><br></pre></td></tr></table></figure>
+<h3 id="四、session对象的创建和销毁时机"><a href="#四、session对象的创建和销毁时机" class="headerlink" title="四、session对象的创建和销毁时机"></a>四、session对象的创建和销毁时机</h3><h4 id="4-1、session对象的创建时机"><a href="#4-1、session对象的创建时机" class="headerlink" title="4.1、session对象的创建时机"></a>4.1、session对象的创建时机</h4><p>在程序中第一次调用request.getSession()方法时就会创建一个新的Session，可以用isNew()方法来判断Session是不是新创建的</p>
+<p>范例：创建session<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//使用request对象的getSession()获取session，如果session不存在则创建一个</span><br><span class="line">HttpSession session = request.getSession();</span><br><span class="line">//获取session的Id</span><br><span class="line">String sessionId = session.getId();</span><br><span class="line">//判断session是不是新创建的</span><br><span class="line">if (session.isNew()) &#123;</span><br><span class="line">    response.getWriter().print(&quot;session创建成功，session的id是：&quot;+sessionId);</span><br><span class="line">&#125;else &#123;</span><br><span class="line">    response.getWriter().print(&quot;服务器已经存在session，session的id是：&quot;+sessionId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="4-2、session对象的销毁时机"><a href="#4-2、session对象的销毁时机" class="headerlink" title="4.2、session对象的销毁时机"></a>4.2、session对象的销毁时机</h4><p>　　session对象默认30分钟没有使用，则服务器会自动销毁session，在web.xml文件中可以手工<br>配置session的失效时间，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 设置Session的有效时间:以分钟为单位--&gt;</span><br><span class="line">    &lt;session-config&gt;</span><br><span class="line">        &lt;session-timeout&gt;15&lt;/session-timeout&gt;</span><br><span class="line">    &lt;/session-config&gt;</span><br></pre></td></tr></table></figure>
+<p>当需要在程序中手动设置Session失效时，可以手工调用session.invalidate方法，摧毁session。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HttpSession session = request.getSession();</span><br><span class="line">//手工调用session.invalidate方法，摧毁session</span><br><span class="line">session.invalidate();</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -2141,7 +2193,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">82</span>
+                    <span class="site-state-item-count">85</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2295,7 +2347,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">56</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">59</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

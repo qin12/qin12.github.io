@@ -319,7 +319,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/深入理解Tomcat系列之一：系统架构/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Spring Boot/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -338,8 +338,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/深入理解Tomcat系列之一：系统架构/" itemprop="url">
-                  深入理解Tomcat系列之一
+                <a class="post-title-link" href="/2018/07/20/Spring Boot/" itemprop="url">
+                  Spring Boot(一)
                 </a>
               
             
@@ -383,7 +383,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
 
                 
                 
@@ -419,26 +419,18 @@
       
         
           
-            <h2 id="深入理解Tomcat系列之一：系统架构"><a href="#深入理解Tomcat系列之一：系统架构" class="headerlink" title="深入理解Tomcat系列之一：系统架构"></a>深入理解Tomcat系列之一：系统架构</h2><h3 id="Tomcat的系统架构"><a href="#Tomcat的系统架构" class="headerlink" title="Tomcat的系统架构"></a>Tomcat的系统架构</h3><p><img src="/img/tomcat_architect.jpg" alt=""><br>首先我们从一个宏观的角度来看一下Tomcat的系统的架构：从这张图中可以看到，Tomcat的核心组件就两个Connector和Container（后面还有详细说明），一个Connector+一个Container构成一个Service，Service就是对外提供服务的组件，有了Service组件Tomcat就可以对外提供服务了，但是光有服务还不行，还得有环境让你提供服务才行，所以最外层的Server就为Service提供了生存的土壤。那么这些个组件到底是干嘛用的呢？Connector是一个连接器，主要负责接收请求并把请求交给Container，Container就是一个容器，主要装的是具体处理请求的组件。Service主要是为了关联Container与Connector，一个单独的Container或者一个单独的Connector都不能完整处理一个请求，只有两个结合在一起才能完成一个请求的处理。Server这是负责管理Service集合，从图中我们看到一个Tomcat可以提供多种服务，那么这些Serice就是由Server来管理的，具体的工作包括：对外提供一个接口访问Service，对内维护Service集合，维护Service集合又包括管理Service的生命周期、寻找一个请求的Service、结束一个Service等。以上就是对Tomcat的核心组件的简要说明，下面我们详细看看每一个组件的执行流程：</p>
-<h3 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h3><p>上面说Server是管理Service接口的，Server是Tomcat的顶级容器，是一个接口，Server接口的标准实现类是StandardServer类，在Server接口中有许多方法，我们重点关注两个方法：addService()和findService(String)。我们先来看看Server接口的全貌：<br><img src="/img/Server2.jpg" alt=""><br>接着看看addService()和findService(String)的实现代码：<br>代码清单1-1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Add a new Service to the set of defined Services.</span><br><span class="line"> *</span><br><span class="line"> * @param service The Service to be added</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">public void addService(Service service) &#123;</span><br><span class="line"></span><br><span class="line">    service.setServer(this);</span><br><span class="line"></span><br><span class="line">    synchronized (services) &#123;</span><br><span class="line">        Service results[] = new Service[services.length + 1];</span><br><span class="line">        System.arraycopy(services, 0, results, 0, services.length);</span><br><span class="line">        results[services.length] = service;</span><br><span class="line">        services = results;</span><br><span class="line"></span><br><span class="line">        if (getState().isAvailable()) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                service.start();</span><br><span class="line">            &#125; catch (LifecycleException e) &#123;</span><br><span class="line">                // Ignore</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Report this property change to interested listeners</span><br><span class="line">        support.firePropertyChange(&quot;service&quot;, null, service);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以看到，Server使用一个数组来管理Service的，每添加一个Service就把原来的Service拷贝到一个新的数组中，再把新的Service放入Service数组中。所以Server与Service是关联在一起的，那么后面的getState().isAvailable()是干嘛的呢？判断状态是否无效，从而决定是否执行service方法。这里说到了状态，就不得不说Tomcat管理各组件生命周期的Lifecycle接口了：</p>
-<h4 id="Lifecycle接口"><a href="#Lifecycle接口" class="headerlink" title="Lifecycle接口"></a>Lifecycle接口</h4><p>Tomcat中的组件都交给这个接口管理，但是具体组件的生命周期是由包含组件的父容器来管理的，Tomcat中顶级容器管理着Service的生命周期，Service容器又是Connector和Container的父容器，所以这两个组件的生命周期是由Service管理的，Container也有子容器，所以管理着这些子容器的生命周期。这样，只要所有组件都实现了Lifecycle接口，从顶层容器Server开始，就可以控制所有容器的生命周期了。Lifecycle接口中定义了很多状态，在api中详细说明了调用不同方法后的状态转变，同时定义了不同的方法，这些方法在执行后状态会发生相应的改变，在Lifecycle接口中定义了如下方法：<br><img src="/img/Lifecycle.jpg" alt=""><br>在StandServer中实现了startInernal()方法，就是循环启动StandServer管理的Service的过程，Tomcat的Service都实现了Lifecycle接口，所以被管理的Service都将被通知到，从而执行start()方法，startIntenal()方法是这样的：<br>代码清单1-2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Start nested components (&#123;@link Service&#125;s) and implement the requirements</span><br><span class="line"> * of &#123;@link org.apache.catalina.util.LifecycleBase#startInternal()&#125;.</span><br><span class="line"> *</span><br><span class="line"> * @exception LifecycleException if this component detects a fatal error</span><br><span class="line"> *  that prevents this component from being used</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">protected void startInternal() throws LifecycleException &#123;</span><br><span class="line"></span><br><span class="line">    fireLifecycleEvent(CONFIGURE_START_EVENT, null);</span><br><span class="line">    setState(LifecycleState.STARTING);</span><br><span class="line"></span><br><span class="line">    globalNamingResources.start();</span><br><span class="line"></span><br><span class="line">    // Start our defined Services</span><br><span class="line">    synchronized (services) &#123;</span><br><span class="line">        for (int i = 0; i &lt; services.length; i++) &#123;</span><br><span class="line">            services[i].start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>现在所有的Service就会收到通知继而执行start方法。如果一个Service不允许被使用将会抛出一个LifecycleException异常。</p>
-<p>stopIntenal()会通知所有Service执行stop方法，具体处理流程与startIntenal()方法类似。这个执行过程涉及一个非常重要的设计模式，就是观察者模式。</p>
-<p>现在我们已经能够知道了容器通过Lifecycle接口管理容器的生命周期，那么在父容器的状态改变具体是怎么样通知给子容器的呢？回到代码清单1-2，我们注意到有一个fireLifecycleEvent()方法，fireLifecycleEvent()的执行流程如下：</p>
-<ul>
-<li>调用LifecycleBase的fireLifecycleEvent(LifecycleListener listener)方法，LifecycleBase是一个抽象类，实现了Lifecycle接口</li>
-<li>继续调用LifecycleSupport（是一个辅助完成对已经注册监听器的事件通知类，不可被继承，使用final)的fireLifecycleEvent(String type, Object data)方法</li>
-<li>完成事件通知</li>
-</ul>
-<p>fireLifecycleEvent(String type, Object data)的方法如下：</p>
-<p>代码清单1-3：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Notify all lifecycle event listeners that a particular event has</span><br><span class="line"> * occurred for this Container.  The default implementation performs</span><br><span class="line"> * this notification synchronously using the calling thread.</span><br><span class="line"> *</span><br><span class="line"> * @param type Event type</span><br><span class="line"> * @param data Event data</span><br><span class="line"> */</span><br><span class="line">public void fireLifecycleEvent(String type, Object data) &#123;</span><br><span class="line"></span><br><span class="line">    LifecycleEvent event = new LifecycleEvent(lifecycle, type, data);</span><br><span class="line">    LifecycleListener interested[] = listeners;</span><br><span class="line">    for (int i = 0; i &lt; interested.length; i++)</span><br><span class="line">        interested[i].lifecycleEvent(event);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>所以，具体事件的通知是由LifecycleListener接口的lifecycleEvent方法完成的，各实现类可以根据不同的情况实现不同的事件监听逻辑</p>
-<h3 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h3><p>Service是具体提供服务的接口，一个Service包装了Connector和一个Container，在Tomcat中这点是如何实现的呢？Service是一个接口，其标准实现类是StandardService，下面是这两个类的鸟瞰图：<br><img src="/img/Service.jpg" alt=""><br><img src="/img/StandardService.jpg" alt=""><br>这里，我们只关心与Connector和Container最紧密的方法：setContainer()和addConnector()方法，先看一下setContainer()方法的源码：<br>代码清单2-1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Set the &lt;code&gt;Container&lt;/code&gt; that handles requests for all</span><br><span class="line"> * &lt;code&gt;Connectors&lt;/code&gt; associated with this Service.</span><br><span class="line"> *</span><br><span class="line"> * @param container The new Container</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">public void setContainer(Container container) &#123;</span><br><span class="line"></span><br><span class="line">    Container oldContainer = this.container;</span><br><span class="line">    if ((oldContainer != null) &amp;&amp; (oldContainer instanceof Engine))</span><br><span class="line">        ((Engine) oldContainer).setService(null);</span><br><span class="line">    this.container = container;</span><br><span class="line">    if ((this.container != null) &amp;&amp; (this.container instanceof Engine))</span><br><span class="line">        ((Engine) this.container).setService(this);</span><br><span class="line">    if (getState().isAvailable() &amp;&amp; (this.container != null)) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            this.container.start();</span><br><span class="line">        &#125; catch (LifecycleException e) &#123;</span><br><span class="line">            // Ignore</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if (getState().isAvailable() &amp;&amp; (oldContainer != null)) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            oldContainer.stop();</span><br><span class="line">        &#125; catch (LifecycleException e) &#123;</span><br><span class="line">            // Ignore</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Report this property change to interested listeners</span><br><span class="line">    support.firePropertyChange(&quot;container&quot;, oldContainer, this.container);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>从代码中可以看到这个方法主要的任务是设置一个Container容器来处理一个或者多个Connector传送过来的请求。首先判断当前的Service是否已经关联了Container容器，如果已经关联了就去除这个关联关系。如果原来的Container容器已经启动了就终止其生命周期，结束运行并设置新的关联关系，这个新的Container容器开始新的生命周期。最后把这个过程通知给感兴趣的事件监听程序。</p>
-<p>下面看看addConnector的方法：</p>
-<p>代码清单2-2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Add a new Connector to the set of defined Connectors, and associate it</span><br><span class="line"> * with this Service&apos;s Container.</span><br><span class="line"> *</span><br><span class="line"> * @param connector The Connector to be added</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">public void addConnector(Connector connector) &#123;</span><br><span class="line"></span><br><span class="line">    synchronized (connectors) &#123;</span><br><span class="line">        connector.setService(this);</span><br><span class="line">        Connector results[] = new Connector[connectors.length + 1];</span><br><span class="line">        System.arraycopy(connectors, 0, results, 0, connectors.length);</span><br><span class="line">        results[connectors.length] = connector;</span><br><span class="line">        connectors = results;</span><br><span class="line"></span><br><span class="line">        if (getState().isAvailable()) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                connector.start();</span><br><span class="line">            &#125; catch (LifecycleException e) &#123;</span><br><span class="line">                log.error(sm.getString(</span><br><span class="line">                        &quot;standardService.connector.startFailed&quot;,</span><br><span class="line">                        connector), e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Report this property change to interested listeners</span><br><span class="line">        support.firePropertyChange(&quot;connector&quot;, null, connector);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>执行过程也比较清楚：用一个同步代码块包住connectors数组，首先设置connector与container和service的关联关系，然后让connector开始新的生命周期，最后通知感兴趣的事件监听程序。注意到Connector的管理和Server管理Service一样都使用了数组拷贝并把新的数组赋给当前的数组，从而间接实现了动态数组。之所以使用数组我想可能是出于性能的考虑吧。</p>
+            <h3 id="Spring-Boot"><a href="#Spring-Boot" class="headerlink" title="Spring Boot"></a>Spring Boot</h3><p>Spring Boot是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式，Boot致力于在蓬勃发展的快速应用开发领域（rapid application development）成为领导者。</p>
+<h4 id="Spring-Boot的特点"><a href="#Spring-Boot的特点" class="headerlink" title="Spring Boot的特点"></a>Spring Boot的特点</h4><ol>
+<li>创建独立的Spring应用程序</li>
+<li>直接嵌入Tomcat，Jetty或Undertow，无需部署WAR文件</li>
+<li>提供推荐的基础POM文件来简化Apache Maven配置</li>
+<li>尽可能的根据项目依赖来自动配置Spring框架</li>
+<li>提供生产就绪型功能，如指标，运行状况检查和外部配置</li>
+<li>绝对没有代码生成和对XML没有要求配置</li>
+</ol>
+<h4 id="Spring-Boot的优点"><a href="#Spring-Boot的优点" class="headerlink" title="Spring Boot的优点"></a>Spring Boot的优点</h4><p>spring boot可以支持开发人员快速的开发出restful风格的微服务架构；<br>spring boot自动化确实方便，做微服务再合适不过了，单一jar包部署和管理都非常方便。只要系统架构设计合理，大型项目也能用，加上nginx负载均衡，轻松实现横向扩展；<br>spring boot要解决的问题, 精简配置是一方面, 另外一方面是如何方便的让spring生态圈和其他工具链整合（比如Redis，email，elasticsearch）。</p>
+<h4 id="Spring-Boot运行环境"><a href="#Spring-Boot运行环境" class="headerlink" title="Spring Boot运行环境"></a>Spring Boot运行环境</h4><p>Spring Boot（2017-08-18）版本Spring Boot 1.5.6运行环境，Spring官方建议使用JDK1.8<br>        Spring Boot使开发独立的，产品级别的基于Spring的应用变得非常简单，你只需”just run”。 为Spring平台及第三方库提供开箱即用的设置，这样就可以有条不紊地开始。多数Spring Boot应用需要很少的Spring配置。</p>
+<p>使用Spring Boot创建Java应用，使用Spring启动或采用传统的war部署方式。Spring Boot提供了一个运行”Spring脚本”的命令行工具。<br>Spring Boot推荐基础POM文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">spring-boot-starter	核心 POM，包含自动配置支持、日志库和对 YAML 配置文件的支持。</span><br><span class="line">spring-boot-starter-amqp	通过 spring-rabbit 支持 AMQP。</span><br><span class="line">spring-boot-starter-aop	包含 spring-aop 和 AspectJ 来支持面向切面编程（AOP）。</span><br><span class="line">spring-boot-starter-batch	支持 Spring Batch，包含 HSQLDB。</span><br><span class="line">spring-boot-starter-data-jpa	包含 spring-data-jpa、spring-orm 和 Hibernate 来支持 JPA。</span><br><span class="line">spring-boot-starter-data-mongodb	包含 spring-data-mongodb 来支持 MongoDB。</span><br><span class="line">spring-boot-starter-data-rest	通过 spring-data-rest-webmvc 支持以 REST 方式暴露 Spring Data 仓库。</span><br><span class="line">spring-boot-starter-jdbc	支持使用 JDBC 访问数据库。</span><br><span class="line">spring-boot-starter-security	包含 spring-security。</span><br><span class="line">spring-boot-starter-test	包含常用的测试所需的依赖，如 JUnit、Hamcrest、Mockito 和 spring-test 等。</span><br><span class="line">spring-boot-starter-velocity	支持使用 Velocity 作为模板引擎。</span><br><span class="line">spring-boot-starter-web	支持 Web 应用开发，包含 Tomcat 和 spring-mvc。</span><br><span class="line">spring-boot-starter-websocket	支持使用 Tomcat 开发 WebSocket 应用。</span><br><span class="line">spring-boot-starter-ws	支持 Spring Web Services。</span><br><span class="line">spring-boot-starter-actuator	添加适用于生产环境的功能，如性能指标和监测等功能。</span><br><span class="line">spring-boot-starter-remote-shell	添加远程 SSH 支持。</span><br><span class="line">spring-boot-starter-jetty	使用 Jetty 而不是默认的 Tomcat 作为应用服务器。</span><br><span class="line">spring-boot-starter-log4j	添加 Log4j 的支持。</span><br><span class="line">spring-boot-starter-logging	使用 Spring Boot 默认的日志框架 Logback。</span><br><span class="line">spring-boot-starter-tomcat	使用 Spring Boot 默认的 Tomcat 作为应用服务器。</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -492,7 +484,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/装饰者模式/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Untitled22/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -511,8 +503,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/装饰者模式/" itemprop="url">
-                  装饰者模式
+                <a class="post-title-link" href="/2018/07/20/Untitled22/" itemprop="url">
+                  java 基础题(三)
                 </a>
               
             
@@ -556,7 +548,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
 
                 
                 
@@ -592,369 +584,231 @@
       
         
           
-            <h3 id="装饰者模式"><a href="#装饰者模式" class="headerlink" title="装饰者模式"></a>装饰者模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><pre><code>在不必改变原类文件和原类使用的继承的情况下，动态地扩展一个对象的功能。
-它是通过创建一个包装对象，也就是用装饰来包裹真实的对象来实现。
-</code></pre><h4 id="角色："><a href="#角色：" class="headerlink" title="角色："></a>角色：</h4><p>######抽象构件角色（Project）：<br>给出一个接口，以规范准备接收附加责任的对象。</p>
-<h5 id="具体构件角色（Employe）："><a href="#具体构件角色（Employe）：" class="headerlink" title="具体构件角色（Employe）："></a>具体构件角色（Employe）：</h5><p>定义一个将要接收附加责任的类。</p>
-<h5 id="装饰角色（Manager）："><a href="#装饰角色（Manager）：" class="headerlink" title="装饰角色（Manager）："></a>装饰角色（Manager）：</h5><p>持有一个构件对象的实例，并定义一个与抽象构件接口一致的接口。</p>
-<h5 id="具体装饰角色（ManagerA、ManagerB）："><a href="#具体装饰角色（ManagerA、ManagerB）：" class="headerlink" title="具体装饰角色（ManagerA、ManagerB）："></a>具体装饰角色（ManagerA、ManagerB）：</h5><p>负责给构件对象“贴上”附加的责任。</p>
-<h4 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h4><h4 id="公共接口："><a href="#公共接口：" class="headerlink" title="公共接口："></a>公共接口：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public interface Person &#123;  </span><br><span class="line">    void eat();  </span><br><span class="line">&#125;</span><br><span class="line">被装饰对象：</span><br><span class="line">public class OldPerson implements Person &#123;  </span><br><span class="line">    @Override  </span><br><span class="line">    public void eat() &#123;  </span><br><span class="line">        System.out.println(&quot;吃饭&quot;);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125; </span><br><span class="line">装饰对象：</span><br><span class="line">public class NewPerson implements Person &#123;  </span><br><span class="line">    private OldPerson p;  </span><br><span class="line"></span><br><span class="line">    NewPerson(OldPerson p) &#123;  </span><br><span class="line">        this.p = p;  </span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    @Override  </span><br><span class="line">    public void eat() &#123;  </span><br><span class="line">        System.out.println(&quot;生火&quot;);  </span><br><span class="line">        System.out.println(&quot;做饭&quot;);  </span><br><span class="line">        p.eat();  </span><br><span class="line">        System.out.println(&quot;刷碗&quot;);   </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>测试：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class PersonDemo &#123;  </span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line">        OldPerson old = new OldPerson();  </span><br><span class="line">        //old.eat(); </span><br><span class="line">        NewPerson np = new NewPerson(old);  </span><br><span class="line">        np.eat();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<pre><code>通过例子可以看到，没有改变原来的OldPerson类，同时也没有定义他的子类而实现了Person的扩展，这就是装饰者模式的作用。
-</code></pre><h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><pre><code>1，使用装饰者模式比使用继承更加灵活，因为它选择通过一种动态的方式来扩展一个对象的功能，在运行时可以选择不同的装饰器，从而实现不同的行为。
-2，通过使用不同的具体装饰类以及这些装饰类的排列组合，可以创造出很多不同行为的组合。可以使用多个具体装饰类来装饰同一对象，得到功能更为强大的对象。
-3，具体构件类与具体装饰类可以独立变化，他能是低耦合的。用户可以根据需要来增加新的具体构件类和具体装饰类，在使用时再对其进行各种组合，原有代码无须改变，符合“开闭原则”。
-</code></pre><h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><pre><code>1，会产生很多的小对象，增加了系统的复杂性
-2，这种比继承更加灵活机动的特性，也同时意味着装饰模式比继承更加易于出错，排错也很困难，对于多次装饰的对象，调试时寻找错误可能需要逐级排查，较为烦琐。
-</code></pre><h4 id="装饰者与适配者模式的区别："><a href="#装饰者与适配者模式的区别：" class="headerlink" title="装饰者与适配者模式的区别："></a>装饰者与适配者模式的区别：</h4><p>   1，适配器模式主要用来兼容那些不能在一起工作的类，使他们转化为可以兼容目标接口，虽然也可以实现和装饰者一样的增加新职责，但目的不在此。<br>        装饰者模式主要是给被装饰者增加新职责的。<br>   2，适配器模式是用新接口来调用原接口，原接口对新系统是不可见或者说不可用的。<br>        装饰者模式原封不动的使用原接口，系统对装饰的对象也通过原接口来完成使用。<br>   3，适配器是知道被适配者的详细情况的（就是那个类或那个接口）。<br>        装饰者只知道其接口是什么，至于其具体类型（是基类还是其他派生类）只有在运行期间才知道。</p>
-<h4 id="装饰者和继承的区别："><a href="#装饰者和继承的区别：" class="headerlink" title="装饰者和继承的区别："></a>装饰者和继承的区别：</h4><h5 id="继承："><a href="#继承：" class="headerlink" title="继承："></a>继承：</h5><p>　　优点：代码结构清晰，而且实现简单<br>　　缺点：对于每一个的需要增强的类都要创建具体的子类来帮助其增强，这样会导致继承体系过于庞大。</p>
-<h5 id="装饰者："><a href="#装饰者：" class="headerlink" title="装饰者："></a>装饰者：</h5><p>　　优点：内部可以通过多态技术对多个需要增强的类进行增强<br>       缺点：需要内部通过多态技术维护需要增强的类的实例。进而使得代码稍微复杂。</p>
-<h5 id="使用场景："><a href="#使用场景：" class="headerlink" title="使用场景："></a>使用场景：</h5><pre><code>1，需要扩展一个类的功能，或给一个类添加附加职责。
-2，需要动态的给一个对象添加功能，这些功能可能不明确或者暂时的，可以随时很方便的动态撤销掉。
-3，需要增加由一些基本功能的排列组合而产生的非常大量的功能，从而使继承关系变的不现实。
-      4. 当不能采用生成子类的方法进行扩充时。一种情况是，可能有大量独立的扩展，为支持每一种组合将产生大量的子类，使得子类数目呈爆炸性增长。另一种情况可能是因为类定义被隐藏，或类定义不能用于生成子类。
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/外观者模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/外观者模式/" itemprop="url">
-                  外观者模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="外观者模式"><a href="#外观者模式" class="headerlink" title="外观者模式"></a>外观者模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>   为子系统中的一组接口提供一个一致的界面，Facade模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。</p>
-<h4 id="角色："><a href="#角色：" class="headerlink" title="角色："></a>角色：</h4><h5 id="1、外观-Facade-角色-："><a href="#1、外观-Facade-角色-：" class="headerlink" title="1、外观(Facade)角色 ："></a>1、外观(Facade)角色 ：</h5><pre><code>客户端可以调用这个角色的方法。此角色知晓相关子系统的功能和责任。在正常情况下，本角色会将所有从客户端发来的请求委派到相应的子系统去。
-</code></pre><h5 id="2、子系统-SubSystem-角色-："><a href="#2、子系统-SubSystem-角色-：" class="headerlink" title="2、子系统(SubSystem)角色 ："></a>2、子系统(SubSystem)角色 ：</h5><pre><code>可以同时有一个或者多个子系统。每个子系统都不是一个单独的类，而是一个类的集合。每个子系统都可以被客户端直接调用，或者被外观角色调用。子系统并不知道外观角色的存在，对于子系统而言，外观角色仅仅是另外一个客户端而已。
-</code></pre><h4 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h4><h5 id="1、子系统角色，由若干个类组成"><a href="#1、子系统角色，由若干个类组成" class="headerlink" title="1、子系统角色，由若干个类组成"></a>1、子系统角色，由若干个类组成</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public class SubClass1 &#123;    </span><br><span class="line">    public void method1()&#123;</span><br><span class="line">        System.out.println(&quot;这是子系统类1中的方法1&quot;);</span><br><span class="line">    &#125;    </span><br><span class="line">    public void method2()&#123;</span><br><span class="line">        System.out.println(&quot;这是子系统类1中的方法2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class SubClass2 &#123;    </span><br><span class="line">    public void method1()&#123;</span><br><span class="line">        System.out.println(&quot;这是子系统类2中的方法1&quot;);</span><br><span class="line">    &#125;    </span><br><span class="line">    public void method2()&#123;</span><br><span class="line">        System.out.println(&quot;这是子系统类2中的方法2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class SubClass3 &#123;   </span><br><span class="line">    public void method1()&#123;</span><br><span class="line">        System.out.println(&quot;这是子系统类3中的方法1&quot;);</span><br><span class="line">    &#125;    </span><br><span class="line">    public void method2()&#123;</span><br><span class="line">        System.out.println(&quot;这是子系统类3中的方法2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="2、外观角色类"><a href="#2、外观角色类" class="headerlink" title="2、外观角色类"></a>2、外观角色类</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class FacadeClass &#123;    </span><br><span class="line">    public void FacadeMethod()&#123;</span><br><span class="line">        SubClass1 s1 = new SubClass1();</span><br><span class="line">        s1.method1();</span><br><span class="line">        SubClass2 s2 = new SubClass2();</span><br><span class="line">        s2.method1();</span><br><span class="line">        SubClass3 s3 = new SubClass3();</span><br><span class="line">        s3.method1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="3、客户端测试方法"><a href="#3、客户端测试方法" class="headerlink" title="3、客户端测试方法"></a>3、客户端测试方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class ClientClass &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        FacadeClass fc = new FacadeClass();</span><br><span class="line">        fc.FacadeMethod();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Facade类其实相当于子系统中SubClass类的外观界面，有了这个Facade类，那么客户端就不需要亲自调用子系统中的那些具体实现的子类了，也不需要知道系统内部的实现细节，甚至都不需要知道这些子类的存在，客户端只需要跟Facade类交互就好了，从而更好地实现了客户端和子系统中具体类的解耦，让客户端更容易地使用系统。<br>        同时，这样定义一个Facade类可以有效地屏蔽内部的细节，免得客户端去调用Module类时，发现一些不需要它知道的方法。如上代码，我的所有子类中的方法二都是方法一调用的方法，是配合方法一的，他们不需要被客户端调用，而且具有一定的保密性，这样使用外观模式时就可以不被客户端知道。</p>
-<h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><ul>
-<li>实现了子系统与客户端之间的松耦合关系。</li>
-<li>客户端屏蔽了子系统组件，减少了客户端所需处理的对象数目，并使得子系统使用起来更加容易。</li>
-</ul>
-<h4 id="适用场景："><a href="#适用场景：" class="headerlink" title="适用场景："></a>适用场景：</h4><ul>
-<li>设计初期阶段，应该有意识的将不同层分离，层与层之间建立外观模式。</li>
-<li>开发阶段，子系统越来越复杂，增加外观模式提供一个简单的调用接口。</li>
-<li>维护一个大型遗留系统的时候，可能这个系统已经非常难以维护和扩展，但又包含非常重要的功能，为其开发一个外观类，以便新系统与其交互。</li>
-</ul>
-<h4 id="外观模式总结："><a href="#外观模式总结：" class="headerlink" title="外观模式总结："></a>外观模式总结：</h4><ul>
-<li>1、外观模式为复杂子系统提供了一个简单接口，并不为子系统添加新的功能和行为。</li>
-<li>2、外观模式实现了子系统与客户端之间的松耦合关系。 </li>
-<li>3、外观模式没有封装子系统的类，只是提供了简单的接口。 如果应用需要，它并不限制客户使用子系统类。因此可以灵活的在系统易用性与通用性之间选择。</li>
-<li>4、外观模式注重的是简化接口，它更多的时候是从架构的层次去看整个系统，而并非单个类的层次。 </li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Servlet 的线程安全问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/Servlet 的线程安全问题/" itemprop="url">
-                  javaweb (二)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Servlet-的线程安全问题"><a href="#Servlet-的线程安全问题" class="headerlink" title="Servlet 的线程安全问题"></a>Servlet 的线程安全问题</h3><ul>
-<li>当多个客户端并发访问同一个Servlet时，web服务器会为每一个客户端的访问请求创建一个线程，并在这个线程上调用Servlet的service方法，因此service方法内如果访问了同一个资源的话，就有可能引发线程安全问题。例如下面的代码：</li>
-<li>不存在线程安全问题的代码：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">@WebServlet(name = &quot;Servlet&quot;)</span><br><span class="line">public class ServletDemo3 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">/** * 当多线程并发访问这个方法里面的代码时，会存在线程安全问题吗</span><br><span class="line">  * i变量被多个线程并发访问，但是没有线程安全问题，因为i是doGet方法里面的局部变量，</span><br><span class="line">  * 当有多个线程并发访问doGet方法时，每一个线程里面都有自己的i变量，</span><br><span class="line">  * 各个线程操作的都是自己的i变量，所以不存在线程安全问题</span><br><span class="line">  * 多线程并发访问某一个方法的时候，如果在方法内部定义了一些资源(变量，集合等)</span><br><span class="line">  * 那么每一个线程都有这些东西，所以就不存在线程安全问题了</span><br><span class="line">  */</span><br><span class="line">        int i=1;</span><br><span class="line">        i++;        response.getWriter().write(i+&quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <ul>
+<li><p>21、ArrayList和Vector的区别</p>
+<pre><code>这两个类都实现了List接口（List接口继承了Collection接口），他们都是有序集合，即存储在这两个集合中的元素的位置都是有顺序的，相当于一种动态的数组，我们以后可以按位置索引号取出某个元素，并且其中的数据是允许重复的，这是与HashSet之类的集合的最大不同处，HashSet之类的集合不可以按索引号去检索其中的元素，也不允许有重复的元素。
+ ArrayList与Vector的区别主要包括两个方面：.
+</code></pre><p>（1）同步性：</p>
+<pre><code>Vector是线程安全的，也就是说是它的方法之间是线程同步的，而ArrayList是线程序不安全的，它的方法之间是线程不同步的。如果只有一个线程会访问到集合，那最好是使用ArrayList，因为它不考虑线程安全，效率会高些；如果有多个线程会访问到集合，那最好是使用Vector，因为不需要我们自己再去考虑和编写线程安全的代码。
+</code></pre><p>（2）数据增长：</p>
+<pre><code>ArrayList与Vector都有一个初始的容量大小，当存储进它们里面的元素的个数超过了容量时，就需要增加ArrayList与Vector的存储空间，每次要增加存储空间时，不是只增加一个存储单元，而是增加多个存储单元，每次增加的存储单元的个数在内存空间利用与程序效率之间要取得一定的平衡。Vector默认增长为原来两倍，而ArrayList的增长策略在文档中没有明确规定（从源代码看到的是增长为原来的1.5倍）。ArrayList与Vector都可以设置初始的空间大小，Vector还可以设置增长的空间大小，而ArrayList没有提供设置增长空间的方法。
+</code></pre><p>  总结：即Vector增长原来的一倍，ArrayList增加原来的0.5倍。</p>
 </li>
+<li><p>22、HashMap和Hashtable的区别</p>
+<pre><code>HashMap是Hashtable的轻量级实现（非线程安全的实现），他们都完成了Map接口，主要区别在于HashMap允许空（null）键值（key）,由于非线程安全，在只有一个线程访问的情况下，效率要高于Hashtable。
+HashMap允许将null作为一个entry的key或者value，而Hashtable不允许。
+</code></pre><p>HashMap把Hashtable的contains方法去掉了，改成containsvalue和containsKey。因为contains方法容易让人引起误解。</p>
+<pre><code>Hashtable继承自Dictionary类，而HashMap是Java1.2引进的Map interface的一个实现。
+最大的不同是，Hashtable的方法是Synchronize的，而HashMap不是，在多个线程访问Hashtable时，不需要自己为它的方法实现同步，而HashMap就必须为之提供同步。
+</code></pre><p>   就HashMap与HashTable主要从三方面来说。</p>
+<pre><code>一.历史原因:Hashtable是基于陈旧的Dictionary类的，HashMap是Java 1.2引进的Map接口的一个实现
+二.同步性:Hashtable是线程安全的，也就是说是同步的，而HashMap是线程序不安全的，不是同步的
+三.值：只有HashMap可以让你将空值作为一个表的条目的key或value
+</code></pre></li>
+<li><p>23、List和 Map区别?</p>
+<pre><code>一个是存储单列数据的集合，另一个是存储键和值这样的双列数据的集合，List中存储的数据是有顺序，并且允许重复；Map中存储的数据是没有顺序的，其键是不能重复的，它的值是可以有重复的。
+</code></pre></li>
+<li><p>24、List,Set, Map是否继承自Collection接口?<br> List，Set是，Map不是</p>
+</li>
+<li><p>25、List、Map、Set三个接口，存取元素时，各有什么特点？<br>（这样的题比较考水平，两个方面的水平：一是要真正明白这些内容，二是要有较强的总结和表述能力。）</p>
+<pre><code> 首先，List与Set具有相似性，它们都是单列元素的集合，所以，它们有一个共同的父接口，叫Collection。Set里面不允许有重复的元素，即不能有两个相等（注意，不是仅仅是相同）的对象，即假设Set集合中有了一个A对象，现在我要向Set集合再存入一个B对象，但B对象与A对象equals相等，则B对象存储不进去，所以，Set集合的add方法有一个boolean的返回值，当集合中没有某个元素，此时add方法可成功加入该元素时，则返回true，当集合含有与某个元素equals相等的元素时，此时add方法无法加入该元素，返回结果为false。Set取元素时，不能细说要取第几个，只能以Iterator接口取得所有的元素，再逐一遍历各个元素。
+List表示有先后顺序的集合，注意，不是那种按年龄、按大小、按价格之类的排序。当我们多次调用add(Obje)方法时，每次加入的对象就像火车站买票有排队顺序一样，按先来后到的顺序排序。有时候，也可以插队，即调用add(intindex,Obj e)方法，就可以指定当前对象在集合中的存放位置。一个对象可以被反复存储进List中，每调用一次add方法，这个对象就被插入进集合中一次，其实，并不是把这个对象本身存储进了集合中，而是在集合中用一个索引变量指向这个对象，当这个对象被add多次时，即相当于集合中有多个索引指向了这个对象，如图x所示。List除了可以用Iterator接口取得所有的元素，再逐一遍历各个元素之外，还可以调用get(index i)来明确说明取第几个。
+Map与List和Set不同，它是双列的集合，其中有put方法，定义如下：put(obj key,obj value)，每次存储时，要存储一对key/value，不能存储重复的key，这个重复的规则也是按equals比较相等。取则可以根据key获得相应的value，即get(Object key)返回值为key所对应的value。另外，也可以获得所有的key的结合，还可以获得所有的value的结合，还可以获得key和value组合成的Map.Entry对象的集合。
+</code></pre><p>List以特定次序来持有元素，可有重复元素。Set无法拥有重复元素,内部排序。Map保存key-value值，value可多值。</p>
+</li>
+<li><p>26、说出ArrayList,Vector,LinkedList的存储性能和特性</p>
+<pre><code>ArrayList和Vector都是使用数组方式存储数据，此数组元素数大于实际存储的数据以便增加和插入元素，它们都允许直接按序号索引元素，但是插入元素要涉及数组元素移动等内存操作，所以索引数据快而插入数据慢，Vector由于使用了synchronized方法（线程安全），通常性能上较ArrayList差。而LinkedList使用双向链表实现存储，按序号索引数据需要进行前向或后向遍历，索引就变慢了，但是插入数据时只需要记录本项的前后项即可，所以插入速度较快。
+LinkedList也是线程不安全的，LinkedList提供了一些方法，使得LinkedList可以被当作堆栈和队列来使用。
+</code></pre></li>
+<li><p>27、去掉一个Vector集合中重复的元素<br>Vector newVector = new Vector();<br>For (int i=0;i&lt;vector.size();i++)<br>{<br>Object obj = vector.get(i);</p>
+<pre><code>if(!newVector.contains(obj);
+      newVector.add(obj);
+</code></pre><p>}<br>还有一种简单的方式，利用了Set不允许重复元素：<br>HashSetset = new HashSet(vector);</p>
+</li>
+<li><p>28、Collection和Collections的区别。</p>
+<pre><code>Collection是集合类的上级接口，继承他的接口主要有Set和List.
+Collections是针对集合类的一个帮助类，他提供一系列静态方法实现对各种集合的搜索、排序、线程安全化等操作。
+</code></pre></li>
+<li><p>29、Set里的元素是不能重复的，那么用什么方法来区分重复与否呢?是用==还是equals()?它们有何区别?</p>
+<pre><code>Set里的元素是不能重复的，元素重复与否是使用equals()方法进行判断的。
+==和equal区别也是考烂了的题，这里说一下：==操作符专门用来比较两个变量的值是否相等，也就是用于比较变量所对应的内存中所存储的数值是否相同，要比较两个基本类型的数据或两个引用变量是否相等，只能用==操作符。
+equals方法是用于比较两个独立对象的内容是否相同，就好比去比较两个人的长相是否相同，它比较的两个对象是独立的。 
+比如：两条new语句创建了两个对象，然后用a/b这两个变量分别指向了其中一个对象，这是两个不同的对象，它们的首地址是不同的，即a和b中存储的数值是不相同的，所以，表达式a==b将返回false，而这两个对象中的内容是相同的，所以，表达式a.equals(b)将返回true。
+</code></pre></li>
+<li><p>30、你所知道的集合类都有哪些？主要方法？</p>
+<pre><code>最常用的集合类是 List 和 Map。 List的具体实现包括 ArrayList和 Vector，它们是可变大小的列表，比较适合构建、存储和操作任何类型对象的元素列表。 List适用于按数值索引访问元素的情形。
+Map 提供了一个更通用的元素存储方法。 Map集合类用于存储元素对（称作&quot;键&quot;和&quot;值&quot;），其中每个键映射到一个值。
+它们都有增删改查的方法。
+对于set，大概的方法是add,remove, contains等
+对于map，大概的方法就是put,remove，contains等
+List类会有get(int index)这样的方法，因为它可以按顺序取元素，而set类中没有get(int index)这样的方法。List和set都可以迭代出所有元素，迭代时先要得到一个iterator对象，所以，set和list类都有一个iterator方法，用于返回那个iterator对象。map可以返回三个集合，一个是返回所有的key的集合，另外一个返回的是所有value的集合，再一个返回的key和value组合成的EntrySet对象的集合，map也有get方法，参数是key，返回值是key对应的value
+</code></pre></li>
 </ul>
-<p>存在线程安全问题的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">@WebServlet(name = &quot;ServletDemo4&quot;)</span><br><span class="line">public class ServletDemo4 extends HttpServlet &#123;</span><br><span class="line">    int i=1;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        i++;</span><br><span class="line">        try &#123;</span><br><span class="line">             Thread.sleep(1000);</span><br><span class="line">            &#125; catch (InterruptedException e) &#123;</span><br><span class="line">             e.printStackTrace();</span><br><span class="line">            &#125;    response.getWriter().write(i+&quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>　把i定义成全局变量，当多个线程并发访问变量i时，就会存在线程安全问题了，如下图所示：同时开启两个浏览器模拟并发访问同一个Servlet，本来正常来说，第一个浏览器应该看到2，而第二个浏览器应该看到3的，结果两个浏览器都看到了3，这就不正常。<br>　线程安全问题只存在多个线程并发操作同一个资源的情况下，所以在编写Servlet的时候，如果并发访问某一个资源(变量，集合等)，就会存在线程安全问题，那么该如何解决这个问题呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public void doGet(HttpServletRequest request, HttpServletResponse response)</span><br><span class="line">             throws ServletException, IOException &#123;</span><br><span class="line">         /**</span><br><span class="line">          * 加了synchronized后，并发访问i时就不存在线程安全问题了，</span><br><span class="line">          * 为什么加了synchronized后就没有线程安全问题了呢？</span><br><span class="line">          * 假如现在有一个线程访问Servlet对象，那么它就先拿到了Servlet对象的那把锁</span><br><span class="line">          * 等到它执行完之后才会把锁还给Servlet对象，由于是它先拿到了Servlet对象的那把锁，</span><br><span class="line">          * 所以当有别的线程来访问这个Servlet对象时，由于锁已经被之前的线程拿走了，后面的线程只能排队等候了</span><br><span class="line">          * </span><br><span class="line">          */</span><br><span class="line">         synchronized (this) &#123;//在java中，每一个对象都有一把锁，这里的this指的就是Servlet对象</span><br><span class="line">             i++;</span><br><span class="line">             try &#123;</span><br><span class="line">                 Thread.sleep(1000*4);</span><br><span class="line">            &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">             response.getWriter().write(i+&quot;&quot;);</span><br><span class="line">         &#125;</span><br><span class="line">         </span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure></p>
-<p>现在这种做法是给Servlet对象加了一把锁，保证任何时候都只有一个线程在访问该Servlet对象里面的资源，这样就不存在线程安全问题了，如下图所示：<br><img src="/img/线程结果.png" alt=""><br>这种做法虽然解决了线程安全问题，但是编写Servlet却万万不能用这种方式处理线程安全问题，假如有9999个人同时访问这个Servlet，那么这9999个人必须按先后顺序排队轮流访问。<br>针对Servlet的线程安全问题，Sun公司是提供有解决方案的：让Servlet去实现一个SingleThreadModel接口，如果某个Servlet实现了SingleThreadModel接口，那么Servlet引擎将以单线程模式来调用其service方法。<br>查看Sevlet的API可以看到，SingleThreadModel接口中没有定义任何方法和常量，在Java中，把没有定义任何方法和常量的接口称之为标记接口，经常看到的一个最典型的标记接口就是”Serializable”，这个接口也是没有定义任何方法和常量的，标记接口在Java中有什么用呢？主要作用就是给某个对象打上一个标志，告诉JVM，这个对象可以做什么，比如实现了”Serializable”接口的类的对象就可以被序列化，还有一个”Cloneable”接口，这个也是一个标记接口，在默认情况下，Java中的对象是不允许被克隆的，就像现实生活中的人一样，不允许克隆，但是只要实现了”Cloneable”接口，那么对象就可以被克隆了。</p>
-<p>　　让Servlet实现了SingleThreadModel接口，只要在Servlet类的定义中增加实现SingleThreadModel接口的声明即可。<br>　　对于实现了SingleThreadModel接口的Servlet，Servlet引擎仍然支持对该Servlet的多线程并发访问，其采用的方式是产生多个Servlet实例对象，并发的每个线程分别调用一个独立的Servlet实例对象。<br>　　实现SingleThreadModel接口并不能真正解决Servlet的线程安全问题，因为Servlet引擎会创建多个Servlet实例对象，而真正意义上解决多线程安全问题是指一个Servlet实例对象被多个线程同时调用的问题。事实上，在Servlet API 2.4中，已经将SingleThreadModel标记为Deprecated（过时的）。  </p>
-<ul>
-<li>实现 SingleThreadModel 接口（已过时）</li>
-<li>同步对共享数据的操作<br>　　使用synchronized 关键字能保证一次只有一个线程可以访问被保护的区段，在本论文中的Servlet可以通过同步块操作来保证线程的安全。</li>
-<li>避免使用实例变量—-最佳选择。<br>　　本实例中的线程安全问题是由实例变量造成的，只要在Servlet里面的任何方法里面都不使用实例变量，那么该Servlet就是线程安全的。</li>
-</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/小程序/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/小程序/" itemprop="url">
+                  关于微信小程序webview的使用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/杂七杂八/" itemprop="url" rel="index"><span itemprop="name">杂七杂八</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="小程序"><a href="#小程序" class="headerlink" title="小程序"></a>小程序</h3><p>微信小程序是一种全新的连接用户与服务的方式，它可以在微信内被便捷地获取和传播，同时具有出色的使用体验。同时提供一系列工具帮助开发者快速接入并完成小程序开发。关于如何注册配置就不多言了，本文主要还是体验了下web-view的功能。</p>
+<h4 id="web-view详解"><a href="#web-view详解" class="headerlink" title="web-view详解"></a>web-view详解</h4><p>有了这个组件之后，小程序可以很好的嵌入一些页面，可以环境小程序size告急的问题，同样也使开发更加便捷，毕竟小程序开发者基本都对前端开发较为了解。</p>
+<h4 id="web-view能力"><a href="#web-view能力" class="headerlink" title="web-view能力"></a>web-view能力</h4><p>说再多还是需要去看官方文档，web-view文档,</p>
+<h4 id="兼容"><a href="#兼容" class="headerlink" title="兼容"></a>兼容</h4><p>首先就需要注意：兼容问题，版本库和对应版本比例</p>
+<p>基础库 1.6.4 开始支持，低版本需做兼容处理，<br>个人类型与海外类型的小程序暂不支持使用。</p>
+<p>目前而言，基本80%的用户会升级微信，所以其实不必担心版本问题，官方截止2017-12-01提供的数据也说明88%的用户支持web-view。</p>
+<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>web-view 组件是一个可以用来承载网页的容器，会自动铺满整个小程序页面；</p>
+<p>####属性：<br>src 是String类型，是一个网站的url，默认值是none，webview 指向网页的链接。需登录小程序管理后台配置域名白名单。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- wxml --&gt;</span><br><span class="line">&lt;!-- 指向微信公众平台首页的web-view --&gt;</span><br><span class="line">&lt;web-view src=&quot;https://mp.weixin.qq.com/&quot;&gt;&lt;/web-view&gt;</span><br><span class="line">可以配合Page实例的onLoad方法来获取url的具体值，也就是一个微信小程序页面中只有一个web-view，但是这个web-view的内容可以根据上一个页面传递的参数来获取页面URL，后面会讲如何实践，</span><br></pre></td></tr></table></figure></p>
+<p>官方提供如下接口：</p>
+<h4 id="web-view和小程序的通信"><a href="#web-view和小程序的通信" class="headerlink" title="web-view和小程序的通信"></a>web-view和小程序的通信</h4><p>由小程序到web-view,其实本质上WEB-VIEW也是小程序的一个页面，所以小程序到web-view是正常的小程序间的通信，通过wx.navigateTo、wx.redirectTo，带上url参数,query参数就像正常url的参数一样跟着后面，然后在web-view的页面的Page实例里面通过onLoad的方法的参数来获取url的值，设置给web-view的src属性为改值即可。<br>由web-view到小程序，由于在web-view的跳转通常是在src对应的网页中的操作来处理的，所以需要结合jssdk来处理，不需要wx.config配置，直接通过script标签来引入<a href="https://res.wx.qq.com/open/js/jweixin-1.3.0.js，就可以使用wx.miniProgram.navigateTo、wx.miniProgram.navigateBack、wx.miniProgram.switchTab、wx.miniProgram.reLaunch、wx.miniProgram.redirectTo接口，就像小程序之间的跳转一样，单是只能在当前小程序页面内跳转。" target="_blank" rel="noopener">https://res.wx.qq.com/open/js/jweixin-1.3.0.js，就可以使用wx.miniProgram.navigateTo、wx.miniProgram.navigateBack、wx.miniProgram.switchTab、wx.miniProgram.reLaunch、wx.miniProgram.redirectTo接口，就像小程序之间的跳转一样，单是只能在当前小程序页面内跳转。</a><br>支持以下部分JSSDK接口图像、音频、摇一摇、地理位置等信息，具体可以查看web-view文档,不过这些需要通过wx.config来授权，就和服务号开发类似。<br>用户分享时可获取当前<web-view>的URL，即在onShareAppMessage回调中返回webViewUrl参数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">Page(&#123;</span><br><span class="line">  onShareAppMessage(options) &#123;</span><br><span class="line">    console.log(options.webViewUrl)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">在网页内可通过window.__wxjs_environment变量判断是否在小程序环境。</span><br><span class="line"></span><br><span class="line">// web-view下的页面内</span><br><span class="line">console.log(window.__wxjs_environment === &apos;miniprogram&apos;) // true</span><br><span class="line">web-view实践</span><br><span class="line">在目前实践了部分web-view的功能，</span><br><span class="line"></span><br><span class="line">//index.js</span><br><span class="line">Page(&#123;</span><br><span class="line">    data: &#123;</span><br><span class="line">       url: &apos;https://test.com&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    onLoad: function(options)&#123;</span><br><span class="line">        options.url ? this.setData(&#123;url: options.url&#125;) : wx.navigateBack(&#123;delta: 2&#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//index.wxml</span><br><span class="line">&lt;web-view src=&quot;&#123;&#123;url&#125;&#125;&quot;&gt;&lt;/web-view&gt;</span><br><span class="line">在这个web-view中，指向的就是https://test.com的内容，所以在在https://test.com中跳转出回到小程序，需要修改https://test.com中的JavaScript,</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;</span><br><span class="line">    &lt;title&gt;test&lt;/title&gt;</span><br><span class="line">    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://test.com/index.css&quot; /&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div class=&quot;app&quot;&gt;</span><br><span class="line">        &lt;h1&gt;webview-wechat-detail&lt;/h1&gt;</span><br><span class="line">        &lt;p&gt;</span><br><span class="line">            detail</span><br><span class="line">        &lt;/p&gt;</span><br><span class="line">        &lt;button type=&quot;button&quot; id=&quot;btn&quot;&gt;返回小程序&lt;/button&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;script src=&quot;https://test.com/jquery.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script src=&quot;https://res.wx.qq.com/open/js/jweixin-1.3.0.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        /* eslint-disable */</span><br><span class="line">$(function()&#123;</span><br><span class="line">    doucument.cookie = &apos;bb=bbbbbb&apos;;</span><br><span class="line">    $(&apos;#btn&apos;).on(&apos;click&apos;,function(s) &#123;</span><br><span class="line">        document.cookie = &apos;aa=ssssss&apos;;</span><br><span class="line">        wx.miniProgram.navigateTo(&#123;</span><br><span class="line">            url:&apos;/pages/index?test=testtest&apos;,</span><br><span class="line">            success: function()&#123;</span><br><span class="line">                console.log(&apos;success&apos;)</span><br><span class="line">            &#125;,</span><br><span class="line">            fail: function()&#123;</span><br><span class="line">                console.log(&apos;fail&apos;);</span><br><span class="line">            &#125;,</span><br><span class="line">            complete:function()&#123;</span><br><span class="line">                console.log(&apos;complete&apos;);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line">如果需要使用一些其他的的jssdk的方法，那就需要参照公众号的开发配置了。</span><br></pre></td></tr></table></figure></web-view></p>
+<h4 id="web-view采坑"><a href="#web-view采坑" class="headerlink" title="web-view采坑"></a>web-view采坑</h4><p>由于很多使用中的一些问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1.打开的域名没有在小程序管理后台设置业务域名（注意是业务域名，不是服务器域名）</span><br><span class="line">2.打开的页面必须为https服务</span><br><span class="line">3.打开的页面302过去的地址也必须设置过业务域名</span><br><span class="line">4.web-view空白问题，请升级微信客户端到 6.5.16</span><br><span class="line">5.页面可以包含iframe，但是iframe的地址必须为业务域名</span><br><span class="line">6.web-view不支持支付能力，web-view的API能力见web-view的文档说明</span><br><span class="line">7.开发者自己检查自己的https服务是否正常，测试方法：普通浏览器打开对应的地址</span><br><span class="line">8.如果web-view使用了公众号授权的服务，开发者工具提示网页开发者的问题，请见：公众号开发</span><br></pre></td></tr></table></figure></p>
+<p>其他的问题注意：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">每个页面只能有一个&lt;web-view/&gt;，&lt;web-view/&gt;会自动铺满整个页面，并覆盖其他组件，小程序对webview的监控状态基本没有，只能设置src设置url。</span><br><span class="line">关于小程序和web-view的通信，&lt;web-view/&gt; → 小程序只能通过JSSDK 1.3.0提供的接口返回小程序页面，设置参数来传值，反之，小程序到webview也是一样的，只能是src的路径带上参数；</span><br><span class="line">web-view不支持支付能力,是指无法唤起小程序的直接支付窗口，对于h5的那套支付应该是支持的，但是web-view 里边没法使用 微信支付的 JSAPI，也就是可能可以h5的相关的的支付中心来支付；</span><br><span class="line">关于层级，在webview中可以无限跳转，对于导航条返回和物理键返回都会回到上一个页面直到退出webview，就像history.back。</span><br><span class="line">webview中的html的title会自动放到小程序的头部作为标题；</span><br><span class="line">webview中可以正常使用ajax之类的操作。</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -1123,337 +977,6 @@
 <p><img src="/img/Demo81.png" alt=""></p>
 <h3 id="在客户端缓存Servlet的输出"><a href="#在客户端缓存Servlet的输出" class="headerlink" title="在客户端缓存Servlet的输出"></a>在客户端缓存Servlet的输出</h3><p>对于不经常变化的数据，在servlet中可以为其设置合理的缓存时间值，以避免浏览器频繁向服务器发送请求，提升服务器的性能。例如在ServletContextDemo5的doGet()方法<br>添加如下代码：</p>
 <p> response.setDateHeader(“expires”,System.currentTimeMillis() + 24 <em> 3600 </em> 1000);<br> 找到浏览器缓存如图<br> <img src="/img/Demo82.png" alt=""></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/apache和tomcat区别/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/apache和tomcat区别/" itemprop="url">
-                  apache和tomcat区别
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="apache和tomcat区别"><a href="#apache和tomcat区别" class="headerlink" title="apache和tomcat区别"></a>apache和tomcat区别</h3><p>经常在用apache和tomcat等这些服务器，可是总感觉还是不清楚他们之间有什么关系，在用tomcat的时候总出现apache，总感到迷惑，到底谁是主谁是次，因此特意在网上查询了一些这方面的资料，总结了一下： </p>
-<h4 id="解析一-："><a href="#解析一-：" class="headerlink" title="解析一 ："></a>解析一 ：</h4><p>apache支持静态页，tomcat支持动态的，比如servlet等，<br>一般使用apache+tomcat的话，apache只是作为一个转发，对jsp的处理是由tomcat来处理的。<br>apche可以支持php cgi perl,但是要使用java的话，你需要tomcat在apache后台支撑，将java请求由apache转发给tomcat处理。<br>apache是web服务器，tomcat是应用（java）服务器，它只是一个servlet(jsp也翻译成servlet)容器，可以认为是apache的扩展，但是可以独立于apache运行。 </p>
-<h5 id="这两个有以下几点可以比较的："><a href="#这两个有以下几点可以比较的：" class="headerlink" title="这两个有以下几点可以比较的："></a>这两个有以下几点可以比较的：</h5><p>1、两者都是apache组织开发的<br>2、两者都有HTTP服务的功能<br>3、两者都是免费的 </p>
-<h5 id="不同点："><a href="#不同点：" class="headerlink" title="不同点："></a>不同点：</h5><p>Apache是专门用了提供HTTP服务的，以及相关配置的（例如虚拟主机、URL转发等等）<br>Tomcat是Apache组织在符合J2EE的JSP、Servlet标准下开发的一个JSP服务器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Runtime r=Runtime.getRuntime(); </span><br><span class="line">Process p=null; </span><br><span class="line">try</span><br><span class="line">&#123; </span><br><span class="line">p=r.exec(&quot;notepad&quot;); </span><br><span class="line">&#125; </span><br><span class="line">catch(Exception ex) </span><br><span class="line">&#123; </span><br><span class="line">System.out.println(&quot;fffff&quot;); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="解析二："><a href="#解析二：" class="headerlink" title="解析二："></a>解析二：</h4><p>APACHE是一个web服务器环境程序 启用他可以作为web服务器使用 不过只支持静态网页 如(asp,php,cgi,jsp)等动态网页的就不行<br>如果要在APACHE环境下运行jsp 的话就需要一个解释器来执行jsp网页 而这个jsp解释器就是TOMCAT, 为什么还要JDK呢？因为jsp需要连接数据库的话 就要jdk来提供连接数据库的驱程，所以要运行jsp的web服务器平台就需要APACHE+TOMCAT+JDK </p>
-<h5 id="整合的好处是："><a href="#整合的好处是：" class="headerlink" title="整合的好处是："></a>整合的好处是：</h5><p>如果客户端请求的是静态页面，则只需要Apache服务器响应请求<br>如果客户端请求动态页面，则是Tomcat服务器响应请求<br>因为jsp是服务器端解释代码的，这样整合就可以减少Tomcat的服务开销<br>C是一个结构化语言，如谭老爷子所说：它的重点在于算法和数据结构。C程序的设计首要考虑的是如何通过一个过程，对输入（或环境条件）进行运算处理得到输出（或实现过程（事务）控制），而对于C++，首要考虑的是如何构造一个对象模型，让这个模型能够契合与之对应的问题域，这样就可以通过获取对象的状态信息得到输出或实现过程（事务）控制。 </p>
-<h4 id="解析三："><a href="#解析三：" class="headerlink" title="解析三："></a>解析三：</h4><ul>
-<li>apache:侧重于http server </li>
-<li>tomcat:侧重于servlet引擎，如果以standalone方式运行，功能上与apache等效 ， 支持JSP，但对静态网页不太理想； </li>
-<li>apache是web服务器，tomcat是应用（java）服务器，它只是一个servlet(jsp也翻译成servlet)容器，可以认为是apache的扩展，但是可以独立于apache运行。<br>换句话说，apache是一辆卡车，上面可以装一些东西如html等。但是不能装水，要装水必须要有容器（桶），而这个桶也可以不放在卡车上。</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/代理模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/代理模式/" itemprop="url">
-                  代理模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>   为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用</p>
-<h4 id="角色："><a href="#角色：" class="headerlink" title="角色："></a>角色：</h4><h5 id="1、抽象角色："><a href="#1、抽象角色：" class="headerlink" title="1、抽象角色："></a>1、抽象角色：</h5><p>声明真实对象和代理对象的共同接口。</p>
-<h5 id="2、-代理角色："><a href="#2、-代理角色：" class="headerlink" title="2、 代理角色："></a>2、 代理角色：</h5><p>代理对象角色内部含有对真实对象的引用，从而可以操作真实对象，同时代理对象提供与真实对象相同的接口以便在任何时刻都能代替真实对象。同时，代理对象可以在执行真实对象操作时，附加其他的操作，相当于对真实对象进行封装。</p>
-<h5 id="3、真实角色："><a href="#3、真实角色：" class="headerlink" title="3、真实角色："></a>3、真实角色：</h5><p>代理角色所代表的真实对象，是我们最终要引用的对象。</p>
-<h4 id="分类："><a href="#分类：" class="headerlink" title="分类："></a>分类：</h4><h5 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h5><p>静态代理也就是在程序运行前就已经存在代理类的字节码文件，代理类和委托类的关系在运行前就确定了。</p>
-<h5 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h5><h6 id="抽象角色，真实对象和代理对象共同的接口"><a href="#抽象角色，真实对象和代理对象共同的接口" class="headerlink" title="抽象角色，真实对象和代理对象共同的接口"></a>抽象角色，真实对象和代理对象共同的接口</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface UserInfo&#123;    </span><br><span class="line">       public void queryUser ();    </span><br><span class="line">       public void updateUser ();      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="真实角色"><a href="#真实角色" class="headerlink" title="真实角色"></a>真实角色</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class UserImpl implementsUserInfo&#123;    </span><br><span class="line"></span><br><span class="line">       @Override    </span><br><span class="line">       public void queryUser() &#123;    </span><br><span class="line">           //查询方法略...          </span><br><span class="line">       &#125;    </span><br><span class="line"></span><br><span class="line">       @Override    </span><br><span class="line">       public void updateUser() &#123;    </span><br><span class="line">            //修改方法略...          </span><br><span class="line">       &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="代理角色"><a href="#代理角色" class="headerlink" title="代理角色"></a>代理角色</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public class UserProxy implements UserInfo&#123;    </span><br><span class="line">   private UserInfo userImpl;    </span><br><span class="line"></span><br><span class="line">   public UserProxy(UserInfo userImpl) &#123;    </span><br><span class="line">       this.userImpl = userImpl;    </span><br><span class="line">   &#125;    </span><br><span class="line"></span><br><span class="line">   @Override    </span><br><span class="line">   public void queryUser() &#123; </span><br><span class="line">         //这里可以扩展，增加一些查询之前需要执行的方法   </span><br><span class="line">       //查询方法略...   </span><br><span class="line">         //这里可以扩展，增加一些查询之后需要执行的方法         </span><br><span class="line">   &#125;    </span><br><span class="line"></span><br><span class="line">   @Override    </span><br><span class="line">   public void updateUser() &#123;  </span><br><span class="line">         //这里可以扩展，增加一些修改之前需要执行的方法    </span><br><span class="line">       //修改方法略...   </span><br><span class="line">         //这里可以扩展，增加一些修改之后需要执行的方法         </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">使用代理之后如何调用他的方法？</span><br><span class="line">public class Test &#123;    </span><br><span class="line">   public static void main(String[] args) &#123;    </span><br><span class="line">       UserInfo userImpl = new UserImpl();     </span><br><span class="line">       UserInfo userProxy = new UserProxy(userImpl);     </span><br><span class="line">             userProxy.queryUser(); </span><br><span class="line">       userProxy.updateUser();        </span><br><span class="line">   &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h4><p>动态代理类的源码是程序在运行期间由JVM根据反射等机制动态生成的，所以不存在代理类的字节码文件。代理角色和真实角色的联系在程序运行时确定。</p>
-<h5 id="示例：-1"><a href="#示例：-1" class="headerlink" title="示例："></a>示例：</h5><h5 id="抽象角色，真实对象和代理对象共同的接口-1"><a href="#抽象角色，真实对象和代理对象共同的接口-1" class="headerlink" title="抽象角色，真实对象和代理对象共同的接口"></a>抽象角色，真实对象和代理对象共同的接口</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface UserInfo&#123;    </span><br><span class="line">       public void queryUser ();    </span><br><span class="line">       public void updateUser ();      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="真实角色-1"><a href="#真实角色-1" class="headerlink" title="真实角色"></a>真实角色</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class UserImpl implements UserInfo&#123;    </span><br><span class="line"></span><br><span class="line">       @Override    </span><br><span class="line">       public void queryUser() &#123;    </span><br><span class="line">           //查询方法略...          </span><br><span class="line">       &#125;    </span><br><span class="line"></span><br><span class="line">       @Override    </span><br><span class="line">       public void updateUser() &#123;    </span><br><span class="line">            //修改方法略...          </span><br><span class="line">       &#125;    </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="代理角色处理器："><a href="#代理角色处理器：" class="headerlink" title="代理角色处理器："></a>代理角色处理器：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public class UserHandler implements InvocationHandler&#123;</span><br><span class="line"></span><br><span class="line">         privateUserInfo userImpl;</span><br><span class="line">         publicUserHandler(UserInfo userImpl2)&#123;</span><br><span class="line">                   this.userImpl= userImpl2;</span><br><span class="line">         &#125;</span><br><span class="line">         @Override</span><br><span class="line">         publicObject invoke(Object proxy, Method method, Object[] args) </span><br><span class="line">                                        throws Throwable &#123;</span><br><span class="line">                   Objectobject = null;</span><br><span class="line">       //方法开始前做一些事情</span><br><span class="line">       if (method.getName().equals(&quot;queryUser&quot;)) &#123;</span><br><span class="line">           object = method.invoke(userImpl, args);</span><br><span class="line">            //激活调用的方法   </span><br><span class="line">       &#125;</span><br><span class="line">       //方法结束后做一些事情</span><br><span class="line">       return object;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">如何调用（和静态代理略有不同）</span><br><span class="line">public class Test &#123;         </span><br><span class="line">   public static void main(String[] args) &#123;</span><br><span class="line">         UserInfouserImpl =new UserImpl();</span><br><span class="line">         UserHandlerhandler = new UserHandler(userImpl);</span><br><span class="line">         UserInfouserProxy = (UserInfo)Proxy.newProxyInstance</span><br><span class="line">                      (ClassLoader.getSystemClassLoader(),</span><br><span class="line">                        newClass[]&#123;UserInfo.class&#125;, handler);</span><br><span class="line">         userProxy.queryUser();</span><br><span class="line">         &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><p>   业务类只需要关注业务逻辑本身，保证了业务类的重用性。这是代理的共有优点。<br>   能够协调调用者和被调用者，在一定程度上降低了系统的耦合度。</p>
-<h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><p>   由于在客户端和真实主题之间增加了代理对象，因此有些类型的代理模式可能会造成请求的处理速度变慢，例如保护代理。<br>         实现代理模式需要额外的工作，而且有些代理模式的实现过程较为复杂，例如远程代理。</p>
 
           
         
@@ -1710,7 +1233,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/对象和变量的并发访问/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Servlet 的线程安全问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -1729,8 +1252,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/对象和变量的并发访问/" itemprop="url">
-                  java 多线程
+                <a class="post-title-link" href="/2018/07/20/Servlet 的线程安全问题/" itemprop="url">
+                  javaweb (二)
                 </a>
               
             
@@ -1774,7 +1297,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java-并发知识/" itemprop="url" rel="index"><span itemprop="name">java 并发知识</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
 
                 
                 
@@ -1810,28 +1333,19 @@
       
         
           
-            <h3 id="对象和变量的并发访问"><a href="#对象和变量的并发访问" class="headerlink" title="对象和变量的并发访问"></a>对象和变量的并发访问</h3><h4 id="技术点："><a href="#技术点：" class="headerlink" title="技术点："></a>技术点：</h4><ul>
-<li>synchronized 对象监视器为 Object 时的使用</li>
-<li>synchronized 对象监视器为 Class 时的使用</li>
-<li>非线程安全是如何出现的</li>
-<li>关键字 volatile 的主要作用</li>
-<li>关键字 volatile 与 synchronized 的区别及使用情况<h4 id="synchronized-同步方法"><a href="#synchronized-同步方法" class="headerlink" title="synchronized 同步方法"></a>synchronized 同步方法</h4><h5 id="方法内的变量为线程安全"><a href="#方法内的变量为线程安全" class="headerlink" title="方法内的变量为线程安全"></a>方法内的变量为线程安全</h5>“非线程安全”问题存在于“实例变量”中，如果是方法内部的私有变量，则不存在“非线程安全”问题，所得结果也就是“线程安全”了<h5 id="实例变量非线程安全"><a href="#实例变量非线程安全" class="headerlink" title="实例变量非线程安全"></a>实例变量非线程安全</h5></li>
-<li>如果多线程共同访问一个对象中的实例变量，则有可能出现“非线程安全”问题</li>
-<li>在两个线程访问同一个对象中的同步方法时一定时线程安全的。<h5 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h5>发生脏读的情况是在读取实例变量时，此值已经被其他线程更改过了。<br>如下例子就可以说明，如果不加 synchronized 关键字在 setValue 和 getValue 方法上，就会出现数据脏读。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">class VarName</span><br><span class="line">&#123;</span><br><span class="line">private String userName = &quot;A&quot;;</span><br><span class="line">private String password = &quot;AA&quot;;</span><br><span class="line">synchronized public void setValue(String userName, String password) &#123;</span><br><span class="line">try &#123;</span><br><span class="line">this.userName = userName;</span><br><span class="line">Thread.sleep(500);</span><br><span class="line">this.password = password;</span><br><span class="line">System.out.println(&quot;setValue method Thread name is : &quot; + Thread.currentThread().getName() + &quot; userName = &quot; + userName + &quot; password = &quot; + password);</span><br><span class="line">&#125; catch (InterruptedException e) &#123;</span><br><span class="line">e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">//synchronized</span><br><span class="line">public void getValue() &#123;</span><br><span class="line">System.out.println(&quot;getValue method Thread name is : &quot; + Thread.currentThread().getName() + &quot; userName = &quot; + userName + &quot; password = &quot; + password);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Thread1 extends Thread</span><br><span class="line">&#123;</span><br><span class="line">private VarName varName;</span><br><span class="line">public Thread1(VarName varName) &#123;</span><br><span class="line">this.varName = varName;</span><br><span class="line">&#125;</span><br><span class="line">@Override</span><br><span class="line">public void run() &#123;</span><br><span class="line">varName.setValue(&quot;B&quot;, &quot;BB&quot;);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Test</span><br><span class="line">&#123;</span><br><span class="line">public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">VarName v = new VarName();</span><br><span class="line">Thread1 thread1 = new Thread1(v);</span><br><span class="line">thread1.start();</span><br><span class="line">Thread.sleep(200);//打印结果受睡眠时间的影响</span><br><span class="line">v.getValue();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <h3 id="Servlet-的线程安全问题"><a href="#Servlet-的线程安全问题" class="headerlink" title="Servlet 的线程安全问题"></a>Servlet 的线程安全问题</h3><ul>
+<li>当多个客户端并发访问同一个Servlet时，web服务器会为每一个客户端的访问请求创建一个线程，并在这个线程上调用Servlet的service方法，因此service方法内如果访问了同一个资源的话，就有可能引发线程安全问题。例如下面的代码：</li>
+<li>不存在线程安全问题的代码：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">@WebServlet(name = &quot;Servlet&quot;)</span><br><span class="line">public class ServletDemo3 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">/** * 当多线程并发访问这个方法里面的代码时，会存在线程安全问题吗</span><br><span class="line">  * i变量被多个线程并发访问，但是没有线程安全问题，因为i是doGet方法里面的局部变量，</span><br><span class="line">  * 当有多个线程并发访问doGet方法时，每一个线程里面都有自己的i变量，</span><br><span class="line">  * 各个线程操作的都是自己的i变量，所以不存在线程安全问题</span><br><span class="line">  * 多线程并发访问某一个方法的时候，如果在方法内部定义了一些资源(变量，集合等)</span><br><span class="line">  * 那么每一个线程都有这些东西，所以就不存在线程安全问题了</span><br><span class="line">  */</span><br><span class="line">        int i=1;</span><br><span class="line">        i++;        response.getWriter().write(i+&quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h5 id="synchronized-锁重入关键字"><a href="#synchronized-锁重入关键字" class="headerlink" title="synchronized 锁重入关键字"></a>synchronized 锁重入关键字</h5><p>synchronized 拥有锁重入的功能，也就是在使用 synchronized 时，当一个线程得到一个对象锁后，再次请求此对象锁是可以再次得到该对象的锁的。这也证明了在一个 synchronized 方法/块的内部调用本类的其他 synchronized 方法/块时，是永远可以得到锁的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">class Service</span><br><span class="line">&#123;</span><br><span class="line">synchronized public void service1() &#123;</span><br><span class="line">System.out.println(&quot;service 1&quot;);</span><br><span class="line">service2();</span><br><span class="line">&#125;</span><br><span class="line">synchronized public void service2() &#123;</span><br><span class="line">System.out.println(&quot;service 2&quot;);</span><br><span class="line">service3();</span><br><span class="line">&#125;</span><br><span class="line">synchronized public void service3() &#123;</span><br><span class="line">System.out.println(&quot;service 3&quot;);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Thread2 extends Thread</span><br><span class="line">&#123;</span><br><span class="line">@Override</span><br><span class="line">public void run() &#123;</span><br><span class="line">Service s = new Service();</span><br><span class="line">s.service1();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Test2</span><br><span class="line">&#123;</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">Thread2 t2 = new Thread2();</span><br><span class="line">t2.start();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service 1</span><br><span class="line">service 2</span><br><span class="line">service 3</span><br></pre></td></tr></table></figure></p>
-<h5 id="同步不具有继承性"><a href="#同步不具有继承性" class="headerlink" title="同步不具有继承性"></a>同步不具有继承性</h5><p>同步不可以继承。</p>
-<h4 id="synchronized-同步语句块"><a href="#synchronized-同步语句块" class="headerlink" title="synchronized 同步语句块"></a>synchronized 同步语句块</h4><p>当一个线程访问 object 的一个 synchronized(this) 同步代码块时，其他线程对同一个 object 中所有其他 synchronized(this) 同步代码块的访问将被阻塞，这说明 synchronized 使用的 “对象监视器” 是一个。</p>
-<h5 id="将任意对象作为对象监视器"><a href="#将任意对象作为对象监视器" class="headerlink" title="将任意对象作为对象监视器"></a>将任意对象作为对象监视器</h5><p>多个线程调用同一个对象中的不同名称的 synchronized 同步方法或者 synchronized(this) 同步代码块时，调用的效果就是按顺序执行，也就是同步的，阻塞的。</p>
-<h5 id="静态同步-synchronized-方法与-synchronized-class-代码块"><a href="#静态同步-synchronized-方法与-synchronized-class-代码块" class="headerlink" title="静态同步 synchronized 方法与 synchronized(class) 代码块"></a>静态同步 synchronized 方法与 synchronized(class) 代码块</h5><p>关键字 synchronized 还可以应用在 static 静态方法上，如果这样写就是对当前的 *.java 文件对应的 Class 类进行加锁。而 synchronized 关键字加到非 static 静态方法上就是给对象加锁。</p>
-<h5 id="多线程的死锁"><a href="#多线程的死锁" class="headerlink" title="多线程的死锁"></a>多线程的死锁</h5><h4 id="volatile-关键字"><a href="#volatile-关键字" class="headerlink" title="volatile 关键字"></a>volatile 关键字</h4><h5 id="作用：使变量在多个线程间可见。"><a href="#作用：使变量在多个线程间可见。" class="headerlink" title="作用：使变量在多个线程间可见。"></a>作用：使变量在多个线程间可见。</h5><p>通过使用 volatile 关键字，强制的从公共内存中读取变量的值。使用 volatile 关键字增加了实例变量在多个线程之间的可见性，但 volatile 关键字最致命的缺点就是不支持原子性。</p>
-<h5 id="关键字-synchronized-和-volatile-比较："><a href="#关键字-synchronized-和-volatile-比较：" class="headerlink" title="关键字 synchronized 和 volatile 比较："></a>关键字 synchronized 和 volatile 比较：</h5><ul>
-<li>关键字 volatile 是线程同步的轻量实现，所以 volatile 性能肯定要比 synchronized 要好，并且 volatile 只能修饰于变量，而 synchronized 可以修饰方法，以及代码块。</li>
-<li>多线程访问 volatile 不会发生阻塞，而 synchronized 会出现阻塞。</li>
-<li>volatile 能保证数据的可见性，但不能保证原子性；而 synchronized 可以保证原子性，也可以间接保证可见性，因为它会将私有内存和公有内存中的数据做同步。</li>
-<li>关键字 volatile 解决的是变量在多个线程之间的可见性；而 synchronized 关键字解决的是多个线程之间访问资源的同步性。</li>
+<p>存在线程安全问题的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">@WebServlet(name = &quot;ServletDemo4&quot;)</span><br><span class="line">public class ServletDemo4 extends HttpServlet &#123;</span><br><span class="line">    int i=1;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        i++;</span><br><span class="line">        try &#123;</span><br><span class="line">             Thread.sleep(1000);</span><br><span class="line">            &#125; catch (InterruptedException e) &#123;</span><br><span class="line">             e.printStackTrace();</span><br><span class="line">            &#125;    response.getWriter().write(i+&quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>　把i定义成全局变量，当多个线程并发访问变量i时，就会存在线程安全问题了，如下图所示：同时开启两个浏览器模拟并发访问同一个Servlet，本来正常来说，第一个浏览器应该看到2，而第二个浏览器应该看到3的，结果两个浏览器都看到了3，这就不正常。<br>　线程安全问题只存在多个线程并发操作同一个资源的情况下，所以在编写Servlet的时候，如果并发访问某一个资源(变量，集合等)，就会存在线程安全问题，那么该如何解决这个问题呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public void doGet(HttpServletRequest request, HttpServletResponse response)</span><br><span class="line">             throws ServletException, IOException &#123;</span><br><span class="line">         /**</span><br><span class="line">          * 加了synchronized后，并发访问i时就不存在线程安全问题了，</span><br><span class="line">          * 为什么加了synchronized后就没有线程安全问题了呢？</span><br><span class="line">          * 假如现在有一个线程访问Servlet对象，那么它就先拿到了Servlet对象的那把锁</span><br><span class="line">          * 等到它执行完之后才会把锁还给Servlet对象，由于是它先拿到了Servlet对象的那把锁，</span><br><span class="line">          * 所以当有别的线程来访问这个Servlet对象时，由于锁已经被之前的线程拿走了，后面的线程只能排队等候了</span><br><span class="line">          * </span><br><span class="line">          */</span><br><span class="line">         synchronized (this) &#123;//在java中，每一个对象都有一把锁，这里的this指的就是Servlet对象</span><br><span class="line">             i++;</span><br><span class="line">             try &#123;</span><br><span class="line">                 Thread.sleep(1000*4);</span><br><span class="line">            &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">             response.getWriter().write(i+&quot;&quot;);</span><br><span class="line">         &#125;</span><br><span class="line">         </span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure></p>
+<p>现在这种做法是给Servlet对象加了一把锁，保证任何时候都只有一个线程在访问该Servlet对象里面的资源，这样就不存在线程安全问题了，如下图所示：<br><img src="/img/线程结果.png" alt=""><br>这种做法虽然解决了线程安全问题，但是编写Servlet却万万不能用这种方式处理线程安全问题，假如有9999个人同时访问这个Servlet，那么这9999个人必须按先后顺序排队轮流访问。<br>针对Servlet的线程安全问题，Sun公司是提供有解决方案的：让Servlet去实现一个SingleThreadModel接口，如果某个Servlet实现了SingleThreadModel接口，那么Servlet引擎将以单线程模式来调用其service方法。<br>查看Sevlet的API可以看到，SingleThreadModel接口中没有定义任何方法和常量，在Java中，把没有定义任何方法和常量的接口称之为标记接口，经常看到的一个最典型的标记接口就是”Serializable”，这个接口也是没有定义任何方法和常量的，标记接口在Java中有什么用呢？主要作用就是给某个对象打上一个标志，告诉JVM，这个对象可以做什么，比如实现了”Serializable”接口的类的对象就可以被序列化，还有一个”Cloneable”接口，这个也是一个标记接口，在默认情况下，Java中的对象是不允许被克隆的，就像现实生活中的人一样，不允许克隆，但是只要实现了”Cloneable”接口，那么对象就可以被克隆了。</p>
+<p>　　让Servlet实现了SingleThreadModel接口，只要在Servlet类的定义中增加实现SingleThreadModel接口的声明即可。<br>　　对于实现了SingleThreadModel接口的Servlet，Servlet引擎仍然支持对该Servlet的多线程并发访问，其采用的方式是产生多个Servlet实例对象，并发的每个线程分别调用一个独立的Servlet实例对象。<br>　　实现SingleThreadModel接口并不能真正解决Servlet的线程安全问题，因为Servlet引擎会创建多个Servlet实例对象，而真正意义上解决多线程安全问题是指一个Servlet实例对象被多个线程同时调用的问题。事实上，在Servlet API 2.4中，已经将SingleThreadModel标记为Deprecated（过时的）。  </p>
+<ul>
+<li>实现 SingleThreadModel 接口（已过时）</li>
+<li>同步对共享数据的操作<br>　　使用synchronized 关键字能保证一次只有一个线程可以访问被保护的区段，在本论文中的Servlet可以通过同步块操作来保证线程的安全。</li>
+<li>避免使用实例变量—-最佳选择。<br>　　本实例中的线程安全问题是由实例变量造成的，只要在Servlet里面的任何方法里面都不使用实例变量，那么该Servlet就是线程安全的。</li>
 </ul>
 
           
@@ -1886,7 +1400,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/关于字符串的陷阱/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/装饰者模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -1905,8 +1419,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/关于字符串的陷阱/" itemprop="url">
-                  java 表达式中的陷阱
+                <a class="post-title-link" href="/2018/07/20/装饰者模式/" itemprop="url">
+                  装饰者模式
                 </a>
               
             
@@ -1950,7 +1464,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
 
                 
                 
@@ -1986,39 +1500,542 @@
       
         
           
-            <h3 id="关于字符串的陷阱"><a href="#关于字符串的陷阱" class="headerlink" title="关于字符串的陷阱"></a>关于字符串的陷阱</h3><h4 id="JVM-对字符串的处理"><a href="#JVM-对字符串的处理" class="headerlink" title="JVM 对字符串的处理"></a>JVM 对字符串的处理</h4><p>String java = new String(“Java”) 这句创建了两个字符串对象，一个是 “Java” 这个直接量对应的字符串对象，另外一个是 new String() 构造器返回的字符串对象。<br><strong>Java 程序中创建对象的方法：</strong></p>
+            <h3 id="装饰者模式"><a href="#装饰者模式" class="headerlink" title="装饰者模式"></a>装饰者模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><pre><code>在不必改变原类文件和原类使用的继承的情况下，动态地扩展一个对象的功能。
+它是通过创建一个包装对象，也就是用装饰来包裹真实的对象来实现。
+</code></pre><h4 id="角色："><a href="#角色：" class="headerlink" title="角色："></a>角色：</h4><p>######抽象构件角色（Project）：<br>给出一个接口，以规范准备接收附加责任的对象。</p>
+<h5 id="具体构件角色（Employe）："><a href="#具体构件角色（Employe）：" class="headerlink" title="具体构件角色（Employe）："></a>具体构件角色（Employe）：</h5><p>定义一个将要接收附加责任的类。</p>
+<h5 id="装饰角色（Manager）："><a href="#装饰角色（Manager）：" class="headerlink" title="装饰角色（Manager）："></a>装饰角色（Manager）：</h5><p>持有一个构件对象的实例，并定义一个与抽象构件接口一致的接口。</p>
+<h5 id="具体装饰角色（ManagerA、ManagerB）："><a href="#具体装饰角色（ManagerA、ManagerB）：" class="headerlink" title="具体装饰角色（ManagerA、ManagerB）："></a>具体装饰角色（ManagerA、ManagerB）：</h5><p>负责给构件对象“贴上”附加的责任。</p>
+<h4 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h4><h4 id="公共接口："><a href="#公共接口：" class="headerlink" title="公共接口："></a>公共接口：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public interface Person &#123;  </span><br><span class="line">    void eat();  </span><br><span class="line">&#125;</span><br><span class="line">被装饰对象：</span><br><span class="line">public class OldPerson implements Person &#123;  </span><br><span class="line">    @Override  </span><br><span class="line">    public void eat() &#123;  </span><br><span class="line">        System.out.println(&quot;吃饭&quot;);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125; </span><br><span class="line">装饰对象：</span><br><span class="line">public class NewPerson implements Person &#123;  </span><br><span class="line">    private OldPerson p;  </span><br><span class="line"></span><br><span class="line">    NewPerson(OldPerson p) &#123;  </span><br><span class="line">        this.p = p;  </span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    @Override  </span><br><span class="line">    public void eat() &#123;  </span><br><span class="line">        System.out.println(&quot;生火&quot;);  </span><br><span class="line">        System.out.println(&quot;做饭&quot;);  </span><br><span class="line">        p.eat();  </span><br><span class="line">        System.out.println(&quot;刷碗&quot;);   </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class PersonDemo &#123;  </span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line">        OldPerson old = new OldPerson();  </span><br><span class="line">        //old.eat(); </span><br><span class="line">        NewPerson np = new NewPerson(old);  </span><br><span class="line">        np.eat();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>通过例子可以看到，没有改变原来的OldPerson类，同时也没有定义他的子类而实现了Person的扩展，这就是装饰者模式的作用。
+</code></pre><h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><pre><code>1，使用装饰者模式比使用继承更加灵活，因为它选择通过一种动态的方式来扩展一个对象的功能，在运行时可以选择不同的装饰器，从而实现不同的行为。
+2，通过使用不同的具体装饰类以及这些装饰类的排列组合，可以创造出很多不同行为的组合。可以使用多个具体装饰类来装饰同一对象，得到功能更为强大的对象。
+3，具体构件类与具体装饰类可以独立变化，他能是低耦合的。用户可以根据需要来增加新的具体构件类和具体装饰类，在使用时再对其进行各种组合，原有代码无须改变，符合“开闭原则”。
+</code></pre><h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><pre><code>1，会产生很多的小对象，增加了系统的复杂性
+2，这种比继承更加灵活机动的特性，也同时意味着装饰模式比继承更加易于出错，排错也很困难，对于多次装饰的对象，调试时寻找错误可能需要逐级排查，较为烦琐。
+</code></pre><h4 id="装饰者与适配者模式的区别："><a href="#装饰者与适配者模式的区别：" class="headerlink" title="装饰者与适配者模式的区别："></a>装饰者与适配者模式的区别：</h4><p>   1，适配器模式主要用来兼容那些不能在一起工作的类，使他们转化为可以兼容目标接口，虽然也可以实现和装饰者一样的增加新职责，但目的不在此。<br>        装饰者模式主要是给被装饰者增加新职责的。<br>   2，适配器模式是用新接口来调用原接口，原接口对新系统是不可见或者说不可用的。<br>        装饰者模式原封不动的使用原接口，系统对装饰的对象也通过原接口来完成使用。<br>   3，适配器是知道被适配者的详细情况的（就是那个类或那个接口）。<br>        装饰者只知道其接口是什么，至于其具体类型（是基类还是其他派生类）只有在运行期间才知道。</p>
+<h4 id="装饰者和继承的区别："><a href="#装饰者和继承的区别：" class="headerlink" title="装饰者和继承的区别："></a>装饰者和继承的区别：</h4><h5 id="继承："><a href="#继承：" class="headerlink" title="继承："></a>继承：</h5><p>　　优点：代码结构清晰，而且实现简单<br>　　缺点：对于每一个的需要增强的类都要创建具体的子类来帮助其增强，这样会导致继承体系过于庞大。</p>
+<h5 id="装饰者："><a href="#装饰者：" class="headerlink" title="装饰者："></a>装饰者：</h5><p>　　优点：内部可以通过多态技术对多个需要增强的类进行增强<br>       缺点：需要内部通过多态技术维护需要增强的类的实例。进而使得代码稍微复杂。</p>
+<h5 id="使用场景："><a href="#使用场景：" class="headerlink" title="使用场景："></a>使用场景：</h5><pre><code>1，需要扩展一个类的功能，或给一个类添加附加职责。
+2，需要动态的给一个对象添加功能，这些功能可能不明确或者暂时的，可以随时很方便的动态撤销掉。
+3，需要增加由一些基本功能的排列组合而产生的非常大量的功能，从而使继承关系变的不现实。
+      4. 当不能采用生成子类的方法进行扩充时。一种情况是，可能有大量独立的扩展，为支持每一种组合将产生大量的子类，使得子类数目呈爆炸性增长。另一种情况可能是因为类定义被隐藏，或类定义不能用于生成子类。
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/代理模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/代理模式/" itemprop="url">
+                  代理模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>   为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用</p>
+<h4 id="角色："><a href="#角色：" class="headerlink" title="角色："></a>角色：</h4><h5 id="1、抽象角色："><a href="#1、抽象角色：" class="headerlink" title="1、抽象角色："></a>1、抽象角色：</h5><p>声明真实对象和代理对象的共同接口。</p>
+<h5 id="2、-代理角色："><a href="#2、-代理角色：" class="headerlink" title="2、 代理角色："></a>2、 代理角色：</h5><p>代理对象角色内部含有对真实对象的引用，从而可以操作真实对象，同时代理对象提供与真实对象相同的接口以便在任何时刻都能代替真实对象。同时，代理对象可以在执行真实对象操作时，附加其他的操作，相当于对真实对象进行封装。</p>
+<h5 id="3、真实角色："><a href="#3、真实角色：" class="headerlink" title="3、真实角色："></a>3、真实角色：</h5><p>代理角色所代表的真实对象，是我们最终要引用的对象。</p>
+<h4 id="分类："><a href="#分类：" class="headerlink" title="分类："></a>分类：</h4><h5 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h5><p>静态代理也就是在程序运行前就已经存在代理类的字节码文件，代理类和委托类的关系在运行前就确定了。</p>
+<h5 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h5><h6 id="抽象角色，真实对象和代理对象共同的接口"><a href="#抽象角色，真实对象和代理对象共同的接口" class="headerlink" title="抽象角色，真实对象和代理对象共同的接口"></a>抽象角色，真实对象和代理对象共同的接口</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface UserInfo&#123;    </span><br><span class="line">       public void queryUser ();    </span><br><span class="line">       public void updateUser ();      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="真实角色"><a href="#真实角色" class="headerlink" title="真实角色"></a>真实角色</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class UserImpl implementsUserInfo&#123;    </span><br><span class="line"></span><br><span class="line">       @Override    </span><br><span class="line">       public void queryUser() &#123;    </span><br><span class="line">           //查询方法略...          </span><br><span class="line">       &#125;    </span><br><span class="line"></span><br><span class="line">       @Override    </span><br><span class="line">       public void updateUser() &#123;    </span><br><span class="line">            //修改方法略...          </span><br><span class="line">       &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="代理角色"><a href="#代理角色" class="headerlink" title="代理角色"></a>代理角色</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public class UserProxy implements UserInfo&#123;    </span><br><span class="line">   private UserInfo userImpl;    </span><br><span class="line"></span><br><span class="line">   public UserProxy(UserInfo userImpl) &#123;    </span><br><span class="line">       this.userImpl = userImpl;    </span><br><span class="line">   &#125;    </span><br><span class="line"></span><br><span class="line">   @Override    </span><br><span class="line">   public void queryUser() &#123; </span><br><span class="line">         //这里可以扩展，增加一些查询之前需要执行的方法   </span><br><span class="line">       //查询方法略...   </span><br><span class="line">         //这里可以扩展，增加一些查询之后需要执行的方法         </span><br><span class="line">   &#125;    </span><br><span class="line"></span><br><span class="line">   @Override    </span><br><span class="line">   public void updateUser() &#123;  </span><br><span class="line">         //这里可以扩展，增加一些修改之前需要执行的方法    </span><br><span class="line">       //修改方法略...   </span><br><span class="line">         //这里可以扩展，增加一些修改之后需要执行的方法         </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">使用代理之后如何调用他的方法？</span><br><span class="line">public class Test &#123;    </span><br><span class="line">   public static void main(String[] args) &#123;    </span><br><span class="line">       UserInfo userImpl = new UserImpl();     </span><br><span class="line">       UserInfo userProxy = new UserProxy(userImpl);     </span><br><span class="line">             userProxy.queryUser(); </span><br><span class="line">       userProxy.updateUser();        </span><br><span class="line">   &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h4><p>动态代理类的源码是程序在运行期间由JVM根据反射等机制动态生成的，所以不存在代理类的字节码文件。代理角色和真实角色的联系在程序运行时确定。</p>
+<h5 id="示例：-1"><a href="#示例：-1" class="headerlink" title="示例："></a>示例：</h5><h5 id="抽象角色，真实对象和代理对象共同的接口-1"><a href="#抽象角色，真实对象和代理对象共同的接口-1" class="headerlink" title="抽象角色，真实对象和代理对象共同的接口"></a>抽象角色，真实对象和代理对象共同的接口</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface UserInfo&#123;    </span><br><span class="line">       public void queryUser ();    </span><br><span class="line">       public void updateUser ();      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="真实角色-1"><a href="#真实角色-1" class="headerlink" title="真实角色"></a>真实角色</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class UserImpl implements UserInfo&#123;    </span><br><span class="line"></span><br><span class="line">       @Override    </span><br><span class="line">       public void queryUser() &#123;    </span><br><span class="line">           //查询方法略...          </span><br><span class="line">       &#125;    </span><br><span class="line"></span><br><span class="line">       @Override    </span><br><span class="line">       public void updateUser() &#123;    </span><br><span class="line">            //修改方法略...          </span><br><span class="line">       &#125;    </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="代理角色处理器："><a href="#代理角色处理器：" class="headerlink" title="代理角色处理器："></a>代理角色处理器：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public class UserHandler implements InvocationHandler&#123;</span><br><span class="line"></span><br><span class="line">         privateUserInfo userImpl;</span><br><span class="line">         publicUserHandler(UserInfo userImpl2)&#123;</span><br><span class="line">                   this.userImpl= userImpl2;</span><br><span class="line">         &#125;</span><br><span class="line">         @Override</span><br><span class="line">         publicObject invoke(Object proxy, Method method, Object[] args) </span><br><span class="line">                                        throws Throwable &#123;</span><br><span class="line">                   Objectobject = null;</span><br><span class="line">       //方法开始前做一些事情</span><br><span class="line">       if (method.getName().equals(&quot;queryUser&quot;)) &#123;</span><br><span class="line">           object = method.invoke(userImpl, args);</span><br><span class="line">            //激活调用的方法   </span><br><span class="line">       &#125;</span><br><span class="line">       //方法结束后做一些事情</span><br><span class="line">       return object;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">如何调用（和静态代理略有不同）</span><br><span class="line">public class Test &#123;         </span><br><span class="line">   public static void main(String[] args) &#123;</span><br><span class="line">         UserInfouserImpl =new UserImpl();</span><br><span class="line">         UserHandlerhandler = new UserHandler(userImpl);</span><br><span class="line">         UserInfouserProxy = (UserInfo)Proxy.newProxyInstance</span><br><span class="line">                      (ClassLoader.getSystemClassLoader(),</span><br><span class="line">                        newClass[]&#123;UserInfo.class&#125;, handler);</span><br><span class="line">         userProxy.queryUser();</span><br><span class="line">         &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><p>   业务类只需要关注业务逻辑本身，保证了业务类的重用性。这是代理的共有优点。<br>   能够协调调用者和被调用者，在一定程度上降低了系统的耦合度。</p>
+<h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><p>   由于在客户端和真实主题之间增加了代理对象，因此有些类型的代理模式可能会造成请求的处理速度变慢，例如保护代理。<br>         实现代理模式需要额外的工作，而且有些代理模式的实现过程较为复杂，例如远程代理。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/外观者模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/外观者模式/" itemprop="url">
+                  外观者模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="外观者模式"><a href="#外观者模式" class="headerlink" title="外观者模式"></a>外观者模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>   为子系统中的一组接口提供一个一致的界面，Facade模式定义了一个高层接口，这个接口使得这一子系统更加容易使用。</p>
+<h4 id="角色："><a href="#角色：" class="headerlink" title="角色："></a>角色：</h4><h5 id="1、外观-Facade-角色-："><a href="#1、外观-Facade-角色-：" class="headerlink" title="1、外观(Facade)角色 ："></a>1、外观(Facade)角色 ：</h5><pre><code>客户端可以调用这个角色的方法。此角色知晓相关子系统的功能和责任。在正常情况下，本角色会将所有从客户端发来的请求委派到相应的子系统去。
+</code></pre><h5 id="2、子系统-SubSystem-角色-："><a href="#2、子系统-SubSystem-角色-：" class="headerlink" title="2、子系统(SubSystem)角色 ："></a>2、子系统(SubSystem)角色 ：</h5><pre><code>可以同时有一个或者多个子系统。每个子系统都不是一个单独的类，而是一个类的集合。每个子系统都可以被客户端直接调用，或者被外观角色调用。子系统并不知道外观角色的存在，对于子系统而言，外观角色仅仅是另外一个客户端而已。
+</code></pre><h4 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h4><h5 id="1、子系统角色，由若干个类组成"><a href="#1、子系统角色，由若干个类组成" class="headerlink" title="1、子系统角色，由若干个类组成"></a>1、子系统角色，由若干个类组成</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public class SubClass1 &#123;    </span><br><span class="line">    public void method1()&#123;</span><br><span class="line">        System.out.println(&quot;这是子系统类1中的方法1&quot;);</span><br><span class="line">    &#125;    </span><br><span class="line">    public void method2()&#123;</span><br><span class="line">        System.out.println(&quot;这是子系统类1中的方法2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class SubClass2 &#123;    </span><br><span class="line">    public void method1()&#123;</span><br><span class="line">        System.out.println(&quot;这是子系统类2中的方法1&quot;);</span><br><span class="line">    &#125;    </span><br><span class="line">    public void method2()&#123;</span><br><span class="line">        System.out.println(&quot;这是子系统类2中的方法2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class SubClass3 &#123;   </span><br><span class="line">    public void method1()&#123;</span><br><span class="line">        System.out.println(&quot;这是子系统类3中的方法1&quot;);</span><br><span class="line">    &#125;    </span><br><span class="line">    public void method2()&#123;</span><br><span class="line">        System.out.println(&quot;这是子系统类3中的方法2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="2、外观角色类"><a href="#2、外观角色类" class="headerlink" title="2、外观角色类"></a>2、外观角色类</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class FacadeClass &#123;    </span><br><span class="line">    public void FacadeMethod()&#123;</span><br><span class="line">        SubClass1 s1 = new SubClass1();</span><br><span class="line">        s1.method1();</span><br><span class="line">        SubClass2 s2 = new SubClass2();</span><br><span class="line">        s2.method1();</span><br><span class="line">        SubClass3 s3 = new SubClass3();</span><br><span class="line">        s3.method1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="3、客户端测试方法"><a href="#3、客户端测试方法" class="headerlink" title="3、客户端测试方法"></a>3、客户端测试方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class ClientClass &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        FacadeClass fc = new FacadeClass();</span><br><span class="line">        fc.FacadeMethod();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Facade类其实相当于子系统中SubClass类的外观界面，有了这个Facade类，那么客户端就不需要亲自调用子系统中的那些具体实现的子类了，也不需要知道系统内部的实现细节，甚至都不需要知道这些子类的存在，客户端只需要跟Facade类交互就好了，从而更好地实现了客户端和子系统中具体类的解耦，让客户端更容易地使用系统。<br>        同时，这样定义一个Facade类可以有效地屏蔽内部的细节，免得客户端去调用Module类时，发现一些不需要它知道的方法。如上代码，我的所有子类中的方法二都是方法一调用的方法，是配合方法一的，他们不需要被客户端调用，而且具有一定的保密性，这样使用外观模式时就可以不被客户端知道。</p>
+<h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><ul>
+<li>实现了子系统与客户端之间的松耦合关系。</li>
+<li>客户端屏蔽了子系统组件，减少了客户端所需处理的对象数目，并使得子系统使用起来更加容易。</li>
+</ul>
+<h4 id="适用场景："><a href="#适用场景：" class="headerlink" title="适用场景："></a>适用场景：</h4><ul>
+<li>设计初期阶段，应该有意识的将不同层分离，层与层之间建立外观模式。</li>
+<li>开发阶段，子系统越来越复杂，增加外观模式提供一个简单的调用接口。</li>
+<li>维护一个大型遗留系统的时候，可能这个系统已经非常难以维护和扩展，但又包含非常重要的功能，为其开发一个外观类，以便新系统与其交互。</li>
+</ul>
+<h4 id="外观模式总结："><a href="#外观模式总结：" class="headerlink" title="外观模式总结："></a>外观模式总结：</h4><ul>
+<li>1、外观模式为复杂子系统提供了一个简单接口，并不为子系统添加新的功能和行为。</li>
+<li>2、外观模式实现了子系统与客户端之间的松耦合关系。 </li>
+<li>3、外观模式没有封装子系统的类，只是提供了简单的接口。 如果应用需要，它并不限制客户使用子系统类。因此可以灵活的在系统易用性与通用性之间选择。</li>
+<li>4、外观模式注重的是简化接口，它更多的时候是从架构的层次去看整个系统，而并非单个类的层次。 </li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/深入理解Tomcat系列之一：系统架构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/深入理解Tomcat系列之一：系统架构/" itemprop="url">
+                  深入理解Tomcat系列之一
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="深入理解Tomcat系列之一：系统架构"><a href="#深入理解Tomcat系列之一：系统架构" class="headerlink" title="深入理解Tomcat系列之一：系统架构"></a>深入理解Tomcat系列之一：系统架构</h2><h3 id="Tomcat的系统架构"><a href="#Tomcat的系统架构" class="headerlink" title="Tomcat的系统架构"></a>Tomcat的系统架构</h3><p><img src="/img/tomcat_architect.jpg" alt=""><br>首先我们从一个宏观的角度来看一下Tomcat的系统的架构：从这张图中可以看到，Tomcat的核心组件就两个Connector和Container（后面还有详细说明），一个Connector+一个Container构成一个Service，Service就是对外提供服务的组件，有了Service组件Tomcat就可以对外提供服务了，但是光有服务还不行，还得有环境让你提供服务才行，所以最外层的Server就为Service提供了生存的土壤。那么这些个组件到底是干嘛用的呢？Connector是一个连接器，主要负责接收请求并把请求交给Container，Container就是一个容器，主要装的是具体处理请求的组件。Service主要是为了关联Container与Connector，一个单独的Container或者一个单独的Connector都不能完整处理一个请求，只有两个结合在一起才能完成一个请求的处理。Server这是负责管理Service集合，从图中我们看到一个Tomcat可以提供多种服务，那么这些Serice就是由Server来管理的，具体的工作包括：对外提供一个接口访问Service，对内维护Service集合，维护Service集合又包括管理Service的生命周期、寻找一个请求的Service、结束一个Service等。以上就是对Tomcat的核心组件的简要说明，下面我们详细看看每一个组件的执行流程：</p>
+<h3 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h3><p>上面说Server是管理Service接口的，Server是Tomcat的顶级容器，是一个接口，Server接口的标准实现类是StandardServer类，在Server接口中有许多方法，我们重点关注两个方法：addService()和findService(String)。我们先来看看Server接口的全貌：<br><img src="/img/Server2.jpg" alt=""><br>接着看看addService()和findService(String)的实现代码：<br>代码清单1-1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Add a new Service to the set of defined Services.</span><br><span class="line"> *</span><br><span class="line"> * @param service The Service to be added</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">public void addService(Service service) &#123;</span><br><span class="line"></span><br><span class="line">    service.setServer(this);</span><br><span class="line"></span><br><span class="line">    synchronized (services) &#123;</span><br><span class="line">        Service results[] = new Service[services.length + 1];</span><br><span class="line">        System.arraycopy(services, 0, results, 0, services.length);</span><br><span class="line">        results[services.length] = service;</span><br><span class="line">        services = results;</span><br><span class="line"></span><br><span class="line">        if (getState().isAvailable()) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                service.start();</span><br><span class="line">            &#125; catch (LifecycleException e) &#123;</span><br><span class="line">                // Ignore</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Report this property change to interested listeners</span><br><span class="line">        support.firePropertyChange(&quot;service&quot;, null, service);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，Server使用一个数组来管理Service的，每添加一个Service就把原来的Service拷贝到一个新的数组中，再把新的Service放入Service数组中。所以Server与Service是关联在一起的，那么后面的getState().isAvailable()是干嘛的呢？判断状态是否无效，从而决定是否执行service方法。这里说到了状态，就不得不说Tomcat管理各组件生命周期的Lifecycle接口了：</p>
+<h4 id="Lifecycle接口"><a href="#Lifecycle接口" class="headerlink" title="Lifecycle接口"></a>Lifecycle接口</h4><p>Tomcat中的组件都交给这个接口管理，但是具体组件的生命周期是由包含组件的父容器来管理的，Tomcat中顶级容器管理着Service的生命周期，Service容器又是Connector和Container的父容器，所以这两个组件的生命周期是由Service管理的，Container也有子容器，所以管理着这些子容器的生命周期。这样，只要所有组件都实现了Lifecycle接口，从顶层容器Server开始，就可以控制所有容器的生命周期了。Lifecycle接口中定义了很多状态，在api中详细说明了调用不同方法后的状态转变，同时定义了不同的方法，这些方法在执行后状态会发生相应的改变，在Lifecycle接口中定义了如下方法：<br><img src="/img/Lifecycle.jpg" alt=""><br>在StandServer中实现了startInernal()方法，就是循环启动StandServer管理的Service的过程，Tomcat的Service都实现了Lifecycle接口，所以被管理的Service都将被通知到，从而执行start()方法，startIntenal()方法是这样的：<br>代码清单1-2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Start nested components (&#123;@link Service&#125;s) and implement the requirements</span><br><span class="line"> * of &#123;@link org.apache.catalina.util.LifecycleBase#startInternal()&#125;.</span><br><span class="line"> *</span><br><span class="line"> * @exception LifecycleException if this component detects a fatal error</span><br><span class="line"> *  that prevents this component from being used</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">protected void startInternal() throws LifecycleException &#123;</span><br><span class="line"></span><br><span class="line">    fireLifecycleEvent(CONFIGURE_START_EVENT, null);</span><br><span class="line">    setState(LifecycleState.STARTING);</span><br><span class="line"></span><br><span class="line">    globalNamingResources.start();</span><br><span class="line"></span><br><span class="line">    // Start our defined Services</span><br><span class="line">    synchronized (services) &#123;</span><br><span class="line">        for (int i = 0; i &lt; services.length; i++) &#123;</span><br><span class="line">            services[i].start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>现在所有的Service就会收到通知继而执行start方法。如果一个Service不允许被使用将会抛出一个LifecycleException异常。</p>
+<p>stopIntenal()会通知所有Service执行stop方法，具体处理流程与startIntenal()方法类似。这个执行过程涉及一个非常重要的设计模式，就是观察者模式。</p>
+<p>现在我们已经能够知道了容器通过Lifecycle接口管理容器的生命周期，那么在父容器的状态改变具体是怎么样通知给子容器的呢？回到代码清单1-2，我们注意到有一个fireLifecycleEvent()方法，fireLifecycleEvent()的执行流程如下：</p>
 <ul>
-<li>通过 new 调用构造器创建 Java 对象</li>
-<li>通过 Class 对象的 newInstance() 方法调用构造器创建 Java 对象</li>
-<li>通过 Java 的反序列化机制从 IO 流中恢复 Java 对象</li>
-<li>通过 Java 对象提供的 clone() 方法复制一个新的 Java 对象<br>对于字符串以及 Byte、Short、Int、Long、Character、Float、Double 和 Boolean 这些基本类型的包装类<br>直接量的方式来创建 Java 对象 Integer in = 5；</li>
-<li>通过简单的算法表达式，连接运算来创建 Java 对象 String str = “a” + “b”; （如果这个字符串表达式的值在编译时确定下来，那么 JVM 会在编译时计算该字符串变量的值，并让它指向字符串池中对应的字符串。如果这些算法表达式都是字符串直接量、整数直接量，没有变量和方法参与，那么就可以在编译期就可以确定字符串的值；如果使用了变量、调用了方法，那么只有等到运行时才能确定字符串表达式的值；如果字符串连接运算所有的变量都可执行 “宏替换”（使用 final 修饰的变量），那在编译时期也能确定字符串连接表达式的值）</li>
+<li>调用LifecycleBase的fireLifecycleEvent(LifecycleListener listener)方法，LifecycleBase是一个抽象类，实现了Lifecycle接口</li>
+<li>继续调用LifecycleSupport（是一个辅助完成对已经注册监听器的事件通知类，不可被继承，使用final)的fireLifecycleEvent(String type, Object data)方法</li>
+<li>完成事件通知</li>
 </ul>
-<p>对于 Java 程序的字符直接量，JVM 会使用一个字符串池来保护它们；当第一次使用某个字符串直接量时，JVM 会将它放入字符串池进行缓存。在一般的情况下，字符串池中的字符串对象不会被垃圾回收器回收，当程序再次需要使用该字符串时，无需重新创建一个新的字符串，而是直接让引用变量指向字符串池中已有的字符串。</p>
-<h4 id="不可变的字符串"><a href="#不可变的字符串" class="headerlink" title="不可变的字符串"></a>不可变的字符串</h4><ul>
-<li>String 类是一个不可变类，当一个 String 对象创建完成后，该 String 类里包含的字符序列就被固定下来，以后永远不能修改。</li>
-<li>如果程序需要一个字符序列会发生改变的字符串，那么建议使用 StringBuilder （效率比 StringBuffer 高）<h4 id="字符串比较"><a href="#字符串比较" class="headerlink" title="字符串比较"></a>字符串比较</h4></li>
-<li><p>如果要比较两个字符串是否相同，用 == 进行判断就行，但如果要判断两个字符串所包含的字符序列是否相同，则应该用 String 重写过的 equals() 方法进行比较。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public boolean equals(Object anObject) &#123;</span><br><span class="line">//如果两个字符串相同</span><br><span class="line">if (this == anObject) &#123;</span><br><span class="line">return true;</span><br><span class="line">&#125;</span><br><span class="line">//如果anObject是String类型</span><br><span class="line">if (anObject instanceof String) &#123;</span><br><span class="line">String anotherString = (String)anObject;</span><br><span class="line">//n代表字符串的长度</span><br><span class="line">int n = value.length;</span><br><span class="line">//如果两个字符串长度相等</span><br><span class="line">if (n == anotherString.value.length) &#123;</span><br><span class="line">//获取当前字符串、anotherString底层封装的字符数组</span><br><span class="line">char v1[] = value;</span><br><span class="line">char v2[] = anotherString.value;</span><br><span class="line">int i = 0;</span><br><span class="line">//逐一比较v1 和 v2数组中的每个字符</span><br><span class="line">while (n-- != 0) &#123;</span><br><span class="line">if (v1[i] != v2[i])</span><br><span class="line">return false;</span><br><span class="line">i++;</span><br><span class="line">&#125;</span><br><span class="line">return true;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>还可以使用 String 提供的 compareTo() 方法返回两个字符串的大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public int compareTo(String anotherString) &#123;</span><br><span class="line">int len1 = value.length;</span><br><span class="line">int len2 = anotherString.value.length;</span><br><span class="line">int lim = Math.min(len1, len2);</span><br><span class="line">char v1[] = value;</span><br><span class="line">char v2[] = anotherString.value;</span><br><span class="line"></span><br><span class="line">int k = 0;</span><br><span class="line">while (k &lt; lim) &#123;</span><br><span class="line">char c1 = v1[k];</span><br><span class="line">char c2 = v2[k];</span><br><span class="line">if (c1 != c2) &#123;</span><br><span class="line">return c1 - c2;</span><br><span class="line">&#125;</span><br><span class="line">k++;</span><br><span class="line">&#125;</span><br><span class="line">return len1 - len2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="表达式类型的陷阱"><a href="#表达式类型的陷阱" class="headerlink" title="表达式类型的陷阱"></a>表达式类型的陷阱</h3><h4 id="表达式类型的自动提升"><a href="#表达式类型的自动提升" class="headerlink" title="表达式类型的自动提升"></a>表达式类型的自动提升</h4><ul>
-<li>所有 byte、short、char类型将被提升到 int 类型参与运算</li>
-<li>整个算术表达式的数据类型自动提升到与表达式中最高等级操作数同样的类型，操作数的等级排列如下：char -&gt; int -&gt; long -&gt;float -&gt; double</li>
-<li>byte -&gt; short -&gt; int -&gt; long -&gt;float -&gt; double<h4 id="复合赋值运算符的陷阱"><a href="#复合赋值运算符的陷阱" class="headerlink" title="复合赋值运算符的陷阱"></a>复合赋值运算符的陷阱</h4>Java 语言允许所有的双目运算符和 = 一起结合组成复合赋值运算符，如 +=、-=、*=、/=、%= 、&amp;= 等，复合赋值运算符包含了一个隐式的类型转换。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//下面这两条语句不等价</span><br><span class="line">a = a + 5; //</span><br><span class="line">a += 5; //实际上等价于 a = (a的类型) (a + 5);</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>复合赋值运算符会自动的将它计算的结果值强制转换为其左侧变量的类型。</p>
-<h3 id="输入法导致的陷阱"><a href="#输入法导致的陷阱" class="headerlink" title="输入法导致的陷阱"></a>输入法导致的陷阱</h3><h3 id="注释的字符必须合法"><a href="#注释的字符必须合法" class="headerlink" title="注释的字符必须合法"></a>注释的字符必须合法</h3><h3 id="转义字符的陷阱"><a href="#转义字符的陷阱" class="headerlink" title="转义字符的陷阱"></a>转义字符的陷阱</h3><ul>
-<li>慎用字符的 Unicode 转义形式</li>
-<li>中止行注释的转义字符<h3 id="泛型可能引起的错误"><a href="#泛型可能引起的错误" class="headerlink" title="泛型可能引起的错误"></a>泛型可能引起的错误</h3><h4 id="原始类型变量的赋值"><a href="#原始类型变量的赋值" class="headerlink" title="原始类型变量的赋值"></a>原始类型变量的赋值</h4></li>
-<li>当程序把一个原始类型的变量赋给一个带有泛型信息的变量时，总是可以通过编译（只是会提示警告信息）</li>
-<li>当程序试图访问带泛型声明的集合的集合元素时，编译器总是把集合元素 当成泛型类型处理（它并不关心集合里集合元素的实际类型）</li>
-<li>当程序试图访问带泛型声明的集合的集合元素时，JVM会遍历每个集合元素自动执行强制转型，如果集合元素的实际类型与集合所带的泛型信息不匹配，运行时将引发 ClassCastException<h4 id="原始类型带来的擦除"><a href="#原始类型带来的擦除" class="headerlink" title="原始类型带来的擦除"></a>原始类型带来的擦除</h4>当把一个具有泛型信息的对象赋给另一个没有泛型信息的变量时，所有在尖括号之间的类型信息都会丢弃。<h4 id="创建泛型数组的陷阱"><a href="#创建泛型数组的陷阱" class="headerlink" title="创建泛型数组的陷阱"></a>创建泛型数组的陷阱</h4>Java 中不允许创建泛型数组<h4 id="正则表达式的陷阱"><a href="#正则表达式的陷阱" class="headerlink" title="正则表达式的陷阱"></a>正则表达式的陷阱</h4>有些符号本身就是正则表达式，我们需要对符号做转义运算。<h3 id="多线程的陷阱"><a href="#多线程的陷阱" class="headerlink" title="多线程的陷阱"></a>多线程的陷阱</h3><h4 id="不要调用-run-方法"><a href="#不要调用-run-方法" class="headerlink" title="不要调用 run 方法"></a>不要调用 run 方法</h4>开启线程是用 start() 方法，而不是 run() 方法。<h4 id="静态的同步方法"><a href="#静态的同步方法" class="headerlink" title="静态的同步方法"></a>静态的同步方法</h4>对于同步代码块而言，程序必须显式为它指定同步监视器；对于同步非静态方法而言，该方法的同步监视器是 this —— 即调用该方法的 Java 对象；对于静态的同步方法而言，该方法的同步监视器不是 this，而是该类本身。</li>
-</ul>
+<p>fireLifecycleEvent(String type, Object data)的方法如下：</p>
+<p>代码清单1-3：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Notify all lifecycle event listeners that a particular event has</span><br><span class="line"> * occurred for this Container.  The default implementation performs</span><br><span class="line"> * this notification synchronously using the calling thread.</span><br><span class="line"> *</span><br><span class="line"> * @param type Event type</span><br><span class="line"> * @param data Event data</span><br><span class="line"> */</span><br><span class="line">public void fireLifecycleEvent(String type, Object data) &#123;</span><br><span class="line"></span><br><span class="line">    LifecycleEvent event = new LifecycleEvent(lifecycle, type, data);</span><br><span class="line">    LifecycleListener interested[] = listeners;</span><br><span class="line">    for (int i = 0; i &lt; interested.length; i++)</span><br><span class="line">        interested[i].lifecycleEvent(event);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>所以，具体事件的通知是由LifecycleListener接口的lifecycleEvent方法完成的，各实现类可以根据不同的情况实现不同的事件监听逻辑</p>
+<h3 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h3><p>Service是具体提供服务的接口，一个Service包装了Connector和一个Container，在Tomcat中这点是如何实现的呢？Service是一个接口，其标准实现类是StandardService，下面是这两个类的鸟瞰图：<br><img src="/img/Service.jpg" alt=""><br><img src="/img/StandardService.jpg" alt=""><br>这里，我们只关心与Connector和Container最紧密的方法：setContainer()和addConnector()方法，先看一下setContainer()方法的源码：<br>代码清单2-1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Set the &lt;code&gt;Container&lt;/code&gt; that handles requests for all</span><br><span class="line"> * &lt;code&gt;Connectors&lt;/code&gt; associated with this Service.</span><br><span class="line"> *</span><br><span class="line"> * @param container The new Container</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">public void setContainer(Container container) &#123;</span><br><span class="line"></span><br><span class="line">    Container oldContainer = this.container;</span><br><span class="line">    if ((oldContainer != null) &amp;&amp; (oldContainer instanceof Engine))</span><br><span class="line">        ((Engine) oldContainer).setService(null);</span><br><span class="line">    this.container = container;</span><br><span class="line">    if ((this.container != null) &amp;&amp; (this.container instanceof Engine))</span><br><span class="line">        ((Engine) this.container).setService(this);</span><br><span class="line">    if (getState().isAvailable() &amp;&amp; (this.container != null)) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            this.container.start();</span><br><span class="line">        &#125; catch (LifecycleException e) &#123;</span><br><span class="line">            // Ignore</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if (getState().isAvailable() &amp;&amp; (oldContainer != null)) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            oldContainer.stop();</span><br><span class="line">        &#125; catch (LifecycleException e) &#123;</span><br><span class="line">            // Ignore</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Report this property change to interested listeners</span><br><span class="line">    support.firePropertyChange(&quot;container&quot;, oldContainer, this.container);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从代码中可以看到这个方法主要的任务是设置一个Container容器来处理一个或者多个Connector传送过来的请求。首先判断当前的Service是否已经关联了Container容器，如果已经关联了就去除这个关联关系。如果原来的Container容器已经启动了就终止其生命周期，结束运行并设置新的关联关系，这个新的Container容器开始新的生命周期。最后把这个过程通知给感兴趣的事件监听程序。</p>
+<p>下面看看addConnector的方法：</p>
+<p>代码清单2-2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Add a new Connector to the set of defined Connectors, and associate it</span><br><span class="line"> * with this Service&apos;s Container.</span><br><span class="line"> *</span><br><span class="line"> * @param connector The Connector to be added</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">public void addConnector(Connector connector) &#123;</span><br><span class="line"></span><br><span class="line">    synchronized (connectors) &#123;</span><br><span class="line">        connector.setService(this);</span><br><span class="line">        Connector results[] = new Connector[connectors.length + 1];</span><br><span class="line">        System.arraycopy(connectors, 0, results, 0, connectors.length);</span><br><span class="line">        results[connectors.length] = connector;</span><br><span class="line">        connectors = results;</span><br><span class="line"></span><br><span class="line">        if (getState().isAvailable()) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                connector.start();</span><br><span class="line">            &#125; catch (LifecycleException e) &#123;</span><br><span class="line">                log.error(sm.getString(</span><br><span class="line">                        &quot;standardService.connector.startFailed&quot;,</span><br><span class="line">                        connector), e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Report this property change to interested listeners</span><br><span class="line">        support.firePropertyChange(&quot;connector&quot;, null, connector);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行过程也比较清楚：用一个同步代码块包住connectors数组，首先设置connector与container和service的关联关系，然后让connector开始新的生命周期，最后通知感兴趣的事件监听程序。注意到Connector的管理和Server管理Service一样都使用了数组拷贝并把新的数组赋给当前的数组，从而间接实现了动态数组。之所以使用数组我想可能是出于性能的考虑吧。</p>
 
           
         
@@ -2108,7 +2125,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">82</span>
+                    <span class="site-state-item-count">85</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2262,7 +2279,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">56</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">59</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
