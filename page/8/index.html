@@ -503,7 +503,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/单片机/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/文件下载/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -522,8 +522,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/单片机/" itemprop="url">
-                  单片机
+                <a class="post-title-link" href="/2018/07/20/文件下载/" itemprop="url">
+                  javaweb (六 )
                 </a>
               
             
@@ -567,7 +567,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/杂七杂八/" itemprop="url" rel="index"><span itemprop="name">杂七杂八</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
 
                 
                 
@@ -603,11 +603,22 @@
       
         
           
-            <h3 id="单片机"><a href="#单片机" class="headerlink" title="单片机"></a>单片机</h3><h5 id="4、89C51共有哪些中断源？对其中端请求如何进行控制？"><a href="#4、89C51共有哪些中断源？对其中端请求如何进行控制？" class="headerlink" title="4、89C51共有哪些中断源？对其中端请求如何进行控制？"></a>4、89C51共有哪些中断源？对其中端请求如何进行控制？</h5><p>答：（1）89C51有如下中断源<br>①:外部中断0请求，低电平有效<br>②:外部中断1请求，低电平有效<br>③T0：定时器、计数器0溢出中断请求<br>④T1：定时器、计数器1溢出中断请求<br>⑤TX/RX：串行接口中断请求<br>（2）通过对特殊功能寄存器TCON、SCON、IE、IP的各位进行置位或复位等操作，可实现各种中断控制功能</p>
-<h5 id="5、什么是中断优先级？中断优先处理的原则是什么？"><a href="#5、什么是中断优先级？中断优先处理的原则是什么？" class="headerlink" title="5、什么是中断优先级？中断优先处理的原则是什么？"></a>5、什么是中断优先级？中断优先处理的原则是什么？</h5><p>答：中断优先级是CPU相应中断的先后顺序。原则：<br>（1）  先响应优先级高的中断请求，再响应优先级低的<br>（2）  如果一个中断请求已经被响应，同级的其它中断请求将被禁止<br>（3）  如果同级的多个请求同时出现，则CPU通过内部硬件查询电路，按查询顺序确定应该响应哪个中断请求<br>查询顺序：外部中断0→定时器0中断→外部中断1→定时器1中断→串行接口中断</p>
-<h5 id="11、当正在执行某一个中断源的中断服务程序时，如果有新的中断请求出现，试问在什么情况下可响应新的中断请求？在什么情况下不能响应新的中断请求？"><a href="#11、当正在执行某一个中断源的中断服务程序时，如果有新的中断请求出现，试问在什么情况下可响应新的中断请求？在什么情况下不能响应新的中断请求？" class="headerlink" title="11、当正在执行某一个中断源的中断服务程序时，如果有新的中断请求出现，试问在什么情况下可响应新的中断请求？在什么情况下不能响应新的中断请求？"></a>11、当正在执行某一个中断源的中断服务程序时，如果有新的中断请求出现，试问在什么情况下可响应新的中断请求？在什么情况下不能响应新的中断请求？</h5><p>答：（1）符合以下6个条件可响应新的中断请求：<br>a)       有中断源发出中断请求<br>b)       中断允许位EA=1，即CPU开中断<br>c)       申请中断的中断源的中断允许位为1，即中断没有被屏蔽<br>d)       无同级或更高级中断正在被服务<br>e)       当前的指令周期已结束<br>f)        若现行指令为RETI或访问IE或IP指令时，该指令以及紧接着的另一条指令已被执行完</p>
-<h5 id="14、89C51各中断源的中断标志是如何产生的？又是如何清0的？CPU响应中断时，中断入口地址各是多少？"><a href="#14、89C51各中断源的中断标志是如何产生的？又是如何清0的？CPU响应中断时，中断入口地址各是多少？" class="headerlink" title="14、89C51各中断源的中断标志是如何产生的？又是如何清0的？CPU响应中断时，中断入口地址各是多少？"></a>14、89C51各中断源的中断标志是如何产生的？又是如何清0的？CPU响应中断时，中断入口地址各是多少？</h5><p>答：各中断标志的产生和清“0”如下：<br>（1）  外部中断类<br>外部中断是由外部原因引起的，可以通过两个固定引脚，即外部中断0和外部中断1输入信号。<br>外部中断0请求信号，由P3.2脚输入。通过IT0来决定中断请求信号是低电平有效还是下跳变有效。一旦输入信号有效，则向CPU申请中断，并且使IE0=1。硬件复位。<br>外部中断1请求信号，功能与用法类似外部中断0<br>（2）  定时中断类<br>定时中断是为满足定时或计数溢出处理需要而设置的。当定时器/计数器中的计数结构发生计数溢出的，即表明定时时间到或计数值已满，这时就以计数溢出信号作为中断请求，去置位一个溢出标志位。这种中断请求是在单片机芯片内部发生的，无需在芯片上设置引入端，但在计数方式时，中断源可以由外部引入。<br>TF0：定时器T0溢出中断请求。当定时器T0产生溢出时，定时器T0请求标志TF0=1，请求中断处理。使用中断时由硬件复位，在查询方式下可由软件复位。<br>TF1：定时器T1溢出中断请求。功能与用法类似定时器T0<br>（3）  串行口中断类<br>串行口中断是为串行数据的传送需要而设置的。串行中断请求也是在单片机芯片内部发生的，但当串行口作为接收端时，必须有一完整的串行帧数据从RI端引入芯片，才可能引发中断。<br>RI或TI：串行口中断请求。当接收或发送一串帧数据时，使内部串行口中断请求标志RI或TI=1，并请求中断。响应后必须软件复位。<br> CPU响应中断时，中断入口地址如下：<br> 中断源       入口地址<br>外部中断0    0003H<br>定时器T0中断000BH<br>外部中断1    0013H<br>定时器T1中断001BH<br>串行口中断    0023H</p>
-<p>答案：<br>        1）首先判断有无键按下：  (3分)<br>        将列线全部置0，读行线状态，若P1.0~P1.3全为1，则表明无键按下，若出现低电平即0，则有键按下，记录下行号 i ;<br>        2) 其次，如有键按下，判断具体键号  (7分)<br>        方法如下：逐列为低，其它为高，再读行线状态，如出现哪一行为低，记录此时的列号j ， 则证明第i行第j列的按键被按下，至此完成键盘的行列式扫描。</p>
+            <h3 id="文件下载"><a href="#文件下载" class="headerlink" title="文件下载"></a>文件下载</h3><p>文件下载功能是web开发中经常使用到的功能，使用HttpServletResponse对象就可以实现文件的下载<br>文件下载功能的实现思路：</p>
+<ul>
+<li>1.获取要下载的文件的绝对路径</li>
+<li>2.获取要下载的文件名</li>
+<li>3.设置content-disposition响应头控制浏览器以下载的形式打开文件</li>
+<li>4.获取要下载的文件输入流</li>
+<li>5.创建数据缓冲区</li>
+<li>6.通过response对象获取OutputStream流</li>
+<li>7.将FileInputStream流写入到buffer缓冲区</li>
+<li><p>8.使用OutputStream将缓冲区的数据输出到客户端浏览器<br>范例：使用Response实现文件下载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.*;</span><br><span class="line">import java.net.URLEncoder;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo2&quot;)</span><br><span class="line">public class ResponseDemo2 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        downloadChineseFileByOutputStream(response);//下载中文文件</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void downloadChineseFileByOutputStream(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        String realPath = this.getServletContext().getRealPath(&quot;/download/自由.jpg&quot;);//获取要下载的文件的绝对路径</span><br><span class="line">        String fileName = realPath.substring(realPath.lastIndexOf(&quot;\\&quot;)+1);//获取要下载的文件名</span><br><span class="line">        //设置content-disposition响应头控制浏览器以下载的形式打开文件，中文文件名要使用URLEncoder.encode方法进行编码，否则会出现文件名乱码</span><br><span class="line">        response.setHeader(&quot;content-disposition&quot;, &quot;attachment;filename=&quot;+ URLEncoder.encode(fileName, &quot;UTF-8&quot;));</span><br><span class="line">        InputStream in = new FileInputStream(realPath);//获取文件输入流</span><br><span class="line">        int len = 0;</span><br><span class="line">        byte[] buffer = new byte[1024];</span><br><span class="line">        OutputStream out = response.getOutputStream();</span><br><span class="line">        while ((len = in.read(buffer)) &gt; 0) &#123;</span><br><span class="line">            out.write(buffer,0,len);//将缓冲区的数据输出到客户端浏览器</span><br><span class="line">        &#125;</span><br><span class="line">        in.close();</span><br><span class="line">        out.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载中文文件时，需要注意的地方就是中文文件名要使用URLEncoder.encode方法进行编码(URLEncoder.encode(fileName, “字符编码”))，否则会出现文件名乱码。</p>
+</li>
+<li>文件下载注意事项：编写文件下载功能时推荐使用OutputStream流，避免使用PrintWriter流，因为OutputStream流是字节流，可以处理任意类型的数据，而PrintWriter流是字符流，只能处理字符数据，如果用字符流处理字节数据，会导致数据丢失。</li>
+</ul>
 
           
         
@@ -830,7 +841,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/面试题一/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/我的第一个原型设计——模仿知乎的注册界面/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -849,8 +860,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/面试题一/" itemprop="url">
-                  java 基础题(一)
+                <a class="post-title-link" href="/2018/07/20/我的第一个原型设计——模仿知乎的注册界面/" itemprop="url">
+                  我的第一个原型设计——模仿知乎的注册界面
                 </a>
               
             
@@ -894,7 +905,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
 
                 
                 
@@ -930,52 +941,190 @@
       
         
           
-            <p>1、一个”.java”源文件中是否可以包括多个类（不是内部类）？有什么限制？</p>
+            <h3 id="我的第一个原型设计——模仿知乎的注册界面"><a href="#我的第一个原型设计——模仿知乎的注册界面" class="headerlink" title="我的第一个原型设计——模仿知乎的注册界面"></a>我的第一个原型设计——模仿知乎的注册界面</h3><h4 id="一-模仿什么？"><a href="#一-模仿什么？" class="headerlink" title="一.模仿什么？"></a>一.模仿什么？</h4><p>模仿一个网站，从两个方面来看。首先是用元件所呈现的这个界面最直观的部分，然后就是交互部分。</p>
+<h5 id="1-元件布局"><a href="#1-元件布局" class="headerlink" title="1.元件布局"></a>1.元件布局</h5><p>首先我们来看一下知乎注册界面：</p>
+<p><img src="/img/zhihu.png" alt=""><br>从这个布局，我们很容易分析出来它的各个元件，如下：</p>
+<p><img src="/img/zhihu2.png" alt=""></p>
+<h5 id="2-交互效果"><a href="#2-交互效果" class="headerlink" title="2.交互效果"></a>2.交互效果</h5><p>从上往下看</p>
 <ul>
-<li>可以有多个类，但只能有一个public的类，并且public的类名必须与文件名相一致。</li>
-</ul>
-<p>2、Java有没有goto?</p>
-<ul>
-<li>java中的保留字，现在没有在java中使用。</li>
-</ul>
-<p>3、说说&amp;和&amp;&amp;的区别。</p>
-<ul>
-<li>&amp;和&amp;&amp;都可以用作逻辑与的运算符，表示逻辑与（and），当运算符两边的表达式的结果都为true时，整个运算结果才为true，否则，只要有一方为false，则结果为false。</li>
-<li>&amp;&amp;还具有短路的功能，即如果第一个表达式为false，则不再计算第二个表达式，例如，对于if(str!= null&amp;&amp; !str.equals(s))表达式，当str为null时，后面的表达式不会执行，所以不会出现NullPointerException如果将&amp;&amp;改为&amp;，则会抛出NullPointerException异常。If(x==33 &amp;++y&gt;0) y会增长，If(x==33 &amp;&amp; ++y&gt;0)不会增长</li>
-<li>&amp;还可以用作位运算符，当&amp;操作符两边的表达式不是boolean类型时，&amp;表示按位与操作，我们通常使用0x0f来与一个整数进行&amp;运算，来获取该整数的最低4个bit位，例如，0x31 &amp; 0x0f的结果为0x01。</li>
-</ul>
-<p>4、在JAVA中如何跳出当前的多重嵌套循环？<br>        在Java中，要想跳出多重循环，可以在外面的循环语句前定义一个标号，让外层的循环条件表达式的结果可以受到里层循环体代码的控制，例如，要在二维数组中查找到某个数字。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">int arr[][] =&#123;&#123;1,2,3&#125;,&#123;4,5,6,7&#125;,&#123;9&#125;&#125;;</span><br><span class="line">boolean found = false;</span><br><span class="line">for(int i=0;i&lt;arr.length&amp;&amp;!found;i++)       &#123;</span><br><span class="line">        for(intj=0;j&lt;arr[i].length;j++)&#123;</span><br><span class="line">              System.out.println(“i=” + i + “,j=” + j);</span><br><span class="line">              if(arr[i][j] ==5) &#123;</span><br><span class="line">                      found =true;</span><br><span class="line">                      break;</span><br><span class="line">              &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>5、switch语句能否作用在byte上，能否作用在long上，能否作用在String上?</p>
-<ul>
-<li>在switch（e）中，e只能是一个整数表达式或者枚举常量（更大字体），整数表达式可以是int基本类型或Integer包装类型，由于byte,short,char都可以隐含转换为int，所以，这些类型以及这些类型的包装类型也是可以的。显然，long和String类型都不符合switch的语法规定，并且不能被隐式转换成int类型，所以，它们不能作用于swtich语句中。</li>
-<li>switch语句能否作用在String上说错了，Java1.7之后已经支持这种写法了！</li>
-</ul>
-<p>6、short s1= 1; s1 = （s1+1）（（s1+1）是int类型，而等号左边的是short类型，所以需要强转）1 + 1;有什么错? short s1 = 1; s1 += 1;有什么错?(没有错)</p>
-<ul>
-<li>对于short s1= 1; s1 = s1 + 1;由于s1+1运算时会自动提升表达式的类型，所以结果是int型，再赋值给short类型s1时，编译器将报告需要强制转换类型的错误。</li>
-<li>对于short s1= 1; s1 += 1;由于 +=是java语言规定的运算符，java编译器会对它进行特殊处理，因此可以正确编译。</li>
-</ul>
-<p>7、char型变量中能不能存贮一个中文汉字?为什么?</p>
-<ul>
-<li>char型变量是用来存储Unicode编码的字符的，unicode编码字符集中包含了汉字，所以，char型变量中当然可以存储汉字啦。不过，如果某个特殊的汉字没有被包含在unicode编码字符集中，那么，这个char型变量中就不能存储这个特殊汉字。</li>
-<li>补充说明：unicode编码占用两个字节，所以，char类型的变量也是占用两个字节。</li>
-</ul>
-<p>8、用最有效率的方法算出2乘以8等於几?</p>
-<ul>
-<li>2&lt;&lt; 3，(左移三位)因为将一个数左移n位，就相当于乘以了2的n次方，那么，一个数乘以8只要将其左移3位即可，而位运算cpu直接支持的，效率最高，所以，2乘以8等於几的最效率的方法是2&lt;&lt; 3。</li>
-</ul>
-<p>9、使用final关键字修饰一个变量时，是引用不能变，还是引用的对象不能变？</p>
-<ul>
-<li>使用final关键字修饰一个变量时，是指引用变量不能变，引用变量所指向的对象中的内容还是可以改变的。例如，对于如下语句：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> finalStringBuffer a=new StringBuffer(&quot;immutable&quot;);</span><br><span class="line">执行如下语句将报告编译期错误：</span><br><span class="line">a=new StringBuffer(&quot;&quot;);</span><br><span class="line">但是，执行如下语句则可以通过编译：</span><br><span class="line">a.append(&quot; broken!&quot;);</span><br><span class="line">有人在定义方法的参数时，可能想采用如下形式来阻止方法内部修改传进来的参数对象：</span><br><span class="line">public void method(final  StringBuffer param)&#123;</span><br><span class="line">&#125;</span><br><span class="line">实际上，这是办不到的，在该方法内部仍然可以增加如下代码来修改参数对象：</span><br><span class="line">        param.append(&quot;a&quot;);</span><br></pre></td></tr></table></figure>
+<li><p>（1）logo和标语，没有什么交互效果，只需要填充相应的数据就可以了。</p>
+</li>
+<li><p>（2）注册矩形框，和下面的条条一样是蓝色的。</p>
+</li>
+<li><p>（3）登录矩形框 </p>
 </li>
 </ul>
-<p>10，静态变量和实例变量的区别？</p>
 <ul>
-<li>在语法定义上的区别：静态变量前要加static关键字，而实例变量前则不加。</li>
-<li>在程序运行时的区别：实例变量属于某个对象的属性，必须创建了实例对象，其中的实例变量才会被分配空间，才能使用这个实例变量。静态变量不属于某个实例对象，而是属于类，所以也称为类变量，只要程序加载了类的字节码，不用创建任何实例对象，静态变量就会被分配空间，静态变量就可以被使用了。总之，实例变量必须创建对象后才可以通过这个对象来使用，静态变量则可以直接使用类名来引用。</li>
-<li>例如，对于下面的程序，无论创建多少个实例对象，永远都只分配了一个staticVar变量，并且每创建一个实例对象，这个staticVar就会加1；但是，每创建一个实例对象，就会分配一个instanceVar，即可能分配多个instanceVar，并且每个instanceVar的值都只自加了1次。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class VariantTest&#123;</span><br><span class="line">        publicstatic int staticVar = 0;</span><br><span class="line">        publicint instanceVar = 0;</span><br><span class="line">        publicVariantTest()&#123;</span><br><span class="line">              staticVar++;</span><br><span class="line">              instanceVar++;</span><br><span class="line">              System.out.println(staticVar +instanceVar);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>鼠标悬浮的时候，颜色会变浅 </li>
+<li>点击登陆后，登录的字体的颜色会变蓝色 </li>
+<li>注册的字体颜色会变成灰色 </li>
+<li>下面的蓝色小条条会移动到登录矩形框的下面 </li>
+<li>界面也会变成登陆的时的界面。</li>
+</ul>
+<ul>
+<li><p>（4）输入，包括姓名、手机号和密码<br>对于页面载入时，鼠标的光标的焦点在姓名输入框；<br>如果三个文本框都没有输入文字，点击注册按钮，这时在姓名文本框后面就会出现一个提示“姓名不能为空”，并且这个文字会抖动一下。<br>同样姓名填了，手机号没有填，右侧就会提醒手机号不能为空，文字也会抖几下，密码同上。<br>当出现提示文字的时候，如果把鼠标的焦点移到该输入文本框时候，提示文字就会从右侧逐渐消退。</p>
+</li>
+<li><p>（5）提示中的知乎协议和下载知乎APP,点击就会进入另外的界面。</p>
 </li>
 </ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/单片机/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/单片机/" itemprop="url">
+                  单片机
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/杂七杂八/" itemprop="url" rel="index"><span itemprop="name">杂七杂八</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="单片机"><a href="#单片机" class="headerlink" title="单片机"></a>单片机</h3><h5 id="4、89C51共有哪些中断源？对其中端请求如何进行控制？"><a href="#4、89C51共有哪些中断源？对其中端请求如何进行控制？" class="headerlink" title="4、89C51共有哪些中断源？对其中端请求如何进行控制？"></a>4、89C51共有哪些中断源？对其中端请求如何进行控制？</h5><p>答：（1）89C51有如下中断源<br>①:外部中断0请求，低电平有效<br>②:外部中断1请求，低电平有效<br>③T0：定时器、计数器0溢出中断请求<br>④T1：定时器、计数器1溢出中断请求<br>⑤TX/RX：串行接口中断请求<br>（2）通过对特殊功能寄存器TCON、SCON、IE、IP的各位进行置位或复位等操作，可实现各种中断控制功能</p>
+<h5 id="5、什么是中断优先级？中断优先处理的原则是什么？"><a href="#5、什么是中断优先级？中断优先处理的原则是什么？" class="headerlink" title="5、什么是中断优先级？中断优先处理的原则是什么？"></a>5、什么是中断优先级？中断优先处理的原则是什么？</h5><p>答：中断优先级是CPU相应中断的先后顺序。原则：<br>（1）  先响应优先级高的中断请求，再响应优先级低的<br>（2）  如果一个中断请求已经被响应，同级的其它中断请求将被禁止<br>（3）  如果同级的多个请求同时出现，则CPU通过内部硬件查询电路，按查询顺序确定应该响应哪个中断请求<br>查询顺序：外部中断0→定时器0中断→外部中断1→定时器1中断→串行接口中断</p>
+<h5 id="11、当正在执行某一个中断源的中断服务程序时，如果有新的中断请求出现，试问在什么情况下可响应新的中断请求？在什么情况下不能响应新的中断请求？"><a href="#11、当正在执行某一个中断源的中断服务程序时，如果有新的中断请求出现，试问在什么情况下可响应新的中断请求？在什么情况下不能响应新的中断请求？" class="headerlink" title="11、当正在执行某一个中断源的中断服务程序时，如果有新的中断请求出现，试问在什么情况下可响应新的中断请求？在什么情况下不能响应新的中断请求？"></a>11、当正在执行某一个中断源的中断服务程序时，如果有新的中断请求出现，试问在什么情况下可响应新的中断请求？在什么情况下不能响应新的中断请求？</h5><p>答：（1）符合以下6个条件可响应新的中断请求：<br>a)       有中断源发出中断请求<br>b)       中断允许位EA=1，即CPU开中断<br>c)       申请中断的中断源的中断允许位为1，即中断没有被屏蔽<br>d)       无同级或更高级中断正在被服务<br>e)       当前的指令周期已结束<br>f)        若现行指令为RETI或访问IE或IP指令时，该指令以及紧接着的另一条指令已被执行完</p>
+<h5 id="14、89C51各中断源的中断标志是如何产生的？又是如何清0的？CPU响应中断时，中断入口地址各是多少？"><a href="#14、89C51各中断源的中断标志是如何产生的？又是如何清0的？CPU响应中断时，中断入口地址各是多少？" class="headerlink" title="14、89C51各中断源的中断标志是如何产生的？又是如何清0的？CPU响应中断时，中断入口地址各是多少？"></a>14、89C51各中断源的中断标志是如何产生的？又是如何清0的？CPU响应中断时，中断入口地址各是多少？</h5><p>答：各中断标志的产生和清“0”如下：<br>（1）  外部中断类<br>外部中断是由外部原因引起的，可以通过两个固定引脚，即外部中断0和外部中断1输入信号。<br>外部中断0请求信号，由P3.2脚输入。通过IT0来决定中断请求信号是低电平有效还是下跳变有效。一旦输入信号有效，则向CPU申请中断，并且使IE0=1。硬件复位。<br>外部中断1请求信号，功能与用法类似外部中断0<br>（2）  定时中断类<br>定时中断是为满足定时或计数溢出处理需要而设置的。当定时器/计数器中的计数结构发生计数溢出的，即表明定时时间到或计数值已满，这时就以计数溢出信号作为中断请求，去置位一个溢出标志位。这种中断请求是在单片机芯片内部发生的，无需在芯片上设置引入端，但在计数方式时，中断源可以由外部引入。<br>TF0：定时器T0溢出中断请求。当定时器T0产生溢出时，定时器T0请求标志TF0=1，请求中断处理。使用中断时由硬件复位，在查询方式下可由软件复位。<br>TF1：定时器T1溢出中断请求。功能与用法类似定时器T0<br>（3）  串行口中断类<br>串行口中断是为串行数据的传送需要而设置的。串行中断请求也是在单片机芯片内部发生的，但当串行口作为接收端时，必须有一完整的串行帧数据从RI端引入芯片，才可能引发中断。<br>RI或TI：串行口中断请求。当接收或发送一串帧数据时，使内部串行口中断请求标志RI或TI=1，并请求中断。响应后必须软件复位。<br> CPU响应中断时，中断入口地址如下：<br> 中断源       入口地址<br>外部中断0    0003H<br>定时器T0中断000BH<br>外部中断1    0013H<br>定时器T1中断001BH<br>串行口中断    0023H</p>
+<p>答案：<br>        1）首先判断有无键按下：  (3分)<br>        将列线全部置0，读行线状态，若P1.0~P1.3全为1，则表明无键按下，若出现低电平即0，则有键按下，记录下行号 i ;<br>        2) 其次，如有键按下，判断具体键号  (7分)<br>        方法如下：逐列为低，其它为高，再读行线状态，如出现哪一行为低，记录此时的列号j ， 则证明第i行第j列的按键被按下，至此完成键盘的行列式扫描。</p>
 
           
         
@@ -1415,7 +1564,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/我的第一个原型设计——模仿知乎的注册界面/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/面试题一/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -1434,8 +1583,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/我的第一个原型设计——模仿知乎的注册界面/" itemprop="url">
-                  我的第一个原型设计——模仿知乎的注册界面
+                <a class="post-title-link" href="/2018/07/20/面试题一/" itemprop="url">
+                  java 基础题(一)
                 </a>
               
             
@@ -1479,7 +1628,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
 
                 
                 
@@ -1515,32 +1664,220 @@
       
         
           
-            <h3 id="我的第一个原型设计——模仿知乎的注册界面"><a href="#我的第一个原型设计——模仿知乎的注册界面" class="headerlink" title="我的第一个原型设计——模仿知乎的注册界面"></a>我的第一个原型设计——模仿知乎的注册界面</h3><h4 id="一-模仿什么？"><a href="#一-模仿什么？" class="headerlink" title="一.模仿什么？"></a>一.模仿什么？</h4><p>模仿一个网站，从两个方面来看。首先是用元件所呈现的这个界面最直观的部分，然后就是交互部分。</p>
-<h5 id="1-元件布局"><a href="#1-元件布局" class="headerlink" title="1.元件布局"></a>1.元件布局</h5><p>首先我们来看一下知乎注册界面：</p>
-<p><img src="/img/zhihu.png" alt=""><br>从这个布局，我们很容易分析出来它的各个元件，如下：</p>
-<p><img src="/img/zhihu2.png" alt=""></p>
-<h5 id="2-交互效果"><a href="#2-交互效果" class="headerlink" title="2.交互效果"></a>2.交互效果</h5><p>从上往下看</p>
+            <p>1、一个”.java”源文件中是否可以包括多个类（不是内部类）？有什么限制？</p>
 <ul>
-<li><p>（1）logo和标语，没有什么交互效果，只需要填充相应的数据就可以了。</p>
-</li>
-<li><p>（2）注册矩形框，和下面的条条一样是蓝色的。</p>
-</li>
-<li><p>（3）登录矩形框 </p>
+<li>可以有多个类，但只能有一个public的类，并且public的类名必须与文件名相一致。</li>
+</ul>
+<p>2、Java有没有goto?</p>
+<ul>
+<li>java中的保留字，现在没有在java中使用。</li>
+</ul>
+<p>3、说说&amp;和&amp;&amp;的区别。</p>
+<ul>
+<li>&amp;和&amp;&amp;都可以用作逻辑与的运算符，表示逻辑与（and），当运算符两边的表达式的结果都为true时，整个运算结果才为true，否则，只要有一方为false，则结果为false。</li>
+<li>&amp;&amp;还具有短路的功能，即如果第一个表达式为false，则不再计算第二个表达式，例如，对于if(str!= null&amp;&amp; !str.equals(s))表达式，当str为null时，后面的表达式不会执行，所以不会出现NullPointerException如果将&amp;&amp;改为&amp;，则会抛出NullPointerException异常。If(x==33 &amp;++y&gt;0) y会增长，If(x==33 &amp;&amp; ++y&gt;0)不会增长</li>
+<li>&amp;还可以用作位运算符，当&amp;操作符两边的表达式不是boolean类型时，&amp;表示按位与操作，我们通常使用0x0f来与一个整数进行&amp;运算，来获取该整数的最低4个bit位，例如，0x31 &amp; 0x0f的结果为0x01。</li>
+</ul>
+<p>4、在JAVA中如何跳出当前的多重嵌套循环？<br>        在Java中，要想跳出多重循环，可以在外面的循环语句前定义一个标号，让外层的循环条件表达式的结果可以受到里层循环体代码的控制，例如，要在二维数组中查找到某个数字。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">int arr[][] =&#123;&#123;1,2,3&#125;,&#123;4,5,6,7&#125;,&#123;9&#125;&#125;;</span><br><span class="line">boolean found = false;</span><br><span class="line">for(int i=0;i&lt;arr.length&amp;&amp;!found;i++)       &#123;</span><br><span class="line">        for(intj=0;j&lt;arr[i].length;j++)&#123;</span><br><span class="line">              System.out.println(“i=” + i + “,j=” + j);</span><br><span class="line">              if(arr[i][j] ==5) &#123;</span><br><span class="line">                      found =true;</span><br><span class="line">                      break;</span><br><span class="line">              &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>5、switch语句能否作用在byte上，能否作用在long上，能否作用在String上?</p>
+<ul>
+<li>在switch（e）中，e只能是一个整数表达式或者枚举常量（更大字体），整数表达式可以是int基本类型或Integer包装类型，由于byte,short,char都可以隐含转换为int，所以，这些类型以及这些类型的包装类型也是可以的。显然，long和String类型都不符合switch的语法规定，并且不能被隐式转换成int类型，所以，它们不能作用于swtich语句中。</li>
+<li>switch语句能否作用在String上说错了，Java1.7之后已经支持这种写法了！</li>
+</ul>
+<p>6、short s1= 1; s1 = （s1+1）（（s1+1）是int类型，而等号左边的是short类型，所以需要强转）1 + 1;有什么错? short s1 = 1; s1 += 1;有什么错?(没有错)</p>
+<ul>
+<li>对于short s1= 1; s1 = s1 + 1;由于s1+1运算时会自动提升表达式的类型，所以结果是int型，再赋值给short类型s1时，编译器将报告需要强制转换类型的错误。</li>
+<li>对于short s1= 1; s1 += 1;由于 +=是java语言规定的运算符，java编译器会对它进行特殊处理，因此可以正确编译。</li>
+</ul>
+<p>7、char型变量中能不能存贮一个中文汉字?为什么?</p>
+<ul>
+<li>char型变量是用来存储Unicode编码的字符的，unicode编码字符集中包含了汉字，所以，char型变量中当然可以存储汉字啦。不过，如果某个特殊的汉字没有被包含在unicode编码字符集中，那么，这个char型变量中就不能存储这个特殊汉字。</li>
+<li>补充说明：unicode编码占用两个字节，所以，char类型的变量也是占用两个字节。</li>
+</ul>
+<p>8、用最有效率的方法算出2乘以8等於几?</p>
+<ul>
+<li>2&lt;&lt; 3，(左移三位)因为将一个数左移n位，就相当于乘以了2的n次方，那么，一个数乘以8只要将其左移3位即可，而位运算cpu直接支持的，效率最高，所以，2乘以8等於几的最效率的方法是2&lt;&lt; 3。</li>
+</ul>
+<p>9、使用final关键字修饰一个变量时，是引用不能变，还是引用的对象不能变？</p>
+<ul>
+<li>使用final关键字修饰一个变量时，是指引用变量不能变，引用变量所指向的对象中的内容还是可以改变的。例如，对于如下语句：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> finalStringBuffer a=new StringBuffer(&quot;immutable&quot;);</span><br><span class="line">执行如下语句将报告编译期错误：</span><br><span class="line">a=new StringBuffer(&quot;&quot;);</span><br><span class="line">但是，执行如下语句则可以通过编译：</span><br><span class="line">a.append(&quot; broken!&quot;);</span><br><span class="line">有人在定义方法的参数时，可能想采用如下形式来阻止方法内部修改传进来的参数对象：</span><br><span class="line">public void method(final  StringBuffer param)&#123;</span><br><span class="line">&#125;</span><br><span class="line">实际上，这是办不到的，在该方法内部仍然可以增加如下代码来修改参数对象：</span><br><span class="line">        param.append(&quot;a&quot;);</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
+<p>10，静态变量和实例变量的区别？</p>
 <ul>
-<li>鼠标悬浮的时候，颜色会变浅 </li>
-<li>点击登陆后，登录的字体的颜色会变蓝色 </li>
-<li>注册的字体颜色会变成灰色 </li>
-<li>下面的蓝色小条条会移动到登录矩形框的下面 </li>
-<li>界面也会变成登陆的时的界面。</li>
-</ul>
-<ul>
-<li><p>（4）输入，包括姓名、手机号和密码<br>对于页面载入时，鼠标的光标的焦点在姓名输入框；<br>如果三个文本框都没有输入文字，点击注册按钮，这时在姓名文本框后面就会出现一个提示“姓名不能为空”，并且这个文字会抖动一下。<br>同样姓名填了，手机号没有填，右侧就会提醒手机号不能为空，文字也会抖几下，密码同上。<br>当出现提示文字的时候，如果把鼠标的焦点移到该输入文本框时候，提示文字就会从右侧逐渐消退。</p>
-</li>
-<li><p>（5）提示中的知乎协议和下载知乎APP,点击就会进入另外的界面。</p>
+<li>在语法定义上的区别：静态变量前要加static关键字，而实例变量前则不加。</li>
+<li>在程序运行时的区别：实例变量属于某个对象的属性，必须创建了实例对象，其中的实例变量才会被分配空间，才能使用这个实例变量。静态变量不属于某个实例对象，而是属于类，所以也称为类变量，只要程序加载了类的字节码，不用创建任何实例对象，静态变量就会被分配空间，静态变量就可以被使用了。总之，实例变量必须创建对象后才可以通过这个对象来使用，静态变量则可以直接使用类名来引用。</li>
+<li>例如，对于下面的程序，无论创建多少个实例对象，永远都只分配了一个staticVar变量，并且每创建一个实例对象，这个staticVar就会加1；但是，每创建一个实例对象，就会分配一个instanceVar，即可能分配多个instanceVar，并且每个instanceVar的值都只自加了1次。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class VariantTest&#123;</span><br><span class="line">        publicstatic int staticVar = 0;</span><br><span class="line">        publicint instanceVar = 0;</span><br><span class="line">        publicVariantTest()&#123;</span><br><span class="line">              staticVar++;</span><br><span class="line">              instanceVar++;</span><br><span class="line">              System.out.println(staticVar +instanceVar);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Linux常用命令学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/Linux常用命令学习/" itemprop="url">
+                  Linux常用命令学习
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Linux常用命令学习"><a href="#Linux常用命令学习" class="headerlink" title="Linux常用命令学习"></a>Linux常用命令学习</h3><h4 id="显示命令"><a href="#显示命令" class="headerlink" title="显示命令"></a>显示命令</h4><p>arch 显示机器的处理器架构(1)<br>uname -m 显示机器的处理器架构(2)<br>uname -r 显示正在使用的内核版本<br>dmidecode -q 显示硬件系统部件 - (SMBIOS / DMI)<br>hdparm -i /dev/hda 罗列一个磁盘的架构特性<br>hdparm -tT /dev/sda 在磁盘上执行测试性读取操作<br>cat /proc/cpuinfo 显示CPU info的信息<br>cat /proc/interrupts 显示中断<br>cat /proc/meminfo 校验内存使用<br>cat /proc/swaps 显示哪些swap被使用<br>cat /proc/version 显示内核的版本<br>cat /proc/net/dev 显示网络适配器及统计<br>cat /proc/mounts 显示已加载的文件系统<br>lspci -tv 罗列 PCI 设备<br>lsusb -tv 显示 USB 设备<br>date 显示系统日期<br>cal 2007 显示2007年的日历表<br>date 041217002007.00 设置日期和时间 - 月日时分年.秒<br>clock -w 将时间修改保存到 BIOS </p>
+<h4 id="关机-系统的关机、重启以及登出"><a href="#关机-系统的关机、重启以及登出" class="headerlink" title="关机 (系统的关机、重启以及登出 )"></a>关机 (系统的关机、重启以及登出 )</h4><p>shutdown -h now 关闭系统(1)<br>init 0 关闭系统(2)<br>telinit 0 关闭系统(3)<br>shutdown -h hours:minutes &amp; 按预定时间关闭系统<br>shutdown -c 取消按预定时间关闭系统<br>shutdown -r now 重启(1)<br>reboot 重启(2)<br>logout 注销 </p>
+<h4 id="文件和目录"><a href="#文件和目录" class="headerlink" title="文件和目录"></a>文件和目录</h4><p>cd /home 进入 ‘/ home’ 目录’<br>cd .. 返回上一级目录<br>cd ../.. 返回上两级目录<br>cd 进入个人的主目录<br>cd ~user1 进入个人的主目录<br>cd - 返回上次所在的目录<br>pwd 显示工作路径<br>ls 查看目录中的文件<br>ls -F 查看目录中的文件<br>ls -l 显示文件和目录的详细资料<br>ls -a 显示隐藏文件<br>ls <em>[0-9]</em> 显示包含数字的文件名和目录名<br>tree 显示文件和目录由根目录开始的树形结构(1)<br>lstree 显示文件和目录由根目录开始的树形结构(2)<br>mkdir dir1 创建一个叫做 ‘dir1’ 的目录’<br>mkdir dir1 dir2 同时创建两个目录<br>mkdir -p /tmp/dir1/dir2 创建一个目录树<br>rm -f file1 删除一个叫做 ‘file1’ 的文件’<br>rmdir dir1 删除一个叫做 ‘dir1’ 的目录’<br>rm -rf dir1 删除一个叫做 ‘dir1’ 的目录并同时删除其内容<br>rm -rf dir1 dir2 同时删除两个目录及它们的内容<br>mv dir1 new_dir 重命名/移动 一个目录<br>cp file1 file2 复制一个文件<br>cp dir/* . 复制一个目录下的所有文件到当前工作目录<br>cp -a /tmp/dir1 . 复制一个目录到当前工作目录<br>cp -a dir1 dir2 复制一个目录<br>ln -s file1 lnk1 创建一个指向文件或目录的软链接<br>ln file1 lnk1 创建一个指向文件或目录的物理链接<br>touch -t 0712250000 file1 修改一个文件或目录的时间戳 - (YYMMDDhhmm)<br>file file1 outputs the mime type of the file as text<br>iconv -l 列出已知的编码 </p>
+<h4 id="文件搜索"><a href="#文件搜索" class="headerlink" title="文件搜索"></a>文件搜索</h4><p>find / -name file1 从 ‘/‘ 开始进入根文件系统搜索文件和目录<br>find / -user user1 搜索属于用户 ‘user1’ 的文件和目录<br>find /home/user1 -name *.bin 在目录 ‘/ home/user1’ 中搜索带有’.bin’ 结尾的文件<br>find /usr/bin -type f -atime +100 搜索在过去100天内未被使用过的执行文件<br>find /usr/bin -type f -mtime -10 搜索在10天内被创建或者修改过的文件<br>find / -name *.rpm -exec chmod 755 ‘{}’ \; 搜索以 ‘.rpm’ 结尾的文件并定义其权限<br>find / -xdev -name *.rpm 搜索以 ‘.rpm’ 结尾的文件，忽略光驱、捷盘等可移动设备<br>locate *.ps 寻找以 ‘.ps’ 结尾的文件 - 先运行 ‘updatedb’ 命令<br>whereis halt 显示一个二进制文件、源码或man的位置<br>which halt 显示一个二进制文件或可执行文件的完整路径 </p>
+<h4 id="挂载一个文件系统"><a href="#挂载一个文件系统" class="headerlink" title="挂载一个文件系统"></a>挂载一个文件系统</h4><p>mount /dev/hda2 /mnt/hda2 挂载一个叫做hda2的盘 - 确定目录 ‘/ mnt/hda2’ 已经存在<br>umount /dev/hda2 卸载一个叫做hda2的盘 - 先从挂载点 ‘/ mnt/hda2’ 退出<br>fuser -km /mnt/hda2 当设备繁忙时强制卸载<br>umount -n /mnt/hda2 运行卸载操作而不写入 /etc/mtab 文件- 当文件为只读或当磁盘写满时非常有用<br>mount /dev/fd0 /mnt/floppy 挂载一个软盘<br>mount /dev/cdrom /mnt/cdrom 挂载一个cdrom或dvdrom<br>mount /dev/hdc /mnt/cdrecorder 挂载一个cdrw或dvdrom<br>mount /dev/hdb /mnt/cdrecorder 挂载一个cdrw或dvdrom<br>mount -o loop file.iso /mnt/cdrom 挂载一个文件或ISO镜像文件<br>mount -t vfat /dev/hda5 /mnt/hda5 挂载一个Windows FAT32文件系统<br>mount /dev/sda1 /mnt/usbdisk 挂载一个usb 捷盘或闪存设备<br>mount -t smbfs -o username=user,password=pass //WinClient/share /mnt/share 挂载一个windows网络共享 </p>
+<h4 id="磁盘空间"><a href="#磁盘空间" class="headerlink" title="磁盘空间"></a>磁盘空间</h4><p>df -h 显示已经挂载的分区列表<br>ls -lSr |more 以尺寸大小排列文件和目录<br>du -sh dir1 估算目录 ‘dir1’ 已经使用的磁盘空间’<br>du -sk * | sort -rn 以容量大小为依据依次显示文件和目录的大小<br>rpm -q -a –qf ‘%10{SIZE}t%{NAME}n’ | sort -k1,1n 以大小为依据依次显示已安装的rpm包所使用的空间 (fedora, redhat类系统)<br>dpkg-query -W -f=’${Installed-Size;10}t${Package}n’ | sort -k1,1n 以大小为依据显示已安装的deb包所使用的空间 (ubuntu, debian类系统) </p>
+<h4 id="用户和群组"><a href="#用户和群组" class="headerlink" title="用户和群组"></a>用户和群组</h4><p>groupadd group_name 创建一个新用户组<br>groupdel group_name 删除一个用户组<br>groupmod -n new_group_name old_group_name 重命名一个用户组<br>useradd -c “Name Surname “ -g admin -d /home/user1 -s /bin/bash user1 创建一个属于 “admin” 用户组的用户<br>useradd user1 创建一个新用户<br>userdel -r user1 删除一个用户 ( ‘-r’ 排除主目录)<br>usermod -c “User FTP” -g system -d /ftp/user1 -s /bin/nologin user1 修改用户属性<br>passwd 修改口令<br>passwd user1 修改一个用户的口令 (只允许root执行)<br>chage -E 2005-12-31 user1 设置用户口令的失效期限<br>pwck 检查 ‘/etc/passwd’ 的文件格式和语法修正以及存在的用户<br>grpck 检查 ‘/etc/passwd’ 的文件格式和语法修正以及存在的群组<br>newgrp group_name 登陆进一个新的群组以改变新创建文件的预设群组</p>
+<h4 id="文件的权限-使用-“-”-设置权限，使用-“-“-用于取消"><a href="#文件的权限-使用-“-”-设置权限，使用-“-“-用于取消" class="headerlink" title="文件的权限 - 使用 “+” 设置权限，使用 “-“ 用于取消"></a>文件的权限 - 使用 “+” 设置权限，使用 “-“ 用于取消</h4><p>ls -lh 显示权限<br>ls /tmp | pr -T5 -W$COLUMNS 将终端划分成5栏显示<br>chmod ugo+rwx directory1 设置目录的所有人(u)、群组(g)以及其他人(o)以读（r ）、写(w)和执行(x)的权限<br>chmod go-rwx directory1 删除群组(g)与其他人(o)对目录的读写执行权限<br>chown user1 file1 改变一个文件的所有人属性<br>chown -R user1 directory1 改变一个目录的所有人属性并同时改变改目录下所有文件的属性<br>chgrp group1 file1 改变文件的群组<br>chown user1:group1 file1 改变一个文件的所有人和群组属性<br>find / -perm -u+s 罗列一个系统中所有使用了SUID控制的文件<br>chmod u+s /bin/file1 设置一个二进制文件的 SUID 位 - 运行该文件的用户也被赋予和所有者同样的权限<br>chmod u-s /bin/file1 禁用一个二进制文件的 SUID位<br>chmod g+s /home/public 设置一个目录的SGID 位 - 类似SUID ，不过这是针对目录的<br>chmod g-s /home/public 禁用一个目录的 SGID 位<br>chmod o+t /home/public 设置一个文件的 STIKY 位 - 只允许合法所有人删除文件<br>chmod o-t /home/public 禁用一个目录的 STIKY 位  </p>
+<h4 id="文件的特殊属性-使用-“-”-设置权限，使用-“-“-用于取消"><a href="#文件的特殊属性-使用-“-”-设置权限，使用-“-“-用于取消" class="headerlink" title="文件的特殊属性 - 使用 “+” 设置权限，使用 “-“ 用于取消"></a>文件的特殊属性 - 使用 “+” 设置权限，使用 “-“ 用于取消</h4><p>chattr +a file1 只允许以追加方式读写文件<br>chattr +c file1 允许这个文件能被内核自动压缩/解压<br>chattr +d file1 在进行文件系统备份时，dump程序将忽略这个文件<br>chattr +i file1 设置成不可变的文件，不能被删除、修改、重命名或者链接<br>chattr +s file1 允许一个文件被安全地删除<br>chattr +S file1 一旦应用程序对这个文件执行了写操作，使系统立刻把修改的结果写到磁盘<br>chattr +u file1 若文件被删除，系统会允许你在以后恢复这个被删除的文件<br>lsattr 显示特殊的属性 </p>
+<h4 id="打包和压缩文件"><a href="#打包和压缩文件" class="headerlink" title="打包和压缩文件"></a>打包和压缩文件</h4><p>bunzip2 file1.bz2 解压一个叫做 ‘file1.bz2’的文件<br>bzip2 file1 压缩一个叫做 ‘file1’ 的文件<br>gunzip file1.gz 解压一个叫做 ‘file1.gz’的文件<br>gzip file1 压缩一个叫做 ‘file1’的文件<br>gzip -9 file1 最大程度压缩<br>rar a file1.rar test_file 创建一个叫做 ‘file1.rar’ 的包<br>rar a file1.rar file1 file2 dir1 同时压缩 ‘file1’, ‘file2’ 以及目录 ‘dir1’<br>rar x file1.rar 解压rar包<br>unrar x file1.rar 解压rar包<br>tar -cvf archive.tar file1 创建一个非压缩的 tarball<br>tar -cvf archive.tar file1 file2 dir1 创建一个包含了 ‘file1’, ‘file2’ 以及 ‘dir1’的档案文件<br>tar -tf archive.tar 显示一个包中的内容<br>tar -xvf archive.tar 释放一个包<br>tar -xvf archive.tar -C /tmp 将压缩包释放到 /tmp目录下<br>tar -cvfj archive.tar.bz2 dir1 创建一个bzip2格式的压缩包<br>tar -xvfj archive.tar.bz2 解压一个bzip2格式的压缩包<br>tar -cvfz archive.tar.gz dir1 创建一个gzip格式的压缩包<br>tar -xvfz archive.tar.gz 解压一个gzip格式的压缩包<br>zip file1.zip file1 创建一个zip格式的压缩包<br>zip -r file1.zip file1 file2 dir1 将几个文件和目录同时压缩成一个zip格式的压缩包<br>unzip file1.zip 解压一个zip格式压缩包 </p>
+<h4 id="RPM-包-（Fedora-Redhat及类似系统）"><a href="#RPM-包-（Fedora-Redhat及类似系统）" class="headerlink" title="RPM 包 - （Fedora, Redhat及类似系统）"></a>RPM 包 - （Fedora, Redhat及类似系统）</h4><p>rpm -ivh package.rpm 安装一个rpm包<br>rpm -ivh –nodeeps package.rpm 安装一个rpm包而忽略依赖关系警告<br>rpm -U package.rpm 更新一个rpm包但不改变其配置文件<br>rpm -F package.rpm 更新一个确定已经安装的rpm包<br>rpm -e package_name.rpm 删除一个rpm包<br>rpm -qa 显示系统中所有已经安装的rpm包<br>rpm -qa | grep httpd 显示所有名称中包含 “httpd” 字样的rpm包<br>rpm -qi package_name 获取一个已安装包的特殊信息<br>rpm -qg “System Environment/Daemons” 显示一个组件的rpm包<br>rpm -ql package_name 显示一个已经安装的rpm包提供的文件列表<br>rpm -qc package_name 显示一个已经安装的rpm包提供的配置文件列表<br>rpm -q package_name –whatrequires 显示与一个rpm包存在依赖关系的列表<br>rpm -q package_name –whatprovides 显示一个rpm包所占的体积<br>rpm -q package_name –scripts 显示在安装/删除期间所执行的脚本l<br>rpm -q package_name –changelog 显示一个rpm包的修改历史<br>rpm -qf /etc/httpd/conf/httpd.conf 确认所给的文件由哪个rpm包所提供<br>rpm -qp package.rpm -l 显示由一个尚未安装的rpm包提供的文件列表<br>rpm –import /media/cdrom/RPM-GPG-KEY 导入公钥数字证书<br>rpm –checksig package.rpm 确认一个rpm包的完整性<br>rpm -qa gpg-pubkey 确认已安装的所有rpm包的完整性<br>rpm -V package_name 检查文件尺寸、 许可、类型、所有者、群组、MD5检查以及最后修改时间<br>rpm -Va 检查系统中所有已安装的rpm包- 小心使用<br>rpm -Vp package.rpm 确认一个rpm包还未安装<br>rpm2cpio package.rpm | cpio –extract –make-directories <em>bin</em> 从一个rpm包运行可执行文件<br>rpm -ivh /usr/src/redhat/RPMS/<code>arch</code>/package.rpm 从一个rpm源码安装一个构建好的包<br>rpmbuild –rebuild package_name.src.rpm 从一个rpm源码构建一个 rpm 包 </p>
+<h4 id="YUM-软件包升级器-（Fedora-RedHat及类似系统）"><a href="#YUM-软件包升级器-（Fedora-RedHat及类似系统）" class="headerlink" title="YUM 软件包升级器 - （Fedora, RedHat及类似系统）"></a>YUM 软件包升级器 - （Fedora, RedHat及类似系统）</h4><p>yum install package_name 下载并安装一个rpm包<br>yum localinstall package_name.rpm 将安装一个rpm包，使用你自己的软件仓库为你解决所有依赖关系<br>yum update package_name.rpm 更新当前系统中所有安装的rpm包<br>yum update package_name 更新一个rpm包<br>yum remove package_name 删除一个rpm包<br>yum list 列出当前系统中安装的所有包<br>yum search package_name 在rpm仓库中搜寻软件包<br>yum clean packages 清理rpm缓存删除下载的包<br>yum clean headers 删除所有头文件<br>yum clean all 删除所有缓存的包和头文件 </p>
+<h4 id="DEB-包-Debian-Ubuntu-以及类似系统"><a href="#DEB-包-Debian-Ubuntu-以及类似系统" class="headerlink" title="DEB 包 (Debian, Ubuntu 以及类似系统)"></a>DEB 包 (Debian, Ubuntu 以及类似系统)</h4><p>dpkg -i package.deb 安装/更新一个 deb 包<br>dpkg -r package_name 从系统删除一个 deb 包<br>dpkg -l 显示系统中所有已经安装的 deb 包<br>dpkg -l | grep httpd 显示所有名称中包含 “httpd” 字样的deb包<br>dpkg -s package_name 获得已经安装在系统中一个特殊包的信息<br>dpkg -L package_name 显示系统中已经安装的一个deb包所提供的文件列表<br>dpkg –contents package.deb 显示尚未安装的一个包所提供的文件列表<br>dpkg -S /bin/ping 确认所给的文件由哪个deb包提供 </p>
+<h4 id="APT-软件工具-Debian-Ubuntu-以及类似系统"><a href="#APT-软件工具-Debian-Ubuntu-以及类似系统" class="headerlink" title="APT 软件工具 (Debian, Ubuntu 以及类似系统)"></a>APT 软件工具 (Debian, Ubuntu 以及类似系统)</h4><p>apt-get install package_name 安装/更新一个 deb 包<br>apt-cdrom install package_name 从光盘安装/更新一个 deb 包<br>apt-get update 升级列表中的软件包<br>apt-get upgrade 升级所有已安装的软件<br>apt-get remove package_name 从系统删除一个deb包<br>apt-get check 确认依赖的软件仓库正确<br>apt-get clean 从下载的软件包中清理缓存<br>apt-cache search searched-package 返回包含所要搜索字符串的软件包名称 </p>
+<h4 id="查看文件内容"><a href="#查看文件内容" class="headerlink" title="查看文件内容"></a>查看文件内容</h4><p>cat file1 从第一个字节开始正向查看文件的内容<br>tac file1 从最后一行开始反向查看一个文件的内容<br>more file1 查看一个长文件的内容<br>less file1 类似于 ‘more’ 命令，但是它允许在文件中和正向操作一样的反向操作<br>head -2 file1 查看一个文件的前两行<br>tail -2 file1 查看一个文件的最后两行<br>tail -f /var/log/messages 实时查看被添加到一个文件中的内容 </p>
 
           
         
@@ -1807,341 +2144,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Linux常用命令学习/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/Linux常用命令学习/" itemprop="url">
-                  Linux常用命令学习
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Linux常用命令学习"><a href="#Linux常用命令学习" class="headerlink" title="Linux常用命令学习"></a>Linux常用命令学习</h3><h4 id="显示命令"><a href="#显示命令" class="headerlink" title="显示命令"></a>显示命令</h4><p>arch 显示机器的处理器架构(1)<br>uname -m 显示机器的处理器架构(2)<br>uname -r 显示正在使用的内核版本<br>dmidecode -q 显示硬件系统部件 - (SMBIOS / DMI)<br>hdparm -i /dev/hda 罗列一个磁盘的架构特性<br>hdparm -tT /dev/sda 在磁盘上执行测试性读取操作<br>cat /proc/cpuinfo 显示CPU info的信息<br>cat /proc/interrupts 显示中断<br>cat /proc/meminfo 校验内存使用<br>cat /proc/swaps 显示哪些swap被使用<br>cat /proc/version 显示内核的版本<br>cat /proc/net/dev 显示网络适配器及统计<br>cat /proc/mounts 显示已加载的文件系统<br>lspci -tv 罗列 PCI 设备<br>lsusb -tv 显示 USB 设备<br>date 显示系统日期<br>cal 2007 显示2007年的日历表<br>date 041217002007.00 设置日期和时间 - 月日时分年.秒<br>clock -w 将时间修改保存到 BIOS </p>
-<h4 id="关机-系统的关机、重启以及登出"><a href="#关机-系统的关机、重启以及登出" class="headerlink" title="关机 (系统的关机、重启以及登出 )"></a>关机 (系统的关机、重启以及登出 )</h4><p>shutdown -h now 关闭系统(1)<br>init 0 关闭系统(2)<br>telinit 0 关闭系统(3)<br>shutdown -h hours:minutes &amp; 按预定时间关闭系统<br>shutdown -c 取消按预定时间关闭系统<br>shutdown -r now 重启(1)<br>reboot 重启(2)<br>logout 注销 </p>
-<h4 id="文件和目录"><a href="#文件和目录" class="headerlink" title="文件和目录"></a>文件和目录</h4><p>cd /home 进入 ‘/ home’ 目录’<br>cd .. 返回上一级目录<br>cd ../.. 返回上两级目录<br>cd 进入个人的主目录<br>cd ~user1 进入个人的主目录<br>cd - 返回上次所在的目录<br>pwd 显示工作路径<br>ls 查看目录中的文件<br>ls -F 查看目录中的文件<br>ls -l 显示文件和目录的详细资料<br>ls -a 显示隐藏文件<br>ls <em>[0-9]</em> 显示包含数字的文件名和目录名<br>tree 显示文件和目录由根目录开始的树形结构(1)<br>lstree 显示文件和目录由根目录开始的树形结构(2)<br>mkdir dir1 创建一个叫做 ‘dir1’ 的目录’<br>mkdir dir1 dir2 同时创建两个目录<br>mkdir -p /tmp/dir1/dir2 创建一个目录树<br>rm -f file1 删除一个叫做 ‘file1’ 的文件’<br>rmdir dir1 删除一个叫做 ‘dir1’ 的目录’<br>rm -rf dir1 删除一个叫做 ‘dir1’ 的目录并同时删除其内容<br>rm -rf dir1 dir2 同时删除两个目录及它们的内容<br>mv dir1 new_dir 重命名/移动 一个目录<br>cp file1 file2 复制一个文件<br>cp dir/* . 复制一个目录下的所有文件到当前工作目录<br>cp -a /tmp/dir1 . 复制一个目录到当前工作目录<br>cp -a dir1 dir2 复制一个目录<br>ln -s file1 lnk1 创建一个指向文件或目录的软链接<br>ln file1 lnk1 创建一个指向文件或目录的物理链接<br>touch -t 0712250000 file1 修改一个文件或目录的时间戳 - (YYMMDDhhmm)<br>file file1 outputs the mime type of the file as text<br>iconv -l 列出已知的编码 </p>
-<h4 id="文件搜索"><a href="#文件搜索" class="headerlink" title="文件搜索"></a>文件搜索</h4><p>find / -name file1 从 ‘/‘ 开始进入根文件系统搜索文件和目录<br>find / -user user1 搜索属于用户 ‘user1’ 的文件和目录<br>find /home/user1 -name *.bin 在目录 ‘/ home/user1’ 中搜索带有’.bin’ 结尾的文件<br>find /usr/bin -type f -atime +100 搜索在过去100天内未被使用过的执行文件<br>find /usr/bin -type f -mtime -10 搜索在10天内被创建或者修改过的文件<br>find / -name *.rpm -exec chmod 755 ‘{}’ \; 搜索以 ‘.rpm’ 结尾的文件并定义其权限<br>find / -xdev -name *.rpm 搜索以 ‘.rpm’ 结尾的文件，忽略光驱、捷盘等可移动设备<br>locate *.ps 寻找以 ‘.ps’ 结尾的文件 - 先运行 ‘updatedb’ 命令<br>whereis halt 显示一个二进制文件、源码或man的位置<br>which halt 显示一个二进制文件或可执行文件的完整路径 </p>
-<h4 id="挂载一个文件系统"><a href="#挂载一个文件系统" class="headerlink" title="挂载一个文件系统"></a>挂载一个文件系统</h4><p>mount /dev/hda2 /mnt/hda2 挂载一个叫做hda2的盘 - 确定目录 ‘/ mnt/hda2’ 已经存在<br>umount /dev/hda2 卸载一个叫做hda2的盘 - 先从挂载点 ‘/ mnt/hda2’ 退出<br>fuser -km /mnt/hda2 当设备繁忙时强制卸载<br>umount -n /mnt/hda2 运行卸载操作而不写入 /etc/mtab 文件- 当文件为只读或当磁盘写满时非常有用<br>mount /dev/fd0 /mnt/floppy 挂载一个软盘<br>mount /dev/cdrom /mnt/cdrom 挂载一个cdrom或dvdrom<br>mount /dev/hdc /mnt/cdrecorder 挂载一个cdrw或dvdrom<br>mount /dev/hdb /mnt/cdrecorder 挂载一个cdrw或dvdrom<br>mount -o loop file.iso /mnt/cdrom 挂载一个文件或ISO镜像文件<br>mount -t vfat /dev/hda5 /mnt/hda5 挂载一个Windows FAT32文件系统<br>mount /dev/sda1 /mnt/usbdisk 挂载一个usb 捷盘或闪存设备<br>mount -t smbfs -o username=user,password=pass //WinClient/share /mnt/share 挂载一个windows网络共享 </p>
-<h4 id="磁盘空间"><a href="#磁盘空间" class="headerlink" title="磁盘空间"></a>磁盘空间</h4><p>df -h 显示已经挂载的分区列表<br>ls -lSr |more 以尺寸大小排列文件和目录<br>du -sh dir1 估算目录 ‘dir1’ 已经使用的磁盘空间’<br>du -sk * | sort -rn 以容量大小为依据依次显示文件和目录的大小<br>rpm -q -a –qf ‘%10{SIZE}t%{NAME}n’ | sort -k1,1n 以大小为依据依次显示已安装的rpm包所使用的空间 (fedora, redhat类系统)<br>dpkg-query -W -f=’${Installed-Size;10}t${Package}n’ | sort -k1,1n 以大小为依据显示已安装的deb包所使用的空间 (ubuntu, debian类系统) </p>
-<h4 id="用户和群组"><a href="#用户和群组" class="headerlink" title="用户和群组"></a>用户和群组</h4><p>groupadd group_name 创建一个新用户组<br>groupdel group_name 删除一个用户组<br>groupmod -n new_group_name old_group_name 重命名一个用户组<br>useradd -c “Name Surname “ -g admin -d /home/user1 -s /bin/bash user1 创建一个属于 “admin” 用户组的用户<br>useradd user1 创建一个新用户<br>userdel -r user1 删除一个用户 ( ‘-r’ 排除主目录)<br>usermod -c “User FTP” -g system -d /ftp/user1 -s /bin/nologin user1 修改用户属性<br>passwd 修改口令<br>passwd user1 修改一个用户的口令 (只允许root执行)<br>chage -E 2005-12-31 user1 设置用户口令的失效期限<br>pwck 检查 ‘/etc/passwd’ 的文件格式和语法修正以及存在的用户<br>grpck 检查 ‘/etc/passwd’ 的文件格式和语法修正以及存在的群组<br>newgrp group_name 登陆进一个新的群组以改变新创建文件的预设群组</p>
-<h4 id="文件的权限-使用-“-”-设置权限，使用-“-“-用于取消"><a href="#文件的权限-使用-“-”-设置权限，使用-“-“-用于取消" class="headerlink" title="文件的权限 - 使用 “+” 设置权限，使用 “-“ 用于取消"></a>文件的权限 - 使用 “+” 设置权限，使用 “-“ 用于取消</h4><p>ls -lh 显示权限<br>ls /tmp | pr -T5 -W$COLUMNS 将终端划分成5栏显示<br>chmod ugo+rwx directory1 设置目录的所有人(u)、群组(g)以及其他人(o)以读（r ）、写(w)和执行(x)的权限<br>chmod go-rwx directory1 删除群组(g)与其他人(o)对目录的读写执行权限<br>chown user1 file1 改变一个文件的所有人属性<br>chown -R user1 directory1 改变一个目录的所有人属性并同时改变改目录下所有文件的属性<br>chgrp group1 file1 改变文件的群组<br>chown user1:group1 file1 改变一个文件的所有人和群组属性<br>find / -perm -u+s 罗列一个系统中所有使用了SUID控制的文件<br>chmod u+s /bin/file1 设置一个二进制文件的 SUID 位 - 运行该文件的用户也被赋予和所有者同样的权限<br>chmod u-s /bin/file1 禁用一个二进制文件的 SUID位<br>chmod g+s /home/public 设置一个目录的SGID 位 - 类似SUID ，不过这是针对目录的<br>chmod g-s /home/public 禁用一个目录的 SGID 位<br>chmod o+t /home/public 设置一个文件的 STIKY 位 - 只允许合法所有人删除文件<br>chmod o-t /home/public 禁用一个目录的 STIKY 位  </p>
-<h4 id="文件的特殊属性-使用-“-”-设置权限，使用-“-“-用于取消"><a href="#文件的特殊属性-使用-“-”-设置权限，使用-“-“-用于取消" class="headerlink" title="文件的特殊属性 - 使用 “+” 设置权限，使用 “-“ 用于取消"></a>文件的特殊属性 - 使用 “+” 设置权限，使用 “-“ 用于取消</h4><p>chattr +a file1 只允许以追加方式读写文件<br>chattr +c file1 允许这个文件能被内核自动压缩/解压<br>chattr +d file1 在进行文件系统备份时，dump程序将忽略这个文件<br>chattr +i file1 设置成不可变的文件，不能被删除、修改、重命名或者链接<br>chattr +s file1 允许一个文件被安全地删除<br>chattr +S file1 一旦应用程序对这个文件执行了写操作，使系统立刻把修改的结果写到磁盘<br>chattr +u file1 若文件被删除，系统会允许你在以后恢复这个被删除的文件<br>lsattr 显示特殊的属性 </p>
-<h4 id="打包和压缩文件"><a href="#打包和压缩文件" class="headerlink" title="打包和压缩文件"></a>打包和压缩文件</h4><p>bunzip2 file1.bz2 解压一个叫做 ‘file1.bz2’的文件<br>bzip2 file1 压缩一个叫做 ‘file1’ 的文件<br>gunzip file1.gz 解压一个叫做 ‘file1.gz’的文件<br>gzip file1 压缩一个叫做 ‘file1’的文件<br>gzip -9 file1 最大程度压缩<br>rar a file1.rar test_file 创建一个叫做 ‘file1.rar’ 的包<br>rar a file1.rar file1 file2 dir1 同时压缩 ‘file1’, ‘file2’ 以及目录 ‘dir1’<br>rar x file1.rar 解压rar包<br>unrar x file1.rar 解压rar包<br>tar -cvf archive.tar file1 创建一个非压缩的 tarball<br>tar -cvf archive.tar file1 file2 dir1 创建一个包含了 ‘file1’, ‘file2’ 以及 ‘dir1’的档案文件<br>tar -tf archive.tar 显示一个包中的内容<br>tar -xvf archive.tar 释放一个包<br>tar -xvf archive.tar -C /tmp 将压缩包释放到 /tmp目录下<br>tar -cvfj archive.tar.bz2 dir1 创建一个bzip2格式的压缩包<br>tar -xvfj archive.tar.bz2 解压一个bzip2格式的压缩包<br>tar -cvfz archive.tar.gz dir1 创建一个gzip格式的压缩包<br>tar -xvfz archive.tar.gz 解压一个gzip格式的压缩包<br>zip file1.zip file1 创建一个zip格式的压缩包<br>zip -r file1.zip file1 file2 dir1 将几个文件和目录同时压缩成一个zip格式的压缩包<br>unzip file1.zip 解压一个zip格式压缩包 </p>
-<h4 id="RPM-包-（Fedora-Redhat及类似系统）"><a href="#RPM-包-（Fedora-Redhat及类似系统）" class="headerlink" title="RPM 包 - （Fedora, Redhat及类似系统）"></a>RPM 包 - （Fedora, Redhat及类似系统）</h4><p>rpm -ivh package.rpm 安装一个rpm包<br>rpm -ivh –nodeeps package.rpm 安装一个rpm包而忽略依赖关系警告<br>rpm -U package.rpm 更新一个rpm包但不改变其配置文件<br>rpm -F package.rpm 更新一个确定已经安装的rpm包<br>rpm -e package_name.rpm 删除一个rpm包<br>rpm -qa 显示系统中所有已经安装的rpm包<br>rpm -qa | grep httpd 显示所有名称中包含 “httpd” 字样的rpm包<br>rpm -qi package_name 获取一个已安装包的特殊信息<br>rpm -qg “System Environment/Daemons” 显示一个组件的rpm包<br>rpm -ql package_name 显示一个已经安装的rpm包提供的文件列表<br>rpm -qc package_name 显示一个已经安装的rpm包提供的配置文件列表<br>rpm -q package_name –whatrequires 显示与一个rpm包存在依赖关系的列表<br>rpm -q package_name –whatprovides 显示一个rpm包所占的体积<br>rpm -q package_name –scripts 显示在安装/删除期间所执行的脚本l<br>rpm -q package_name –changelog 显示一个rpm包的修改历史<br>rpm -qf /etc/httpd/conf/httpd.conf 确认所给的文件由哪个rpm包所提供<br>rpm -qp package.rpm -l 显示由一个尚未安装的rpm包提供的文件列表<br>rpm –import /media/cdrom/RPM-GPG-KEY 导入公钥数字证书<br>rpm –checksig package.rpm 确认一个rpm包的完整性<br>rpm -qa gpg-pubkey 确认已安装的所有rpm包的完整性<br>rpm -V package_name 检查文件尺寸、 许可、类型、所有者、群组、MD5检查以及最后修改时间<br>rpm -Va 检查系统中所有已安装的rpm包- 小心使用<br>rpm -Vp package.rpm 确认一个rpm包还未安装<br>rpm2cpio package.rpm | cpio –extract –make-directories <em>bin</em> 从一个rpm包运行可执行文件<br>rpm -ivh /usr/src/redhat/RPMS/<code>arch</code>/package.rpm 从一个rpm源码安装一个构建好的包<br>rpmbuild –rebuild package_name.src.rpm 从一个rpm源码构建一个 rpm 包 </p>
-<h4 id="YUM-软件包升级器-（Fedora-RedHat及类似系统）"><a href="#YUM-软件包升级器-（Fedora-RedHat及类似系统）" class="headerlink" title="YUM 软件包升级器 - （Fedora, RedHat及类似系统）"></a>YUM 软件包升级器 - （Fedora, RedHat及类似系统）</h4><p>yum install package_name 下载并安装一个rpm包<br>yum localinstall package_name.rpm 将安装一个rpm包，使用你自己的软件仓库为你解决所有依赖关系<br>yum update package_name.rpm 更新当前系统中所有安装的rpm包<br>yum update package_name 更新一个rpm包<br>yum remove package_name 删除一个rpm包<br>yum list 列出当前系统中安装的所有包<br>yum search package_name 在rpm仓库中搜寻软件包<br>yum clean packages 清理rpm缓存删除下载的包<br>yum clean headers 删除所有头文件<br>yum clean all 删除所有缓存的包和头文件 </p>
-<h4 id="DEB-包-Debian-Ubuntu-以及类似系统"><a href="#DEB-包-Debian-Ubuntu-以及类似系统" class="headerlink" title="DEB 包 (Debian, Ubuntu 以及类似系统)"></a>DEB 包 (Debian, Ubuntu 以及类似系统)</h4><p>dpkg -i package.deb 安装/更新一个 deb 包<br>dpkg -r package_name 从系统删除一个 deb 包<br>dpkg -l 显示系统中所有已经安装的 deb 包<br>dpkg -l | grep httpd 显示所有名称中包含 “httpd” 字样的deb包<br>dpkg -s package_name 获得已经安装在系统中一个特殊包的信息<br>dpkg -L package_name 显示系统中已经安装的一个deb包所提供的文件列表<br>dpkg –contents package.deb 显示尚未安装的一个包所提供的文件列表<br>dpkg -S /bin/ping 确认所给的文件由哪个deb包提供 </p>
-<h4 id="APT-软件工具-Debian-Ubuntu-以及类似系统"><a href="#APT-软件工具-Debian-Ubuntu-以及类似系统" class="headerlink" title="APT 软件工具 (Debian, Ubuntu 以及类似系统)"></a>APT 软件工具 (Debian, Ubuntu 以及类似系统)</h4><p>apt-get install package_name 安装/更新一个 deb 包<br>apt-cdrom install package_name 从光盘安装/更新一个 deb 包<br>apt-get update 升级列表中的软件包<br>apt-get upgrade 升级所有已安装的软件<br>apt-get remove package_name 从系统删除一个deb包<br>apt-get check 确认依赖的软件仓库正确<br>apt-get clean 从下载的软件包中清理缓存<br>apt-cache search searched-package 返回包含所要搜索字符串的软件包名称 </p>
-<h4 id="查看文件内容"><a href="#查看文件内容" class="headerlink" title="查看文件内容"></a>查看文件内容</h4><p>cat file1 从第一个字节开始正向查看文件的内容<br>tac file1 从最后一行开始反向查看一个文件的内容<br>more file1 查看一个长文件的内容<br>less file1 类似于 ‘more’ 命令，但是它允许在文件中和正向操作一样的反向操作<br>head -2 file1 查看一个文件的前两行<br>tail -2 file1 查看一个文件的最后两行<br>tail -f /var/log/messages 实时查看被添加到一个文件中的内容 </p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/一、Session简单介绍/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/一、Session简单介绍/" itemprop="url">
-                  javaweb (十一 )
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="一、Session简单介绍"><a href="#一、Session简单介绍" class="headerlink" title="一、Session简单介绍"></a>一、Session简单介绍</h3><p>在WEB开发中，服务器可以为每个用户浏览器创建一个会话对象（session对象），注意：一个浏览器独占一个session对象(默认情况下)。因此，在需要保存用户数据时，服务器程序可以把用户数据写到用户浏览器独占的session中，当用户使用浏览器访问其它程序时，其它程序可以从用户的session中取出该用户的数据，为用户服务。</p>
-<h3 id="二、Session和Cookie的主要区别"><a href="#二、Session和Cookie的主要区别" class="headerlink" title="二、Session和Cookie的主要区别"></a>二、Session和Cookie的主要区别</h3><ul>
-<li>Cookie是把用户的数据写给用户的浏览器。</li>
-<li>Session技术把用户的数据写到用户独占的session中。</li>
-<li>Session对象由服务器创建，开发人员可以调用request对象的getSession方法得到session对象。<h3 id="三、session实现原理"><a href="#三、session实现原理" class="headerlink" title="三、session实现原理"></a>三、session实现原理</h3><h4 id="3-1、服务器是如何实现一个session为一个用户浏览器服务的？"><a href="#3-1、服务器是如何实现一个session为一个用户浏览器服务的？" class="headerlink" title="3.1、服务器是如何实现一个session为一个用户浏览器服务的？"></a>3.1、服务器是如何实现一个session为一个用户浏览器服务的？</h4>　　服务器创建session出来后，会把session的id号，以cookie的形式回写给客户机，这样，只要客户机的浏览器不关，再去访问服务器时，都会带着session的id号去，服务器发现客户机浏览器带session id过来了，就会使用内存中与之对应的session为之服务。可以用如下的代码证明：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">package qgx.session;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import javax.servlet.http.HttpSession;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;SessionDemo1&quot;)</span><br><span class="line">public class SessionDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        response.setCharacterEncoding(&quot;utf-8&quot;);</span><br><span class="line">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        HttpSession session = request.getSession();</span><br><span class="line">        session.setAttribute(&quot;data&quot;, &quot;刘俭梅&quot;);</span><br><span class="line">        String sessionId = session.getId();</span><br><span class="line">        if (session.isNew()) &#123;</span><br><span class="line">            response.getWriter().print(&quot;session创建成功，session的id为:&quot; + sessionId);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            response.getWriter().print(&quot;服务器已经存在该session了，session的is为:&quot; + sessionId);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>第一次访问时，服务器会创建一个新的sesion，并且把session的Id以cookie的形式发送给客户端浏览器，如下图所示：<br><img src="/img/session1.png" alt=""><br>　点击刷新按钮，再次请求服务器，此时就可以看到浏览器再请求服务器时，会把存储到cookie中的session的Id一起传递到服务器端了，如下图所示：<br><img src="/img/session2.png" alt=""><br>request.getSession()方法内部新创建了Session之后一定是做了如下的处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//获取session的Id</span><br><span class="line"> String sessionId = session.getId();</span><br><span class="line"> //将session的Id存储到名字为JSESSIONID的cookie中</span><br><span class="line"> Cookie cookie = new Cookie(&quot;JSESSIONID&quot;, sessionId);</span><br><span class="line">//设置cookie的有效路径</span><br><span class="line"> cookie.setPath(request.getContextPath());</span><br><span class="line"> response.addCookie(cookie);</span><br></pre></td></tr></table></figure>
-<h3 id="四、session对象的创建和销毁时机"><a href="#四、session对象的创建和销毁时机" class="headerlink" title="四、session对象的创建和销毁时机"></a>四、session对象的创建和销毁时机</h3><h4 id="4-1、session对象的创建时机"><a href="#4-1、session对象的创建时机" class="headerlink" title="4.1、session对象的创建时机"></a>4.1、session对象的创建时机</h4><p>在程序中第一次调用request.getSession()方法时就会创建一个新的Session，可以用isNew()方法来判断Session是不是新创建的</p>
-<p>范例：创建session<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//使用request对象的getSession()获取session，如果session不存在则创建一个</span><br><span class="line">HttpSession session = request.getSession();</span><br><span class="line">//获取session的Id</span><br><span class="line">String sessionId = session.getId();</span><br><span class="line">//判断session是不是新创建的</span><br><span class="line">if (session.isNew()) &#123;</span><br><span class="line">    response.getWriter().print(&quot;session创建成功，session的id是：&quot;+sessionId);</span><br><span class="line">&#125;else &#123;</span><br><span class="line">    response.getWriter().print(&quot;服务器已经存在session，session的id是：&quot;+sessionId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="4-2、session对象的销毁时机"><a href="#4-2、session对象的销毁时机" class="headerlink" title="4.2、session对象的销毁时机"></a>4.2、session对象的销毁时机</h4><p>　　session对象默认30分钟没有使用，则服务器会自动销毁session，在web.xml文件中可以手工<br>配置session的失效时间，例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 设置Session的有效时间:以分钟为单位--&gt;</span><br><span class="line">    &lt;session-config&gt;</span><br><span class="line">        &lt;session-timeout&gt;15&lt;/session-timeout&gt;</span><br><span class="line">    &lt;/session-config&gt;</span><br></pre></td></tr></table></figure>
-<p>当需要在程序中手动设置Session失效时，可以手工调用session.invalidate方法，摧毁session。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HttpSession session = request.getSession();</span><br><span class="line">//手工调用session.invalidate方法，摧毁session</span><br><span class="line">session.invalidate();</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2193,7 +2195,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">85</span>
+                    <span class="site-state-item-count">86</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2353,7 +2355,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">59</span>
+                      
+                    
+                    <span class="site-state-item-count">60</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

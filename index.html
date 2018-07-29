@@ -319,7 +319,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/27/关于Bean/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/29/Spring 的高级特性/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -338,8 +338,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/27/关于Bean/" itemprop="url">
-                  JavaBean
+                <a class="post-title-link" href="/2018/07/29/Spring 的高级特性/" itemprop="url">
+                  Spring 的高级特性和核心组件
                 </a>
               
             
@@ -365,7 +365,7 @@
                 
               
 
-              <time title="创建时间：2018-07-27 23:26:01 / 修改时间：23:07:19" itemprop="dateCreated datePublished" datetime="2018-07-27T23:26:01+08:00">2018-07-27</time>
+              <time title="创建时间：2018-07-29 23:29:07 / 修改时间：23:27:48" itemprop="dateCreated datePublished" datetime="2018-07-29T23:29:07+08:00">2018-07-29</time>
             
 
             
@@ -423,65 +423,69 @@
       
         
           
-            <h3 id="关于Bean"><a href="#关于Bean" class="headerlink" title="关于Bean"></a>关于Bean</h3><h4 id="Bean的生命周期"><a href="#Bean的生命周期" class="headerlink" title="Bean的生命周期"></a>Bean的生命周期</h4><p>bean准备就绪之前，bean工厂执行了若干启动步骤</p>
+            <h3 id="Spring-的高级特性"><a href="#Spring-的高级特性" class="headerlink" title="Spring 的高级特性"></a>Spring 的高级特性</h3><p>由于Spring特殊的依赖注入技巧，导致Bean之间没有耦合度。</p>
+<p>但是Bean有时需要使用spring容器本身的资源，这时你的Bean必须意识到Spring容器的存在。所以得使用Spring Aware，下面来看看Spring Aware提供的接口</p>
+<table>
+<thead>
+<tr>
+<th>BeanNameAware</th>
+<th>获得到容器中Bean的名称</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BeanFactory</td>
+<td>获得当前的bean factory，这样可以调用容器的服务</td>
+</tr>
+<tr>
+<td>ApplicationContextAware*</td>
+<td>当前application context，这样可以调用容器的服务</td>
+</tr>
+<tr>
+<td>MessageSourceAware</td>
+<td>获得Message source</td>
+</tr>
+<tr>
+<td>ApplicationEventPublisherAware</td>
+<td>应用时间发布器，可以发布时间</td>
+</tr>
+<tr>
+<td>ResourceLoaderAware</td>
+<td>获得资源加载器，可以获得外部资源文件</td>
+</tr>
+</tbody>
+</table>
+<p><strong>@TaskExecutor</strong><br>这样可以实现多线程和并发编程。通过@EnableAsync开启对异步任务的支持，并通过实际执行的Bean的方法始中使用@Async注解来声明其是一个异步任务</p>
+<p><strong>@Scheduled 计划任务</strong><br>首先通过在配置类注解@EnableScheduling来开启对计划任务的支持，然后在要执行计划任务的方法上注解@Scheduled，声明这是一个计划任务</p>
+<p><strong>@Conditional</strong><br>根据满足某一个特定条件创建一个特定的Bean。</p>
+<p><strong>组合注解与元注解</strong><br>元注解就是可以注解到别的注解上的注解，被注解的注解称之为组合注解，组合注解具备注解其上的元注解的功能。</p>
+<p><strong>@Enable*注解的工作原理</strong><br>通过观察这些@Enable*注解的源码，我们发现所有的注解都有一个@Import注解，@Import是用来导入配置类的，这也就意外着这些自动开启的实现其实是导入了一些自动配置的Bean。这些导入配置的方式主要范围以下三种类型：</p>
 <ul>
-<li>Spring对bean进行实例化；</li>
-<li>Spring将值和bean的引用注入到bean对应的属性中；</li>
-<li>如果bean实现了BeanNameAware接口，Spring将bean的ID传递给setBean-Name()方法；<br>如果bean实现了BeanFactoryAware接口，Spring将调用setBeanFactory()方法，将BeanFactory容器实例传入；</li>
-<li>如果bean实现了ApplicationContextAware接口，Spring将调用setApplicationContext()方法，将bean所在的应用上下文的引用传入进来；</li>
-<li>如果bean实现了BeanPostProcessor接口，Spring将调用它们的post-ProcessBeforeInitialization()方法；</li>
-<li>如果bean实现了InitializingBean接口，Spring将调用它们的after-PropertiesSet()方法。类似地，如果bean使用init-method声明了初始化方法，该方法也会被调用；</li>
-<li>如果bean实现了BeanPostProcessor接口，Spring将调用它们的post-ProcessAfterInitialization()方法；</li>
-<li>此时，bean已经准备就绪，可以被应用程序使用了，它们将一直驻留在应用上下文中，直到该应用上下文被销毁；</li>
-<li>如果bean实现了DisposableBean接口，Spring将调用它的destroy()接口方法。同样，如果bean使用destroy-method声明了销毁方法，该方法也会被调用。</li>
+<li>第一类：直接导入配置类</li>
+<li>第二类：依据条件选择配置类</li>
+<li>第三类：动态注册Bean</li>
 </ul>
-<p><img src="/img/spring_javabean.png" alt=""></p>
-<h4 id="Bean的作用域"><a href="#Bean的作用域" class="headerlink" title="Bean的作用域"></a>Bean的作用域</h4><p>Spring定义了多种Bean作用域，可以基于这些作用域创建bean，包括：</p>
-<p>单例（Singleton）：在整个应用中，只创建bean的一个实例。<br>原型（Prototype）：每次注入或者通过Spring应用上下文获取的时候，都会创建一个新的bean实例。<br>会话（Session）：在Web应用中，为每个会话创建一个bean实例。<br>请求（Rquest）：在Web应用中，为每个请求创建一个bean实例。<br>在默认情况下，Spring应用上下文中所有bean都是作为以单例（singleton）的形式创建的。也就是说，不管给定的一个bean被注入到其他bean多少次，每次所注入的都是同一个实例。</p>
-<p>在大多数情况下，单例bean是很理想的方案。初始化和垃圾回收对象实例所带来的成本只留给一些小规模任务，在这些任务中，让对象保持无状态并且在应用中反复重用这些对象可能并不合理。</p>
-<p>有时候，可能会发现，你所使用的类是易变的（mutable），它们会保持一些状态，因此重用是不安全的。在这种情况下，将class声明为单例的bean就不是什么好主意了，因为对象会被污染，稍后重用的时候会出现意想不到的问题。</p>
-<h4 id="声明Bean"><a href="#声明Bean" class="headerlink" title="声明Bean"></a>声明Bean</h4><p>以下是声明Bean的注解：</p>
-<p>@Component 组件，没有明确的角色<br>@Service 在业务逻辑层使用<br>@Repository 在数据访问层使用<br>@Controller 在展现层使用(MVC -&gt; Spring MVC)使用<br>在这里，可以指定bean的id名：Component(“yourBeanName”)<br>同时，Spring支持将@Named作为@Component注解的替代方案。两者之间有一些细微的差异，但是在大多数场景中，它们是可以互相替换的。</p>
-<h3 id="关于依赖注入"><a href="#关于依赖注入" class="headerlink" title="关于依赖注入"></a>关于依赖注入</h3><h4 id="注入Bean的注解"><a href="#注入Bean的注解" class="headerlink" title="注入Bean的注解"></a>注入Bean的注解</h4><p><strong>@Autowired Spring提供的注解</strong><br>不仅仅是对象，还有在构造器上，还能用在属性的Setter方法上。</p>
-<p>不管是构造器、Setter方法还是其他的方法，Spring都会尝试满足方法参数上所声明的依赖。假如有且只有一个bean匹配依赖需求的话，那么这个bean将会被装配进来。</p>
-<p>如果没有匹配的bean，那么在应用上下文创建的时候，Spring会抛出一个异常。为了避免异常的出现，你可以将@Autowired的required属性设置为false。</p>
-<p>将required属性设置为false时，Spring会尝试执行自动装配，但是如果没有匹配的bean的话，Spring将会让这个bean处于未装配的状态。但是，把required属性设置为false时，你需要谨慎对待。如果在你的代码中没有进行null检查的话，这个处于未装配状态的属性有可能会出现NullPointerException。</p>
-<p><strong>@Inject</strong>注解来源于Java依赖注入规范，该规范同时还为我们定义了@Named注解。在自动装配中，Spring同时支持@Inject和@Autowired。尽管@Inject和@Autowired之间有着一些细微的差别，但是在大多数场景下，它们都是可以互相替换的。</p>
-<p>@Autowired 是最常见的注解之一，但在老项目中，你可能会看到这些注解，它们的作用和@Autowired 相近：</p>
-<p><strong>@Inject</strong> 是JSR-330提供的注解<br><strong>@Resource</strong> 是JSR-250提供的注解</p>
-<h4 id="条件化的Bean"><a href="#条件化的Bean" class="headerlink" title="条件化的Bean"></a>条件化的Bean</h4><p>假设你希望一个或多个bean只有在应用的类路径下包含特定的库时才创建。或者我们希望某个bean只有当另外某个特定的bean也声明了之后才会创建。我们还可能要求只有某个特定的环境变量设置之后，才会创建某个bean。</p>
-<p>在Spring 4之前，很难实现这种级别的条件化配置，但是Spring 4引入了一个新的@Conditional注解，它可以用到带有@Bean注解的方法上。如果给定的条件计算结果为true，就会创建这个bean，否则的话，这个bean会被忽略。</p>
-<p>通过ConditionContext，我们可以做到如下几点：</p>
+<h3 id="Spring-框架中的核心组件"><a href="#Spring-框架中的核心组件" class="headerlink" title="Spring 框架中的核心组件"></a>Spring 框架中的核心组件</h3><p>Spring 框架中的核心组件只有三个：<strong>Core、Context</strong> 和 <strong>Bean</strong>。它们构建起了整个 Spring 的骨骼架构。没有它们就不可能有 AOP、Web 等上层的特性功能。下面也将主要从这三个组件入手分析 Spring。</p>
+<h4 id="Spring的设计理念"><a href="#Spring的设计理念" class="headerlink" title="Spring的设计理念"></a>Spring的设计理念</h4><p>Bean在Spring的作用是非常重要的。通过一系列简单的配置来满足类与类之间的依赖关系——这叫做依赖注入。而依赖注入的关系是在一个叫IOC的容器中进行管理。</p>
+<h4 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h4><p>我们说到Spring 框架中的核心组件只有三个：<strong>Core、Context</strong> 和 <strong>Bean</strong>。那么Core和Context是如何协作的呢？</p>
+<p>我们知道 Bean 包装的是 Object，而 Object 必然有数据，如何给这些数据提供生存环境就是 Context 要解决的问题，对 Context 来说他就是要发现每个 Bean 之间的关系，为它们建立这种关系并且要维护好这种关系。所以 Context 就是一个 Bean 关系的集合，这个关系集合又叫 Ioc 容器 ，一旦建立起这个 Ioc 容器后 Spring 就可以为你工作了。那 Core 组件又有什么用武之地呢？其实 Core 就是发现、建立和维护每个 Bean 之间的关系所需要的一些列的工具。</p>
+<h4 id="解析核心组件"><a href="#解析核心组件" class="headerlink" title="解析核心组件"></a>解析核心组件</h4><p><strong>Bean</strong><br>前面已经说明了 Bean 组件对 Spring 的重要性，下面看看 Bean 这个组件式怎么设计的。Bean 组件在 Spring 的 org.springframework.beans 包下。这个包下的所有类主要解决了三件事：Bean 的定义、Bean 的创建以及对 Bean 的解析。对 Spring 的使用者来说唯一需要关心的就是 Bean 的创建，其他两个由 Spring 在内部帮你完成了，对你来说是透明的。<br>Spring Bean 的创建时典型的工厂模式，他的顶级接口是 BeanFactory，下图是这个工厂的继承层次关系：<br><img src="/img/springhexin.png" alt=""></p>
+<p>BeanFactory 有三个子类：<strong>ListableBeanFactory、HierarchicalBeanFactory</strong> 和 <strong>AutowireCapableBeanFactory。</strong>但是从上图中我们可以发现最终的默认实现类是 DefaultListableBeanFactory，他实现了所有的接口。那为何要定义这么多层次的接口呢？查阅这些接口的源码和说明发现，每个接口都有他使用的场合，它主要是为了区分在 Spring 内部在操作过程中对象的传递和转化过程中，对对象的数据访问所做的限制。例如 ListableBeanFactory 接口表示这些 Bean 是可列表的，而 HierarchicalBeanFactory 表示的是这些 Bean 是有继承关系的，也就是每个 Bean 有可能有父 Bean。AutowireCapableBeanFactory 接口定义 Bean 的自动装配规则。这四个接口共同定义了 Bean 的集合、Bean 之间的关系、以及 Bean 行为。<br><strong>Context</strong><br><strong>ApplicationContext</strong> 是 Context 的顶级父类，他除了能标识一个应用环境的基本信息外，他还继承了五个接口，这五个接口主要是扩展了 Context 的功能。下面是 Context 的类结构图：<br><img src="/img/springhexin1.png" alt=""></p>
+<p>从上图中可以看出 ApplicationContext 继承了 BeanFactory，这也说明了 Spring 容器中运行的主体对象是 Bean，另外 ApplicationContext 继承了 ResourceLoader 接口，使得 ApplicationContext 可以访问到任何外部资源，这将在 Core 中详细说明。</p>
+<p><strong>ApplicationContext</strong> 的子类主要包含两个方面：</p>
 <ul>
-<li>借助getRegistry()返回的BeanDefinitionRegistry检查bean定义；</li>
-<li>借助getBeanFactory()返回的ConfigurableListableBeanFactory检查bean是否存在，甚至探查bean的属性；</li>
-<li>借助getEnvironment()返回的Environment检查环境变量是否存在以及它的值是什么；</li>
-<li>读取并探查getResourceLoader()返回的ResourceLoader所加载的资源；</li>
-<li>借助getClassLoader()返回的ClassLoader加载并检查类是否存在。<h4 id="处理自动装配的歧义性"><a href="#处理自动装配的歧义性" class="headerlink" title="处理自动装配的歧义性"></a>处理自动装配的歧义性</h4><strong>标示首选的bean</strong><br>在声明bean的时候，通过将其中一个可选的bean设置为首选（primary）bean能够避免自动装配时的歧义性。当遇到歧义性的时候，Spring将会使用首选的bean，而不是其他可选的bean。实际上，你所声明就是“最喜欢”的bean。</li>
+<li><strong>ConfigurableApplicationContext</strong> 表示该 Context 是可修改的，也就是在构建 Context 中用户可以动态添加或修改已有的配置信息，它下面又有多个子类，其中最经常使用的是可更新的 Context，即 AbstractRefreshableApplicationContext类。</li>
+<li><strong>WebApplicationContext</strong> 顾名思义，就是为 web 准备的 Context 他可以直接访问到 ServletContext，通常情况下，这个接口使用的少。</li>
 </ul>
-<p><strong>限定自动装配的bean</strong><br>设置首选bean的局限性在于@Primary无法将可选方案的范围限定到唯一一个无歧义性的选项中。它只能标示一个优先的可选方案。当首选bean的数量超过一个时，我们并没有其他的方法进一步缩小可选范围。</p>
-<p>与之相反，Spring的限定符能够在所有可选的bean上进行缩小范围的操作，最终能够达到只有一个bean满足所规定的限制条件。如果将所有的限定符都用上后依然存在歧义性，那么你可以继续使用更多的限定符来缩小选择范围。</p>
-<p><strong>@Qualifier</strong>注解是使用限定符的主要方式。它可以与@Autowired和@Inject协同使用，在注入的时候指定想要注入进去的是哪个bean。例如，我们想要确保要将IceCream注入到setDessert()之中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">@Qualifier(&quot;iceCream&quot;)</span><br><span class="line">public void setDessert(Dessert dessert)&#123;</span><br><span class="line">  this.dessert = dessert;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这是使用限定符的最简单的例子。为@Qualifier注解所设置的参数就是想要注入的bean的ID。所有使用@Component注解声明的类都会创建为bean，并且bean的ID为首字母变为小写的类名。因此，@Qualifier(“iceCream”)指向的是组件扫描时所创建的bean，并且这个bean是IceCream类的实例。</p>
-<p>实际上，还有一点需要补充一下。更准确地讲，@Qualifier(“iceCream”)所引用的bean要具有String类型的“iceCream”作为限定符。如果没有指定其他的限定符的话，所有的bean都会给定一个默认的限定符，这个限定符与bean的ID相同。因此，框架会将具有“iceCream”限定符的bean注入到setDessert()方法中。这恰巧就是ID为iceCream的bean，它是IceCream类在组件扫描的时候创建的。</p>
-<p>基于默认的bean ID作为限定符是非常简单的，但这有可能会引入一些问题。如果你重构了IceCream类，将其重命名为Gelato的话，那此时会发生什么情况呢？如果这样的话，bean的ID和默认的限定符会变为gelato，这就无法匹配setDessert()方法中的限定符。自动装配会失败。</p>
-<p>这里的问题在于setDessert()方法上所指定的限定符与要注入的bean的名称是紧耦合的。对类名称的任意改动都会导致限定符失效。</p>
-<h4 id="SpringEL"><a href="#SpringEL" class="headerlink" title="SpringEL"></a>SpringEL</h4><p>Value实现资源的注入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vlaue=#&#123;user&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="Bean的初始化和销毁"><a href="#Bean的初始化和销毁" class="headerlink" title="Bean的初始化和销毁"></a>Bean的初始化和销毁</h4><ul>
-<li>Java配置方式：initMethod和destoryMethod</li>
-<li>注解：@PostConstruct和@PreDestory<h4 id="Profile"><a href="#Profile" class="headerlink" title="Profile"></a>Profile</h4>提供在不同的环境下使用不同的配置</li>
-</ul>
-<p><strong>激活Profile</strong><br>Spring在确定哪个profile处于激活状态时，需要依赖两个独立的属性：spring.profiles.active和spring.profiles.default。如果设置了spring.profiles.active属性的话，那么它的值就会用来确定哪个profile是激活的。但如果没有设置spring.profiles.active属性的话，那Spring将会查找spring.profiles.default的值。如果spring.profiles.active和spring.profiles.default均没有设置的话，那就没有激活的profile，因此只会创建那些没有定义在profile中的bean。</p>
-<p><strong>使用profile进行测试</strong><br>当运行集成测试时，通常会希望采用与生产环境（或者是生产环境的部分子集）相同的配置进行测试。但是，如果配置中的bean定义在了profile中，那么在运行测试时，我们就需要有一种方式来启用合适的profile。</p>
-<p>Spring提供了@ActiveProfiles注解，我们可以使用它来指定运行测试时要激活哪个profile。在集成测试时，通常想要激活的是开发环境的profile。</p>
-<p>比如Profile(“dev”)</p>
-<h4 id="Application-Event"><a href="#Application-Event" class="headerlink" title="Application Event"></a>Application Event</h4><p>使用Application Event可以做到Bean与Bean之间的通信</p>
-<p>Spring的事件需要遵循如下流程：</p>
+<p>再往下分就是按照构建 Context 的文件类型，接着就是访问 Context 的方式。这样一级一级构成了完整的 Context 等级层次。<br>总体来说 ApplicationContext 必须要完成以下几件事：</p>
 <ul>
-<li>自定义事件，集成ApplicationEvent</li>
-<li>定义事件监听器，实现ApplicationListener</li>
-<li>使用容器发布事件</li>
+<li>标识一个应用环境</li>
+<li>利用 BeanFactory 创建 Bean 对象</li>
+<li>保存对象关系表</li>
+<li>能够捕获各种事件<br><strong>Context</strong> 作为 Spring 的 IOC 容器，基本上整合了 Spring 的大部分功能，或者说是大部分功能的基础。</li>
 </ul>
+<p><strong>Core</strong><br>Core 组件作为 Spring 的核心组件，他其中包含了很多的关键类，其中一个重要组成部分就是定义了资源的访问方式。这种把所有资源都抽象成一个接口的方式很值得在以后的设计中拿来学习。下面就重要看一下这个部分在 Spring 的作用。<br><img src="/img/springhexin2.png" alt=""><br>从上图可以看出 Resource 接口封装了各种可能的资源类型，也就是对使用者来说屏蔽了文件类型的不同。对资源的提供者来说，如何把资源包装起来交给其他人用这也是一个问题，我们看到 Resource 接口继承了 InputStreamSource 接口，这个接口中有个 getInputStream 方法，返回的是 InputStream 类。这样所有的资源都被可以通过 InputStream 这个类来获取，所以也屏蔽了资源的提供者。另外还有一个问题就是加载资源的问题，也就是资源的加载者要统一，从上图中可以看出这个任务是由 ResourceLoader 接口完成，他屏蔽了所有的资源加载者的差异，只需要实现这个接口就可以加载所有的资源，他的默认实现是 DefaultResourceLoader。</p>
+<p>那么， Context 和 Resource 是如何建立关系的？<br><img src="/img/springhexin3.png" alt=""><br>从上图可以看出，Context 是把资源的加载、解析和描述工作委托给了 ResourcePatternResolver 类来完成，他相当于一个接头人，他把资源的加载、解析和资源的定义整合在一起便于其他组件使用。Core 组件中还有很多类似的方式。</p>
 
           
         
@@ -804,6 +808,222 @@
 </tr>
 </tbody>
 </table>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/27/关于Bean/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/27/关于Bean/" itemprop="url">
+                  JavaBean
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-27 23:26:01 / 修改时间：23:07:19" itemprop="dateCreated datePublished" datetime="2018-07-27T23:26:01+08:00">2018-07-27</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="关于Bean"><a href="#关于Bean" class="headerlink" title="关于Bean"></a>关于Bean</h3><h4 id="Bean的生命周期"><a href="#Bean的生命周期" class="headerlink" title="Bean的生命周期"></a>Bean的生命周期</h4><p>bean准备就绪之前，bean工厂执行了若干启动步骤</p>
+<ul>
+<li>Spring对bean进行实例化；</li>
+<li>Spring将值和bean的引用注入到bean对应的属性中；</li>
+<li>如果bean实现了BeanNameAware接口，Spring将bean的ID传递给setBean-Name()方法；<br>如果bean实现了BeanFactoryAware接口，Spring将调用setBeanFactory()方法，将BeanFactory容器实例传入；</li>
+<li>如果bean实现了ApplicationContextAware接口，Spring将调用setApplicationContext()方法，将bean所在的应用上下文的引用传入进来；</li>
+<li>如果bean实现了BeanPostProcessor接口，Spring将调用它们的post-ProcessBeforeInitialization()方法；</li>
+<li>如果bean实现了InitializingBean接口，Spring将调用它们的after-PropertiesSet()方法。类似地，如果bean使用init-method声明了初始化方法，该方法也会被调用；</li>
+<li>如果bean实现了BeanPostProcessor接口，Spring将调用它们的post-ProcessAfterInitialization()方法；</li>
+<li>此时，bean已经准备就绪，可以被应用程序使用了，它们将一直驻留在应用上下文中，直到该应用上下文被销毁；</li>
+<li>如果bean实现了DisposableBean接口，Spring将调用它的destroy()接口方法。同样，如果bean使用destroy-method声明了销毁方法，该方法也会被调用。</li>
+</ul>
+<p><img src="/img/spring_javabean.png" alt=""></p>
+<h4 id="Bean的作用域"><a href="#Bean的作用域" class="headerlink" title="Bean的作用域"></a>Bean的作用域</h4><p>Spring定义了多种Bean作用域，可以基于这些作用域创建bean，包括：</p>
+<p>单例（Singleton）：在整个应用中，只创建bean的一个实例。<br>原型（Prototype）：每次注入或者通过Spring应用上下文获取的时候，都会创建一个新的bean实例。<br>会话（Session）：在Web应用中，为每个会话创建一个bean实例。<br>请求（Rquest）：在Web应用中，为每个请求创建一个bean实例。<br>在默认情况下，Spring应用上下文中所有bean都是作为以单例（singleton）的形式创建的。也就是说，不管给定的一个bean被注入到其他bean多少次，每次所注入的都是同一个实例。</p>
+<p>在大多数情况下，单例bean是很理想的方案。初始化和垃圾回收对象实例所带来的成本只留给一些小规模任务，在这些任务中，让对象保持无状态并且在应用中反复重用这些对象可能并不合理。</p>
+<p>有时候，可能会发现，你所使用的类是易变的（mutable），它们会保持一些状态，因此重用是不安全的。在这种情况下，将class声明为单例的bean就不是什么好主意了，因为对象会被污染，稍后重用的时候会出现意想不到的问题。</p>
+<h4 id="声明Bean"><a href="#声明Bean" class="headerlink" title="声明Bean"></a>声明Bean</h4><p>以下是声明Bean的注解：</p>
+<p>@Component 组件，没有明确的角色<br>@Service 在业务逻辑层使用<br>@Repository 在数据访问层使用<br>@Controller 在展现层使用(MVC -&gt; Spring MVC)使用<br>在这里，可以指定bean的id名：Component(“yourBeanName”)<br>同时，Spring支持将@Named作为@Component注解的替代方案。两者之间有一些细微的差异，但是在大多数场景中，它们是可以互相替换的。</p>
+<h3 id="关于依赖注入"><a href="#关于依赖注入" class="headerlink" title="关于依赖注入"></a>关于依赖注入</h3><h4 id="注入Bean的注解"><a href="#注入Bean的注解" class="headerlink" title="注入Bean的注解"></a>注入Bean的注解</h4><p><strong>@Autowired Spring提供的注解</strong><br>不仅仅是对象，还有在构造器上，还能用在属性的Setter方法上。</p>
+<p>不管是构造器、Setter方法还是其他的方法，Spring都会尝试满足方法参数上所声明的依赖。假如有且只有一个bean匹配依赖需求的话，那么这个bean将会被装配进来。</p>
+<p>如果没有匹配的bean，那么在应用上下文创建的时候，Spring会抛出一个异常。为了避免异常的出现，你可以将@Autowired的required属性设置为false。</p>
+<p>将required属性设置为false时，Spring会尝试执行自动装配，但是如果没有匹配的bean的话，Spring将会让这个bean处于未装配的状态。但是，把required属性设置为false时，你需要谨慎对待。如果在你的代码中没有进行null检查的话，这个处于未装配状态的属性有可能会出现NullPointerException。</p>
+<p><strong>@Inject</strong>注解来源于Java依赖注入规范，该规范同时还为我们定义了@Named注解。在自动装配中，Spring同时支持@Inject和@Autowired。尽管@Inject和@Autowired之间有着一些细微的差别，但是在大多数场景下，它们都是可以互相替换的。</p>
+<p>@Autowired 是最常见的注解之一，但在老项目中，你可能会看到这些注解，它们的作用和@Autowired 相近：</p>
+<p><strong>@Inject</strong> 是JSR-330提供的注解<br><strong>@Resource</strong> 是JSR-250提供的注解</p>
+<h4 id="条件化的Bean"><a href="#条件化的Bean" class="headerlink" title="条件化的Bean"></a>条件化的Bean</h4><p>假设你希望一个或多个bean只有在应用的类路径下包含特定的库时才创建。或者我们希望某个bean只有当另外某个特定的bean也声明了之后才会创建。我们还可能要求只有某个特定的环境变量设置之后，才会创建某个bean。</p>
+<p>在Spring 4之前，很难实现这种级别的条件化配置，但是Spring 4引入了一个新的@Conditional注解，它可以用到带有@Bean注解的方法上。如果给定的条件计算结果为true，就会创建这个bean，否则的话，这个bean会被忽略。</p>
+<p>通过ConditionContext，我们可以做到如下几点：</p>
+<ul>
+<li>借助getRegistry()返回的BeanDefinitionRegistry检查bean定义；</li>
+<li>借助getBeanFactory()返回的ConfigurableListableBeanFactory检查bean是否存在，甚至探查bean的属性；</li>
+<li>借助getEnvironment()返回的Environment检查环境变量是否存在以及它的值是什么；</li>
+<li>读取并探查getResourceLoader()返回的ResourceLoader所加载的资源；</li>
+<li>借助getClassLoader()返回的ClassLoader加载并检查类是否存在。<h4 id="处理自动装配的歧义性"><a href="#处理自动装配的歧义性" class="headerlink" title="处理自动装配的歧义性"></a>处理自动装配的歧义性</h4><strong>标示首选的bean</strong><br>在声明bean的时候，通过将其中一个可选的bean设置为首选（primary）bean能够避免自动装配时的歧义性。当遇到歧义性的时候，Spring将会使用首选的bean，而不是其他可选的bean。实际上，你所声明就是“最喜欢”的bean。</li>
+</ul>
+<p><strong>限定自动装配的bean</strong><br>设置首选bean的局限性在于@Primary无法将可选方案的范围限定到唯一一个无歧义性的选项中。它只能标示一个优先的可选方案。当首选bean的数量超过一个时，我们并没有其他的方法进一步缩小可选范围。</p>
+<p>与之相反，Spring的限定符能够在所有可选的bean上进行缩小范围的操作，最终能够达到只有一个bean满足所规定的限制条件。如果将所有的限定符都用上后依然存在歧义性，那么你可以继续使用更多的限定符来缩小选择范围。</p>
+<p><strong>@Qualifier</strong>注解是使用限定符的主要方式。它可以与@Autowired和@Inject协同使用，在注入的时候指定想要注入进去的是哪个bean。例如，我们想要确保要将IceCream注入到setDessert()之中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">@Qualifier(&quot;iceCream&quot;)</span><br><span class="line">public void setDessert(Dessert dessert)&#123;</span><br><span class="line">  this.dessert = dessert;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这是使用限定符的最简单的例子。为@Qualifier注解所设置的参数就是想要注入的bean的ID。所有使用@Component注解声明的类都会创建为bean，并且bean的ID为首字母变为小写的类名。因此，@Qualifier(“iceCream”)指向的是组件扫描时所创建的bean，并且这个bean是IceCream类的实例。</p>
+<p>实际上，还有一点需要补充一下。更准确地讲，@Qualifier(“iceCream”)所引用的bean要具有String类型的“iceCream”作为限定符。如果没有指定其他的限定符的话，所有的bean都会给定一个默认的限定符，这个限定符与bean的ID相同。因此，框架会将具有“iceCream”限定符的bean注入到setDessert()方法中。这恰巧就是ID为iceCream的bean，它是IceCream类在组件扫描的时候创建的。</p>
+<p>基于默认的bean ID作为限定符是非常简单的，但这有可能会引入一些问题。如果你重构了IceCream类，将其重命名为Gelato的话，那此时会发生什么情况呢？如果这样的话，bean的ID和默认的限定符会变为gelato，这就无法匹配setDessert()方法中的限定符。自动装配会失败。</p>
+<p>这里的问题在于setDessert()方法上所指定的限定符与要注入的bean的名称是紧耦合的。对类名称的任意改动都会导致限定符失效。</p>
+<h4 id="SpringEL"><a href="#SpringEL" class="headerlink" title="SpringEL"></a>SpringEL</h4><p>Value实现资源的注入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vlaue=#&#123;user&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="Bean的初始化和销毁"><a href="#Bean的初始化和销毁" class="headerlink" title="Bean的初始化和销毁"></a>Bean的初始化和销毁</h4><ul>
+<li>Java配置方式：initMethod和destoryMethod</li>
+<li>注解：@PostConstruct和@PreDestory<h4 id="Profile"><a href="#Profile" class="headerlink" title="Profile"></a>Profile</h4>提供在不同的环境下使用不同的配置</li>
+</ul>
+<p><strong>激活Profile</strong><br>Spring在确定哪个profile处于激活状态时，需要依赖两个独立的属性：spring.profiles.active和spring.profiles.default。如果设置了spring.profiles.active属性的话，那么它的值就会用来确定哪个profile是激活的。但如果没有设置spring.profiles.active属性的话，那Spring将会查找spring.profiles.default的值。如果spring.profiles.active和spring.profiles.default均没有设置的话，那就没有激活的profile，因此只会创建那些没有定义在profile中的bean。</p>
+<p><strong>使用profile进行测试</strong><br>当运行集成测试时，通常会希望采用与生产环境（或者是生产环境的部分子集）相同的配置进行测试。但是，如果配置中的bean定义在了profile中，那么在运行测试时，我们就需要有一种方式来启用合适的profile。</p>
+<p>Spring提供了@ActiveProfiles注解，我们可以使用它来指定运行测试时要激活哪个profile。在集成测试时，通常想要激活的是开发环境的profile。</p>
+<p>比如Profile(“dev”)</p>
+<h4 id="Application-Event"><a href="#Application-Event" class="headerlink" title="Application Event"></a>Application Event</h4><p>使用Application Event可以做到Bean与Bean之间的通信</p>
+<p>Spring的事件需要遵循如下流程：</p>
+<ul>
+<li>自定义事件，集成ApplicationEvent</li>
+<li>定义事件监听器，实现ApplicationListener</li>
+<li>使用容器发布事件</li>
+</ul>
 
           
         
@@ -1694,7 +1914,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Git 指令/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/3dTagCloudAndroid/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -1713,8 +1933,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/Git 指令/" itemprop="url">
-                  Git
+                <a class="post-title-link" href="/2018/07/20/3dTagCloudAndroid/" itemprop="url">
+                  推荐一些有意思的东西
                 </a>
               
             
@@ -1758,7 +1978,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/杂七杂八/" itemprop="url" rel="index"><span itemprop="name">杂七杂八</span></a></span>
 
                 
                 
@@ -1794,196 +2014,69 @@
       
         
           
-            <h3 id="Git-指令"><a href="#Git-指令" class="headerlink" title="Git 指令"></a>Git 指令</h3><p><strong>git init</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在本地新建一个repo,进入一个项目目录,执行git init,会初始化一个repo,并在当前文件夹下创建一个.git文件夹.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git clone</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">获取一个url对应的远程Git repo, 创建一个local copy.</span><br><span class="line">一般的格式是git clone [url].</span><br><span class="line">clone下来的repo会以url最后一个斜线后面的名称命名,创建一个文件夹,如果想要指定特定的名称,可以git clone [url] newname指定.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git status</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">查询repo的状态.</span><br><span class="line">git status -s: -s表示short, -s的输出标记会有两列,第一列是对staging区域而言,第二列是对working目录而言.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git log</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">show commit history of a branch.</span><br><span class="line">git log --oneline --number: 每条log只显示一行,显示number条.</span><br><span class="line">git log --oneline --graph:可以图形化地表示出分支合并历史.</span><br><span class="line">git log branchname可以显示特定分支的log.</span><br><span class="line">git log --oneline branch1 ^branch2,可以查看在分支1,却不在分支2中的提交.^表示排除这个分支(Window下可能要给^branch2加上引号).</span><br><span class="line">git log --decorate会显示出tag信息.</span><br><span class="line">git log --author=[author name] 可以指定作者的提交历史.</span><br><span class="line">git log --since --before --until --after 根据提交时间筛选log.</span><br><span class="line">--no-merges可以将merge的commits排除在外.</span><br><span class="line">git log --grep 根据commit信息过滤log: git log --grep=keywords</span><br><span class="line">默认情况下, git log --grep --author是OR的关系,即满足一条即被返回,如果你想让它们是AND的关系,可以加上--all-match的option.</span><br><span class="line">git log -S: filter by introduced diff.</span><br><span class="line">比如: git log -SmethodName (注意S和后面的词之间没有等号分隔).</span><br><span class="line">git log -p: show patch introduced at each commit.</span><br><span class="line">每一个提交都是一个快照(snapshot),Git会把每次提交的diff计算出来,作为一个patch显示给你看.</span><br><span class="line">另一种方法是git show [SHA].</span><br><span class="line">git log --stat: show diffstat of changes introduced at each commit.</span><br><span class="line">同样是用来看改动的相对信息的,--stat比-p的输出更简单一些.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git add</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">在提交之前,Git有一个暂存区(staging area),可以放入新添加的文件或者加入新的改动. commit时提交的改动是上一次加入到staging area中的改动,而不是我们disk上的改动.</span><br><span class="line">git add .</span><br><span class="line">会递归地添加当前工作目录中的所有文件.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git diff</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">不加参数的git diff:</span><br><span class="line">show diff of unstaged changes.</span><br><span class="line">此命令比较的是工作目录中当前文件和暂存区域快照之间的差异,也就是修改之后还没有暂存起来的变化内容.</span><br><span class="line"></span><br><span class="line">若要看已经暂存起来的文件和上次提交时的快照之间的差异,可以用:</span><br><span class="line">git diff --cached 命令.</span><br><span class="line">show diff of staged changes.</span><br><span class="line">(Git 1.6.1 及更高版本还允许使用 git diff --staged，效果是相同的).</span><br><span class="line">git diff HEAD</span><br><span class="line">show diff of all staged or unstated changes.</span><br><span class="line">也即比较woking directory和上次提交之间所有的改动.</span><br><span class="line"></span><br><span class="line">如果想看自从某个版本之后都改动了什么,可以用:</span><br><span class="line">git diff [version tag]</span><br><span class="line">跟log命令一样,diff也可以加上--stat参数来简化输出.</span><br><span class="line"></span><br><span class="line">git diff [branchA] [branchB]可以用来比较两个分支.</span><br><span class="line">它实际上会返回一个由A到B的patch,不是我们想要的结果.</span><br><span class="line">一般我们想要的结果是两个分支分开以后各自的改动都是什么,是由命令:</span><br><span class="line">git diff [branchA]…[branchB]给出的.</span><br><span class="line">实际上它是:git diff $(git merge-base [branchA] [branchB]) [branchB]的结果.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git commit</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">提交已经被add进来的改动.</span><br><span class="line">git commit -m “the commit message&quot;</span><br><span class="line">git commit -a 会先把所有已经track的文件的改动add进来,然后提交(有点像svn的一次提交,不用先暂存). 对于没有track的文件,还是需要git add一下.</span><br><span class="line">git commit --amend 增补提交. 会使用与当前提交节点相同的父节点进行一次新的提交,旧的提交将会被取消.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git reset</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">undo changes and commits.</span><br><span class="line">这里的HEAD关键字指的是当前分支最末梢最新的一个提交.也就是版本库中该分支上的最新版本.</span><br><span class="line">git reset HEAD: unstage files from index and reset pointer to HEAD</span><br><span class="line">这个命令用来把不小心add进去的文件从staged状态取出来,可以单独针对某一个文件操作: git reset HEAD - - filename, 这个- - 也可以不加.</span><br><span class="line">git reset --soft</span><br><span class="line">move HEAD to specific commit reference, index and staging are untouched.</span><br><span class="line">git reset --hard</span><br><span class="line">unstage files AND undo any changes in the working directory since last commit.</span><br><span class="line">使用git reset —hard HEAD进行reset,即上次提交之后,所有staged的改动和工作目录的改动都会消失,还原到上次提交的状态.</span><br><span class="line">这里的HEAD可以被写成任何一次提交的SHA-1.</span><br><span class="line">不带soft和hard参数的git reset,实际上带的是默认参数mixed.</span><br><span class="line"></span><br><span class="line">总结:</span><br><span class="line">git reset --mixed id,是将git的HEAD变了(也就是提交记录变了),但文件并没有改变，(也就是working tree并没有改变). 取消了commit和add的内容.</span><br><span class="line">git reset --soft id. 实际上，是git reset –mixed id 后,又做了一次git add.即取消了commit的内容.</span><br><span class="line">git reset --hard id.是将git的HEAD变了,文件也变了.</span><br><span class="line">按改动范围排序如下:</span><br><span class="line">soft (commit) &lt; mixed (commit + add) &lt; hard (commit + add + local working)</span><br></pre></td></tr></table></figure></p>
-<p><strong>git revert</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">反转撤销提交.只要把出错的提交(commit)的名字(reference)作为参数传给命令就可以了.</span><br><span class="line">git revert HEAD: 撤销最近的一个提交.</span><br><span class="line">git revert会创建一个反向的新提交,可以通过参数-n来告诉Git先不要提交.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git rm</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm file: 从staging区移除文件,同时也移除出工作目录.</span><br><span class="line">git rm --cached: 从staging区移除文件,但留在工作目录中.</span><br><span class="line">git rm --cached从功能上等同于git reset HEAD,清除了缓存区,但不动工作目录树.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git clean</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clean是从工作目录中移除没有track的文件.</span><br><span class="line">通常的参数是git clean -df:</span><br><span class="line">-d表示同时移除目录,-f表示force,因为在git的配置文件中, clean.requireForce=true,如果不加-f,clean将会拒绝执行.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git mv</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm - - cached orig; mv orig new; git add new</span><br></pre></td></tr></table></figure></p>
-<p><strong>git stash</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">把当前的改动压入一个栈.</span><br><span class="line">git stash将会把当前目录和index中的所有改动(但不包括未track的文件)压入一个栈,然后留给你一个clean的工作状态,即处于上一次最新提交处.</span><br><span class="line">git stash list会显示这个栈的list.</span><br><span class="line">git stash apply:取出stash中的上一个项目(stash@&#123;0&#125;),并且应用于当前的工作目录.</span><br><span class="line">也可以指定别的项目,比如git stash apply stash@&#123;1&#125;.</span><br><span class="line">如果你在应用stash中项目的同时想要删除它,可以用git stash pop</span><br><span class="line"></span><br><span class="line">删除stash中的项目:</span><br><span class="line">git stash drop: 删除上一个,也可指定参数删除指定的一个项目.</span><br><span class="line">git stash clear: 删除所有项目.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git branch</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git branch可以用来列出分支,创建分支和删除分支.</span><br><span class="line">git branch -v可以看见每一个分支的最后一次提交.</span><br><span class="line">git branch: 列出本地所有分支,当前分支会被星号标示出.</span><br><span class="line">git branch (branchname): 创建一个新的分支(当你用这种方式创建分支的时候,分支是基于你的上一次提交建立的). </span><br><span class="line">git branch -d (branchname): 删除一个分支.</span><br><span class="line">删除remote的分支:</span><br><span class="line">git push (remote-name) :(branch-name): delete a remote branch.</span><br><span class="line">这个是因为完整的命令形式是:</span><br><span class="line">git push remote-name local-branch:remote-branch</span><br><span class="line">而这里local-branch的部分为空,就意味着删除了remote-branch</span><br></pre></td></tr></table></figure></p>
-<p><strong>git checkout</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git checkout（branchname）</span><br><span class="line">切换到一个分支.</span><br><span class="line">git checkout -b (branchname): 创建并切换到新的分支.</span><br><span class="line">这个命令是将git branch newbranch和git checkout newbranch合在一起的结果.</span><br><span class="line">checkout还有另一个作用:替换本地改动:</span><br><span class="line">git checkout --&lt;filename&gt;</span><br><span class="line">此命令会使用HEAD中的最新内容替换掉你的工作目录中的文件.已添加到暂存区的改动以及新文件都不会受到影响.</span><br><span class="line">注意:git checkout filename会删除该文件中所有没有暂存和提交的改动,这个操作是不可逆的.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git merge</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">把一个分支merge进当前的分支.</span><br><span class="line">git merge [alias]/[branch]</span><br><span class="line">把远程分支merge到当前分支.</span><br><span class="line"></span><br><span class="line">如果出现冲突,需要手动修改,可以用git mergetool.</span><br><span class="line">解决冲突的时候可以用到git diff,解决完之后用git add添加,即表示冲突已经被resolved.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git tag</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">tag a point in history as import.</span><br><span class="line">会在一个提交上建立永久性的书签,通常是发布一个release版本或者ship了什么东西之后加tag.</span><br><span class="line">比如: git tag v1.0</span><br><span class="line">git tag -a v1.0, -a参数会允许你添加一些信息,即make an annotated tag.</span><br><span class="line">当你运行git tag -a命令的时候,Git会打开一个编辑器让你输入tag信息.</span><br><span class="line"></span><br><span class="line">我们可以利用commit SHA来给一个过去的提交打tag:</span><br><span class="line">git tag -a v0.9 XXXX</span><br><span class="line"></span><br><span class="line">push的时候是不包含tag的,如果想包含,可以在push时加上--tags参数.</span><br><span class="line">fetch的时候,branch HEAD可以reach的tags是自动被fetch下来的, tags that aren’t reachable from branch heads will be skipped.如果想确保所有的tags都被包含进来,需要加上--tags选项.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git remote</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">list, add and delete remote repository aliases.</span><br><span class="line">因为不需要每次都用完整的url,所以Git为每一个remote repo的url都建立一个别名,然后用git remote来管理这个list.</span><br><span class="line">git remote: 列出remote aliases.</span><br><span class="line">如果你clone一个project,Git会自动将原来的url添加进来,别名就叫做:origin.</span><br><span class="line">git remote -v:可以看见每一个别名对应的实际url.</span><br><span class="line">git remote add [alias] [url]: 添加一个新的remote repo.</span><br><span class="line">git remote rm [alias]: 删除一个存在的remote alias.</span><br><span class="line">git remote rename [old-alias] [new-alias]: 重命名.</span><br><span class="line">git remote set-url [alias] [url]:更新url. 可以加上—push和fetch参数,为同一个别名set不同的存取地址.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git fetch</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">download new branches and data from a remote repository.</span><br><span class="line">可以git fetch [alias]取某一个远程repo,也可以git fetch --all取到全部repo</span><br><span class="line">fetch将会取到所有你本地没有的数据,所有取下来的分支可以被叫做remote branches,它们和本地分支一样(可以看diff,log等,也可以merge到其他分支),但是Git不允许你checkout到它们.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git pull</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fetch from a remote repo and try to merge into the current branch.</span><br><span class="line">pull == fetch + merge FETCH_HEAD</span><br><span class="line">git pull会首先执行git fetch,然后执行git merge,把取来的分支的head merge到当前分支.这个merge操作会产生一个新的commit.    </span><br><span class="line">如果使用--rebase参数,它会执行git rebase来取代原来的git merge.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git rebase</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">--rebase不会产生合并的提交,它会将本地的所有提交临时保存为补丁(patch),放在”.git/rebase”目录中,然后将当前分支更新到最新的分支尖端,最后把保存的补丁应用到分支上.</span><br><span class="line">rebase的过程中,也许会出现冲突,Git会停止rebase并让你解决冲突,在解决完冲突之后,用git add去更新这些内容,然后无需执行commit,只需要:</span><br><span class="line">git rebase --continue就会继续打余下的补丁.</span><br><span class="line">git rebase --abort将会终止rebase,当前分支将会回到rebase之前的状态.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git push</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push your new branches and data to a remote repository.</span><br><span class="line">git push [alias] [branch]</span><br><span class="line">将会把当前分支merge到alias上的[branch]分支.如果分支已经存在,将会更新,如果不存在,将会添加这个分支.</span><br><span class="line">如果有多个人向同一个remote repo push代码, Git会首先在你试图push的分支上运行git log,检查它的历史中是否能看到server上的branch现在的tip,如果本地历史中不能看到server的tip,说明本地的代码不是最新的,Git会拒绝你的push,让你先fetch,merge,之后再push,这样就保证了所有人的改动都会被考虑进来.</span><br></pre></td></tr></table></figure></p>
-<p><strong>git reflog</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git reflog是对reflog进行管理的命令,reflog是git用来记录引用变化的一种机制,比如记录分支的变化或者是HEAD引用的变化.</span><br><span class="line">当git reflog不指定引用的时候,默认列出HEAD的reflog.</span><br><span class="line">HEAD@&#123;0&#125;代表HEAD当前的值,HEAD@&#123;3&#125;代表HEAD在3次变化之前的值.</span><br><span class="line">git会将变化记录到HEAD对应的reflog文件中,其路径为.git/logs/HEAD, 分支的reflog文件都放在.git/logs/refs目录下的子目录中.</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Tomcat 部署项目的三种方法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/Tomcat 部署项目的三种方法/" itemprop="url">
-                  springboot
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="/img/ali.png" alt=""></p>
-<h3 id="Tomcat-部署项目的三种方法"><a href="#Tomcat-部署项目的三种方法" class="headerlink" title="Tomcat 部署项目的三种方法"></a>Tomcat 部署项目的三种方法</h3><p>作者：YSOcean<br>链接：cnblogs.com/ysocean/p/6893446.html</p>
-<h4 id="1、下载-Tomcat-服务器"><a href="#1、下载-Tomcat-服务器" class="headerlink" title="1、下载 Tomcat 服务器"></a>1、下载 Tomcat 服务器</h4><p>官网下载地址：<a href="http://tomcat.apache.org/" target="_blank" rel="noopener">http://tomcat.apache.org/</a></p>
-<h4 id="2、启动并部署-Tomcat-服务器"><a href="#2、启动并部署-Tomcat-服务器" class="headerlink" title="2、启动并部署 Tomcat 服务器"></a>2、启动并部署 Tomcat 服务器</h4><p>①、解压 tomcat 安装包到一个非中文目录下<br>②、配置环境变量。JAVA_HOME(指向 JDK 安装的根目录)<br>③、双击 apache-tomcat-6.0.16\bin 目录下的 startup.bat，启动服务器(如果一闪而过，那就是没有配置 JAVA_HOME 的环境变量)<br>④、在浏览器中输入 <a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a></p>
-<p><strong>注意：Tomcat 启动不了的时候注意配置 JAVA_HOME:C:\Program Files\Java\jdk1.6.0_43这是安装 JDK的根目录</strong></p>
-<h4 id="3、Tomcat-的目录结构"><a href="#3、Tomcat-的目录结构" class="headerlink" title="3、Tomcat 的目录结构"></a>3、Tomcat 的目录结构</h4><p><img src="/img/tomcat1.png" alt=""></p>
-<h4 id="4、部署项目的第一种方法（项目直接放入-webapps-目录中）"><a href="#4、部署项目的第一种方法（项目直接放入-webapps-目录中）" class="headerlink" title="4、部署项目的第一种方法（项目直接放入 webapps 目录中）"></a>4、部署项目的第一种方法（项目直接放入 webapps 目录中）</h4><p>1、将编写并编译好的web项目(注意要是编译好的，如果是 eclipse，可以将项目打成 war 包放入)，放入到 webapps 中<br><img src="/img/tomcat2.png" alt=""><br>2、启动tomcat服务器（双击 apache-tomcat-6.0.16\bin 目录下的 startup.bat，启动服务器）<br><img src="/img/tomcat3.png" alt=""><br>3、在浏览器输入：<a href="http://localhost:8080/项目名/访问的文件名" target="_blank" rel="noopener">http://localhost:8080/项目名/访问的文件名</a><br><img src="/img/tomcat4.png" alt=""></p>
-<h4 id="5、部署项目的第二种方法（修改-conf-server-xml-文件-）"><a href="#5、部署项目的第二种方法（修改-conf-server-xml-文件-）" class="headerlink" title="5、部署项目的第二种方法（修改 conf/server.xml 文件 ）"></a>5、部署项目的第二种方法（修改 conf/server.xml 文件 ）</h4><p>①、打开tomcat下conf/server.xml，在<host> </host>标签之间输入项目配置信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Context path=&quot;/WebProject&quot; docBase=&quot;D:/WebProject&quot; reloadable=&quot;true&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
-<p><strong>path:</strong> 浏览器访问时的路径名<br><strong>docBase:</strong> web项目的WebRoot所在的路径，注意是WebRoot的路径，不是项目的路径。其实也就是编译后的项目<br><strong>reloadble:</strong> 设定项目有改动时，tomcat是否重新加载该项目<br>②、双击 startup.bat，启动 tomcat 服务器，然后在浏览器输入访问的项目名称路径、<br><img src="/img/tomcat5.png" alt=""><br><strong>注意：如果你配置的 path=”/xx”,那么访问的时候就是这样：</strong><br><img src="/img/tomcat6.png" alt=""></p>
-<h4 id="6、部署项目的第三种方法（apache-tomcat-7-0-52-conf-Catalina-localhost-）"><a href="#6、部署项目的第三种方法（apache-tomcat-7-0-52-conf-Catalina-localhost-）" class="headerlink" title="6、部署项目的第三种方法（apache-tomcat-7.0.52\conf\Catalina\localhost ）"></a>6、部署项目的第三种方法（apache-tomcat-7.0.52\conf\Catalina\localhost ）</h4><p>①、进入到 apache-tomcat-7.0.52\conf\Catalina\localhost 目录，新建一个 项目名.xml 文件<br><img src="/img/tomcat7.png" alt=""><br>②、在 那个新建的 xml 文件中，增加下面配置语句（和上面的是一样的,但是不需要 path 配置，加上也没什么用）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Context  docBase=&quot;D:/WebProject&quot; reloadable=&quot;true&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
-<p><img src="/img/tomcat8.png" alt=""><br>③、在浏览器输入路径：localhost:8080/xml文件名/访问的文件名<br><img src="/img/tomcat9.png" alt=""><br>总结：<br>①、第一种方法比较普通，但是我们需要将编译好的项目重新 copy 到 webapps 目录下，多出了两步操作。</p>
-<p>②、第二种方法直接在 server.xml 文件中配置，但是从 tomcat5.0版本开始后，server.xml 文件作为 tomcat 启动的主要配置文件，一旦 tomcat 启动后，便不会再读取这个文件，因此无法再 tomcat 服务启动后发布 web 项目。</p>
-<p>③、第三种方法是最好的，每个项目分开配置，tomcat 将以\conf\Catalina\localhost 目录下的 xml 文件的文件名作为 web 应用的上下文路径，而不再理会 <context>中配置的 path 路径，因此在配置的时候，可以不写 path。</context></p>
-<p>通常我们使用第三种方法.</p>
+            <h3 id="3dTagCloudAndroid"><a href="#3dTagCloudAndroid" class="headerlink" title="3dTagCloudAndroid"></a>3dTagCloudAndroid</h3><h4 id="介绍："><a href="#介绍：" class="headerlink" title="介绍："></a>介绍：</h4><p>TagCloudView是一个完全基于Android ViewGroup编写的控件，支持将一组View展示为一个3D球形集合，并支持全方向滚动。</p>
+<h4 id="运行效果："><a href="#运行效果：" class="headerlink" title="运行效果："></a>运行效果：</h4><p><img src="/img/3d.gif" alt=""></p>
+<h4 id="使用说明："><a href="#使用说明：" class="headerlink" title="使用说明："></a>使用说明：</h4><p>Android Studio / IDEA</p>
+<p>在build.gradle中添加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile &apos;com.moxun:tagcloudlib:1.0.3&apos;</span><br></pre></td></tr></table></figure></p>
+<p>在布局文件中引入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;com.moxun.tagcloudlib.view.TagCloudView/&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>设置Adapter 继承TagsAdapter，实现以下方法</strong></p>
+<p>public int getCount();<br><strong>返回Tag数量</strong><br>public View getView(Context context, int position, ViewGroup parent);<br><strong>返回每个Tag实例</strong><br>public Object getItem(int position);<br><strong>返回Tag数据</strong><br>public int getPopularity(int position);<br><strong>针对每个Tag返回一个权重值，该值与ThemeColor和Tag初始大小有关</strong><br>public void onThemeColorChanged(View view,int themeColor);<br><strong>Tag主题色发生变化时会回调该方法</strong></p>
+<h4 id="定制属性"><a href="#定制属性" class="headerlink" title="定制属性"></a>定制属性</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th style="text-align:center">xml</th>
+<th style="text-align:center">代码</th>
+<th>值类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自动滚动</td>
+<td style="text-align:center">app:autoScrollMode</td>
+<td style="text-align:center">setAutoScrollMode(int mode)</td>
+<td>[disable,uniform,decelerate]</td>
+</tr>
+<tr>
+<td>半径百分比</td>
+<td style="text-align:center">app:radiusPercent</td>
+<td style="text-align:center">setRadiusPercent(float percent)</td>
+<td>float [0,1]</td>
+</tr>
+<tr>
+<td>滚动速度</td>
+<td style="text-align:center">app:scrollSpeed</td>
+<td style="text-align:center">setScrollSpeed(float scrollSpeed)</td>
+<td>float [0,+]</td>
+</tr>
+<tr>
+<td>起始颜色</td>
+<td style="text-align:center">app:lightColor</td>
+<td style="text-align:center">setLightColor(int color)</td>
+<td>int</td>
+</tr>
+<tr>
+<td>终止颜色</td>
+<td style="text-align:center">app:darkColor</td>
+<td style="text-align:center">setDarkColor(int color)</td>
+<td>int</td>
+</tr>
+</tbody>
+</table>
+<h4 id="轻松调试数据库"><a href="#轻松调试数据库" class="headerlink" title="轻松调试数据库"></a>轻松调试数据库</h4><p>日常开发中一个非常痛苦的事情，就是在需要操作数据库的项目中，需要不断的调试数据库，很多时候我们选择是导出数据库，然后使用Sqlite 可视化软件打开打开。</p>
+<p>高端一点的使用sqlite3，然后通过命令行操作。</p>
+<p>当然了还有个比较强大好用的工具是：facebook 的stetho。</p>
+<p>不过我今天推荐的是另一个项目：</p>
+<p><a href="https://github.com/amitshekhariitbhu/Android-Debug-Database" target="_blank" rel="noopener">https://github.com/amitshekhariitbhu/Android-Debug-Database</a></p>
+<p>怎么用呢？</p>
+<p>在我们的项目对应的module 中添加一行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">debugImplementation &apos;com.amitshekhar.android:debug-db:1.0.4&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后直接运行包含数据库的项目，在手机安装成功后，在浏览器访问：</p>
+<p><strong>你手机的 IP：8080</strong></p>
+<p>你就可以看到如下界面：<br><img src="/img/sqlite1.png" alt=""><br>在这里，你可以执行sql 语句，查看任何表数据，甚至可以新增、修改、删除数据。<br><img src="/img/sqlite2.gif" alt=""><br>所有的操作都是直接反馈到数据库的。</p>
+<p>此外还支持 SharedPref的直接查看与修改~</p>
+<p>是不是非常简单！</p>
+<p>项目支持更换端口，从多年的编程经验来看，建议设置一个别的端口号，一开始默认8080端口我就遇到了问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">buildTypes &#123;</span><br><span class="line">debug &#123;</span><br><span class="line">resValue(&quot;string&quot;, &quot;PORT_NUMBER&quot;, &quot;9999&quot;)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意，手机需要和 PC 在同一个网段；usb 连接也可以，自行参考 readme即可。</p>
 
           
         
@@ -2247,7 +2340,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">85</span>
+                    <span class="site-state-item-count">86</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2407,7 +2500,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">59</span>
+                      
+                    
+                    <span class="site-state-item-count">60</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
