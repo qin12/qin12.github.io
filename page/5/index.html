@@ -319,6 +319,515 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/桥接模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/桥接模式/" itemprop="url">
+                  桥接模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="桥接模式"><a href="#桥接模式" class="headerlink" title="桥接模式"></a>桥接模式</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>  桥接模式即将抽象部分与它的实现部分分离开来，使他们都可以独立变化。<br>      桥接模式将继承关系转化成关联关系，它降低了类与类之间的耦合度，减少了系统中类的数量，也减少了代码量。<br>      将抽象部分与他的实现部分分离这句话不是很好理解，其实这并不是将抽象类与他的派生类分离，而是抽象类和它的派生类用来实现自己的对象。这样还是不能理解的话。我们就先来认清什么是抽象化，什么是实现化，什么是脱耦。</p>
+<h5 id="抽象化："><a href="#抽象化：" class="headerlink" title="抽象化："></a>抽象化：</h5><p>其概念是将复杂物体的一个或几个特性抽出去而只注意其他特性的行动或过程。在面向对象就是将对象共同的性质抽取出去而形成类的过程。</p>
+<h5 id="实现化："><a href="#实现化：" class="headerlink" title="实现化："></a>实现化：</h5><p>针对抽象化给出的具体实现。它和抽象化是一个互逆的过程，实现化是对抽象化事物的进一步具体化。</p>
+<h5 id="脱耦："><a href="#脱耦：" class="headerlink" title="脱耦："></a>脱耦：</h5><p>脱耦就是将抽象化和实现化之间的耦合解脱开，或者说是将它们之间的强关联改换成弱关联，将两个角色之间的继承关系改为关联关系。<br>      对于那句话：将抽象部分与他的实现部分分离套用《大话设计模式》里面的就是实现系统可能有多个角度分类，每一种角度都可能变化，那么把这种多角度分类给分离出来让他们独立变化，减少他们之间耦合。<br>   桥接模式中的所谓脱耦，就是指在一个软件系统的抽象化和实现化之间使用关联关系（组合或者聚合关系）而不是继承关系，从而使两者可以相对独立地变化，这就是桥接模式的用意。</p>
+<h4 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h4><p>桥接模式主要包含如下几个角色：<br>      Abstraction：抽象类。<br>      RefinedAbstraction：扩充抽象类。<br>      Implementor：实现类接口。<br>      ConcreteImplementor：具体实现类 。 </p>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><h5 id="Implementor-定义实现接口。"><a href="#Implementor-定义实现接口。" class="headerlink" title="Implementor : 定义实现接口。"></a>Implementor : 定义实现接口。</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">interface Implementor &#123;</span><br><span class="line">    // 实现抽象部分需要的某些具体功能</span><br><span class="line">    public void operationImpl();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Abstraction-定义抽象接口。"><a href="#Abstraction-定义抽象接口。" class="headerlink" title="Abstraction : 定义抽象接口。"></a>Abstraction : 定义抽象接口。</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">abstract class Abstraction &#123;</span><br><span class="line">    // 持有一个 Implementor 对象，形成聚合关系</span><br><span class="line">    protected Implementor implementor;</span><br><span class="line">    </span><br><span class="line">    public Abstraction(Implementor implementor) &#123;</span><br><span class="line">        this.implementor = implementor;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    // 可能需要转调实现部分的具体实现</span><br><span class="line">    public void operation() &#123;</span><br><span class="line">        implementor.operationImpl();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="ConcreteImplementor-实现-Implementor-中定义的接口。"><a href="#ConcreteImplementor-实现-Implementor-中定义的接口。" class="headerlink" title="ConcreteImplementor :  实现 Implementor 中定义的接口。"></a>ConcreteImplementor :  实现 Implementor 中定义的接口。</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class ConcreteImplementorA implements Implementor &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void operationImpl() &#123;</span><br><span class="line">        // 真正的实现</span><br><span class="line">        System.out.println(&quot;具体实现A&quot;);</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class ConcreteImplementorB implements Implementor &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void operationImpl() &#123;</span><br><span class="line">        // 真正的实现</span><br><span class="line">        System.out.println(&quot;具体实现B&quot;);</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="RefinedAbstraction-扩展-Abstraction-类。"><a href="#RefinedAbstraction-扩展-Abstraction-类。" class="headerlink" title="RefinedAbstraction : 扩展 Abstraction 类。"></a>RefinedAbstraction : 扩展 Abstraction 类。</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class RefinedAbstraction extends Abstraction &#123;</span><br><span class="line"></span><br><span class="line">    public RefinedAbstraction(Implementor implementor) &#123;</span><br><span class="line">        super(implementor);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public void otherOperation() &#123;</span><br><span class="line">        // 实现一定的功能，可能会使用具体实现部分的实现方法,</span><br><span class="line">        // 但是本方法更大的可能是使用 Abstraction 中定义的方法，</span><br><span class="line">        // 通过组合使用 Abstraction 中定义的方法来完成更多的功能。</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class BridgePattern &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Implementor implementor = new ConcreteImplementorA();</span><br><span class="line">        RefinedAbstraction abstraction = new RefinedAbstraction(implementor);</span><br><span class="line">        abstraction.operation();</span><br><span class="line">        abstraction.otherOperation();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">具体实现A</span><br><span class="line">其他操作</span><br></pre></td></tr></table></figure>
+<h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1、如果你不希望在抽象和实现部分采用固定的绑定关系，可以采用桥接模式，来把抽象和实现部分分开，</span><br><span class="line">然后在程序运行期间来动态的设置抽象部分需要用到的具体的实现，还可以动态切换具体的实现。</span><br><span class="line"></span><br><span class="line">2、如果出现抽象部分和实现部分都应该可以扩展的情况，可以采用桥接模式，让抽象部分和实现部分可以</span><br><span class="line">独立的变化，从而可以灵活的进行单独扩展，而不是搅在一起，扩展一边会影响到另一边。</span><br><span class="line"></span><br><span class="line">3、如果希望实现部分的修改，不会对客户产生影响，可以采用桥接模式，客户是面向抽象的接口在运行，</span><br><span class="line">实现部分的修改，可以独立于抽象部分，也就不会对客户产生影响了，也可以说对客户是透明的。</span><br><span class="line"></span><br><span class="line">4、如果采用继承的实现方案，会导致产生很多子类，对于这种情况，可以考虑采用桥接模式，分析功能变化的原因，看看是否能分离成不同的纬度，然后通过桥接模式来分离它们，从而减少子类的数目。</span><br></pre></td></tr></table></figure>
+<h4 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h4><ul>
+<li>如果一个系统需要在构件的抽象化角色和具体化角色之间增加更多的灵活性，避免在两个层次之间建立静态的联系。</li>
+<li>抽象化角色和具体化角色都应该可以被子类扩展。在这种情况下，桥接模式可以灵活地组合不同的抽象化角色和具体化角色，并独立化地扩展。</li>
+<li>设计要求实现化角色的任何改变不应当影响客户端，或者说实现化角色的改变对客户端是完全透明的。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/LIstView 联动(一)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/LIstView 联动(一)/" itemprop="url">
+                  Android ListView联动
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="LIstView-联动-一"><a href="#LIstView-联动-一" class="headerlink" title="LIstView 联动(一)"></a>LIstView 联动(一)</h3><h4 id="大体思路"><a href="#大体思路" class="headerlink" title="大体思路"></a>大体思路</h4><p>两个listView的联动效果，类似于美团点菜和城市选择效果，在布局的左侧使用了平常的listview，在右侧用到了stickyheaderlistview，这是实现该效果的一个关键组件。<br>activity 布局<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout</span><br><span class="line">       android:layout_width=&quot;match_parent&quot;</span><br><span class="line">       android:layout_height=&quot;match_parent&quot;</span><br><span class="line">       android:orientation=&quot;horizontal&quot; &gt;</span><br><span class="line"></span><br><span class="line">       &lt;ListView</span><br><span class="line">           android:id=&quot;@+id/lv_left&quot;</span><br><span class="line">           android:layout_width=&quot;100dp&quot;</span><br><span class="line">           android:layout_height=&quot;match_parent&quot;</span><br><span class="line">           android:cacheColorHint=&quot;#00000000&quot; &gt;</span><br><span class="line">       &lt;/ListView&gt;</span><br><span class="line"></span><br><span class="line">       &lt;se.emilsjolander.stickylistheaders.StickyListHeadersListView</span><br><span class="line">           android:id=&quot;@+id/list&quot;</span><br><span class="line">           android:layout_width=&quot;match_parent&quot;</span><br><span class="line">           android:layout_height=&quot;match_parent&quot;</span><br><span class="line">           android:cacheColorHint=&quot;#00000000&quot;</span><br><span class="line">           android:clipToPadding=&quot;false&quot;</span><br><span class="line">           android:footerDividersEnabled=&quot;false&quot;</span><br><span class="line">           android:drawSelectorOnTop=&quot;true&quot;</span><br><span class="line">           android:fastScrollEnabled=&quot;true&quot;</span><br><span class="line">           android:padding=&quot;16dp&quot;</span><br><span class="line">           android:scrollbarStyle=&quot;outsideOverlay&quot; /&gt;</span><br><span class="line">   &lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="模拟数据"><a href="#模拟数据" class="headerlink" title="模拟数据"></a>模拟数据</h4><p>模拟两边的数据，需要注意的是左边listview数据中的id要和右边listview数据中的id产生一对多的关系，否则无法实现联动效果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line">	 * 模拟右边adapter的数据</span><br><span class="line">	 * </span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	private List&lt;DishBean&gt; initDishData() &#123;</span><br><span class="line">		List&lt;DishBean&gt; dishBeanList = new ArrayList&lt;DishBean&gt;();</span><br><span class="line">		for (int i = 0; i &lt; 100; i++) &#123;</span><br><span class="line">			DishBean dishBean = new DishBean();</span><br><span class="line">			long id = i / 10;</span><br><span class="line">			dishBean.id = id;</span><br><span class="line">			dishBean.content = &quot;content&quot; + i;</span><br><span class="line">			dishBeanList.add(dishBean);</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line">		return dishBeanList;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">	 * 模拟左边adapter数据</span><br><span class="line">	 * </span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	private List&lt;CategoryBean&gt; initCateData() &#123;</span><br><span class="line">		List&lt;CategoryBean&gt; categoryBeanList = new ArrayList&lt;CategoryBean&gt;();</span><br><span class="line">		for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">			CategoryBean categoryBean = new CategoryBean();</span><br><span class="line">			if (i == 0) &#123;</span><br><span class="line">				categoryBean.isSelected = true;</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				categoryBean.isSelected = false;</span><br><span class="line">			&#125;</span><br><span class="line">			categoryBean.id = i;</span><br><span class="line">			categoryBean.name = &quot;cate&quot; + i;</span><br><span class="line">			categoryBeanList.add(categoryBean);</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line">		return categoryBeanList;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="左边对右边的联动"><a href="#左边对右边的联动" class="headerlink" title="左边对右边的联动"></a>左边对右边的联动</h4><p>设置左边listview的点击事件让右边的listview滚动到相应的位置，这算是完成了一半的任务。（根据CategoryBean 中的id值查找右边lsitview相对应的item，然后记录下位置进行setSelection操作）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@Override</span><br><span class="line">	public void onItemClick(AdapterView&lt;?&gt; parent, View view, int position, long id) &#123;</span><br><span class="line">		// 点击类别item，右侧菜品跳转到相应的位置</span><br><span class="line">		CategoryBean categoryBean = cateList.get(position);</span><br><span class="line">		for (int i = 0; i &lt; dishList.size(); i++) &#123;</span><br><span class="line">			DishBean dishBean = dishList.get(i);</span><br><span class="line">			if (categoryBean.id == dishBean.id) &#123;</span><br><span class="line">				lv_right.setSelection(i);</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="右侧对左侧的联动"><a href="#右侧对左侧的联动" class="headerlink" title="右侧对左侧的联动"></a>右侧对左侧的联动</h4><p>下面是右侧对左侧的联动效果实现。首先在activity中实现StickyListHeadersListView.OnStickyHeaderChangedListener接口（该接口来源于StickyListHeadersListView类），相对应的会实现onStickyHeaderChanged方法。</p>
+<p>该方法会在header改变时调用（header的改变意味着一组新的类别数据出现在屏幕上），这时相对应的也需要改变左侧listview的选中状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">	public void onStickyHeaderChanged(StickyListHeadersListView l, View header, int itemPosition, long headerId) &#123;</span><br><span class="line">		DishBean dishBean = dishList.get(itemPosition);</span><br><span class="line">		long id = dishBean.id;</span><br><span class="line">		int position = getCateId(id);</span><br><span class="line">		if (position != -1) &#123;</span><br><span class="line">			lv_left.setSelection(position);</span><br><span class="line">			//更新左侧listview选中状态</span><br><span class="line">			notifyLeftAdapter(position);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">	 * 获取dishbean id对应的类别所在position</span><br><span class="line">	 * </span><br><span class="line">	 * @param id</span><br><span class="line">	 *            dishbean id</span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	private int getCateId(long id) &#123;</span><br><span class="line">		int position = 0;</span><br><span class="line">		for (int i = 0; i &lt; cateList.size(); i++) &#123;</span><br><span class="line">			position = i;</span><br><span class="line">			if (id == cateList.get(i).id) &#123;</span><br><span class="line">				return position;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/生成器模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/生成器模式/" itemprop="url">
+                  生成器模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="生成器模式"><a href="#生成器模式" class="headerlink" title="生成器模式"></a>生成器模式</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>  将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。生成器模式利用一个导演者对象和具体建造者对象一个一个地建造出所有的零件，从而建造出完整的对象。</p>
+<h4 id="四个要素："><a href="#四个要素：" class="headerlink" title="四个要素："></a>四个要素：</h4><ul>
+<li>Builder：生成器接口，定义创建一个Product对象所需要的各个部件的操作。</li>
+<li>ConcreteBuilder：具体的生成器实现，实现各个部件的创建，并负责组装Product对象的各个部件，同时还提供一个让用户获取组装完成后的产品对象的方法。</li>
+<li>Director：指导者，也被称导向者，主要用来使用Builder接口，以一个统一的过程来构建所需要的Product对象</li>
+<li>Product：产品，表示被生成器构建的复杂对象，包含多个部件。</li>
+</ul>
+<p><img src="/img/product.png" alt=""></p>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p> 网上有用KFC的例子来描述生成器模式，比较通俗易懂。<br>        假设KFC推出两种套餐：奥尔良鸡腿堡套餐和香辣鸡腿堡套餐。<br>        奥尔良套餐包括：一个奥尔良鸡腿堡、一个炸鸡翅、一杯雪碧。<br>        鸡腿堡套餐包括：一个香辣鸡腿堡、一份薯条、一杯可乐。<br>        每份套餐都是：主食、副食、饮料。<br>        KFC服务员要根据顾客的要求来提供套餐，那这个需求里面什么是固定的，什么是变化的呢？很明显顾客都是要的套餐，顾客的目的是一样的。 套餐里面都是主食、副食、饮料，这也是固定的。至于主食是什么、副食是什么、饮料是什么，这个是变化的。<br>        在实际的软件开发过程中，有时候面临着“一个复杂对象”的创建工作，其通常由各个部分的子对象采用一定的组合构成，由于需求的变化，这个复杂对象的各个部分或者其子对象经常要变化（例如，鸡腿堡套餐的顾客不喜欢可乐，要换奶茶），但是他们的结构却相对稳定（套餐都得是一份主食，副食及饮料）。当遇到这种场景时，使用生成器模式比较合适。</p>
+<h5 id="定义一个产品类："><a href="#定义一个产品类：" class="headerlink" title="定义一个产品类："></a>定义一个产品类：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi.生产器模式;</span><br><span class="line"></span><br><span class="line">public class Entity1 &#123;</span><br><span class="line">    private String name ;//主食</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">public class Entity2 &#123;</span><br><span class="line">    private String name ;//副食</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class Entity3 &#123;</span><br><span class="line">    private String name ;//饮料</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Product &#123;</span><br><span class="line">    Entity1 entity1;</span><br><span class="line">    Entity2 entity2;</span><br><span class="line">    Entity3 entity3;</span><br><span class="line">    public  void  getProduct()&#123;</span><br><span class="line">        System.out.println(entity1.getName()+entity2.getName()+entity3.getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>产品类中的各个小模块是不一样的，由他们建造组成产品。</p>
+<h5 id="根据具体场景要求，定义n个生成器类："><a href="#根据具体场景要求，定义n个生成器类：" class="headerlink" title="根据具体场景要求，定义n个生成器类："></a>根据具体场景要求，定义n个生成器类：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi.生产器模式;</span><br><span class="line"></span><br><span class="line">public interface IBuild &#123;</span><br><span class="line">    public void createEntity1(Entity1 entity1);</span><br><span class="line">    public void createEntity2( Entity2 entity2);</span><br><span class="line">    public void createEntity3(Entity3 entity3);</span><br><span class="line">    public Product composite(Entity1 entity1,Entity2 entity2,Entity3 entity3);//合成</span><br><span class="line">    public Product create(Entity1 entity1,Entity2 entity2,Entity3 entity3);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">package SheJiMoShi.生产器模式;</span><br><span class="line"></span><br><span class="line">public class BuildProduct implements IBuild &#123;</span><br><span class="line">    Product p = new Product();</span><br><span class="line">    @Override</span><br><span class="line">    public void createEntity1(Entity1 entity1) &#123;</span><br><span class="line">     p.entity1=entity1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void createEntity2(Entity2 entity2) &#123;</span><br><span class="line">        p.entity2= entity2;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void createEntity3(Entity3 entity3) &#123;</span><br><span class="line">        p.entity3=entity3;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Product composite(Entity1 entity1 ,Entity2 entity2,Entity3 entity3) &#123;</span><br><span class="line">        createEntity1(entity1);</span><br><span class="line">        createEntity2(entity2);</span><br><span class="line">        createEntity3(entity3);</span><br><span class="line">        return p;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Product create(Entity1 entity1 ,Entity2 entity2,Entity3 entity3) &#123;</span><br><span class="line">        return composite(entity1,entity2,entity3);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="定义一个指挥者类，统一调度project："><a href="#定义一个指挥者类，统一调度project：" class="headerlink" title="定义一个指挥者类，统一调度project："></a>定义一个指挥者类，统一调度project：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi.生产器模式;</span><br><span class="line"></span><br><span class="line">public class Director &#123;</span><br><span class="line">    private IBuild iBuild;</span><br><span class="line">    public Director(IBuild iBuild)&#123;</span><br><span class="line">        this.iBuild= iBuild;</span><br><span class="line">    &#125;</span><br><span class="line">    public Product build(Entity1 entity1,Entity2 entity2,Entity3 entity3)&#123;</span><br><span class="line">         return iBuild.create(entity1,entity2,entity3);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>建造者模式可以让一个产品的内部表象和产品的生产过程分离开，从而可以生成具有不同内部表象的产品。 </p>
+<h4 id="主要角色介绍"><a href="#主要角色介绍" class="headerlink" title="主要角色介绍"></a>主要角色介绍</h4><h5 id="抽象建造者-Builder-角色："><a href="#抽象建造者-Builder-角色：" class="headerlink" title="抽象建造者(Builder)角色："></a>抽象建造者(Builder)角色：</h5><p>定义一个抽象接口，规范产品各个组成成分的建造（即规范具体建造者的方法实现）。其中所规范的方法中必须包括建造方法和结果返回方法。 </p>
+<h5 id="具体建造者-ConcreteBuilder-角色"><a href="#具体建造者-ConcreteBuilder-角色" class="headerlink" title="具体建造者(ConcreteBuilder)角色:"></a>具体建造者(ConcreteBuilder)角色:</h5><p>实现抽象建造者角色定义的方法。具体建造者与业务逻辑关联性比较大，应用程序最终会通过，调用此角色中的建造方法按照业务逻辑创建产品，在建造完成后通过结果返回产品实例。 </p>
+<h5 id="导演者-Diretor-角色"><a href="#导演者-Diretor-角色" class="headerlink" title="导演者(Diretor)角色:"></a>导演者(Diretor)角色:</h5><p>此角色的作用是调用具体的创建者角色创造产品。导演者与产品类没直接关系。 </p>
+<h5 id="产品-product-角色"><a href="#产品-product-角色" class="headerlink" title="产品(product)角色:"></a>产品(product)角色:</h5><p>在导演者指导下由具体建造者所创建的那个复杂的对象。<br> 导演者角色与客户端直接打交道，它理解客户端的业务逻辑，将客户端创建产品的请求拆分成部分请求，然后调用具体产品角色执行建造操作。它分离了客户端与具体建造者。 </p>
+<h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><pre><code>1、建造者模式可以很好的将一个对象的实现与相关的“业务”逻辑分离开来，从而可以在不改变事件逻辑的前提下，是添加(或改变)实现变得非常容易。 
+2、允许对象通过多个步骤来创建，并且可以改变过程（这和只有一个步骤的工厂模式不同）。 
+3、向客户隐藏产品内部的表现。 
+4、产品的实现可以被替换，因为客户只能看到一个抽象接口。 
+</code></pre><h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><p>建造者接口的修改会导致所有执行类的修改。 </p>
+<h4 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h4><p>1、需要生产的产品对象有复杂的内部结构。比如，汽车、电脑。<br>  2、需要生成的产品对象的属性互相依赖，建造者模式可以强迫生产顺序。 </p>
+<h4 id="和其他模式的区别"><a href="#和其他模式的区别" class="headerlink" title="和其他模式的区别"></a>和其他模式的区别</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、抽象工厂模式：Builder模式返回完成的一个产品，而abstractFactory返回一系列有关系的产品。在抽象工厂模式中，客户采用abstractFactory生成自己要的 </span><br><span class="line"> 对象，而在Builder模式中，客户端指导（diretor）builder类如何去生成对象。获知如何合成一些类来构成建造类，侧重于一步一步构造一个复杂对象，然后返回结果。 </span><br><span class="line">   2、原型模式：克隆，对象已经存在。 </span><br><span class="line">   3、工厂方法：强调的是对象的变化，类实例推迟到子类。 </span><br><span class="line">   4、单例：对象的唯一性。</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Untitled1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -548,7 +1057,7 @@ Overload对我们来说可能比较熟悉，可以翻译为重载，它是指我
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/生成器模式/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/ServletConfig讲解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -567,8 +1076,8 @@ Overload对我们来说可能比较熟悉，可以翻译为重载，它是指我
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/生成器模式/" itemprop="url">
-                  生成器模式
+                <a class="post-title-link" href="/2018/07/20/ServletConfig讲解/" itemprop="url">
+                  javaweb (三 )
                 </a>
               
             
@@ -612,7 +1121,7 @@ Overload对我们来说可能比较熟悉，可以翻译为重载，它是指我
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
 
                 
                 
@@ -648,31 +1157,19 @@ Overload对我们来说可能比较熟悉，可以翻译为重载，它是指我
       
         
           
-            <h3 id="生成器模式"><a href="#生成器模式" class="headerlink" title="生成器模式"></a>生成器模式</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>  将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。生成器模式利用一个导演者对象和具体建造者对象一个一个地建造出所有的零件，从而建造出完整的对象。</p>
-<h4 id="四个要素："><a href="#四个要素：" class="headerlink" title="四个要素："></a>四个要素：</h4><ul>
-<li>Builder：生成器接口，定义创建一个Product对象所需要的各个部件的操作。</li>
-<li>ConcreteBuilder：具体的生成器实现，实现各个部件的创建，并负责组装Product对象的各个部件，同时还提供一个让用户获取组装完成后的产品对象的方法。</li>
-<li>Director：指导者，也被称导向者，主要用来使用Builder接口，以一个统一的过程来构建所需要的Product对象</li>
-<li>Product：产品，表示被生成器构建的复杂对象，包含多个部件。</li>
-</ul>
-<p><img src="/img/product.png" alt=""></p>
-<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p> 网上有用KFC的例子来描述生成器模式，比较通俗易懂。<br>        假设KFC推出两种套餐：奥尔良鸡腿堡套餐和香辣鸡腿堡套餐。<br>        奥尔良套餐包括：一个奥尔良鸡腿堡、一个炸鸡翅、一杯雪碧。<br>        鸡腿堡套餐包括：一个香辣鸡腿堡、一份薯条、一杯可乐。<br>        每份套餐都是：主食、副食、饮料。<br>        KFC服务员要根据顾客的要求来提供套餐，那这个需求里面什么是固定的，什么是变化的呢？很明显顾客都是要的套餐，顾客的目的是一样的。 套餐里面都是主食、副食、饮料，这也是固定的。至于主食是什么、副食是什么、饮料是什么，这个是变化的。<br>        在实际的软件开发过程中，有时候面临着“一个复杂对象”的创建工作，其通常由各个部分的子对象采用一定的组合构成，由于需求的变化，这个复杂对象的各个部分或者其子对象经常要变化（例如，鸡腿堡套餐的顾客不喜欢可乐，要换奶茶），但是他们的结构却相对稳定（套餐都得是一份主食，副食及饮料）。当遇到这种场景时，使用生成器模式比较合适。</p>
-<h5 id="定义一个产品类："><a href="#定义一个产品类：" class="headerlink" title="定义一个产品类："></a>定义一个产品类：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi.生产器模式;</span><br><span class="line"></span><br><span class="line">public class Entity1 &#123;</span><br><span class="line">    private String name ;//主食</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">public class Entity2 &#123;</span><br><span class="line">    private String name ;//副食</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class Entity3 &#123;</span><br><span class="line">    private String name ;//饮料</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Product &#123;</span><br><span class="line">    Entity1 entity1;</span><br><span class="line">    Entity2 entity2;</span><br><span class="line">    Entity3 entity3;</span><br><span class="line">    public  void  getProduct()&#123;</span><br><span class="line">        System.out.println(entity1.getName()+entity2.getName()+entity3.getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>产品类中的各个小模块是不一样的，由他们建造组成产品。</p>
-<h5 id="根据具体场景要求，定义n个生成器类："><a href="#根据具体场景要求，定义n个生成器类：" class="headerlink" title="根据具体场景要求，定义n个生成器类："></a>根据具体场景要求，定义n个生成器类：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi.生产器模式;</span><br><span class="line"></span><br><span class="line">public interface IBuild &#123;</span><br><span class="line">    public void createEntity1(Entity1 entity1);</span><br><span class="line">    public void createEntity2( Entity2 entity2);</span><br><span class="line">    public void createEntity3(Entity3 entity3);</span><br><span class="line">    public Product composite(Entity1 entity1,Entity2 entity2,Entity3 entity3);//合成</span><br><span class="line">    public Product create(Entity1 entity1,Entity2 entity2,Entity3 entity3);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">package SheJiMoShi.生产器模式;</span><br><span class="line"></span><br><span class="line">public class BuildProduct implements IBuild &#123;</span><br><span class="line">    Product p = new Product();</span><br><span class="line">    @Override</span><br><span class="line">    public void createEntity1(Entity1 entity1) &#123;</span><br><span class="line">     p.entity1=entity1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void createEntity2(Entity2 entity2) &#123;</span><br><span class="line">        p.entity2= entity2;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void createEntity3(Entity3 entity3) &#123;</span><br><span class="line">        p.entity3=entity3;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Product composite(Entity1 entity1 ,Entity2 entity2,Entity3 entity3) &#123;</span><br><span class="line">        createEntity1(entity1);</span><br><span class="line">        createEntity2(entity2);</span><br><span class="line">        createEntity3(entity3);</span><br><span class="line">        return p;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Product create(Entity1 entity1 ,Entity2 entity2,Entity3 entity3) &#123;</span><br><span class="line">        return composite(entity1,entity2,entity3);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="定义一个指挥者类，统一调度project："><a href="#定义一个指挥者类，统一调度project：" class="headerlink" title="定义一个指挥者类，统一调度project："></a>定义一个指挥者类，统一调度project：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi.生产器模式;</span><br><span class="line"></span><br><span class="line">public class Director &#123;</span><br><span class="line">    private IBuild iBuild;</span><br><span class="line">    public Director(IBuild iBuild)&#123;</span><br><span class="line">        this.iBuild= iBuild;</span><br><span class="line">    &#125;</span><br><span class="line">    public Product build(Entity1 entity1,Entity2 entity2,Entity3 entity3)&#123;</span><br><span class="line">         return iBuild.create(entity1,entity2,entity3);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>建造者模式可以让一个产品的内部表象和产品的生产过程分离开，从而可以生成具有不同内部表象的产品。 </p>
-<h4 id="主要角色介绍"><a href="#主要角色介绍" class="headerlink" title="主要角色介绍"></a>主要角色介绍</h4><h5 id="抽象建造者-Builder-角色："><a href="#抽象建造者-Builder-角色：" class="headerlink" title="抽象建造者(Builder)角色："></a>抽象建造者(Builder)角色：</h5><p>定义一个抽象接口，规范产品各个组成成分的建造（即规范具体建造者的方法实现）。其中所规范的方法中必须包括建造方法和结果返回方法。 </p>
-<h5 id="具体建造者-ConcreteBuilder-角色"><a href="#具体建造者-ConcreteBuilder-角色" class="headerlink" title="具体建造者(ConcreteBuilder)角色:"></a>具体建造者(ConcreteBuilder)角色:</h5><p>实现抽象建造者角色定义的方法。具体建造者与业务逻辑关联性比较大，应用程序最终会通过，调用此角色中的建造方法按照业务逻辑创建产品，在建造完成后通过结果返回产品实例。 </p>
-<h5 id="导演者-Diretor-角色"><a href="#导演者-Diretor-角色" class="headerlink" title="导演者(Diretor)角色:"></a>导演者(Diretor)角色:</h5><p>此角色的作用是调用具体的创建者角色创造产品。导演者与产品类没直接关系。 </p>
-<h5 id="产品-product-角色"><a href="#产品-product-角色" class="headerlink" title="产品(product)角色:"></a>产品(product)角色:</h5><p>在导演者指导下由具体建造者所创建的那个复杂的对象。<br> 导演者角色与客户端直接打交道，它理解客户端的业务逻辑，将客户端创建产品的请求拆分成部分请求，然后调用具体产品角色执行建造操作。它分离了客户端与具体建造者。 </p>
-<h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><pre><code>1、建造者模式可以很好的将一个对象的实现与相关的“业务”逻辑分离开来，从而可以在不改变事件逻辑的前提下，是添加(或改变)实现变得非常容易。 
-2、允许对象通过多个步骤来创建，并且可以改变过程（这和只有一个步骤的工厂模式不同）。 
-3、向客户隐藏产品内部的表现。 
-4、产品的实现可以被替换，因为客户只能看到一个抽象接口。 
-</code></pre><h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><p>建造者接口的修改会导致所有执行类的修改。 </p>
-<h4 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h4><p>1、需要生产的产品对象有复杂的内部结构。比如，汽车、电脑。<br>  2、需要生成的产品对象的属性互相依赖，建造者模式可以强迫生产顺序。 </p>
-<h4 id="和其他模式的区别"><a href="#和其他模式的区别" class="headerlink" title="和其他模式的区别"></a>和其他模式的区别</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、抽象工厂模式：Builder模式返回完成的一个产品，而abstractFactory返回一系列有关系的产品。在抽象工厂模式中，客户采用abstractFactory生成自己要的 </span><br><span class="line"> 对象，而在Builder模式中，客户端指导（diretor）builder类如何去生成对象。获知如何合成一些类来构成建造类，侧重于一步一步构造一个复杂对象，然后返回结果。 </span><br><span class="line">   2、原型模式：克隆，对象已经存在。 </span><br><span class="line">   3、工厂方法：强调的是对象的变化，类实例推迟到子类。 </span><br><span class="line">   4、单例：对象的唯一性。</span><br></pre></td></tr></table></figure>
+            <h3 id="ServletConfig讲解"><a href="#ServletConfig讲解" class="headerlink" title="ServletConfig讲解"></a>ServletConfig讲解</h3><h4 id="配置Servlet初始化参数"><a href="#配置Servlet初始化参数" class="headerlink" title="配置Servlet初始化参数"></a>配置Servlet初始化参数</h4><p>在Servlet的配置文件web.xml中，可以使用一个或多个<init-param>标签为servlet配置一些初始化参数。</init-param></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">        &lt;servlet-name&gt;ServletConfigDemo1&lt;/servlet-name&gt;</span><br><span class="line">        &lt;servlet-class&gt;ServletConfigDemo1&lt;/servlet-class&gt;</span><br><span class="line">        &lt;!--配置ServletConfigDemo1的初始化参数 --&gt;</span><br><span class="line">        &lt;init-param&gt;</span><br><span class="line">            &lt;param-name&gt;name&lt;/param-name&gt;</span><br><span class="line">            &lt;param-value&gt;qgx&lt;/param-value&gt;</span><br><span class="line">        &lt;/init-param&gt;</span><br><span class="line">        &lt;init-param&gt;</span><br><span class="line">            &lt;param-name&gt;password&lt;/param-name&gt;</span><br><span class="line">            &lt;param-value&gt;123&lt;/param-value&gt;</span><br><span class="line">        &lt;/init-param&gt;</span><br><span class="line">        &lt;init-param&gt;</span><br><span class="line">            &lt;param-name&gt;charset&lt;/param-name&gt;</span><br><span class="line">            &lt;param-value&gt;UTF-8&lt;/param-value&gt;</span><br><span class="line">        &lt;/init-param&gt;</span><br><span class="line">    &lt;/servlet&gt;</span><br><span class="line">    &lt;servlet-mapping&gt;</span><br><span class="line">        &lt;servlet-name&gt;ServletConfigDemo1&lt;/servlet-name&gt;</span><br><span class="line">        &lt;url-pattern&gt;/ServletConfigDemo1&lt;/url-pattern&gt;</span><br><span class="line">    &lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="通过ServletConfig获取Servlet的初始化参数"><a href="#通过ServletConfig获取Servlet的初始化参数" class="headerlink" title="通过ServletConfig获取Servlet的初始化参数"></a>通过ServletConfig获取Servlet的初始化参数</h4><p>当servlet配置了初始化参数后，web容器在创建servlet实例对象时，会自动将这些初始化参数封装到ServletConfig对象中，并在调用servlet的init方法时，将ServletConfig对象传递给servlet。进而，我们通过ServletConfig对象就可以得到当前servlet的初始化参数信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletConfig;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.Enumeration;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletConfigDemo1&quot;)</span><br><span class="line">public class ServletConfigDemo1 extends HttpServlet &#123;</span><br><span class="line">    /*</span><br><span class="line">     *</span><br><span class="line">     * 定义ServletConfig对象来接收配置的初始化参数</span><br><span class="line">     */</span><br><span class="line">   private ServletConfig config;</span><br><span class="line">    /**</span><br><span class="line">           * 当servlet配置了初始化参数后，web容器在创建servlet实例对象时，</span><br><span class="line">           * 会自动将这些初始化参数封装到ServletConfig对象中，并在调用servlet的init方法时，</span><br><span class="line">           * 将ServletConfig对象传递给servlet。进而，程序员通过ServletConfig对象就可以</span><br><span class="line">           * 得到当前servlet的初始化参数信息。</span><br><span class="line">           */</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void init(ServletConfig config) throws ServletException &#123;</span><br><span class="line">        super.init(config);</span><br><span class="line">        this.config = config;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">                //获取在web.xml中配置的初始化参数</span><br><span class="line">        response.setContentType(&quot;text/html&quot;);</span><br><span class="line">        String paramVal = this.config.getInitParameter(&quot;name&quot;);</span><br><span class="line">        //获取指定的初始化参数</span><br><span class="line">        response.getWriter().print(paramVal);</span><br><span class="line">        response.getWriter().print(&quot;&lt;hr/&gt;&quot;);</span><br><span class="line">        //获取所有的初始化参数</span><br><span class="line">        Enumeration&lt;String&gt; e = config.getInitParameterNames();</span><br><span class="line">        while(e.hasMoreElements())&#123;</span><br><span class="line">            String name = e.nextElement();</span><br><span class="line">            String value = config.getInitParameter(name);</span><br><span class="line">            response.getWriter().print(name + &quot;=&quot; + value + &quot;&lt;br/&gt;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果如下：<br><img src="/img/ServletConfigDemo1结果.png" alt=""></p>
+<h3 id="ServletContext对象"><a href="#ServletContext对象" class="headerlink" title="ServletContext对象"></a>ServletContext对象</h3><p>WEB容器在启动时，它会为每个WEB应用程序都创建一个对应的ServletContext对象，它代表当前web应用。<br>　　ServletConfig对象中维护了ServletContext对象的引用，开发人员在编写servlet时，可以通过ServletConfig.getServletContext方法获得ServletContext对象。<br>　　由于一个WEB应用中的所有Servlet共享同一个ServletContext对象，因此Servlet对象之间可以通过ServletContext对象来实现通讯。ServletContext对象通常也被称之为context域对象。</p>
+<h3 id="ServletContext的应用"><a href="#ServletContext的应用" class="headerlink" title="ServletContext的应用"></a>ServletContext的应用</h3><h4 id="多个Servlet通过ServletContext对象实现数据共享"><a href="#多个Servlet通过ServletContext对象实现数据共享" class="headerlink" title="多个Servlet通过ServletContext对象实现数据共享"></a>多个Servlet通过ServletContext对象实现数据共享</h4><p>范例：ServletContextDemo2和ServletContextDemo3通过ServletContext对象实现数据共享<br>ServletContextDemo2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletContext;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo2&quot;)</span><br><span class="line">public class ServletContextDemo2 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">            doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;qgx&quot;;</span><br><span class="line">        /**</span><br><span class="line">         *ServletConfig对象中维护了ServletContext对象的引用，开发人员在编写servlet时，</span><br><span class="line">         *可以通过ServletConfig.getServletContext方法获得ServletContext对象。</span><br><span class="line">         */</span><br><span class="line">        ServletContext context = this.getServletConfig().getServletContext();</span><br><span class="line">        //获得ServletContext对象     context.setAttribute(&quot;data&quot;, data);  //将data存储到ServletContext对象中</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>ServletContextDemo3<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletContext;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo3&quot;)</span><br><span class="line">public class ServletContextDemo3 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">            doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        ServletContext context = this.getServletContext();</span><br><span class="line">        String data = (String) context.getAttribute(&quot;data&quot;);//从ServletContext对象中取出数据</span><br><span class="line">        response.getWriter().print(&quot;data=&quot;+data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>先运行ServletContextDemo2，将数据data存储到ServletContext对象中，然后运行ServletContextDemo3就可以从ServletContext对象中取出数据了，这样就实现了数据共享，如下图所示：<br><img src="/img/ServletContextDemo.png" alt=""></p>
+<h4 id="获取WEB应用的初始化参数"><a href="#获取WEB应用的初始化参数" class="headerlink" title="获取WEB应用的初始化参数"></a>获取WEB应用的初始化参数</h4><p>在web.xml文件中使用<context-param>标签配置WEB应用的初始化参数，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;display-name&gt;&lt;/display-name&gt;</span><br><span class="line">        &lt;!-- 配置WEB应用的初始化参数 --&gt;</span><br><span class="line">         &lt;context-param&gt;</span><br><span class="line">             &lt;param-name&gt;url&lt;/param-name&gt;</span><br><span class="line">             &lt;param-value&gt;jdbc:mysql://localhost:3306/test&lt;/param-value&gt;</span><br><span class="line">         &lt;/context-param&gt;</span><br><span class="line"></span><br><span class="line">         &lt;welcome-file-list&gt;</span><br><span class="line">             &lt;welcome-file&gt;index.jsp&lt;/welcome-file&gt;</span><br><span class="line">         &lt;/welcome-file-list&gt;</span><br></pre></td></tr></table></figure></context-param></p>
+<p>运行结果：<br><img src="/img/ServletContextDemo4.png" alt=""></p>
+<h4 id="用servletContext实现请求转发"><a href="#用servletContext实现请求转发" class="headerlink" title="用servletContext实现请求转发"></a>用servletContext实现请求转发</h4><p>ServletContextDemo5<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.RequestDispatcher;</span><br><span class="line">import javax.servlet.ServletContext;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo5&quot;)</span><br><span class="line">public class ServletContextDemo5 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;&lt;h1&gt;&lt;font color=&apos;red&apos;&gt;qgx@ljm&lt;/font&gt;&lt;/h1&gt;&quot;;</span><br><span class="line">        response.getOutputStream().write(data.getBytes());</span><br><span class="line">        ServletContext context = this.getServletContext();//获取ServletContext对象</span><br><span class="line">        RequestDispatcher rd = context.getRequestDispatcher(&quot;/ServletContextDemo6&quot;);//获取请求转发对象(RequestDispatcher)</span><br><span class="line">        rd.forward(request, response);//调用forward方法实现请求转发</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>ServletContextDemo6<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo6&quot;)</span><br><span class="line">public class ServletContextDemo6 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        response.getOutputStream().write(&quot;servletDemo6&quot;.getBytes());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><img src="/img/ServletDemo6.png" alt=""><br>　访问的是ServletContextDemo5，浏览器显示的却是ServletContextDemo6的内容，这就是使用ServletContext实现了请求转发</p>
 
           
         
@@ -1056,333 +1553,6 @@ Overload对我们来说可能比较熟悉，可以翻译为重载，它是指我
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/LIstView 联动(一)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/LIstView 联动(一)/" itemprop="url">
-                  Android ListView联动
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="LIstView-联动-一"><a href="#LIstView-联动-一" class="headerlink" title="LIstView 联动(一)"></a>LIstView 联动(一)</h3><h4 id="大体思路"><a href="#大体思路" class="headerlink" title="大体思路"></a>大体思路</h4><p>两个listView的联动效果，类似于美团点菜和城市选择效果，在布局的左侧使用了平常的listview，在右侧用到了stickyheaderlistview，这是实现该效果的一个关键组件。<br>activity 布局<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout</span><br><span class="line">       android:layout_width=&quot;match_parent&quot;</span><br><span class="line">       android:layout_height=&quot;match_parent&quot;</span><br><span class="line">       android:orientation=&quot;horizontal&quot; &gt;</span><br><span class="line"></span><br><span class="line">       &lt;ListView</span><br><span class="line">           android:id=&quot;@+id/lv_left&quot;</span><br><span class="line">           android:layout_width=&quot;100dp&quot;</span><br><span class="line">           android:layout_height=&quot;match_parent&quot;</span><br><span class="line">           android:cacheColorHint=&quot;#00000000&quot; &gt;</span><br><span class="line">       &lt;/ListView&gt;</span><br><span class="line"></span><br><span class="line">       &lt;se.emilsjolander.stickylistheaders.StickyListHeadersListView</span><br><span class="line">           android:id=&quot;@+id/list&quot;</span><br><span class="line">           android:layout_width=&quot;match_parent&quot;</span><br><span class="line">           android:layout_height=&quot;match_parent&quot;</span><br><span class="line">           android:cacheColorHint=&quot;#00000000&quot;</span><br><span class="line">           android:clipToPadding=&quot;false&quot;</span><br><span class="line">           android:footerDividersEnabled=&quot;false&quot;</span><br><span class="line">           android:drawSelectorOnTop=&quot;true&quot;</span><br><span class="line">           android:fastScrollEnabled=&quot;true&quot;</span><br><span class="line">           android:padding=&quot;16dp&quot;</span><br><span class="line">           android:scrollbarStyle=&quot;outsideOverlay&quot; /&gt;</span><br><span class="line">   &lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure></p>
-<h4 id="模拟数据"><a href="#模拟数据" class="headerlink" title="模拟数据"></a>模拟数据</h4><p>模拟两边的数据，需要注意的是左边listview数据中的id要和右边listview数据中的id产生一对多的关系，否则无法实现联动效果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line">	 * 模拟右边adapter的数据</span><br><span class="line">	 * </span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	private List&lt;DishBean&gt; initDishData() &#123;</span><br><span class="line">		List&lt;DishBean&gt; dishBeanList = new ArrayList&lt;DishBean&gt;();</span><br><span class="line">		for (int i = 0; i &lt; 100; i++) &#123;</span><br><span class="line">			DishBean dishBean = new DishBean();</span><br><span class="line">			long id = i / 10;</span><br><span class="line">			dishBean.id = id;</span><br><span class="line">			dishBean.content = &quot;content&quot; + i;</span><br><span class="line">			dishBeanList.add(dishBean);</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line">		return dishBeanList;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">	 * 模拟左边adapter数据</span><br><span class="line">	 * </span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	private List&lt;CategoryBean&gt; initCateData() &#123;</span><br><span class="line">		List&lt;CategoryBean&gt; categoryBeanList = new ArrayList&lt;CategoryBean&gt;();</span><br><span class="line">		for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">			CategoryBean categoryBean = new CategoryBean();</span><br><span class="line">			if (i == 0) &#123;</span><br><span class="line">				categoryBean.isSelected = true;</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				categoryBean.isSelected = false;</span><br><span class="line">			&#125;</span><br><span class="line">			categoryBean.id = i;</span><br><span class="line">			categoryBean.name = &quot;cate&quot; + i;</span><br><span class="line">			categoryBeanList.add(categoryBean);</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line">		return categoryBeanList;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="左边对右边的联动"><a href="#左边对右边的联动" class="headerlink" title="左边对右边的联动"></a>左边对右边的联动</h4><p>设置左边listview的点击事件让右边的listview滚动到相应的位置，这算是完成了一半的任务。（根据CategoryBean 中的id值查找右边lsitview相对应的item，然后记录下位置进行setSelection操作）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@Override</span><br><span class="line">	public void onItemClick(AdapterView&lt;?&gt; parent, View view, int position, long id) &#123;</span><br><span class="line">		// 点击类别item，右侧菜品跳转到相应的位置</span><br><span class="line">		CategoryBean categoryBean = cateList.get(position);</span><br><span class="line">		for (int i = 0; i &lt; dishList.size(); i++) &#123;</span><br><span class="line">			DishBean dishBean = dishList.get(i);</span><br><span class="line">			if (categoryBean.id == dishBean.id) &#123;</span><br><span class="line">				lv_right.setSelection(i);</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="右侧对左侧的联动"><a href="#右侧对左侧的联动" class="headerlink" title="右侧对左侧的联动"></a>右侧对左侧的联动</h4><p>下面是右侧对左侧的联动效果实现。首先在activity中实现StickyListHeadersListView.OnStickyHeaderChangedListener接口（该接口来源于StickyListHeadersListView类），相对应的会实现onStickyHeaderChanged方法。</p>
-<p>该方法会在header改变时调用（header的改变意味着一组新的类别数据出现在屏幕上），这时相对应的也需要改变左侧listview的选中状态</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">	public void onStickyHeaderChanged(StickyListHeadersListView l, View header, int itemPosition, long headerId) &#123;</span><br><span class="line">		DishBean dishBean = dishList.get(itemPosition);</span><br><span class="line">		long id = dishBean.id;</span><br><span class="line">		int position = getCateId(id);</span><br><span class="line">		if (position != -1) &#123;</span><br><span class="line">			lv_left.setSelection(position);</span><br><span class="line">			//更新左侧listview选中状态</span><br><span class="line">			notifyLeftAdapter(position);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">	 * 获取dishbean id对应的类别所在position</span><br><span class="line">	 * </span><br><span class="line">	 * @param id</span><br><span class="line">	 *            dishbean id</span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	private int getCateId(long id) &#123;</span><br><span class="line">		int position = 0;</span><br><span class="line">		for (int i = 0; i &lt; cateList.size(); i++) &#123;</span><br><span class="line">			position = i;</span><br><span class="line">			if (id == cateList.get(i).id) &#123;</span><br><span class="line">				return position;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/ServletConfig讲解/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/ServletConfig讲解/" itemprop="url">
-                  javaweb (三 )
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="ServletConfig讲解"><a href="#ServletConfig讲解" class="headerlink" title="ServletConfig讲解"></a>ServletConfig讲解</h3><h4 id="配置Servlet初始化参数"><a href="#配置Servlet初始化参数" class="headerlink" title="配置Servlet初始化参数"></a>配置Servlet初始化参数</h4><p>在Servlet的配置文件web.xml中，可以使用一个或多个<init-param>标签为servlet配置一些初始化参数。</init-param></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">        &lt;servlet-name&gt;ServletConfigDemo1&lt;/servlet-name&gt;</span><br><span class="line">        &lt;servlet-class&gt;ServletConfigDemo1&lt;/servlet-class&gt;</span><br><span class="line">        &lt;!--配置ServletConfigDemo1的初始化参数 --&gt;</span><br><span class="line">        &lt;init-param&gt;</span><br><span class="line">            &lt;param-name&gt;name&lt;/param-name&gt;</span><br><span class="line">            &lt;param-value&gt;qgx&lt;/param-value&gt;</span><br><span class="line">        &lt;/init-param&gt;</span><br><span class="line">        &lt;init-param&gt;</span><br><span class="line">            &lt;param-name&gt;password&lt;/param-name&gt;</span><br><span class="line">            &lt;param-value&gt;123&lt;/param-value&gt;</span><br><span class="line">        &lt;/init-param&gt;</span><br><span class="line">        &lt;init-param&gt;</span><br><span class="line">            &lt;param-name&gt;charset&lt;/param-name&gt;</span><br><span class="line">            &lt;param-value&gt;UTF-8&lt;/param-value&gt;</span><br><span class="line">        &lt;/init-param&gt;</span><br><span class="line">    &lt;/servlet&gt;</span><br><span class="line">    &lt;servlet-mapping&gt;</span><br><span class="line">        &lt;servlet-name&gt;ServletConfigDemo1&lt;/servlet-name&gt;</span><br><span class="line">        &lt;url-pattern&gt;/ServletConfigDemo1&lt;/url-pattern&gt;</span><br><span class="line">    &lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="通过ServletConfig获取Servlet的初始化参数"><a href="#通过ServletConfig获取Servlet的初始化参数" class="headerlink" title="通过ServletConfig获取Servlet的初始化参数"></a>通过ServletConfig获取Servlet的初始化参数</h4><p>当servlet配置了初始化参数后，web容器在创建servlet实例对象时，会自动将这些初始化参数封装到ServletConfig对象中，并在调用servlet的init方法时，将ServletConfig对象传递给servlet。进而，我们通过ServletConfig对象就可以得到当前servlet的初始化参数信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletConfig;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.Enumeration;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletConfigDemo1&quot;)</span><br><span class="line">public class ServletConfigDemo1 extends HttpServlet &#123;</span><br><span class="line">    /*</span><br><span class="line">     *</span><br><span class="line">     * 定义ServletConfig对象来接收配置的初始化参数</span><br><span class="line">     */</span><br><span class="line">   private ServletConfig config;</span><br><span class="line">    /**</span><br><span class="line">           * 当servlet配置了初始化参数后，web容器在创建servlet实例对象时，</span><br><span class="line">           * 会自动将这些初始化参数封装到ServletConfig对象中，并在调用servlet的init方法时，</span><br><span class="line">           * 将ServletConfig对象传递给servlet。进而，程序员通过ServletConfig对象就可以</span><br><span class="line">           * 得到当前servlet的初始化参数信息。</span><br><span class="line">           */</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void init(ServletConfig config) throws ServletException &#123;</span><br><span class="line">        super.init(config);</span><br><span class="line">        this.config = config;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">                //获取在web.xml中配置的初始化参数</span><br><span class="line">        response.setContentType(&quot;text/html&quot;);</span><br><span class="line">        String paramVal = this.config.getInitParameter(&quot;name&quot;);</span><br><span class="line">        //获取指定的初始化参数</span><br><span class="line">        response.getWriter().print(paramVal);</span><br><span class="line">        response.getWriter().print(&quot;&lt;hr/&gt;&quot;);</span><br><span class="line">        //获取所有的初始化参数</span><br><span class="line">        Enumeration&lt;String&gt; e = config.getInitParameterNames();</span><br><span class="line">        while(e.hasMoreElements())&#123;</span><br><span class="line">            String name = e.nextElement();</span><br><span class="line">            String value = config.getInitParameter(name);</span><br><span class="line">            response.getWriter().print(name + &quot;=&quot; + value + &quot;&lt;br/&gt;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>运行结果如下：<br><img src="/img/ServletConfigDemo1结果.png" alt=""></p>
-<h3 id="ServletContext对象"><a href="#ServletContext对象" class="headerlink" title="ServletContext对象"></a>ServletContext对象</h3><p>WEB容器在启动时，它会为每个WEB应用程序都创建一个对应的ServletContext对象，它代表当前web应用。<br>　　ServletConfig对象中维护了ServletContext对象的引用，开发人员在编写servlet时，可以通过ServletConfig.getServletContext方法获得ServletContext对象。<br>　　由于一个WEB应用中的所有Servlet共享同一个ServletContext对象，因此Servlet对象之间可以通过ServletContext对象来实现通讯。ServletContext对象通常也被称之为context域对象。</p>
-<h3 id="ServletContext的应用"><a href="#ServletContext的应用" class="headerlink" title="ServletContext的应用"></a>ServletContext的应用</h3><h4 id="多个Servlet通过ServletContext对象实现数据共享"><a href="#多个Servlet通过ServletContext对象实现数据共享" class="headerlink" title="多个Servlet通过ServletContext对象实现数据共享"></a>多个Servlet通过ServletContext对象实现数据共享</h4><p>范例：ServletContextDemo2和ServletContextDemo3通过ServletContext对象实现数据共享<br>ServletContextDemo2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletContext;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo2&quot;)</span><br><span class="line">public class ServletContextDemo2 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">            doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;qgx&quot;;</span><br><span class="line">        /**</span><br><span class="line">         *ServletConfig对象中维护了ServletContext对象的引用，开发人员在编写servlet时，</span><br><span class="line">         *可以通过ServletConfig.getServletContext方法获得ServletContext对象。</span><br><span class="line">         */</span><br><span class="line">        ServletContext context = this.getServletConfig().getServletContext();</span><br><span class="line">        //获得ServletContext对象     context.setAttribute(&quot;data&quot;, data);  //将data存储到ServletContext对象中</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>ServletContextDemo3<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletContext;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo3&quot;)</span><br><span class="line">public class ServletContextDemo3 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">            doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        ServletContext context = this.getServletContext();</span><br><span class="line">        String data = (String) context.getAttribute(&quot;data&quot;);//从ServletContext对象中取出数据</span><br><span class="line">        response.getWriter().print(&quot;data=&quot;+data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>先运行ServletContextDemo2，将数据data存储到ServletContext对象中，然后运行ServletContextDemo3就可以从ServletContext对象中取出数据了，这样就实现了数据共享，如下图所示：<br><img src="/img/ServletContextDemo.png" alt=""></p>
-<h4 id="获取WEB应用的初始化参数"><a href="#获取WEB应用的初始化参数" class="headerlink" title="获取WEB应用的初始化参数"></a>获取WEB应用的初始化参数</h4><p>在web.xml文件中使用<context-param>标签配置WEB应用的初始化参数，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;display-name&gt;&lt;/display-name&gt;</span><br><span class="line">        &lt;!-- 配置WEB应用的初始化参数 --&gt;</span><br><span class="line">         &lt;context-param&gt;</span><br><span class="line">             &lt;param-name&gt;url&lt;/param-name&gt;</span><br><span class="line">             &lt;param-value&gt;jdbc:mysql://localhost:3306/test&lt;/param-value&gt;</span><br><span class="line">         &lt;/context-param&gt;</span><br><span class="line"></span><br><span class="line">         &lt;welcome-file-list&gt;</span><br><span class="line">             &lt;welcome-file&gt;index.jsp&lt;/welcome-file&gt;</span><br><span class="line">         &lt;/welcome-file-list&gt;</span><br></pre></td></tr></table></figure></context-param></p>
-<p>运行结果：<br><img src="/img/ServletContextDemo4.png" alt=""></p>
-<h4 id="用servletContext实现请求转发"><a href="#用servletContext实现请求转发" class="headerlink" title="用servletContext实现请求转发"></a>用servletContext实现请求转发</h4><p>ServletContextDemo5<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.RequestDispatcher;</span><br><span class="line">import javax.servlet.ServletContext;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo5&quot;)</span><br><span class="line">public class ServletContextDemo5 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;&lt;h1&gt;&lt;font color=&apos;red&apos;&gt;qgx@ljm&lt;/font&gt;&lt;/h1&gt;&quot;;</span><br><span class="line">        response.getOutputStream().write(data.getBytes());</span><br><span class="line">        ServletContext context = this.getServletContext();//获取ServletContext对象</span><br><span class="line">        RequestDispatcher rd = context.getRequestDispatcher(&quot;/ServletContextDemo6&quot;);//获取请求转发对象(RequestDispatcher)</span><br><span class="line">        rd.forward(request, response);//调用forward方法实现请求转发</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>ServletContextDemo6<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo6&quot;)</span><br><span class="line">public class ServletContextDemo6 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        response.getOutputStream().write(&quot;servletDemo6&quot;.getBytes());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>运行结果：<br><img src="/img/ServletDemo6.png" alt=""><br>　访问的是ServletContextDemo5，浏览器显示的却是ServletContextDemo6的内容，这就是使用ServletContext实现了请求转发</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/适配器模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1505,172 +1675,6 @@ Overload对我们来说可能比较熟悉，可以翻译为重载，它是指我
 <p>3、使用一些已经存在的子类而不需要对其进行子类化来匹配接口。</p>
 <p>4、旧的系统开发的类已经实现了一些功能，但是客户端却只能以另外接口的形式访问，但我们不希望手动更改原有类的时候。</p>
 <h4 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h4><p>适配器模式不适合在详细设计阶段使用它，它是一种补偿模式，专用来在系统后期扩展、修改时所用，适配器模式更像是一种补救措施。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="298" height="52" src="https://music.163.com/outchain/player?type=2&id=531533335&auto=1&height=32"></iframe>
-
-
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 
           
         
@@ -1936,7 +1940,7 @@ Overload对我们来说可能比较熟悉，可以翻译为重载，它是指我
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Spring Boot中使用JdbcTemplate访问数据库/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -1955,8 +1959,8 @@ Overload对我们来说可能比较熟悉，可以翻译为重载，它是指我
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/Spring Boot中使用JdbcTemplate访问数据库/" itemprop="url">
-                  Spring Boot(六)
+                <a class="post-title-link" href="/2018/07/20/hello-world/" itemprop="url">
+                  Hello World
                 </a>
               
             
@@ -2036,18 +2040,19 @@ Overload对我们来说可能比较熟悉，可以翻译为重载，它是指我
       
         
           
-            <h3 id="Spring-Boot中使用JdbcTemplate访问数据库"><a href="#Spring-Boot中使用JdbcTemplate访问数据库" class="headerlink" title="Spring Boot中使用JdbcTemplate访问数据库"></a>Spring Boot中使用JdbcTemplate访问数据库</h3><h4 id="数据源配置"><a href="#数据源配置" class="headerlink" title="数据源配置"></a>数据源配置</h4><p>在我们访问数据库的时候，需要先配置一个数据源，下面分别介绍一下几种不同的数据库配置方式。</p>
-<p>首先，为了连接数据库需要引入jdbc支持，在pom.xml中引入如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
-<h4 id="嵌入式数据库支持"><a href="#嵌入式数据库支持" class="headerlink" title="嵌入式数据库支持"></a>嵌入式数据库支持</h4><p>嵌入式数据库通常用于开发和测试环境，不推荐用于生产环境。Spring Boot提供自动配置的嵌入式数据库有H2、HSQL、Derby，你不需要提供任何连接配置就能使用。</p>
-<p>比如，我们可以在pom.xml中引入如下配置使用HSQL<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.hsqldb&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;hsqldb&lt;/artifactId&gt;</span><br><span class="line">    &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
-<h4 id="连接生产数据源"><a href="#连接生产数据源" class="headerlink" title="连接生产数据源"></a>连接生产数据源</h4><p>以MySQL数据库为例，先引入MySQL连接的依赖包，在pom.xml中加入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;5.1.21&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
-<p>在src/main/resources/application.properties中配置数据源信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spring.datasource.url=jdbc:mysql://localhost:3306/test</span><br><span class="line">spring.datasource.username=root</span><br><span class="line">spring.datasource.password=</span><br><span class="line">spring.datasource.driver-class-name=com.mysql.jdbc.Driver</span><br></pre></td></tr></table></figure></p>
-<h4 id="连接JNDI数据源"><a href="#连接JNDI数据源" class="headerlink" title="连接JNDI数据源"></a>连接JNDI数据源</h4><p>当你将应用部署于应用服务器上的时候想让数据源由应用服务器管理，那么可以使用如下配置方式引入JNDI数据源。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spring.datasource.jndi-name=java:jboss/datasources/customers</span><br></pre></td></tr></table></figure></p>
-<h4 id="使用JdbcTemplate操作数据库"><a href="#使用JdbcTemplate操作数据库" class="headerlink" title="使用JdbcTemplate操作数据库"></a>使用JdbcTemplate操作数据库</h4><p>Spring的JdbcTemplate是自动配置的，你可以直接使用@Autowired来注入到你自己的bean中来使用。</p>
-<p>举例：我们在创建User表，包含属性name、age，下面来编写数据访问对象和单元测试用例。</p>
-<p>定义包含有插入、删除、查询的抽象接口UserService<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public interface UserService &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 新增一个用户</span><br><span class="line">     * @param name</span><br><span class="line">     * @param age</span><br><span class="line">     */</span><br><span class="line">    void create(String name, Integer age);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 根据name删除一个用户高</span><br><span class="line">     * @param name</span><br><span class="line">     */</span><br><span class="line">    void deleteByName(String name);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取用户总量</span><br><span class="line">     */</span><br><span class="line">    Integer getAllUsers();</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 删除所有用户</span><br><span class="line">     */</span><br><span class="line">    void deleteAllUsers();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>通过JdbcTemplate实现UserService中定义的数据访问操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class UserServiceImpl implements UserService &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private JdbcTemplate jdbcTemplate;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void create(String name, Integer age) &#123;</span><br><span class="line">        jdbcTemplate.update(&quot;insert into USER(NAME, AGE) values(?, ?)&quot;, name, age);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void deleteByName(String name) &#123;</span><br><span class="line">        jdbcTemplate.update(&quot;delete from USER where NAME = ?&quot;, name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Integer getAllUsers() &#123;</span><br><span class="line">        return jdbcTemplate.queryForObject(&quot;select count(1) from USER&quot;, Integer.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void deleteAllUsers() &#123;</span><br><span class="line">        jdbcTemplate.update(&quot;delete from USER&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>创建对UserService的单元测试用例，通过创建、删除和查询来验证数据库操作的正确性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">@RunWith(SpringJUnit4ClassRunner.class)</span><br><span class="line">@SpringApplicationConfiguration(Application.class)</span><br><span class="line">public class ApplicationTests &#123;</span><br><span class="line"></span><br><span class="line">	@Autowired</span><br><span class="line">	private UserService userSerivce;</span><br><span class="line"></span><br><span class="line">	@Before</span><br><span class="line">	public void setUp() &#123;</span><br><span class="line">		// 准备，清空user表</span><br><span class="line">		userSerivce.deleteAllUsers();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Test</span><br><span class="line">	public void test() throws Exception &#123;</span><br><span class="line">		// 插入5个用户</span><br><span class="line">		userSerivce.create(&quot;a&quot;, 1);</span><br><span class="line">		userSerivce.create(&quot;b&quot;, 2);</span><br><span class="line">		userSerivce.create(&quot;c&quot;, 3);</span><br><span class="line">		userSerivce.create(&quot;d&quot;, 4);</span><br><span class="line">		userSerivce.create(&quot;e&quot;, 5);</span><br><span class="line"></span><br><span class="line">		// 查数据库，应该有5个用户</span><br><span class="line">		Assert.assertEquals(5, userSerivce.getAllUsers().intValue());</span><br><span class="line"></span><br><span class="line">		// 删除两个用户</span><br><span class="line">		userSerivce.deleteByName(&quot;a&quot;);</span><br><span class="line">		userSerivce.deleteByName(&quot;e&quot;);</span><br><span class="line"></span><br><span class="line">		// 查数据库，应该有5个用户</span><br><span class="line">		Assert.assertEquals(3, userSerivce.getAllUsers().intValue());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="298" height="52" src="https://music.163.com/outchain/player?type=2&id=531533335&auto=1&height=32"></iframe>
+
+
+
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 
           
         
@@ -2137,7 +2142,7 @@ Overload对我们来说可能比较熟悉，可以翻译为重载，它是指我
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">86</span>
+                    <span class="site-state-item-count">87</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2166,7 +2171,9 @@ Overload对我们来说可能比较熟悉，可以翻译为重载，它是指我
                     
                       
                     
-                    <span class="site-state-item-count">8</span>
+                      
+                    
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2299,7 +2306,9 @@ Overload对我们来说可能比较熟悉，可以翻译为重载，它是指我
                     
                       
                     
-                    <span class="site-state-item-count">60</span>
+                      
+                    
+                    <span class="site-state-item-count">61</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

@@ -319,6 +319,373 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/apache和tomcat区别/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/apache和tomcat区别/" itemprop="url">
+                  apache和tomcat区别
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="apache和tomcat区别"><a href="#apache和tomcat区别" class="headerlink" title="apache和tomcat区别"></a>apache和tomcat区别</h3><p>经常在用apache和tomcat等这些服务器，可是总感觉还是不清楚他们之间有什么关系，在用tomcat的时候总出现apache，总感到迷惑，到底谁是主谁是次，因此特意在网上查询了一些这方面的资料，总结了一下： </p>
+<h4 id="解析一-："><a href="#解析一-：" class="headerlink" title="解析一 ："></a>解析一 ：</h4><p>apache支持静态页，tomcat支持动态的，比如servlet等，<br>一般使用apache+tomcat的话，apache只是作为一个转发，对jsp的处理是由tomcat来处理的。<br>apche可以支持php cgi perl,但是要使用java的话，你需要tomcat在apache后台支撑，将java请求由apache转发给tomcat处理。<br>apache是web服务器，tomcat是应用（java）服务器，它只是一个servlet(jsp也翻译成servlet)容器，可以认为是apache的扩展，但是可以独立于apache运行。 </p>
+<h5 id="这两个有以下几点可以比较的："><a href="#这两个有以下几点可以比较的：" class="headerlink" title="这两个有以下几点可以比较的："></a>这两个有以下几点可以比较的：</h5><p>1、两者都是apache组织开发的<br>2、两者都有HTTP服务的功能<br>3、两者都是免费的 </p>
+<h5 id="不同点："><a href="#不同点：" class="headerlink" title="不同点："></a>不同点：</h5><p>Apache是专门用了提供HTTP服务的，以及相关配置的（例如虚拟主机、URL转发等等）<br>Tomcat是Apache组织在符合J2EE的JSP、Servlet标准下开发的一个JSP服务器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Runtime r=Runtime.getRuntime(); </span><br><span class="line">Process p=null; </span><br><span class="line">try</span><br><span class="line">&#123; </span><br><span class="line">p=r.exec(&quot;notepad&quot;); </span><br><span class="line">&#125; </span><br><span class="line">catch(Exception ex) </span><br><span class="line">&#123; </span><br><span class="line">System.out.println(&quot;fffff&quot;); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="解析二："><a href="#解析二：" class="headerlink" title="解析二："></a>解析二：</h4><p>APACHE是一个web服务器环境程序 启用他可以作为web服务器使用 不过只支持静态网页 如(asp,php,cgi,jsp)等动态网页的就不行<br>如果要在APACHE环境下运行jsp 的话就需要一个解释器来执行jsp网页 而这个jsp解释器就是TOMCAT, 为什么还要JDK呢？因为jsp需要连接数据库的话 就要jdk来提供连接数据库的驱程，所以要运行jsp的web服务器平台就需要APACHE+TOMCAT+JDK </p>
+<h5 id="整合的好处是："><a href="#整合的好处是：" class="headerlink" title="整合的好处是："></a>整合的好处是：</h5><p>如果客户端请求的是静态页面，则只需要Apache服务器响应请求<br>如果客户端请求动态页面，则是Tomcat服务器响应请求<br>因为jsp是服务器端解释代码的，这样整合就可以减少Tomcat的服务开销<br>C是一个结构化语言，如谭老爷子所说：它的重点在于算法和数据结构。C程序的设计首要考虑的是如何通过一个过程，对输入（或环境条件）进行运算处理得到输出（或实现过程（事务）控制），而对于C++，首要考虑的是如何构造一个对象模型，让这个模型能够契合与之对应的问题域，这样就可以通过获取对象的状态信息得到输出或实现过程（事务）控制。 </p>
+<h4 id="解析三："><a href="#解析三：" class="headerlink" title="解析三："></a>解析三：</h4><ul>
+<li>apache:侧重于http server </li>
+<li>tomcat:侧重于servlet引擎，如果以standalone方式运行，功能上与apache等效 ， 支持JSP，但对静态网页不太理想； </li>
+<li>apache是web服务器，tomcat是应用（java）服务器，它只是一个servlet(jsp也翻译成servlet)容器，可以认为是apache的扩展，但是可以独立于apache运行。<br>换句话说，apache是一辆卡车，上面可以装一些东西如html等。但是不能装水，要装水必须要有容器（桶），而这个桶也可以不放在卡车上。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/HttpServletResponse常见应用——生成验证码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/HttpServletResponse常见应用——生成验证码/" itemprop="url">
+                  javaweb (七)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="HttpServletResponse常见应用——生成验证码"><a href="#HttpServletResponse常见应用——生成验证码" class="headerlink" title="HttpServletResponse常见应用——生成验证码"></a>HttpServletResponse常见应用——生成验证码</h3><h4 id="生成随机图片用作验证码"><a href="#生成随机图片用作验证码" class="headerlink" title="生成随机图片用作验证码"></a>生成随机图片用作验证码</h4><p>生成图片主要用到了一个BufferedImage类，<br><img src="/img/BufferedImage.png" alt=""><br>生成随机图片范例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line">import javax.imageio.ImageIO;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.awt.*;</span><br><span class="line">import java.awt.image.BufferedImage;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.Random;</span><br><span class="line">@WebServlet(name = &quot;ResponseDemo3&quot;)</span><br><span class="line">public class ResponseDemo3 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">  doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        response.setHeader(&quot;refresh&quot;, &quot;5&quot;);//设置refresh响应头控制浏览器每隔5秒钟刷新一次</span><br><span class="line">        //1.在内存中创建一张图片</span><br><span class="line">        BufferedImage image = new BufferedImage(80, 20, BufferedImage.TYPE_INT_RGB);</span><br><span class="line">        //2.得到图片</span><br><span class="line">        Graphics g = (Graphics)image.getGraphics();</span><br><span class="line">        g.setColor(Color.WHITE);//设置图片的背景色</span><br><span class="line">        g.fillRect(0, 0, 80, 20);//填充背景色</span><br><span class="line">        //3.向图片上写数据</span><br><span class="line">        g.setColor(Color.BLUE);//设置图片上字体的颜色</span><br><span class="line">        g.setFont(new Font(null, Font.BOLD, 20));</span><br><span class="line">        g.drawString(makeNum(), 0, 20);</span><br><span class="line">        //4.设置响应头控制浏览器浏览器以图片的方式打开</span><br><span class="line">        response.setContentType(&quot;image/jpeg&quot;);//等同于response.setHeader(&quot;Content-Type&quot;, &quot;image/jpeg&quot;);</span><br><span class="line">        //5.设置响应头控制浏览器不缓存图片数据</span><br><span class="line">        response.setDateHeader(&quot;expries&quot;, -1);</span><br><span class="line">        response.setHeader(&quot;Cache-Control&quot;, &quot;no-cache&quot;);</span><br><span class="line">        response.setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);</span><br><span class="line">        //6.将图片写给浏览器</span><br><span class="line">        ImageIO.write(image, &quot;jpg&quot;, response.getOutputStream());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String makeNum() &#123;</span><br><span class="line">        Random random = new Random();</span><br><span class="line">        String num = random.nextInt(9999999)+&quot;&quot;;</span><br><span class="line">        StringBuffer sb = new StringBuffer();</span><br><span class="line">        for (int i = 0; i &lt; 7-num.length(); i++) &#123;</span><br><span class="line">            sb.append(&quot;0&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        num = sb.toString()+num;</span><br><span class="line">        return num;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/img/ResponseDemo3.jpg" alt=""></p>
+<h3 id="HttpServletResponse常见应用——设置响应头控制浏览器的行为"><a href="#HttpServletResponse常见应用——设置响应头控制浏览器的行为" class="headerlink" title="HttpServletResponse常见应用——设置响应头控制浏览器的行为"></a>HttpServletResponse常见应用——设置响应头控制浏览器的行为</h3><h4 id="设置http响应头控制浏览器禁止缓存当前文档内容"><a href="#设置http响应头控制浏览器禁止缓存当前文档内容" class="headerlink" title="设置http响应头控制浏览器禁止缓存当前文档内容"></a>设置http响应头控制浏览器禁止缓存当前文档内容</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">response.setDateHeader(&quot;expries&quot;, -1);</span><br><span class="line">response.setHeader(&quot;Cache-Control&quot;, &quot;no-cache&quot;);</span><br><span class="line">response.setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);</span><br></pre></td></tr></table></figure>
+<h4 id="设置http响应头控制浏览器定时刷新网页-refresh"><a href="#设置http响应头控制浏览器定时刷新网页-refresh" class="headerlink" title="设置http响应头控制浏览器定时刷新网页(refresh)"></a>设置http响应头控制浏览器定时刷新网页(refresh)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader(&quot;refresh&quot;, &quot;5&quot;);//设置refresh响应头控制浏览器每隔5秒钟刷新一次</span><br></pre></td></tr></table></figure>
+<h4 id="通过response实现请求重定向"><a href="#通过response实现请求重定向" class="headerlink" title="通过response实现请求重定向"></a>通过response实现请求重定向</h4><ul>
+<li>请求重定向指：一个web资源收到客户端请求后，通知客户端去访问另外一个web资源，这称之为请求重定向。</li>
+<li>应用场景：用户登陆，用户首先访问登录页面，登录成功后，就会跳转到某个页面，这个过程就是一个请求重定向的过程</li>
+<li>实现方式：response.sendRedirect(String location)，即调用response对象的sendRedirect方法实现请求重定向</li>
+<li>sendRedirect内部的实现原理：使用response设置302状态码和设置location响应头实现重定向</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> response.sendRedirect(&quot;/index.jsp&quot;);</span><br><span class="line">1.调用sendRedirect方法实现请求重定向, sendRedirect方法内部调用了</span><br><span class="line">response.setHeader(&quot;Location&quot;, &quot;/index.jsp&quot;);</span><br><span class="line">response.setStatus(HttpServletResponse.SC_FOUND);//设置302状态码，等同于response.setStatus(302);</span><br></pre></td></tr></table></figure>
+<h3 id="web工程中URL地址的推荐写法"><a href="#web工程中URL地址的推荐写法" class="headerlink" title="web工程中URL地址的推荐写法"></a>web工程中URL地址的推荐写法</h3><p>　在JavaWeb开发中，只要是写URL地址，那么建议最好以”/“开头，也就是使用绝对路径的方式，那么这个”/“到底代表什么呢？可以用如下的方式来记忆”/“：如果”/“是给服务器用的，则代表当前的web工程，如果”/“是给浏览器用的，则代表webapps目录。</p>
+<h4 id="“-“代表当前web工程的常见应用场景"><a href="#“-“代表当前web工程的常见应用场景" class="headerlink" title="“/“代表当前web工程的常见应用场景"></a>“/“代表当前web工程的常见应用场景</h4><p>①.ServletContext.getRealPath(String path)获取资源的绝对路径<br> this.getServletContext().getRealPath(“/download/1.JPG”);</p>
+<ul>
+<li>ServletContext.getRealPath(“/download/1.JPG”)表示的就是读取web工程下的download文件夹中的1.JPG这个资源</li>
+</ul>
+<p>②.在服务器端forward到其他页面</p>
+<p> this.getServletContext().getRequestDispatcher(“/index.jsp”).forward(request, response);</p>
+<ul>
+<li>forward 客户端请求某个web资源，服务器跳转到另外一个web资源，这个forward也是给服务器用的，<br>那么这个”/“就是给服务器用的，所以此时”/“代表的就是web工程</li>
+</ul>
+<p>③.使用include指令或者<a href="jsp:include" target="_blank" rel="noopener">jsp:include</a>标签引入页面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;jsp:include page=&quot;/jspfragments/demo.jsp&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>此时”/“代表的都是web工程。</li>
+</ul>
+<h4 id="“-“代表webapps目录的常见应用场景"><a href="#“-“代表webapps目录的常见应用场景" class="headerlink" title="“/“代表webapps目录的常见应用场景"></a>“/“代表webapps目录的常见应用场景</h4><p>①.使用sendRedirect实现请求重定向<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.sendRedirect(&quot;/Servlet_Study/index.jsp&quot;);</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>服务器发送一个URL地址给浏览器，浏览器拿到URL地址之后，再去请求服务器，所以这个”/“是给浏览器使用的，此时”/“代表的就是webapps目录，”/Servlet_Study/index.jsp”这个地址指的就是”webapps\Servlet_Study\index.jsp”</li>
+<li>response.sendRedirect(“/项目名称/文件夹目录/页面”);这种写法是将项目名称写死在程序中的做法，不灵活，万一哪天项目名称变了，此时就得改程序，所以推荐使用下面的灵活写法：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.sendRedirect(request.getContextPath()+&quot;/index.jsp&quot;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>②.使用超链接跳转<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;/Servlet_Study/index.jsp&quot;&gt;跳转到首页&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>这是客户端浏览器使用的超链接跳转，这个”/“是给浏览器使用的，此时”/“代表的就是webapps目录。</li>
+<li>使用超链接访问web资源，绝对路径的写法推荐使用下面的写法改进：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;$&#123;pageContext.request.contextPath&#125;/index.jsp&quot;&gt;跳转到首页&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>③.Form表单提交<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=&quot;/Servlet_Study/servlet/CheckServlet&quot; method=&quot;post&quot;&gt;    </span><br><span class="line">    &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;</span><br><span class="line"> &lt;/form&gt;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>这是客户端浏览器将form表单提交到服务器，所以这个”/“是给浏览器使用的，此时”/“代表的就是webapps目录。<br>对于form表单提交中action属性绝对路径的写法，也推荐使用如下的方式改进：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=&quot;$&#123;pageContext.request.contextPath&#125;/servlet/CheckServlet&quot; method=&quot;post&quot;&gt;</span><br><span class="line">         &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;</span><br><span class="line"> &lt;/form&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>④.js脚本和css样式文件的引用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--使用绝对路径的方式引用js脚本--%&gt;</span><br><span class="line">  &lt;script type=&quot;text/javascript&quot; src=&quot;$&#123;pageContext.request.contextPath&#125;/js/index.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"> &lt;%--$&#123;pageContext.request.contextPath&#125;与request.getContextPath()写法是得到的效果是一样的--%&gt;</span><br><span class="line">  &lt;script type=&quot;text/javascript&quot; src=&quot;&lt;%=request.getContextPath()%&gt;/js/login.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">  &lt;%--使用绝对路径的方式引用css样式--%&gt;</span><br><span class="line">  &lt;link rel=&quot;stylesheet&quot; href=&quot;$&#123;pageContext.request.contextPath&#125;/css/index.css&quot; type=&quot;text/css&quot;/&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="response细节问题"><a href="#response细节问题" class="headerlink" title="response细节问题"></a>response细节问题</h3><ul>
+<li>getOutputStream和getWriter方法分别用于得到输出二进制数据、输出文本数据的ServletOuputStream、Printwriter对象。</li>
+<li>getOutputStream和getWriter这两个方法互相排斥，调用了其中的任何一个方法后，就不能再调用另一方法。  </li>
+<li>Servlet程序向ServletOutputStream或PrintWriter对象中写入的数据将被Servlet引擎从response里面获取，Servlet引擎将这些数据当作响应消息的正文，然后再与响应状态行和各响应头组合后输出到客户端。 </li>
+<li>Serlvet的service方法结束后，Servlet引擎将检查getWriter或getOutputStream方法返回的输出流对象是否已经调用过close方法，如果没有，Servlet引擎将调用close方法关闭该输出流对象。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/代理模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -433,179 +800,6 @@
 <h5 id="代理角色处理器："><a href="#代理角色处理器：" class="headerlink" title="代理角色处理器："></a>代理角色处理器：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public class UserHandler implements InvocationHandler&#123;</span><br><span class="line"></span><br><span class="line">         privateUserInfo userImpl;</span><br><span class="line">         publicUserHandler(UserInfo userImpl2)&#123;</span><br><span class="line">                   this.userImpl= userImpl2;</span><br><span class="line">         &#125;</span><br><span class="line">         @Override</span><br><span class="line">         publicObject invoke(Object proxy, Method method, Object[] args) </span><br><span class="line">                                        throws Throwable &#123;</span><br><span class="line">                   Objectobject = null;</span><br><span class="line">       //方法开始前做一些事情</span><br><span class="line">       if (method.getName().equals(&quot;queryUser&quot;)) &#123;</span><br><span class="line">           object = method.invoke(userImpl, args);</span><br><span class="line">            //激活调用的方法   </span><br><span class="line">       &#125;</span><br><span class="line">       //方法结束后做一些事情</span><br><span class="line">       return object;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">如何调用（和静态代理略有不同）</span><br><span class="line">public class Test &#123;         </span><br><span class="line">   public static void main(String[] args) &#123;</span><br><span class="line">         UserInfouserImpl =new UserImpl();</span><br><span class="line">         UserHandlerhandler = new UserHandler(userImpl);</span><br><span class="line">         UserInfouserProxy = (UserInfo)Proxy.newProxyInstance</span><br><span class="line">                      (ClassLoader.getSystemClassLoader(),</span><br><span class="line">                        newClass[]&#123;UserInfo.class&#125;, handler);</span><br><span class="line">         userProxy.queryUser();</span><br><span class="line">         &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><p>   业务类只需要关注业务逻辑本身，保证了业务类的重用性。这是代理的共有优点。<br>   能够协调调用者和被调用者，在一定程度上降低了系统的耦合度。</p>
 <h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><p>   由于在客户端和真实主题之间增加了代理对象，因此有些类型的代理模式可能会造成请求的处理速度变慢，例如保护代理。<br>         实现代理模式需要额外的工作，而且有些代理模式的实现过程较为复杂，例如远程代理。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/深入理解Tomcat系列之一：系统架构/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/深入理解Tomcat系列之一：系统架构/" itemprop="url">
-                  深入理解Tomcat系列之一
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="深入理解Tomcat系列之一：系统架构"><a href="#深入理解Tomcat系列之一：系统架构" class="headerlink" title="深入理解Tomcat系列之一：系统架构"></a>深入理解Tomcat系列之一：系统架构</h2><h3 id="Tomcat的系统架构"><a href="#Tomcat的系统架构" class="headerlink" title="Tomcat的系统架构"></a>Tomcat的系统架构</h3><p><img src="/img/tomcat_architect.jpg" alt=""><br>首先我们从一个宏观的角度来看一下Tomcat的系统的架构：从这张图中可以看到，Tomcat的核心组件就两个Connector和Container（后面还有详细说明），一个Connector+一个Container构成一个Service，Service就是对外提供服务的组件，有了Service组件Tomcat就可以对外提供服务了，但是光有服务还不行，还得有环境让你提供服务才行，所以最外层的Server就为Service提供了生存的土壤。那么这些个组件到底是干嘛用的呢？Connector是一个连接器，主要负责接收请求并把请求交给Container，Container就是一个容器，主要装的是具体处理请求的组件。Service主要是为了关联Container与Connector，一个单独的Container或者一个单独的Connector都不能完整处理一个请求，只有两个结合在一起才能完成一个请求的处理。Server这是负责管理Service集合，从图中我们看到一个Tomcat可以提供多种服务，那么这些Serice就是由Server来管理的，具体的工作包括：对外提供一个接口访问Service，对内维护Service集合，维护Service集合又包括管理Service的生命周期、寻找一个请求的Service、结束一个Service等。以上就是对Tomcat的核心组件的简要说明，下面我们详细看看每一个组件的执行流程：</p>
-<h3 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h3><p>上面说Server是管理Service接口的，Server是Tomcat的顶级容器，是一个接口，Server接口的标准实现类是StandardServer类，在Server接口中有许多方法，我们重点关注两个方法：addService()和findService(String)。我们先来看看Server接口的全貌：<br><img src="/img/Server2.jpg" alt=""><br>接着看看addService()和findService(String)的实现代码：<br>代码清单1-1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Add a new Service to the set of defined Services.</span><br><span class="line"> *</span><br><span class="line"> * @param service The Service to be added</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">public void addService(Service service) &#123;</span><br><span class="line"></span><br><span class="line">    service.setServer(this);</span><br><span class="line"></span><br><span class="line">    synchronized (services) &#123;</span><br><span class="line">        Service results[] = new Service[services.length + 1];</span><br><span class="line">        System.arraycopy(services, 0, results, 0, services.length);</span><br><span class="line">        results[services.length] = service;</span><br><span class="line">        services = results;</span><br><span class="line"></span><br><span class="line">        if (getState().isAvailable()) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                service.start();</span><br><span class="line">            &#125; catch (LifecycleException e) &#123;</span><br><span class="line">                // Ignore</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Report this property change to interested listeners</span><br><span class="line">        support.firePropertyChange(&quot;service&quot;, null, service);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以看到，Server使用一个数组来管理Service的，每添加一个Service就把原来的Service拷贝到一个新的数组中，再把新的Service放入Service数组中。所以Server与Service是关联在一起的，那么后面的getState().isAvailable()是干嘛的呢？判断状态是否无效，从而决定是否执行service方法。这里说到了状态，就不得不说Tomcat管理各组件生命周期的Lifecycle接口了：</p>
-<h4 id="Lifecycle接口"><a href="#Lifecycle接口" class="headerlink" title="Lifecycle接口"></a>Lifecycle接口</h4><p>Tomcat中的组件都交给这个接口管理，但是具体组件的生命周期是由包含组件的父容器来管理的，Tomcat中顶级容器管理着Service的生命周期，Service容器又是Connector和Container的父容器，所以这两个组件的生命周期是由Service管理的，Container也有子容器，所以管理着这些子容器的生命周期。这样，只要所有组件都实现了Lifecycle接口，从顶层容器Server开始，就可以控制所有容器的生命周期了。Lifecycle接口中定义了很多状态，在api中详细说明了调用不同方法后的状态转变，同时定义了不同的方法，这些方法在执行后状态会发生相应的改变，在Lifecycle接口中定义了如下方法：<br><img src="/img/Lifecycle.jpg" alt=""><br>在StandServer中实现了startInernal()方法，就是循环启动StandServer管理的Service的过程，Tomcat的Service都实现了Lifecycle接口，所以被管理的Service都将被通知到，从而执行start()方法，startIntenal()方法是这样的：<br>代码清单1-2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Start nested components (&#123;@link Service&#125;s) and implement the requirements</span><br><span class="line"> * of &#123;@link org.apache.catalina.util.LifecycleBase#startInternal()&#125;.</span><br><span class="line"> *</span><br><span class="line"> * @exception LifecycleException if this component detects a fatal error</span><br><span class="line"> *  that prevents this component from being used</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">protected void startInternal() throws LifecycleException &#123;</span><br><span class="line"></span><br><span class="line">    fireLifecycleEvent(CONFIGURE_START_EVENT, null);</span><br><span class="line">    setState(LifecycleState.STARTING);</span><br><span class="line"></span><br><span class="line">    globalNamingResources.start();</span><br><span class="line"></span><br><span class="line">    // Start our defined Services</span><br><span class="line">    synchronized (services) &#123;</span><br><span class="line">        for (int i = 0; i &lt; services.length; i++) &#123;</span><br><span class="line">            services[i].start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>现在所有的Service就会收到通知继而执行start方法。如果一个Service不允许被使用将会抛出一个LifecycleException异常。</p>
-<p>stopIntenal()会通知所有Service执行stop方法，具体处理流程与startIntenal()方法类似。这个执行过程涉及一个非常重要的设计模式，就是观察者模式。</p>
-<p>现在我们已经能够知道了容器通过Lifecycle接口管理容器的生命周期，那么在父容器的状态改变具体是怎么样通知给子容器的呢？回到代码清单1-2，我们注意到有一个fireLifecycleEvent()方法，fireLifecycleEvent()的执行流程如下：</p>
-<ul>
-<li>调用LifecycleBase的fireLifecycleEvent(LifecycleListener listener)方法，LifecycleBase是一个抽象类，实现了Lifecycle接口</li>
-<li>继续调用LifecycleSupport（是一个辅助完成对已经注册监听器的事件通知类，不可被继承，使用final)的fireLifecycleEvent(String type, Object data)方法</li>
-<li>完成事件通知</li>
-</ul>
-<p>fireLifecycleEvent(String type, Object data)的方法如下：</p>
-<p>代码清单1-3：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Notify all lifecycle event listeners that a particular event has</span><br><span class="line"> * occurred for this Container.  The default implementation performs</span><br><span class="line"> * this notification synchronously using the calling thread.</span><br><span class="line"> *</span><br><span class="line"> * @param type Event type</span><br><span class="line"> * @param data Event data</span><br><span class="line"> */</span><br><span class="line">public void fireLifecycleEvent(String type, Object data) &#123;</span><br><span class="line"></span><br><span class="line">    LifecycleEvent event = new LifecycleEvent(lifecycle, type, data);</span><br><span class="line">    LifecycleListener interested[] = listeners;</span><br><span class="line">    for (int i = 0; i &lt; interested.length; i++)</span><br><span class="line">        interested[i].lifecycleEvent(event);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>所以，具体事件的通知是由LifecycleListener接口的lifecycleEvent方法完成的，各实现类可以根据不同的情况实现不同的事件监听逻辑</p>
-<h3 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h3><p>Service是具体提供服务的接口，一个Service包装了Connector和一个Container，在Tomcat中这点是如何实现的呢？Service是一个接口，其标准实现类是StandardService，下面是这两个类的鸟瞰图：<br><img src="/img/Service.jpg" alt=""><br><img src="/img/StandardService.jpg" alt=""><br>这里，我们只关心与Connector和Container最紧密的方法：setContainer()和addConnector()方法，先看一下setContainer()方法的源码：<br>代码清单2-1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Set the &lt;code&gt;Container&lt;/code&gt; that handles requests for all</span><br><span class="line"> * &lt;code&gt;Connectors&lt;/code&gt; associated with this Service.</span><br><span class="line"> *</span><br><span class="line"> * @param container The new Container</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">public void setContainer(Container container) &#123;</span><br><span class="line"></span><br><span class="line">    Container oldContainer = this.container;</span><br><span class="line">    if ((oldContainer != null) &amp;&amp; (oldContainer instanceof Engine))</span><br><span class="line">        ((Engine) oldContainer).setService(null);</span><br><span class="line">    this.container = container;</span><br><span class="line">    if ((this.container != null) &amp;&amp; (this.container instanceof Engine))</span><br><span class="line">        ((Engine) this.container).setService(this);</span><br><span class="line">    if (getState().isAvailable() &amp;&amp; (this.container != null)) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            this.container.start();</span><br><span class="line">        &#125; catch (LifecycleException e) &#123;</span><br><span class="line">            // Ignore</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if (getState().isAvailable() &amp;&amp; (oldContainer != null)) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            oldContainer.stop();</span><br><span class="line">        &#125; catch (LifecycleException e) &#123;</span><br><span class="line">            // Ignore</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Report this property change to interested listeners</span><br><span class="line">    support.firePropertyChange(&quot;container&quot;, oldContainer, this.container);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>从代码中可以看到这个方法主要的任务是设置一个Container容器来处理一个或者多个Connector传送过来的请求。首先判断当前的Service是否已经关联了Container容器，如果已经关联了就去除这个关联关系。如果原来的Container容器已经启动了就终止其生命周期，结束运行并设置新的关联关系，这个新的Container容器开始新的生命周期。最后把这个过程通知给感兴趣的事件监听程序。</p>
-<p>下面看看addConnector的方法：</p>
-<p>代码清单2-2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Add a new Connector to the set of defined Connectors, and associate it</span><br><span class="line"> * with this Service&apos;s Container.</span><br><span class="line"> *</span><br><span class="line"> * @param connector The Connector to be added</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">public void addConnector(Connector connector) &#123;</span><br><span class="line"></span><br><span class="line">    synchronized (connectors) &#123;</span><br><span class="line">        connector.setService(this);</span><br><span class="line">        Connector results[] = new Connector[connectors.length + 1];</span><br><span class="line">        System.arraycopy(connectors, 0, results, 0, connectors.length);</span><br><span class="line">        results[connectors.length] = connector;</span><br><span class="line">        connectors = results;</span><br><span class="line"></span><br><span class="line">        if (getState().isAvailable()) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                connector.start();</span><br><span class="line">            &#125; catch (LifecycleException e) &#123;</span><br><span class="line">                log.error(sm.getString(</span><br><span class="line">                        &quot;standardService.connector.startFailed&quot;,</span><br><span class="line">                        connector), e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Report this property change to interested listeners</span><br><span class="line">        support.firePropertyChange(&quot;connector&quot;, null, connector);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>执行过程也比较清楚：用一个同步代码块包住connectors数组，首先设置connector与container和service的关联关系，然后让connector开始新的生命周期，最后通知感兴趣的事件监听程序。注意到Connector的管理和Server管理Service一样都使用了数组拷贝并把新的数组赋给当前的数组，从而间接实现了动态数组。之所以使用数组我想可能是出于性能的考虑吧。</p>
 
           
         
@@ -835,7 +1029,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/ListView 和 Adapter数据适配器简单介绍/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/数组和内存控制/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -854,8 +1048,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/ListView 和 Adapter数据适配器简单介绍/" itemprop="url">
-                  Android 编程知识
+                <a class="post-title-link" href="/2018/07/20/数组和内存控制/" itemprop="url">
+                  java基础知识(二)
                 </a>
               
             
@@ -899,7 +1093,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
 
                 
                 
@@ -935,205 +1129,28 @@
       
         
           
-            <h3 id="ListView-和-Adapter数据适配器简单介绍"><a href="#ListView-和-Adapter数据适配器简单介绍" class="headerlink" title="ListView 和 Adapter数据适配器简单介绍"></a>ListView 和 Adapter数据适配器简单介绍</h3><h4 id="ListView"><a href="#ListView" class="headerlink" title="ListView"></a>ListView</h4><ul>
-<li>显示大量的相同格式数据</li>
-<li>常用属性：<ul>
-<li>listSelector  listView每项在选中、按下等不同状态时的Drawable</li>
-<li>divider                ListView每项间的间隔Drawable</li>
-<li>dividerHeight        ListView每项间间隔的间隔高度</li>
+            <h2 id="数组和内存控制"><a href="#数组和内存控制" class="headerlink" title="数组和内存控制"></a>数组和内存控制</h2><h3 id="Java的数组是静态的"><a href="#Java的数组是静态的" class="headerlink" title="Java的数组是静态的"></a>Java的数组是静态的</h3><ul>
+<li>初始化方式：<pre><code>-1：静态初始化
+    a：String[] S = new String[]{}
+    b：String[] S = {       }
+- 2：动态初始化
+    String[] S = new String[5];&apos;
+</code></pre><h3 id="动态初始化由系统分配初始值"><a href="#动态初始化由系统分配初始值" class="headerlink" title="动态初始化由系统分配初始值"></a>动态初始化由系统分配初始值</h3><pre><code>类型                                             初始化值
+整型（int short byte long)                          0
+浮点（float double)                                 0.0
+字符(char)                                        &apos;\u0000&apos;
+布尔（boolean)                                      false
+引用类型（类  接口  数组）                              null
+</code></pre></li>
+<li>Java 的数组变量是引用类型的变量，它并不是数组对象本身，只要让数组变量指向有效的数组对象，程序中即可使用该数组变量。</li>
+<li>对数组的初始化并不是对数组变量实行初始化，而是要对数组对象初始化—–也就是为该数组对象分配一块连续的内存空间。</li>
+<li>所有局部变量都是放在栈内存里保存的，不管是基本类型的变量，还是引用类型的变量，都是存储各自的方法栈里，但引用类型变量所引用的对象【包括数组、普通Java对象】则都是存储在堆内存里面。</li>
+<li>对于Java语言来说，堆内存中的对象【不管是数组对象还是普通的Java对象】通常不允许直接访问，为了访问堆内存中的对象，通常智能通过引用变量。</li>
+<li>引用变量本质上就是一个指针，只要程序通过引用变量访问属性，或者通过引用变量来调用方法，该引用变量将会被它所引用的对象代替。<h3 id="Runtime异常-NullPointerException（空指针异常）"><a href="#Runtime异常-NullPointerException（空指针异常）" class="headerlink" title="Runtime异常 NullPointerException（空指针异常）"></a>Runtime异常 NullPointerException（空指针异常）</h3></li>
+<li>当通过引用变量来访问实例属性或者调用静态方法时，如果该引用变量还未引用一个有效的对象，程序就会引发空指针异常$ 引用数组类型的数组元素依然是引用类型，因此数组元素里存储的还是引用，它指向另一块内存，这块内存存储了该引用变量所引用的对象。<ul>
+<li>Java语言避免直接访问堆内存里面的数据可以保证程序的健壮性，如果程序直接访问并修改堆内存中的数据，可能破坏内存中数据的完整性，导致程序Crash<h3 id="数组元素就是变量"><a href="#数组元素就是变量" class="headerlink" title="数组元素就是变量"></a>数组元素就是变量</h3><h3 id="没有多维数组"><a href="#没有多维数组" class="headerlink" title="没有多维数组"></a>没有多维数组</h3></li>
 </ul>
 </li>
-<li>常用方法<ul>
-<li>setAdapter()                设置数据适配器</li>
-<li>setOnItemClickListener()        设置每项点击事件监听</li>
-<li>addHeaderView()            添加头视图</li>
-<li>addFooterView()            添加脚视图</li>
-<li>setEmptyView()                设置数据项为0时的空数据视图<h4 id="Adapter数据适配器"><a href="#Adapter数据适配器" class="headerlink" title="Adapter数据适配器"></a>Adapter数据适配器</h4>将各种数据以合适的形式绑定到控件上<br>像listview, gridview, spinner 等等等控件 都会用到Adapter绑定数据</li>
-<li>三种Adapter</li>
-<li>ArrayAdapter：支持泛型操作，最简单的一个Adapter，只能展现一行文字</li>
-<li>SimpleAdapter：同样具有良好扩展性的一个Adapter，可以自定义多种效果</li>
-<li>BaseAdapter：抽象类，实际开发中我们会继承这个类并且重写相关方法，用得最多的一个Adapter<h5 id="ArrayAdapt"><a href="#ArrayAdapt" class="headerlink" title="ArrayAdapt"></a>ArrayAdapt</h5>参数1：当前上下文环境<br>参数2：android.R.layout.simple_list_item_1<br>　　　　是android自带的一个简单布局 里面只包含一个id为text1的TextView  也就是参数3    ArrayAdapter只能显示一行数据 显示文本信息 使用这个系统提供的布局就可以<br>android系统还给我们提供了其他一些好用的模板<br>　　simple_list_item_1 : 单独一行的文本框<br>　　simple_list_item_2 : 两个文本框组成<br>　　simple_list_item_checked : 每项都是由一个已选中的列表项<br>　　imple_list_item_multiple_choice : 都带有一个复选框<br>　　simple_list_item_single_choice : 都带有一个单选钮<br>参数4：绑定的数据 这里使用是string数组       上面提到过ArrayAdapter支持泛型 也可以绑定一个list显示效果绑定了listview<h5 id="SimpleAdapter"><a href="#SimpleAdapter" class="headerlink" title="SimpleAdapter"></a>SimpleAdapter</h5>　simpleAdapter的扩展性最好，可以定义各种各样的布局出来，可以放上ImageView（图片），还可以放上Button（按钮），CheckBox（复选框）等等<h5 id="BaseAdapter"><a href="#BaseAdapter" class="headerlink" title="BaseAdapter"></a>BaseAdapter</h5></li>
-</ul>
-</li>
-<li>BaseAdapter是开发中最常用的适配器ArrayAdapter, SimpleAdapter 都继承于BaseAdapter。BaseAdapter可以完成自己定义的Adapter，可以将任何复杂组合的数据和资源，以任何你想要的显示效果展示给大家。</li>
-<li>继承BaseAdapter之后，需要重写以下四个方法：getCount，getItem，getItemId，getView。</li>
-<li>系统在绘制ListView之前，将会先调用getCount方法来获取Item的个数。每绘制一个Item就会调用一次getView方法，在getView中引用事先定义好的layout布局确定显示的效果并返回一个View对象作为一个Item显示出来。</li>
-<li>这两个方法是自定ListView显示效果中最为重要的，同时只要重写好了这两个方法，ListView就能完全按开发者的要求显示。而getItem和getItemId方法将会在调用ListView的响应方法的时候被调用到。</li>
-<li>自定义布局文件（listview的项的显示效果）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:orientation=&quot;vertical&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line">    &lt;LinearLayout</span><br><span class="line">        android:id=&quot;@+id/title&quot;</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">        android:gravity=&quot;center_vertical&quot;</span><br><span class="line">        android:orientation=&quot;horizontal&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:id=&quot;@+id/et_id2&quot;</span><br><span class="line">            android:layout_width=&quot;0dp&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_weight=&quot;0.8&quot;</span><br><span class="line">            android:hint=&quot;id&quot;</span><br><span class="line">            android:inputType=&quot;none&quot; /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:id=&quot;@+id/et_name2&quot;</span><br><span class="line">            android:layout_width=&quot;0dp&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_weight=&quot;1.5&quot;</span><br><span class="line">            android:hint=&quot;姓名&quot;</span><br><span class="line">            android:maxLength=&quot;4&quot;</span><br><span class="line">            android:maxLines=&quot;1&quot; /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:id=&quot;@+id/et_author2&quot;</span><br><span class="line">            android:layout_width=&quot;0dp&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_weight=&quot;1&quot;</span><br><span class="line">            android:hint=&quot;作者&quot;</span><br><span class="line">            android:maxLength=&quot;1&quot;</span><br><span class="line">            android:maxLines=&quot;1&quot; /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:id=&quot;@+id/et_pages2&quot;</span><br><span class="line">            android:layout_width=&quot;0dp&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_weight=&quot;1&quot;</span><br><span class="line">            android:hint=&quot;页数&quot;</span><br><span class="line">            android:inputType=&quot;number&quot;</span><br><span class="line">            android:maxLength=&quot;3&quot;</span><br><span class="line">            android:maxLines=&quot;1&quot; /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:id=&quot;@+id/et_price2&quot;</span><br><span class="line">            android:layout_width=&quot;0dp&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_weight=&quot;1&quot;</span><br><span class="line">            android:hint=&quot;价格&quot;</span><br><span class="line">            android:inputType=&quot;number&quot;</span><br><span class="line">            android:maxLength=&quot;3&quot;</span><br><span class="line">            android:maxLines=&quot;1&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/LinearLayout&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>Book类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">public class Book extends DataSupport &#123;</span><br><span class="line">    private  int id;</span><br><span class="line">    private String name;</span><br><span class="line">    private String author;</span><br><span class="line">    private int pages;</span><br><span class="line">    private double price;</span><br><span class="line"></span><br><span class="line">    public int getId() &#123;</span><br><span class="line">        return id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setId(int id) &#123;</span><br><span class="line">        this.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getAuthor() &#123;</span><br><span class="line">        return author;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setAuthor(String author) &#123;</span><br><span class="line">        this.author = author;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int getPages() &#123;</span><br><span class="line">        return pages;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setPages(int pages) &#123;</span><br><span class="line">        this.pages = pages;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public double getPrice() &#123;</span><br><span class="line">        return price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setPrice(double price) &#123;</span><br><span class="line">        this.price = price;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>MainActivity<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">ublic class MainActivity extends AppCompatActivity &#123;</span><br><span class="line">    private Button create_database = null;</span><br><span class="line">    private Button add_data = null;</span><br><span class="line">    private Button detele_data = null;</span><br><span class="line">    private Button update_data = null;</span><br><span class="line">    private Button query_data = null;</span><br><span class="line">    private LinearLayout title = null;</span><br><span class="line">    private ListView listViewcontent =null;</span><br><span class="line">    private EditText et_id = null;</span><br><span class="line">    private EditText et_name = null;</span><br><span class="line">    private EditText et_author = null;</span><br><span class="line">    private EditText et_pages = null;</span><br><span class="line">    private EditText et_price = null;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        findViewById();</span><br><span class="line">        listener();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">private void listener()&#123;</span><br><span class="line">    create_database.setOnClickListener(</span><br><span class="line">            new View.OnClickListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onClick(View view) &#123;</span><br><span class="line">                    Connector.getDatabase();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">    add_data.setOnClickListener(</span><br><span class="line">            new View.OnClickListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onClick(View view) &#123;</span><br><span class="line">                    Book book = new Book();</span><br><span class="line">                    book.setName(et_name.getText().toString().trim());</span><br><span class="line">                    book.setAuthor(et_author.getText().toString().trim());</span><br><span class="line">                    book.setPages(Integer.parseInt(et_pages.getText().toString().trim()));</span><br><span class="line">                    book.setPrice(Integer.parseInt(et_price.getText().toString().trim()));</span><br><span class="line">                    book.save();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">    detele_data.setOnClickListener(</span><br><span class="line">            new View.OnClickListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onClick(View view) &#123;</span><br><span class="line">                    DataSupport.deleteAll(Book.class, &quot;name = ?&quot;, et_name.getText().toString().trim());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">    update_data.setOnClickListener(</span><br><span class="line">            new View.OnClickListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onClick(View view) &#123;</span><br><span class="line">                    Book book = new Book();</span><br><span class="line">                    book.setPrice(Double.parseDouble(et_price.getText().toString().trim()));</span><br><span class="line">                    book.updateAll(&quot;name = ? and author = ?&quot;, et_name.getText().toString().trim(),et_author.toString().trim());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">    query_data.setOnClickListener(</span><br><span class="line">            new View.OnClickListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onClick(View view) &#123;</span><br><span class="line">                    List&lt;Book&gt; books = DataSupport.findAll(Book.class);</span><br><span class="line">                    Log.d(&quot;qgx&quot;, &quot;onClick: &quot;+books.toString());</span><br><span class="line">                listViewcontent.setAdapter(</span><br><span class="line">            new MyAdapter(books,MainActivity.this));</span><br><span class="line">                    for (Book book : books) &#123;</span><br><span class="line">                        Log.d(&quot;MainActivity&quot;, &quot;book name is&quot; + book.getName());</span><br><span class="line">                        Log.d(&quot;MainActivity&quot;, &quot;book author is&quot; + book.getAuthor());</span><br><span class="line">                        Log.d(&quot;MainActivity&quot;, &quot;book pages is&quot; + book.getPages());</span><br><span class="line">                        Log.d(&quot;MainActivity&quot;, &quot;book price is&quot; + book.getPrice());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line">    //关联控件</span><br><span class="line">    private void findViewById() &#123;</span><br><span class="line">        create_database = (Button) findViewById(R.id.create_database);</span><br><span class="line">        add_data = (Button)  findViewById(R.id.add_data);</span><br><span class="line">        update_data =  (Button) findViewById(R.id.update_data);</span><br><span class="line">        query_data = (Button)  findViewById(R.id.query_data);</span><br><span class="line">        detele_data =  (Button) findViewById(R.id.detele_data);</span><br><span class="line">        et_id =(EditText) findViewById(R.id.et_id);</span><br><span class="line">        et_name =(EditText) findViewById(R.id.et_name);</span><br><span class="line">        et_author =(EditText) findViewById(R.id.et_author);</span><br><span class="line">        et_pages =(EditText) findViewById(R.id.et_pages);</span><br><span class="line">        et_price =(EditText) findViewById(R.id.et_price);</span><br><span class="line">        title = (LinearLayout) findViewById(R.id.title);</span><br><span class="line">        listViewcontent =(ListView) findViewById(R.id.content);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>MyAdapter<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public class MyAdapter  extends BaseAdapter&#123;</span><br><span class="line">    private List&lt;Book&gt; books;</span><br><span class="line">    private LayoutInflater inflater;</span><br><span class="line">    public MyAdapter(List&lt;Book&gt; books,Context context) &#123;</span><br><span class="line">        this.books = books;</span><br><span class="line">        this.inflater=LayoutInflater.from(context);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public int getCount() &#123;</span><br><span class="line">        return books==null?0:books.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Object getItem(int i) &#123;</span><br><span class="line">        return books.get(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public long getItemId(int i) &#123;</span><br><span class="line">        return i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public View getView(int i, View view, ViewGroup viewGroup) &#123;</span><br><span class="line">        //加载布局为一个视图</span><br><span class="line">       view=inflater.inflate(R.layout.item_book,null);</span><br><span class="line">       Book book = (Book)getItem(i) ;</span><br><span class="line">        TextView et_id2 = view.findViewById(R.id.et_id2);</span><br><span class="line">        TextView et_name2 = view.findViewById(R.id.et_name2);</span><br><span class="line">        TextView et_author2 = view.findViewById(R.id.et_author2);</span><br><span class="line">        TextView et_pages2 = view.findViewById(R.id.et_pages2);</span><br><span class="line">        TextView et_price2 = view.findViewById(R.id.et_price2);</span><br><span class="line">       et_id2.setText(book.getId()+&quot;&quot;);</span><br><span class="line">       et_author2.setText(book.getAuthor());</span><br><span class="line">       et_name2.setText(book.getName());</span><br><span class="line">       et_pages2.setText(book.getPages()+&quot;&quot;);</span><br><span class="line">       et_price2.setText(book.getPrice()+&quot;&quot;);</span><br><span class="line">        return view;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/桥接模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/桥接模式/" itemprop="url">
-                  桥接模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="桥接模式"><a href="#桥接模式" class="headerlink" title="桥接模式"></a>桥接模式</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>  桥接模式即将抽象部分与它的实现部分分离开来，使他们都可以独立变化。<br>      桥接模式将继承关系转化成关联关系，它降低了类与类之间的耦合度，减少了系统中类的数量，也减少了代码量。<br>      将抽象部分与他的实现部分分离这句话不是很好理解，其实这并不是将抽象类与他的派生类分离，而是抽象类和它的派生类用来实现自己的对象。这样还是不能理解的话。我们就先来认清什么是抽象化，什么是实现化，什么是脱耦。</p>
-<h5 id="抽象化："><a href="#抽象化：" class="headerlink" title="抽象化："></a>抽象化：</h5><p>其概念是将复杂物体的一个或几个特性抽出去而只注意其他特性的行动或过程。在面向对象就是将对象共同的性质抽取出去而形成类的过程。</p>
-<h5 id="实现化："><a href="#实现化：" class="headerlink" title="实现化："></a>实现化：</h5><p>针对抽象化给出的具体实现。它和抽象化是一个互逆的过程，实现化是对抽象化事物的进一步具体化。</p>
-<h5 id="脱耦："><a href="#脱耦：" class="headerlink" title="脱耦："></a>脱耦：</h5><p>脱耦就是将抽象化和实现化之间的耦合解脱开，或者说是将它们之间的强关联改换成弱关联，将两个角色之间的继承关系改为关联关系。<br>      对于那句话：将抽象部分与他的实现部分分离套用《大话设计模式》里面的就是实现系统可能有多个角度分类，每一种角度都可能变化，那么把这种多角度分类给分离出来让他们独立变化，减少他们之间耦合。<br>   桥接模式中的所谓脱耦，就是指在一个软件系统的抽象化和实现化之间使用关联关系（组合或者聚合关系）而不是继承关系，从而使两者可以相对独立地变化，这就是桥接模式的用意。</p>
-<h4 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h4><p>桥接模式主要包含如下几个角色：<br>      Abstraction：抽象类。<br>      RefinedAbstraction：扩充抽象类。<br>      Implementor：实现类接口。<br>      ConcreteImplementor：具体实现类 。 </p>
-<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><h5 id="Implementor-定义实现接口。"><a href="#Implementor-定义实现接口。" class="headerlink" title="Implementor : 定义实现接口。"></a>Implementor : 定义实现接口。</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">interface Implementor &#123;</span><br><span class="line">    // 实现抽象部分需要的某些具体功能</span><br><span class="line">    public void operationImpl();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="Abstraction-定义抽象接口。"><a href="#Abstraction-定义抽象接口。" class="headerlink" title="Abstraction : 定义抽象接口。"></a>Abstraction : 定义抽象接口。</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">abstract class Abstraction &#123;</span><br><span class="line">    // 持有一个 Implementor 对象，形成聚合关系</span><br><span class="line">    protected Implementor implementor;</span><br><span class="line">    </span><br><span class="line">    public Abstraction(Implementor implementor) &#123;</span><br><span class="line">        this.implementor = implementor;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    // 可能需要转调实现部分的具体实现</span><br><span class="line">    public void operation() &#123;</span><br><span class="line">        implementor.operationImpl();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="ConcreteImplementor-实现-Implementor-中定义的接口。"><a href="#ConcreteImplementor-实现-Implementor-中定义的接口。" class="headerlink" title="ConcreteImplementor :  实现 Implementor 中定义的接口。"></a>ConcreteImplementor :  实现 Implementor 中定义的接口。</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class ConcreteImplementorA implements Implementor &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void operationImpl() &#123;</span><br><span class="line">        // 真正的实现</span><br><span class="line">        System.out.println(&quot;具体实现A&quot;);</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class ConcreteImplementorB implements Implementor &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void operationImpl() &#123;</span><br><span class="line">        // 真正的实现</span><br><span class="line">        System.out.println(&quot;具体实现B&quot;);</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="RefinedAbstraction-扩展-Abstraction-类。"><a href="#RefinedAbstraction-扩展-Abstraction-类。" class="headerlink" title="RefinedAbstraction : 扩展 Abstraction 类。"></a>RefinedAbstraction : 扩展 Abstraction 类。</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class RefinedAbstraction extends Abstraction &#123;</span><br><span class="line"></span><br><span class="line">    public RefinedAbstraction(Implementor implementor) &#123;</span><br><span class="line">        super(implementor);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public void otherOperation() &#123;</span><br><span class="line">        // 实现一定的功能，可能会使用具体实现部分的实现方法,</span><br><span class="line">        // 但是本方法更大的可能是使用 Abstraction 中定义的方法，</span><br><span class="line">        // 通过组合使用 Abstraction 中定义的方法来完成更多的功能。</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码"></a>测试代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class BridgePattern &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Implementor implementor = new ConcreteImplementorA();</span><br><span class="line">        RefinedAbstraction abstraction = new RefinedAbstraction(implementor);</span><br><span class="line">        abstraction.operation();</span><br><span class="line">        abstraction.otherOperation();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">具体实现A</span><br><span class="line">其他操作</span><br></pre></td></tr></table></figure>
-<h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">1、如果你不希望在抽象和实现部分采用固定的绑定关系，可以采用桥接模式，来把抽象和实现部分分开，</span><br><span class="line">然后在程序运行期间来动态的设置抽象部分需要用到的具体的实现，还可以动态切换具体的实现。</span><br><span class="line"></span><br><span class="line">2、如果出现抽象部分和实现部分都应该可以扩展的情况，可以采用桥接模式，让抽象部分和实现部分可以</span><br><span class="line">独立的变化，从而可以灵活的进行单独扩展，而不是搅在一起，扩展一边会影响到另一边。</span><br><span class="line"></span><br><span class="line">3、如果希望实现部分的修改，不会对客户产生影响，可以采用桥接模式，客户是面向抽象的接口在运行，</span><br><span class="line">实现部分的修改，可以独立于抽象部分，也就不会对客户产生影响了，也可以说对客户是透明的。</span><br><span class="line"></span><br><span class="line">4、如果采用继承的实现方案，会导致产生很多子类，对于这种情况，可以考虑采用桥接模式，分析功能变化的原因，看看是否能分离成不同的纬度，然后通过桥接模式来分离它们，从而减少子类的数目。</span><br></pre></td></tr></table></figure>
-<h4 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h4><ul>
-<li>如果一个系统需要在构件的抽象化角色和具体化角色之间增加更多的灵活性，避免在两个层次之间建立静态的联系。</li>
-<li>抽象化角色和具体化角色都应该可以被子类扩展。在这种情况下，桥接模式可以灵活地组合不同的抽象化角色和具体化角色，并独立化地扩展。</li>
-<li>设计要求实现化角色的任何改变不应当影响客户端，或者说实现化角色的改变对客户端是完全透明的。</li>
 </ul>
 
           
@@ -1567,6 +1584,189 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/ListView 和 Adapter数据适配器简单介绍/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/ListView 和 Adapter数据适配器简单介绍/" itemprop="url">
+                  Android 编程知识
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="ListView-和-Adapter数据适配器简单介绍"><a href="#ListView-和-Adapter数据适配器简单介绍" class="headerlink" title="ListView 和 Adapter数据适配器简单介绍"></a>ListView 和 Adapter数据适配器简单介绍</h3><h4 id="ListView"><a href="#ListView" class="headerlink" title="ListView"></a>ListView</h4><ul>
+<li>显示大量的相同格式数据</li>
+<li>常用属性：<ul>
+<li>listSelector  listView每项在选中、按下等不同状态时的Drawable</li>
+<li>divider                ListView每项间的间隔Drawable</li>
+<li>dividerHeight        ListView每项间间隔的间隔高度</li>
+</ul>
+</li>
+<li>常用方法<ul>
+<li>setAdapter()                设置数据适配器</li>
+<li>setOnItemClickListener()        设置每项点击事件监听</li>
+<li>addHeaderView()            添加头视图</li>
+<li>addFooterView()            添加脚视图</li>
+<li>setEmptyView()                设置数据项为0时的空数据视图<h4 id="Adapter数据适配器"><a href="#Adapter数据适配器" class="headerlink" title="Adapter数据适配器"></a>Adapter数据适配器</h4>将各种数据以合适的形式绑定到控件上<br>像listview, gridview, spinner 等等等控件 都会用到Adapter绑定数据</li>
+<li>三种Adapter</li>
+<li>ArrayAdapter：支持泛型操作，最简单的一个Adapter，只能展现一行文字</li>
+<li>SimpleAdapter：同样具有良好扩展性的一个Adapter，可以自定义多种效果</li>
+<li>BaseAdapter：抽象类，实际开发中我们会继承这个类并且重写相关方法，用得最多的一个Adapter<h5 id="ArrayAdapt"><a href="#ArrayAdapt" class="headerlink" title="ArrayAdapt"></a>ArrayAdapt</h5>参数1：当前上下文环境<br>参数2：android.R.layout.simple_list_item_1<br>　　　　是android自带的一个简单布局 里面只包含一个id为text1的TextView  也就是参数3    ArrayAdapter只能显示一行数据 显示文本信息 使用这个系统提供的布局就可以<br>android系统还给我们提供了其他一些好用的模板<br>　　simple_list_item_1 : 单独一行的文本框<br>　　simple_list_item_2 : 两个文本框组成<br>　　simple_list_item_checked : 每项都是由一个已选中的列表项<br>　　imple_list_item_multiple_choice : 都带有一个复选框<br>　　simple_list_item_single_choice : 都带有一个单选钮<br>参数4：绑定的数据 这里使用是string数组       上面提到过ArrayAdapter支持泛型 也可以绑定一个list显示效果绑定了listview<h5 id="SimpleAdapter"><a href="#SimpleAdapter" class="headerlink" title="SimpleAdapter"></a>SimpleAdapter</h5>　simpleAdapter的扩展性最好，可以定义各种各样的布局出来，可以放上ImageView（图片），还可以放上Button（按钮），CheckBox（复选框）等等<h5 id="BaseAdapter"><a href="#BaseAdapter" class="headerlink" title="BaseAdapter"></a>BaseAdapter</h5></li>
+</ul>
+</li>
+<li>BaseAdapter是开发中最常用的适配器ArrayAdapter, SimpleAdapter 都继承于BaseAdapter。BaseAdapter可以完成自己定义的Adapter，可以将任何复杂组合的数据和资源，以任何你想要的显示效果展示给大家。</li>
+<li>继承BaseAdapter之后，需要重写以下四个方法：getCount，getItem，getItemId，getView。</li>
+<li>系统在绘制ListView之前，将会先调用getCount方法来获取Item的个数。每绘制一个Item就会调用一次getView方法，在getView中引用事先定义好的layout布局确定显示的效果并返回一个View对象作为一个Item显示出来。</li>
+<li>这两个方法是自定ListView显示效果中最为重要的，同时只要重写好了这两个方法，ListView就能完全按开发者的要求显示。而getItem和getItemId方法将会在调用ListView的响应方法的时候被调用到。</li>
+<li>自定义布局文件（listview的项的显示效果）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    android:orientation=&quot;vertical&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line">    &lt;LinearLayout</span><br><span class="line">        android:id=&quot;@+id/title&quot;</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">        android:gravity=&quot;center_vertical&quot;</span><br><span class="line">        android:orientation=&quot;horizontal&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:id=&quot;@+id/et_id2&quot;</span><br><span class="line">            android:layout_width=&quot;0dp&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_weight=&quot;0.8&quot;</span><br><span class="line">            android:hint=&quot;id&quot;</span><br><span class="line">            android:inputType=&quot;none&quot; /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:id=&quot;@+id/et_name2&quot;</span><br><span class="line">            android:layout_width=&quot;0dp&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_weight=&quot;1.5&quot;</span><br><span class="line">            android:hint=&quot;姓名&quot;</span><br><span class="line">            android:maxLength=&quot;4&quot;</span><br><span class="line">            android:maxLines=&quot;1&quot; /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:id=&quot;@+id/et_author2&quot;</span><br><span class="line">            android:layout_width=&quot;0dp&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_weight=&quot;1&quot;</span><br><span class="line">            android:hint=&quot;作者&quot;</span><br><span class="line">            android:maxLength=&quot;1&quot;</span><br><span class="line">            android:maxLines=&quot;1&quot; /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:id=&quot;@+id/et_pages2&quot;</span><br><span class="line">            android:layout_width=&quot;0dp&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_weight=&quot;1&quot;</span><br><span class="line">            android:hint=&quot;页数&quot;</span><br><span class="line">            android:inputType=&quot;number&quot;</span><br><span class="line">            android:maxLength=&quot;3&quot;</span><br><span class="line">            android:maxLines=&quot;1&quot; /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;TextView</span><br><span class="line">            android:id=&quot;@+id/et_price2&quot;</span><br><span class="line">            android:layout_width=&quot;0dp&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_weight=&quot;1&quot;</span><br><span class="line">            android:hint=&quot;价格&quot;</span><br><span class="line">            android:inputType=&quot;number&quot;</span><br><span class="line">            android:maxLength=&quot;3&quot;</span><br><span class="line">            android:maxLines=&quot;1&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/LinearLayout&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Book类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">public class Book extends DataSupport &#123;</span><br><span class="line">    private  int id;</span><br><span class="line">    private String name;</span><br><span class="line">    private String author;</span><br><span class="line">    private int pages;</span><br><span class="line">    private double price;</span><br><span class="line"></span><br><span class="line">    public int getId() &#123;</span><br><span class="line">        return id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setId(int id) &#123;</span><br><span class="line">        this.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getAuthor() &#123;</span><br><span class="line">        return author;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setAuthor(String author) &#123;</span><br><span class="line">        this.author = author;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int getPages() &#123;</span><br><span class="line">        return pages;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setPages(int pages) &#123;</span><br><span class="line">        this.pages = pages;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public double getPrice() &#123;</span><br><span class="line">        return price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setPrice(double price) &#123;</span><br><span class="line">        this.price = price;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>MainActivity<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">ublic class MainActivity extends AppCompatActivity &#123;</span><br><span class="line">    private Button create_database = null;</span><br><span class="line">    private Button add_data = null;</span><br><span class="line">    private Button detele_data = null;</span><br><span class="line">    private Button update_data = null;</span><br><span class="line">    private Button query_data = null;</span><br><span class="line">    private LinearLayout title = null;</span><br><span class="line">    private ListView listViewcontent =null;</span><br><span class="line">    private EditText et_id = null;</span><br><span class="line">    private EditText et_name = null;</span><br><span class="line">    private EditText et_author = null;</span><br><span class="line">    private EditText et_pages = null;</span><br><span class="line">    private EditText et_price = null;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        findViewById();</span><br><span class="line">        listener();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">private void listener()&#123;</span><br><span class="line">    create_database.setOnClickListener(</span><br><span class="line">            new View.OnClickListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onClick(View view) &#123;</span><br><span class="line">                    Connector.getDatabase();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">    add_data.setOnClickListener(</span><br><span class="line">            new View.OnClickListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onClick(View view) &#123;</span><br><span class="line">                    Book book = new Book();</span><br><span class="line">                    book.setName(et_name.getText().toString().trim());</span><br><span class="line">                    book.setAuthor(et_author.getText().toString().trim());</span><br><span class="line">                    book.setPages(Integer.parseInt(et_pages.getText().toString().trim()));</span><br><span class="line">                    book.setPrice(Integer.parseInt(et_price.getText().toString().trim()));</span><br><span class="line">                    book.save();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">    detele_data.setOnClickListener(</span><br><span class="line">            new View.OnClickListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onClick(View view) &#123;</span><br><span class="line">                    DataSupport.deleteAll(Book.class, &quot;name = ?&quot;, et_name.getText().toString().trim());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">    update_data.setOnClickListener(</span><br><span class="line">            new View.OnClickListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onClick(View view) &#123;</span><br><span class="line">                    Book book = new Book();</span><br><span class="line">                    book.setPrice(Double.parseDouble(et_price.getText().toString().trim()));</span><br><span class="line">                    book.updateAll(&quot;name = ? and author = ?&quot;, et_name.getText().toString().trim(),et_author.toString().trim());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">    query_data.setOnClickListener(</span><br><span class="line">            new View.OnClickListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onClick(View view) &#123;</span><br><span class="line">                    List&lt;Book&gt; books = DataSupport.findAll(Book.class);</span><br><span class="line">                    Log.d(&quot;qgx&quot;, &quot;onClick: &quot;+books.toString());</span><br><span class="line">                listViewcontent.setAdapter(</span><br><span class="line">            new MyAdapter(books,MainActivity.this));</span><br><span class="line">                    for (Book book : books) &#123;</span><br><span class="line">                        Log.d(&quot;MainActivity&quot;, &quot;book name is&quot; + book.getName());</span><br><span class="line">                        Log.d(&quot;MainActivity&quot;, &quot;book author is&quot; + book.getAuthor());</span><br><span class="line">                        Log.d(&quot;MainActivity&quot;, &quot;book pages is&quot; + book.getPages());</span><br><span class="line">                        Log.d(&quot;MainActivity&quot;, &quot;book price is&quot; + book.getPrice());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line">    //关联控件</span><br><span class="line">    private void findViewById() &#123;</span><br><span class="line">        create_database = (Button) findViewById(R.id.create_database);</span><br><span class="line">        add_data = (Button)  findViewById(R.id.add_data);</span><br><span class="line">        update_data =  (Button) findViewById(R.id.update_data);</span><br><span class="line">        query_data = (Button)  findViewById(R.id.query_data);</span><br><span class="line">        detele_data =  (Button) findViewById(R.id.detele_data);</span><br><span class="line">        et_id =(EditText) findViewById(R.id.et_id);</span><br><span class="line">        et_name =(EditText) findViewById(R.id.et_name);</span><br><span class="line">        et_author =(EditText) findViewById(R.id.et_author);</span><br><span class="line">        et_pages =(EditText) findViewById(R.id.et_pages);</span><br><span class="line">        et_price =(EditText) findViewById(R.id.et_price);</span><br><span class="line">        title = (LinearLayout) findViewById(R.id.title);</span><br><span class="line">        listViewcontent =(ListView) findViewById(R.id.content);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>MyAdapter<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public class MyAdapter  extends BaseAdapter&#123;</span><br><span class="line">    private List&lt;Book&gt; books;</span><br><span class="line">    private LayoutInflater inflater;</span><br><span class="line">    public MyAdapter(List&lt;Book&gt; books,Context context) &#123;</span><br><span class="line">        this.books = books;</span><br><span class="line">        this.inflater=LayoutInflater.from(context);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public int getCount() &#123;</span><br><span class="line">        return books==null?0:books.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Object getItem(int i) &#123;</span><br><span class="line">        return books.get(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public long getItemId(int i) &#123;</span><br><span class="line">        return i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public View getView(int i, View view, ViewGroup viewGroup) &#123;</span><br><span class="line">        //加载布局为一个视图</span><br><span class="line">       view=inflater.inflate(R.layout.item_book,null);</span><br><span class="line">       Book book = (Book)getItem(i) ;</span><br><span class="line">        TextView et_id2 = view.findViewById(R.id.et_id2);</span><br><span class="line">        TextView et_name2 = view.findViewById(R.id.et_name2);</span><br><span class="line">        TextView et_author2 = view.findViewById(R.id.et_author2);</span><br><span class="line">        TextView et_pages2 = view.findViewById(R.id.et_pages2);</span><br><span class="line">        TextView et_price2 = view.findViewById(R.id.et_price2);</span><br><span class="line">       et_id2.setText(book.getId()+&quot;&quot;);</span><br><span class="line">       et_author2.setText(book.getAuthor());</span><br><span class="line">       et_name2.setText(book.getName());</span><br><span class="line">       et_pages2.setText(book.getPages()+&quot;&quot;);</span><br><span class="line">       et_price2.setText(book.getPrice()+&quot;&quot;);</span><br><span class="line">        return view;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/集合框架/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1901,182 +2101,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/数组和内存控制/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/数组和内存控制/" itemprop="url">
-                  java基础知识(二)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="数组和内存控制"><a href="#数组和内存控制" class="headerlink" title="数组和内存控制"></a>数组和内存控制</h2><h3 id="Java的数组是静态的"><a href="#Java的数组是静态的" class="headerlink" title="Java的数组是静态的"></a>Java的数组是静态的</h3><ul>
-<li>初始化方式：<pre><code>-1：静态初始化
-    a：String[] S = new String[]{}
-    b：String[] S = {       }
-- 2：动态初始化
-    String[] S = new String[5];&apos;
-</code></pre><h3 id="动态初始化由系统分配初始值"><a href="#动态初始化由系统分配初始值" class="headerlink" title="动态初始化由系统分配初始值"></a>动态初始化由系统分配初始值</h3><pre><code>类型                                             初始化值
-整型（int short byte long)                          0
-浮点（float double)                                 0.0
-字符(char)                                        &apos;\u0000&apos;
-布尔（boolean)                                      false
-引用类型（类  接口  数组）                              null
-</code></pre></li>
-<li>Java 的数组变量是引用类型的变量，它并不是数组对象本身，只要让数组变量指向有效的数组对象，程序中即可使用该数组变量。</li>
-<li>对数组的初始化并不是对数组变量实行初始化，而是要对数组对象初始化—–也就是为该数组对象分配一块连续的内存空间。</li>
-<li>所有局部变量都是放在栈内存里保存的，不管是基本类型的变量，还是引用类型的变量，都是存储各自的方法栈里，但引用类型变量所引用的对象【包括数组、普通Java对象】则都是存储在堆内存里面。</li>
-<li>对于Java语言来说，堆内存中的对象【不管是数组对象还是普通的Java对象】通常不允许直接访问，为了访问堆内存中的对象，通常智能通过引用变量。</li>
-<li>引用变量本质上就是一个指针，只要程序通过引用变量访问属性，或者通过引用变量来调用方法，该引用变量将会被它所引用的对象代替。<h3 id="Runtime异常-NullPointerException（空指针异常）"><a href="#Runtime异常-NullPointerException（空指针异常）" class="headerlink" title="Runtime异常 NullPointerException（空指针异常）"></a>Runtime异常 NullPointerException（空指针异常）</h3></li>
-<li>当通过引用变量来访问实例属性或者调用静态方法时，如果该引用变量还未引用一个有效的对象，程序就会引发空指针异常$ 引用数组类型的数组元素依然是引用类型，因此数组元素里存储的还是引用，它指向另一块内存，这块内存存储了该引用变量所引用的对象。<ul>
-<li>Java语言避免直接访问堆内存里面的数据可以保证程序的健壮性，如果程序直接访问并修改堆内存中的数据，可能破坏内存中数据的完整性，导致程序Crash<h3 id="数组元素就是变量"><a href="#数组元素就是变量" class="headerlink" title="数组元素就是变量"></a>数组元素就是变量</h3><h3 id="没有多维数组"><a href="#没有多维数组" class="headerlink" title="没有多维数组"></a>没有多维数组</h3></li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2128,7 +2152,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">86</span>
+                    <span class="site-state-item-count">87</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2157,7 +2181,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">8</span>
+                      
+                    
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2290,7 +2316,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">60</span>
+                      
+                    
+                    <span class="site-state-item-count">61</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
