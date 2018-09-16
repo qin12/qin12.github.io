@@ -319,360 +319,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Toast为什么不可以在子线程里面运行/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/Toast为什么不可以在子线程里面运行/" itemprop="url">
-                  我的第一个Android设计——登录和注册
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Toast为什么不可以在子线程里面运行"><a href="#Toast为什么不可以在子线程里面运行" class="headerlink" title="Toast为什么不可以在子线程里面运行"></a>Toast为什么不可以在子线程里面运行</h3><p>Handler不能再子线程里运行的 因为子线程没有创建Looper.prepare(); 所以就报错了。主线程不需要调用，是因为主线程已经默认帮你调用了。</p>
-<p>可以看到一个Toast的创建需要依赖Handler。那么 我不要 我不要 我一定要在子线程使用Toast那怎么办。<br>其实很简单，它却什么就给它什么。</p>
-<h4 id="第一种方法"><a href="#第一种方法" class="headerlink" title="第一种方法"></a>第一种方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">new Thread()&#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            super.run();</span><br><span class="line">            Looper.prepare();</span><br><span class="line">            try &#123;</span><br><span class="line">                Toast.makeText(LoginActivity.this,&quot;keshe&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">            &#125;catch (Exception e) &#123;</span><br><span class="line">                Logger.e(&quot;error&quot;,e.toString());</span><br><span class="line">            &#125;</span><br><span class="line">            Looper.loop();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;.start();</span><br></pre></td></tr></table></figure>
-<p>因为除了Activity ui线程默认创建之外，其他线程不会自动创建调用 Looper.prepare()来给线程创建消息循环，然后再通过，Looper.loop()来使消息循环起作用。</p>
-<h4 id="第二种方法"><a href="#第二种方法" class="headerlink" title="第二种方法"></a>第二种方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">runOnUiThread(new Runnable() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            Toast.makeText(MainActivity.this,&quot;keshe23333&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    new Thread()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;.start();</span><br></pre></td></tr></table></figure>
-<p>Toast的代码创建在Runnable中，然后在需要Toast时，把这个Runnable对象传给runOnUiThread(Runnable)。 这样Runnable对像就能在ui程序中被调用。如果当前线程是UI线程,那么行动是立即执行</p>
-<h4 id="第三种方法"><a href="#第三种方法" class="headerlink" title="第三种方法"></a>第三种方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Handler mHandler = new Handler()&#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void handleMessage(Message msg) &#123;</span><br><span class="line">            super.handleMessage(msg);</span><br><span class="line">     //这里写你的Toast代码Toast.makeText(MainActivity.this,&quot;keshe23333&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    new Thread()&#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            super.run();</span><br><span class="line">          mHandler.sendEmptyMessage(0);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;.start();</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/工厂模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/工厂模式/" itemprop="url">
-                  工厂模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><ul>
-<li>工厂模式是 Java 中最常用的设计模式之一。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。</li>
-<li>工厂模式主要是为创建对象提供过渡接口，以便将创建对象的具体过程屏蔽隔离起来，达到提高灵活性的目的。</li>
-</ul>
-<h4 id="工厂模式根据抽象程度的不同分为三种："><a href="#工厂模式根据抽象程度的不同分为三种：" class="headerlink" title="工厂模式根据抽象程度的不同分为三种："></a>工厂模式根据抽象程度的不同分为三种：</h4><ul>
-<li>简单工厂模式（也叫静态工厂模式）</li>
-<li>工厂方法模式（也叫多形性工厂）</li>
-<li>抽象工厂模式（也叫工具箱）</li>
-</ul>
-<h5 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h5><ul>
-<li>实质是由一个工厂类根据传入的参数，动态决定应该创建哪一个产品类（这些产品类继承自一个父类或接口）的实例。简单工厂模式的创建目标，所有创建的对象都是充当这个角色的某个具体类的实例。</li>
-</ul>
-<h5 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h5><ul>
-<li>工厂方法是粒度很小的设计模式，因为模式的表现只是一个抽象的方法。 提前定义用于创建对象的接口，让子类决定实例化具体的某一个类，即在工厂和产品中间增加接口，工厂不再负责产品的创建，由接口针对不同条件返回具体的类实例，由具体类实例去实现。</li>
-</ul>
-<h5 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h5><ul>
-<li>当有多个抽象角色时使用的一种工厂模式。抽象工厂模式可以向客户端提供一个接口，使客户端在不必指定产品的具体的情况下，创建多个产品对象。它有多个抽象产品类，每个抽象产品类可以派生出多个具体产品类，一个抽象工厂类，可以派生出多个具体工厂类，每个具体工厂类可以创建多个具体产品类的实例。</li>
-</ul>
-<p>工厂方法模式应该在实际中用的较多，我们以工厂方法模式举例<br>（例子来源百度，帮助理解）</p>
-<h5 id="抽象的产品类：定义car-交通工具类"><a href="#抽象的产品类：定义car-交通工具类" class="headerlink" title="抽象的产品类：定义car  交通工具类"></a>抽象的产品类：定义car  交通工具类</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface Car &#123;    </span><br><span class="line">    void gotowork();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="定义实际的产品类，总共定义两个，bike-和bus-分别表示不同的交通工具类"><a href="#定义实际的产品类，总共定义两个，bike-和bus-分别表示不同的交通工具类" class="headerlink" title="定义实际的产品类，总共定义两个，bike 和bus 分别表示不同的交通工具类"></a>定义实际的产品类，总共定义两个，bike 和bus 分别表示不同的交通工具类</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class Bike implements Car &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void gotowork() &#123;</span><br><span class="line">        System.out.println(&quot;骑自行车去上班！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class Bus implements Car &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void gotowork() &#123;</span><br><span class="line">        System.out.println(&quot;坐公交车去上班！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="定义抽象的工厂接口"><a href="#定义抽象的工厂接口" class="headerlink" title="定义抽象的工厂接口"></a>定义抽象的工厂接口</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface ICarFactory &#123;</span><br><span class="line">    Car getCar();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>具体的工厂子类，分别为每个具体的产品类创建不同的工厂子类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class BikeFactory implements ICarFactory &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public Car getCar() &#123;</span><br><span class="line">        return new Bike();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class BusFactory implements ICarFactory &#123;    </span><br><span class="line">@Override</span><br><span class="line">    public Car getCar() &#123;        </span><br><span class="line">        return new Bus();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="简单的测试类，来验证不同的工厂能够产生不同的产品对象"><a href="#简单的测试类，来验证不同的工厂能够产生不同的产品对象" class="headerlink" title="简单的测试类，来验证不同的工厂能够产生不同的产品对象"></a>简单的测试类，来验证不同的工厂能够产生不同的产品对象</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class TestFactory &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void test() &#123;</span><br><span class="line">        ICarFactory factory = null;</span><br><span class="line">        // bike</span><br><span class="line">        factory = new BikeFactory();</span><br><span class="line">        Car bike = factory.getCar();</span><br><span class="line">        bike.gotowork();</span><br><span class="line"></span><br><span class="line">        // bus</span><br><span class="line">        factory = new BusFactory();</span><br><span class="line">        Car bus = factory.getCar();</span><br><span class="line">        bus.gotowork();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="工厂模式的优点："><a href="#工厂模式的优点：" class="headerlink" title="工厂模式的优点："></a>工厂模式的优点：</h4><pre><code>1、一个调用者想创建一个对象，只要知道其名称就可以了，降低了耦合度。
-2、扩展性高，如果想增加一个产品，只要扩展一个工厂类就可以。使得代码结构更加清晰。
-3、屏蔽产品的具体实现，调用者只关心产品的接口。
-</code></pre><h4 id="工厂模式的缺点："><a href="#工厂模式的缺点：" class="headerlink" title="工厂模式的缺点："></a>工厂模式的缺点：</h4><pre><code>每次增加一个产品时，都需要增加一个具体类和对象实现工厂（这里可以使用反射机制来避免），使得系统中类的个数成倍增加，在一定程度上增加了系统的复杂度，同时也增加了系统具体类的依赖。所以对于简单对象来说，使用工厂模式反而增加了复杂度。
-</code></pre><h4 id="工厂模式的适用场景："><a href="#工厂模式的适用场景：" class="headerlink" title="工厂模式的适用场景："></a>工厂模式的适用场景：</h4><pre><code>1、  一个对象拥有很多子类。
-2、  创建某个对象时需要进行许多额外的操作。
-3、  系统后期需要经常扩展，它把对象实例化的任务交由实现类完成，扩展性好。
-</code></pre><h4 id="关于Java中的工厂模式的一些常见问题："><a href="#关于Java中的工厂模式的一些常见问题：" class="headerlink" title="关于Java中的工厂模式的一些常见问题："></a>关于Java中的工厂模式的一些常见问题：</h4><pre><code>    利用父类的向下转型（使用父类类型的引用指向子类的对象）是可以达到类似于工厂模式的效果的，那为什么还要用工厂模式呢？
-    把指向子类对象的父类引用赋给子类引用叫做向下转型，如：
-
-Class Student extends Person     
-Person s = new Student();    
-s = (Student)person ;
-</code></pre><p>使用向下转型在客户端实例化子类的时候，严重依赖具体的子类的名字。当我们需要更改子类的构造方法的时候，比如增加一个参数，或者更改了子类的类名，所有的new出来的子类都需要跟着更改。<br>        但如果我们使用工厂模式，我们仅仅需要在工厂中修改一下new的代码，其余项目中用到此实例的都会跟着改，而不需要我们手动去操作。 </p>
-<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><pre><code>无论是简单工厂模式、工厂模式还是抽象工厂模式，它们本质上都是将不变的部分提取出来，将可变的部分留作接口，以达到最大程度上的复用。究竟用哪种设计模式更适合，这要根据具体的业务需求来决定。
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/依赖倒置原则/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -791,6 +437,408 @@ s = (Student)person ;
 <li>低层模块尽量都要有抽象类或接口，或者两者都有。</li>
 <li>变量的声明类型尽量是抽象类或接口。</li>
 <li>使用继承时遵循里氏替换原则。<br>依赖倒置原则的核心就是要我们面向接口编程，理解了面向接口编程，也就理解了依赖倒置。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/原型模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/原型模式/" itemprop="url">
+                  原型模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>通过复制现有的对象实例来创建新的对象实例。</p>
+<h4 id="实现："><a href="#实现：" class="headerlink" title="实现："></a>实现：</h4><h5 id="实现Cloneable接口："><a href="#实现Cloneable接口：" class="headerlink" title="实现Cloneable接口："></a>实现Cloneable接口：</h5><pre><code>Cloneable接口的作用是在运行时通知虚拟机可以安全地在实现了此接口的类上使用clone方法。在java虚拟机中，只有实现了这个接口的类才可以被拷贝，否则在运行时会抛出CloneNotSupportedException异常。
+</code></pre><h5 id="重写Object类中的clone方法："><a href="#重写Object类中的clone方法：" class="headerlink" title="重写Object类中的clone方法："></a>重写Object类中的clone方法：</h5><pre><code>Java中，所有类的父类都是Object类，Object类中有一个clone方法，作用是返回对象的一个拷贝，但是其作用域protected类型的，一般的类无法调用，因此，原型类需要将clone方法的作用域修改为public类型。
+</code></pre><h5 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h5><p>例如，对于拿邮件发邀请函，邮件类大部分内容都是一样的：邀请原由、相邀地点，相聚时间等等，但对于被邀请者的名称和发送的邮件地址是不同的。</p>
+<h5 id="定义Mail类："><a href="#定义Mail类：" class="headerlink" title="定义Mail类："></a>定义Mail类：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">public class Mail implements Cloneable &#123;    </span><br><span class="line">    private String receiver;    </span><br><span class="line">    private String subject;    </span><br><span class="line">    private String content;    </span><br><span class="line">    private String tail;    </span><br><span class="line">    public Mail(EventTemplate et) &#123;        </span><br><span class="line">        this.tail = et.geteventContent();        </span><br><span class="line">        this.subject = et.geteventSubject();</span><br><span class="line">    &#125;    </span><br><span class="line">    @Override</span><br><span class="line">    public Mail clone() &#123;</span><br><span class="line">        Mail mail = null;        </span><br><span class="line">    try &#123;</span><br><span class="line">            mail = (Mail) super.clone();            </span><br><span class="line">        &#125; catch (CloneNotSupportedException e) &#123;            </span><br><span class="line">        // TODO Auto-generated catch block</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;        return mail;</span><br><span class="line">    &#125;</span><br><span class="line">//get、set.....</span><br><span class="line">&#125;</span><br><span class="line">测试方法：</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    int i = 0;</span><br><span class="line">    int MAX_COUNT = 10;</span><br><span class="line">    EventTemplate et = </span><br><span class="line">new EventTemplate(&quot;邀请函（不变）&quot;, &quot;婚嫁生日啥的....（不变部分）&quot;);</span><br><span class="line">    Mail mail = new Mail(et);    </span><br><span class="line">    while (i &lt; MAX_COUNT) &#123;</span><br><span class="line">        Mail cloneMail = mail.clone();</span><br><span class="line">        cloneMail.setContent(&quot;XXX先生（女士）（变化部分）&quot;</span><br><span class="line">     + mail.getTail());</span><br><span class="line">        cloneMail.setReceiver(&quot;每个人的邮箱地址...com（变化部分）&quot;);</span><br><span class="line">        sendMail(cloneMail);</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h5><pre><code>1、使用原型模型创建一个对象比直接new一个对象更有效率，因为它直接操作内存中的二进制流，特别是复制大对象时，性能的差别非常明显。
+2、隐藏了制造新实例的复杂性，使得创建对象就像我们在编辑文档时的复制粘贴一样简单。
+</code></pre><h5 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h5><pre><code>1、由于使用原型模式复制对象时不会调用类的构造方法，所以原型模式无法和单例模式组合使用，因为原型类需要将clone方法的作用域修改为public类型，那么单例模式的条件就无法满足了。
+2、使用原型模式时不能有final对象。
+3、Object类的clone方法只会拷贝对象中的基本数据类型，对于数组，引用对象等只能另行拷贝。这里涉及到深拷贝和浅拷贝的概念。
+</code></pre><h4 id="深拷贝与浅拷贝："><a href="#深拷贝与浅拷贝：" class="headerlink" title="深拷贝与浅拷贝："></a>深拷贝与浅拷贝：</h4><h5 id="浅拷贝："><a href="#浅拷贝：" class="headerlink" title="浅拷贝："></a>浅拷贝：</h5><pre><code>将一个对象复制后，基本数据类型的变量都会重新创建，而引用类型，指向的还是原对象所指向的（这样不安全）。
+</code></pre><h5 id="深拷贝："><a href="#深拷贝：" class="headerlink" title="深拷贝："></a>深拷贝：</h5><pre><code>将一个对象复制后，不论是基本数据类型还有引用类型，都是重新创建的。
+</code></pre><p>那么深拷贝如何具体实现呢？<br>继续上面的例子，增加了一个ArrayList属性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private String receiver;</span><br><span class="line">private String subject;</span><br><span class="line">private String content;</span><br><span class="line">private String tail;</span><br><span class="line">private ArrayList&lt;String&gt; ars;</span><br><span class="line">此时，单mail = (Mail) super.clone();无法将ars指向的地址区域改变，必须另行拷贝：</span><br><span class="line">try &#123;</span><br><span class="line">       mail = (Mail) super.clone();       </span><br><span class="line">       mail.ars = (ArrayList&lt;String&gt;)this.ars.clone();</span><br><span class="line">      &#125; catch (CloneNotSupportedException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="适用场景："><a href="#适用场景：" class="headerlink" title="适用场景："></a>适用场景：</h4><pre><code>1、复制对象的结构和数据。
+2、希望对目标对象的修改不影响既有的原型对象。
+3、创建一个对象的成本比较大。
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/一、会话的概念/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/一、会话的概念/" itemprop="url">
+                  javaweb (十 )
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###一、会话的概念</p>
+<ul>
+<li>会话可简单理解为：用户开一个浏览器，点击多个超链接，访问服务器多个web资源，然后关闭浏览器，整个过程称之为一个会话。</li>
+<li>有状态会话：一个同学来过教室，下次再来教室，我们会知道这个同学曾经来过，这称之为有状态会话。<h3 id="二、会话过程中要解决的一些问题？"><a href="#二、会话过程中要解决的一些问题？" class="headerlink" title="二、会话过程中要解决的一些问题？"></a>二、会话过程中要解决的一些问题？</h3>每个用户在使用浏览器与服务器进行会话的过程中，不可避免各自会产生一些数据，程序要想办法为每个用户保存这些数据。<h3 id="三、保存会话数据的两种技术"><a href="#三、保存会话数据的两种技术" class="headerlink" title="三、保存会话数据的两种技术"></a>三、保存会话数据的两种技术</h3>####3.1、Cookie</li>
+<li>Cookie是客户端技术，程序把每个用户的数据以cookie的形式写给用户各自的浏览器。当用户使用浏览器再去访问服务器中的web资源时，就会带着各自的数据去。这样，web资源处理的就是用户各自的数据了。<h4 id="3-2、Session"><a href="#3-2、Session" class="headerlink" title="3.2、Session"></a>3.2、Session</h4></li>
+<li>Session是服务器端技术，利用这个技术，服务器在运行时可以为每一个用户的浏览器创建一个其独享的session对象，由于session为用户浏览器独享，所以用户在访问服务器的web资源时，可以把各自的数据放在各自的session中，当用户再去访问服务器中的其它web资源时，其它web资源再从用户各自的session中取出数据为用户服务。<br>####四、Java提供的操作Cookie的API<br>Java中的javax.servlet.http.Cookie类用于创建一个Cookie</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cookie(String name, String value)</td>
+<td style="text-align:center">构造方法</td>
+<td style="text-align:center">实例化Cookie对象，传入cooke名称和cookie的值</td>
+</tr>
+<tr>
+<td>public String getName()</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">取得Cookie的名字</td>
+</tr>
+<tr>
+<td>public String getValue()</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">取得Cookie的值</td>
+</tr>
+<tr>
+<td>public void setValue(String newValue)</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">设置Cookie的值</td>
+</tr>
+<tr>
+<td>ppublic void setMaxAge(int expiry)</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">取设置Cookie的最大保存时间，即cookie的有效期</td>
+</tr>
+<tr>
+<td>public int getMaxAge()</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">获取Cookies的有效期</td>
+</tr>
+<tr>
+<td>public void setPath(String uri)</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">设置cookie的有效路径，比如把cookie的有效路径设置为”/xdp”，那么浏览器访问”xdp”目录下的web资源时，都会带上cookie，再比如把cookie的有效路径设置为”/xdp/qgx”，那么浏览器只有在访问”xdp”目录下的”qgx”这个目录里面的web资源时才会带上cookie一起访问，而当访问”xdp”目录下的web资源时，浏览器是不带cookie的</td>
+</tr>
+<tr>
+<td>public String getPath()</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">获取cookie的有效路径</td>
+</tr>
+<tr>
+<td>public void setDomain(String pattern)</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">获 设置cookie的有效域</td>
+</tr>
+<tr>
+<td>public String getDomain()</td>
+<td style="text-align:center">普通方法</td>
+<td style="text-align:center">获取cookie的有效域</td>
+</tr>
+</tbody>
+</table>
+<p>　response接口也中定义了一个addCookie方法，它用于在其响应头中增加一个相应的Set-Cookie头字段。 同样，request接口中也定义了一个getCookies方法，它用于获取客户端提交的Cookie。</p>
+<h3 id="五、Cookie使用范例"><a href="#五、Cookie使用范例" class="headerlink" title="五、Cookie使用范例"></a>五、Cookie使用范例</h3><h4 id="5-1、使用cookie记录用户上一次访问的时间"><a href="#5-1、使用cookie记录用户上一次访问的时间" class="headerlink" title="5.1、使用cookie记录用户上一次访问的时间"></a>5.1、使用cookie记录用户上一次访问的时间</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">package qgx.cookie;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.Cookie;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line">import java.util.Date;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * cookie实例  ：获取用户上一次访问的时间</span><br><span class="line"> */</span><br><span class="line">@WebServlet(name = &quot;CookieDemo1&quot;)</span><br><span class="line">public class CookieDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        //设置服务器端以UTF-8编码进行输出</span><br><span class="line">        response.setCharacterEncoding(&quot;utf-8&quot;);</span><br><span class="line">        //设置浏览器以UTF-8编码进行接收,解决中文乱码问题</span><br><span class="line">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        PrintWriter out = response.getWriter();</span><br><span class="line">        Cookie[] cookies = request.getCookies();</span><br><span class="line">        //如果用户是第一次访问，那么得到的cookies将是null</span><br><span class="line">        if (cookies!=null)&#123;</span><br><span class="line">            out.write(&quot;您上次访问的时间是：&quot;);</span><br><span class="line">            for (int i = 0; i &lt; cookies.length; i++) &#123;</span><br><span class="line">                Cookie cookie = cookies[i];</span><br><span class="line">                if (cookie.getName().equals(&quot;lastAccessTime&quot;)) &#123;</span><br><span class="line">                    Long lastAccessTime =Long.parseLong(cookie.getValue());</span><br><span class="line">                    Date date = new Date(lastAccessTime);</span><br><span class="line">                    out.write(date.toString());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            out.write(&quot;首次来访！&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        //用户访问过之后重新设置用户的访问时间，存储到cookie中，然后发送到客户端浏览器</span><br><span class="line">        Cookie cookie = new Cookie(&quot;lastAccessTime&quot;, System.currentTimeMillis()+&quot;&quot;);//创建一个cookie，cookie的名字是lastAccessTime</span><br><span class="line">        //将cookie对象添加到response对象中，这样服务器在输出response对象中的内容时就会把cookie也输出到客户端浏览器</span><br><span class="line">           response.addCookie(cookie);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/img/cookie.png" alt=""><br>　在上面的例子中，在程序代码中并没有使用setMaxAge方法设置cookie的有效期，所以当关闭浏览器之后，cookie就失效了，要想在关闭了浏览器之后，cookie依然有效，那么在创建cookie时，就要为cookie设置一个有效期。如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//用户访问过之后重新设置用户的访问时间，存储到cookie中，然后发送到客户端浏览器</span><br><span class="line"> Cookie cookie = new Cookie(&quot;lastAccessTime&quot;, System.currentTimeMillis()+&quot;&quot;);//创建一个cookie，cookie的名字是lastAccessTime</span><br><span class="line"> //设置Cookie的有效期为1天</span><br><span class="line">cookie.setMaxAge(24*60*60);</span><br><span class="line"> //将cookie对象添加到response对象中，这样服务器在输出response对象中的内容时就会把cookie也输出到客户端浏览器</span><br><span class="line"> response.addCookie(cookie);</span><br></pre></td></tr></table></figure></p>
+<h3 id="六、Cookie注意细节"><a href="#六、Cookie注意细节" class="headerlink" title="六、Cookie注意细节"></a>六、Cookie注意细节</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">一个Cookie只能标识一种信息，它至少含有一个标识该信息的名称（NAME）和设置值（VALUE）。</span><br><span class="line">一个WEB站点可以给一个WEB浏览器发送多个Cookie，一个WEB浏览器也可以存储多个WEB站点提供的Cookie。</span><br><span class="line">浏览器一般只允许存放300个Cookie，每个站点最多存放20个Cookie，每个Cookie的大小限制为4KB。</span><br><span class="line">如果创建了一个cookie，并将他发送到浏览器，默认情况下它是一个会话级别的cookie（即存储在浏览器的内存中），用户退出浏览器之后即被删除。若希望浏览器将该cookie存储在磁盘上，则需要使用maxAge，并给出一个以秒为单位的时间。将最大时效设为0则是命令浏览器删除该cookie。</span><br></pre></td></tr></table></figure>
+<h4 id="6-1、删除Cookie"><a href="#6-1、删除Cookie" class="headerlink" title="6.1、删除Cookie"></a>6.1、删除Cookie</h4><p>注意：删除cookie时，path必须一致，否则不会删除<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package qgx.cookie;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.Cookie;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;CookieDemo2&quot;)</span><br><span class="line">public class CookieDemo2 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        //创建一个名字为lastAccessTime的cookie</span><br><span class="line">        Cookie cookie = new Cookie(&quot;lastAccessTime&quot;, System.currentTimeMillis() + &quot;&quot;);</span><br><span class="line">        //将cookie的有效期设置为0，命令浏览器删除该cookie</span><br><span class="line">        cookie.setMaxAge(0);</span><br><span class="line">        response.addCookie(cookie);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="6-2、cookie中存取中文"><a href="#6-2、cookie中存取中文" class="headerlink" title="6.2、cookie中存取中文"></a>6.2、cookie中存取中文</h4><ul>
+<li><p>要想在cookie中存储中文，那么必须使用URLEncoder类里面的encode(String s, String enc)方法进行中文转码，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cookie cookie = new Cookie(&quot;userName&quot;, URLEncoder.encode(&quot;刘俭梅&quot;, &quot;UTF-8&quot;));</span><br><span class="line">response.addCookie(cookie);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在获取cookie中的中文数据时，再使用URLDecoder类里面的decode(String s, String enc)进行解码，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">URLDecoder.decode(cookies[i].getValue(), &quot;UTF-8&quot;)</span><br></pre></td></tr></table></figure></li>
 </ul>
 
           
@@ -1019,7 +1067,7 @@ s = (Student)person ;
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/原型模式/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/策略模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -1038,8 +1086,8 @@ s = (Student)person ;
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/原型模式/" itemprop="url">
-                  原型模式
+                <a class="post-title-link" href="/2018/07/20/策略模式/" itemprop="url">
+                  策略模式
                 </a>
               
             
@@ -1119,23 +1167,595 @@ s = (Student)person ;
       
         
           
-            <h3 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>通过复制现有的对象实例来创建新的对象实例。</p>
-<h4 id="实现："><a href="#实现：" class="headerlink" title="实现："></a>实现：</h4><h5 id="实现Cloneable接口："><a href="#实现Cloneable接口：" class="headerlink" title="实现Cloneable接口："></a>实现Cloneable接口：</h5><pre><code>Cloneable接口的作用是在运行时通知虚拟机可以安全地在实现了此接口的类上使用clone方法。在java虚拟机中，只有实现了这个接口的类才可以被拷贝，否则在运行时会抛出CloneNotSupportedException异常。
-</code></pre><h5 id="重写Object类中的clone方法："><a href="#重写Object类中的clone方法：" class="headerlink" title="重写Object类中的clone方法："></a>重写Object类中的clone方法：</h5><pre><code>Java中，所有类的父类都是Object类，Object类中有一个clone方法，作用是返回对象的一个拷贝，但是其作用域protected类型的，一般的类无法调用，因此，原型类需要将clone方法的作用域修改为public类型。
-</code></pre><h5 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h5><p>例如，对于拿邮件发邀请函，邮件类大部分内容都是一样的：邀请原由、相邀地点，相聚时间等等，但对于被邀请者的名称和发送的邮件地址是不同的。</p>
-<h5 id="定义Mail类："><a href="#定义Mail类：" class="headerlink" title="定义Mail类："></a>定义Mail类：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">public class Mail implements Cloneable &#123;    </span><br><span class="line">    private String receiver;    </span><br><span class="line">    private String subject;    </span><br><span class="line">    private String content;    </span><br><span class="line">    private String tail;    </span><br><span class="line">    public Mail(EventTemplate et) &#123;        </span><br><span class="line">        this.tail = et.geteventContent();        </span><br><span class="line">        this.subject = et.geteventSubject();</span><br><span class="line">    &#125;    </span><br><span class="line">    @Override</span><br><span class="line">    public Mail clone() &#123;</span><br><span class="line">        Mail mail = null;        </span><br><span class="line">    try &#123;</span><br><span class="line">            mail = (Mail) super.clone();            </span><br><span class="line">        &#125; catch (CloneNotSupportedException e) &#123;            </span><br><span class="line">        // TODO Auto-generated catch block</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;        return mail;</span><br><span class="line">    &#125;</span><br><span class="line">//get、set.....</span><br><span class="line">&#125;</span><br><span class="line">测试方法：</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    int i = 0;</span><br><span class="line">    int MAX_COUNT = 10;</span><br><span class="line">    EventTemplate et = </span><br><span class="line">new EventTemplate(&quot;邀请函（不变）&quot;, &quot;婚嫁生日啥的....（不变部分）&quot;);</span><br><span class="line">    Mail mail = new Mail(et);    </span><br><span class="line">    while (i &lt; MAX_COUNT) &#123;</span><br><span class="line">        Mail cloneMail = mail.clone();</span><br><span class="line">        cloneMail.setContent(&quot;XXX先生（女士）（变化部分）&quot;</span><br><span class="line">     + mail.getTail());</span><br><span class="line">        cloneMail.setReceiver(&quot;每个人的邮箱地址...com（变化部分）&quot;);</span><br><span class="line">        sendMail(cloneMail);</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h5><pre><code>1、使用原型模型创建一个对象比直接new一个对象更有效率，因为它直接操作内存中的二进制流，特别是复制大对象时，性能的差别非常明显。
-2、隐藏了制造新实例的复杂性，使得创建对象就像我们在编辑文档时的复制粘贴一样简单。
-</code></pre><h5 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h5><pre><code>1、由于使用原型模式复制对象时不会调用类的构造方法，所以原型模式无法和单例模式组合使用，因为原型类需要将clone方法的作用域修改为public类型，那么单例模式的条件就无法满足了。
-2、使用原型模式时不能有final对象。
-3、Object类的clone方法只会拷贝对象中的基本数据类型，对于数组，引用对象等只能另行拷贝。这里涉及到深拷贝和浅拷贝的概念。
-</code></pre><h4 id="深拷贝与浅拷贝："><a href="#深拷贝与浅拷贝：" class="headerlink" title="深拷贝与浅拷贝："></a>深拷贝与浅拷贝：</h4><h5 id="浅拷贝："><a href="#浅拷贝：" class="headerlink" title="浅拷贝："></a>浅拷贝：</h5><pre><code>将一个对象复制后，基本数据类型的变量都会重新创建，而引用类型，指向的还是原对象所指向的（这样不安全）。
-</code></pre><h5 id="深拷贝："><a href="#深拷贝：" class="headerlink" title="深拷贝："></a>深拷贝：</h5><pre><code>将一个对象复制后，不论是基本数据类型还有引用类型，都是重新创建的。
-</code></pre><p>那么深拷贝如何具体实现呢？<br>继续上面的例子，增加了一个ArrayList属性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private String receiver;</span><br><span class="line">private String subject;</span><br><span class="line">private String content;</span><br><span class="line">private String tail;</span><br><span class="line">private ArrayList&lt;String&gt; ars;</span><br><span class="line">此时，单mail = (Mail) super.clone();无法将ars指向的地址区域改变，必须另行拷贝：</span><br><span class="line">try &#123;</span><br><span class="line">       mail = (Mail) super.clone();       </span><br><span class="line">       mail.ars = (ArrayList&lt;String&gt;)this.ars.clone();</span><br><span class="line">      &#125; catch (CloneNotSupportedException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="适用场景："><a href="#适用场景：" class="headerlink" title="适用场景："></a>适用场景：</h4><pre><code>1、复制对象的结构和数据。
-2、希望对目标对象的修改不影响既有的原型对象。
-3、创建一个对象的成本比较大。
-</code></pre>
+            <h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>定义一组算法，将每个算法都封装起来，并且使他们之间可以互换。</p>
+<h4 id="类型："><a href="#类型：" class="headerlink" title="类型："></a>类型：</h4><p>行为类模式</p>
+<h4 id="需求1，父类实现"><a href="#需求1，父类实现" class="headerlink" title="需求1，父类实现"></a>需求1，父类实现</h4><h5 id="问题由来"><a href="#问题由来" class="headerlink" title="问题由来"></a>问题由来</h5><p>现在要设计一只鸭子类，所有的鸭子都可以游泳，不同的鸭子样外貌可能不一样。</p>
+<p>刚拿到这个需求，很简答的想法设计一个Duck类，拥有共有的方法swim，并且包含一个抽象方法display展示形态。</p>
+<h5 id="Duck-java"><a href="#Duck-java" class="headerlink" title="Duck.java"></a>Duck.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">abstract class Duck&#123;</span><br><span class="line">    </span><br><span class="line">    public void swim()&#123;</span><br><span class="line">        System.out.println(&quot;I am swimming&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public abstract void display();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="GreenDuck-java"><a href="#GreenDuck-java" class="headerlink" title="GreenDuck.java"></a>GreenDuck.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class GreenDuck extends Duck&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void display() &#123;</span><br><span class="line">        System.out.println(&quot;my color is green&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="RedDuck-java"><a href="#RedDuck-java" class="headerlink" title="RedDuck.java"></a>RedDuck.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class RedDuck extends Duck&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void display() &#123;</span><br><span class="line">        System.out.println(&quot;my color is red&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="为什么swim-方法是普通方法，display-方法是抽象方法呢？"><a href="#为什么swim-方法是普通方法，display-方法是抽象方法呢？" class="headerlink" title="为什么swim()方法是普通方法，display() 方法是抽象方法呢？"></a>为什么swim()方法是普通方法，display() 方法是抽象方法呢？</h5><p>这里是为了体现，所有的都会游泳，并且都一样。所有鸭子都有外貌，但是是由各自决定，所以必须子类来重写。</p>
+<h4 id="需求2，接口实现"><a href="#需求2，接口实现" class="headerlink" title="需求2，接口实现"></a>需求2，接口实现</h4><p>这时候需求变更，有些鸭子可以飞。</p>
+<p>注意，这里的关键词是可以。如果这个时候我们把 fly() 方法写在子类 Duck 中，那就表示所有的鸭子都会飞。所以这个时候我们想到了接口，定义 Flyable 接口，让会飞的鸭子实现接口，并重写方法。</p>
+<h5 id="Flyable-java"><a href="#Flyable-java" class="headerlink" title="Flyable.java"></a>Flyable.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public interface Flyable &#123;</span><br><span class="line">    </span><br><span class="line">    void fly();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="GreenDuck-java-1"><a href="#GreenDuck-java-1" class="headerlink" title="GreenDuck.java"></a>GreenDuck.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class GreenDuck extends Duck implements Flyable&#123;</span><br><span class="line"></span><br><span class="line">    public void fly() &#123;</span><br><span class="line">        System.out.println(&quot;I am flying with wing&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void display() &#123;</span><br><span class="line">        System.out.println(&quot;my color is green&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>假设GreenDuck会飞，那么它需要实现flyable接口，然后写自己会飞。RedDuck不会飞，所以不实现flyable接口。<br>看似问题解决了，但是如果这个时候我们系统中有几十种鸭子，而且会飞只分用翅膀飞，不能飞，用喷气式火箭飞3种，如果采用接口来实现，几十种鸭子都需要自己去实现方法，无法代码重用，这种设计是不是很不好呢，代码重用率太低。而且，如果后面我们还要添加其他的属性，比如说话Speakable，那我们需要添加一个新接口，并且以前的鸭子都要从新实现一遍，完全违反了开闭原则。<br>而且，如果后面我们还要添加其他的属性，比如说话Speakable，那我们需要添加一个新接口，并且以前的鸭子都要从新实现一遍，完全违反了开闭原则。</p>
+<h4 id="需求3，策略模式实现"><a href="#需求3，策略模式实现" class="headerlink" title="需求3，策略模式实现"></a>需求3，策略模式实现</h4><p>策略模式说，我们需要把最公有的相同的方法放在父类中，将可以变化的方法抽取成接口，并通过组合的方式放到父类中，子类通过插入不同的接口实现，完成类的配置。<br>Duck类中，swim() 方法属于共有并且都相同的方法，display() 属于都有，但是需要自己去实现的方法。fly和speak是有些子类有的方法，并且实现有相同有不同，我们应该抽取成接口放在父类中。来看看代码：<br>修改Duck类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">abstract class Duck&#123;</span><br><span class="line">    </span><br><span class="line">    protected Flyable flyable;</span><br><span class="line">    </span><br><span class="line">    public void swim()&#123;</span><br><span class="line">        System.out.println(&quot;I am swimming&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public abstract void display();</span><br><span class="line">    </span><br><span class="line">    public void performFly()&#123;</span><br><span class="line">        // 通过多态机制，动态决定到底怎么飞</span><br><span class="line">        flyable.fly();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    // 设置飞的具体实现，并随时可以改变</span><br><span class="line">    public void setFlayable(Flyable flyable)&#123;</span><br><span class="line">        //TODO:添加非空判断</span><br><span class="line">        this.flyable = flyable;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>实现3中飞的行为：</p>
+<h5 id="Flyable-java-1"><a href="#Flyable-java-1" class="headerlink" title="Flyable.java"></a>Flyable.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface Flyable &#123;</span><br><span class="line">    void fly();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="FlyNoWay-java-不能飞"><a href="#FlyNoWay-java-不能飞" class="headerlink" title="FlyNoWay.java 不能飞"></a>FlyNoWay.java 不能飞</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class FlyNoWay implements Flyable&#123;</span><br><span class="line"></span><br><span class="line">    public void fly() &#123;</span><br><span class="line">        System.out.println(&quot;can not fly&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="FlyWithWing-java-用翅膀飞"><a href="#FlyWithWing-java-用翅膀飞" class="headerlink" title="FlyWithWing.java 用翅膀飞"></a>FlyWithWing.java 用翅膀飞</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class FlyWithWing implements Flyable&#123;</span><br><span class="line"></span><br><span class="line">    public void fly() &#123;</span><br><span class="line">        System.out.println(&quot;fly with wing&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="FlyWithRocket-用火箭飞"><a href="#FlyWithRocket-用火箭飞" class="headerlink" title="FlyWithRocket 用火箭飞"></a>FlyWithRocket 用火箭飞</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class FlyWithRocket implements Flyable&#123;</span><br><span class="line"></span><br><span class="line">    public void fly() &#123;</span><br><span class="line">        System.out.println(&quot;fly with rocket&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果现在要让 GreenDuck 有飞的属性，应该这样做：</p>
+<h5 id="GreenDuck-java-2"><a href="#GreenDuck-java-2" class="headerlink" title="GreenDuck.java"></a>GreenDuck.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class GreenDuck extends Duck&#123;</span><br><span class="line">    </span><br><span class="line">    public GreenDuck()&#123;</span><br><span class="line">        this.flyable = new FlyNoWay();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void display() &#123;</span><br><span class="line">        System.out.println(&quot;my color is green&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Main-java"><a href="#Main-java" class="headerlink" title="Main.java"></a>Main.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class Main &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">        GreenDuck gDuck = new GreenDuck();</span><br><span class="line">        gDuck.performFly();</span><br><span class="line">        gDuck.setFlayable(new FlyWithWing());</span><br><span class="line">        gDuck.performFly();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>默认GreenDuck是不会飞的，然后可以通过动态的设置飞属性给鸭子，让他具有各种飞的属性。将飞与类解耦，并且也达到了飞实现重用的目的。</p>
+<p>策略模式大概就是这样，如果这个时候我们要添加 Speak 属性，怎么做么？</p>
+<h4 id="添加新功能"><a href="#添加新功能" class="headerlink" title="添加新功能"></a>添加新功能</h4><h5 id="step1-添加-Speakable接口，和两种实现"><a href="#step1-添加-Speakable接口，和两种实现" class="headerlink" title="step1: 添加 Speakable接口，和两种实现"></a>step1: 添加 Speakable接口，和两种实现</h5><h5 id="Speakable-java"><a href="#Speakable-java" class="headerlink" title="Speakable.java"></a>Speakable.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface Speakable &#123;</span><br><span class="line">    void speak();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="SpeakDuckLaguage-java"><a href="#SpeakDuckLaguage-java" class="headerlink" title="SpeakDuckLaguage .java"></a>SpeakDuckLaguage .java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class SpeakDuckLaguage implements Speakable &#123;</span><br><span class="line"></span><br><span class="line">    public void speak() &#123;</span><br><span class="line">        System.out.println(&quot;I can speak duck language&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="SpeakHumanLaguage-java"><a href="#SpeakHumanLaguage-java" class="headerlink" title="SpeakHumanLaguage.java"></a>SpeakHumanLaguage.java</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class SpeakHumanLaguage implements Speakable &#123;</span><br><span class="line">    public void speak() &#123;</span><br><span class="line">        System.out.println(&quot;I can speak human language&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="step2-Duck类中添加Speakable属性，并且提供set方法，然后提供一个执行speak的方法"><a href="#step2-Duck类中添加Speakable属性，并且提供set方法，然后提供一个执行speak的方法" class="headerlink" title="step2: Duck类中添加Speakable属性，并且提供set方法，然后提供一个执行speak的方法"></a>step2: Duck类中添加Speakable属性，并且提供set方法，然后提供一个执行speak的方法</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">abstract class Duck&#123;</span><br><span class="line">    </span><br><span class="line">    protected Flyable flyable;</span><br><span class="line">    protected Speakable speakable;</span><br><span class="line">    </span><br><span class="line">    //...</span><br><span class="line">    </span><br><span class="line">    public void performSpeak()&#123;</span><br><span class="line">        speakable.speak();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public void setSpeakable(Speakable speakable)&#123;</span><br><span class="line">        //TODO: 非空判断</span><br><span class="line">        this.speakable = speakable;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="step3-给红鸭子添加会说话属性"><a href="#step3-给红鸭子添加会说话属性" class="headerlink" title="step3: 给红鸭子添加会说话属性"></a>step3: 给红鸭子添加会说话属性</h5><h5 id="RedDuck-java-默认说鸭子语言"><a href="#RedDuck-java-默认说鸭子语言" class="headerlink" title="RedDuck.java 默认说鸭子语言"></a>RedDuck.java 默认说鸭子语言</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class RedDuck extends Duck&#123;</span><br><span class="line">    </span><br><span class="line">    // 默认说鸭子语言</span><br><span class="line">    public RedDuck()&#123;</span><br><span class="line">        this.speakable = new SpeakDuckLaguage();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void display() &#123;</span><br><span class="line">        System.out.println(&quot;my color is red&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Main-java-客户端调用"><a href="#Main-java-客户端调用" class="headerlink" title="Main.java 客户端调用"></a>Main.java 客户端调用</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class Main &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        GreenDuck gDuck = new GreenDuck();</span><br><span class="line">        gDuck.performFly();</span><br><span class="line">        gDuck.setFlayable(new FlyWithWing());</span><br><span class="line">        gDuck.performFly();</span><br><span class="line">        </span><br><span class="line">        RedDuck rDuck = new RedDuck();</span><br><span class="line">        rDuck.performSpeak();</span><br><span class="line">        rDuck.setSpeakable(new SpeakHumanLaguage());</span><br><span class="line">        rDuck.performSpeak();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="策略模式的优缺点"><a href="#策略模式的优缺点" class="headerlink" title="策略模式的优缺点"></a>策略模式的优缺点</h4><h5 id="策略模式的主要优点有："><a href="#策略模式的主要优点有：" class="headerlink" title="策略模式的主要优点有："></a>策略模式的主要优点有：</h5><ul>
+<li>策略类之间可以自由切换，由于策略类实现自同一个抽象，所以他们之间可以自由切换。</li>
+<li>易于扩展，增加一个新的策略对策略模式来说非常容易，基本上可以在不改变原有代码的基础上进行扩展。</li>
+<li>避免使用多重条件，如果不使用策略模式，对于所有的算法，必须使用条件语句进行连接，通过条件判断来决定使用哪一种算法，在上一篇文章中我们已经提到，使用多重条件判断是非常不容易维护的。</li>
+</ul>
+<h5 id="策略模式的缺点主要有两个："><a href="#策略模式的缺点主要有两个：" class="headerlink" title="策略模式的缺点主要有两个："></a>策略模式的缺点主要有两个：</h5><ul>
+<li>维护各个策略类会给开发带来额外开销，可能大家在这方面都有经验：一般来说，策略类的数量超过5个，就比较令人头疼了。</li>
+<li>必须对客户端（调用者）暴露所有的策略类，因为使用哪种策略是由客户端来决定的，因此，客户端应该知道有什么策略，并且了解各种策略之间的区别，否则，后果很严重。例如，有一个排序算法的策略模式，提供了快速排序、冒泡排序、选择排序这三种算法，客户端在使用这些算法之前，是不是先要明白这三种算法的适用情况？再比如，客户端要使用一个容器，有链表实现的，也有数组实现的，客户端是不是也要明白链表和数组有什么区别？就这一点来说是有悖于迪米特法则的。</li>
+</ul>
+<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><ul>
+<li>做面向对象设计的，对策略模式一定很熟悉，因为它实质上就是面向对象中的继承和多态，在看完策略模式的通用代码后，我想，即使之前从来没有听说过策略模式，在开发过程中也一定使用过它吧？至少在在以下两种情况下，大家可以考虑使用策略模式：</li>
+<li>几个类的主要逻辑相同，只在部分逻辑的算法和行为上稍有区别的情况。</li>
+<li>有几种相似的行为，或者说算法，客户端需要动态地决定使用哪一种，那么可以使用策略模式，将这些算法封装起来供客户端调用。</li>
+<li>策略模式是一种简单常用的模式，我们在进行开发的时候，会经常有意无意地使用它，一般来说，策略模式不会单独使用，跟模版方法模式、工厂模式等混合使用的情况比较多。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/单一职责原则/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/单一职责原则/" itemprop="url">
+                  单一职责原则
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="单一职责原则"><a href="#单一职责原则" class="headerlink" title="单一职责原则"></a>单一职责原则</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。</p>
+<h4 id="问题由来："><a href="#问题由来：" class="headerlink" title="问题由来："></a>问题由来：</h4><p>类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2功能发生故障。</p>
+<h4 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h4><p>遵循单一职责原则。分别建立两个类T1、T2，使T1完成职责P1功能，T2完成职责P2功能。这样，当修改类T1时，不会使职责P2发生故障风险；同理，当修改T2时，也不会使职责P1发生故障风险。<br>举例说明，用一个类描述动物呼吸这个场景：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Animal&#123;  </span><br><span class="line">       public void breathe(String animal)&#123;  </span><br><span class="line">           System.out.println(animal+&quot;呼吸空气&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;  </span><br><span class="line">   public class Client&#123;  </span><br><span class="line">       public static void main(String[] args)&#123;  </span><br><span class="line">           Animal animal = new Animal();  </span><br><span class="line">           animal.breathe(&quot;牛&quot;);  </span><br><span class="line">           animal.breathe(&quot;羊&quot;);  </span><br><span class="line">           animal.breathe(&quot;猪&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">运行结果：</span><br><span class="line">牛呼吸空气</span><br><span class="line">羊呼吸空气</span><br><span class="line">猪呼吸空气</span><br></pre></td></tr></table></figure></p>
+<p>   程序上线后，发现问题了，并不是所有的动物都呼吸空气的，比如鱼就是呼吸水的。修改时如果遵循单一职责原则，需要将Animal类细分为陆生动物类Terrestrial，水生动物Aquatic，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class Terrestrial&#123;  </span><br><span class="line">   public void breathe(String animal)&#123;  </span><br><span class="line">       System.out.println(animal+&quot;呼吸空气&quot;);  </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">class Aquatic&#123;  </span><br><span class="line">   public void breathe(String animal)&#123;  </span><br><span class="line">       System.out.println(animal+&quot;呼吸水&quot;);  </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"> </span><br><span class="line">public class Client&#123;  </span><br><span class="line">   public static void main(String[] args)&#123;  </span><br><span class="line">       Terrestrial terrestrial = new Terrestrial();  </span><br><span class="line">       terrestrial.breathe(&quot;牛&quot;);  </span><br><span class="line">       terrestrial.breathe(&quot;羊&quot;);  </span><br><span class="line">       terrestrial.breathe(&quot;猪&quot;);  </span><br><span class="line">         </span><br><span class="line">       Aquatic aquatic = new Aquatic();  </span><br><span class="line">       aquatic.breathe(&quot;鱼&quot;);  </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">运行结果：</span><br><span class="line">牛呼吸空气</span><br><span class="line">羊呼吸空气</span><br><span class="line">猪呼吸空气</span><br><span class="line">鱼呼吸水</span><br></pre></td></tr></table></figure></p>
+<p>我们会发现如果这样修改花销是很大的，除了将原来的类分解之外，还需要修改客户端。而直接修改类Animal来达成目的虽然违背了单一职责原则，但花销却小的多，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Animal&#123;  </span><br><span class="line">       public void breathe(String animal)&#123;  </span><br><span class="line">           if(&quot;鱼&quot;.equals(animal))&#123;  </span><br><span class="line">               System.out.println(animal+&quot;呼吸水&quot;);  </span><br><span class="line">           &#125;else&#123;  </span><br><span class="line">               System.out.println(animal+&quot;呼吸空气&quot;);  </span><br><span class="line">           &#125;  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;  </span><br><span class="line">     </span><br><span class="line">   public class Client&#123;  </span><br><span class="line">       public static void main(String[] args)&#123;  </span><br><span class="line">           Animal animal = new Animal();  </span><br><span class="line">           animal.breathe(&quot;牛&quot;);  </span><br><span class="line">           animal.breathe(&quot;羊&quot;);  </span><br><span class="line">           animal.breathe(&quot;猪&quot;);  </span><br><span class="line">           animal.breathe(&quot;鱼&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，这种修改方式要简单的多。但是却存在着隐患：有一天需要将鱼分为呼吸淡水的鱼和呼吸海水的鱼，则又需要修改Animal类的breathe方法，而对原有代码的修改会对调用“猪”“牛”“羊”等相关功能带来风险，也许某一天你会发现程序运行的结果变为“牛呼吸水”了。这种修改方式直接在代码级别上违背了单一职责原则，虽然修改起来最简单，但隐患却是最大的。还有一种修改方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Animal&#123;  </span><br><span class="line">       public void breathe(String animal)&#123;  </span><br><span class="line">           System.out.println(animal+&quot;呼吸空气&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">     </span><br><span class="line">       public void breathe2(String animal)&#123;  </span><br><span class="line">           System.out.println(animal+&quot;呼吸水&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;  </span><br><span class="line">     </span><br><span class="line">   public class Client&#123;  </span><br><span class="line">       public static void main(String[] args)&#123;  </span><br><span class="line">           Animal animal = new Animal();  </span><br><span class="line">           animal.breathe(&quot;牛&quot;);  </span><br><span class="line">           animal.breathe(&quot;羊&quot;);  </span><br><span class="line">           animal.breathe(&quot;猪&quot;);  </span><br><span class="line">           animal.breathe2(&quot;鱼&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，这种修改方式没有改动原来的方法，而是在类中新加了一个方法，这样虽然也违背了单一职责原则，但在方法级别上却是符合单一职责原则的，因为它并没有动原来方法的代码。这三种方式各有优缺点，那么在实际编程中，采用哪一中呢？其实这真的比较难说，需要根据实际情况来确定。我的原则是：只有逻辑足够简单，才可以在代码级别上违反单一职责原则；只有类中方法数量足够少，才可以在方法级别上违反单一职责原则；<br>        例如本文所举的这个例子，它太简单了，它只有一个方法，所以，无论是在代码级别上违反单一职责原则，还是在方法级别上违反，都不会造成太大的影响。实际应用中的类都要复杂的多，一旦发生职责扩散而需要修改类时，除非这个类本身非常简单，否则还是遵循单一职责原则的好。</p>
+<h4 id="遵循单一职责原的优点有："><a href="#遵循单一职责原的优点有：" class="headerlink" title="遵循单一职责原的优点有："></a>遵循单一职责原的优点有：</h4><p>1、可以降低类的复杂度，一个类只负责一项职责，其逻辑肯定要比负责多项职责简单的多；<br>2、提高类的可读性，提高系统的可维护性；<br>3、变更引起的风险降低，变更是必然的，如果单一职责原则遵守的好，当修改一个功能时，可以显著降低对其他功能的影响。<br>        需要说明的一点是单一职责原则不只是面向对象编程思想所特有的，只要是模块化的程序设计，都适用单一职责原则。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/文件下载/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/文件下载/" itemprop="url">
+                  javaweb (六 )
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="文件下载"><a href="#文件下载" class="headerlink" title="文件下载"></a>文件下载</h3><p>文件下载功能是web开发中经常使用到的功能，使用HttpServletResponse对象就可以实现文件的下载<br>文件下载功能的实现思路：</p>
+<ul>
+<li>1.获取要下载的文件的绝对路径</li>
+<li>2.获取要下载的文件名</li>
+<li>3.设置content-disposition响应头控制浏览器以下载的形式打开文件</li>
+<li>4.获取要下载的文件输入流</li>
+<li>5.创建数据缓冲区</li>
+<li>6.通过response对象获取OutputStream流</li>
+<li>7.将FileInputStream流写入到buffer缓冲区</li>
+<li><p>8.使用OutputStream将缓冲区的数据输出到客户端浏览器<br>范例：使用Response实现文件下载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.*;</span><br><span class="line">import java.net.URLEncoder;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo2&quot;)</span><br><span class="line">public class ResponseDemo2 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        downloadChineseFileByOutputStream(response);//下载中文文件</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void downloadChineseFileByOutputStream(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        String realPath = this.getServletContext().getRealPath(&quot;/download/自由.jpg&quot;);//获取要下载的文件的绝对路径</span><br><span class="line">        String fileName = realPath.substring(realPath.lastIndexOf(&quot;\\&quot;)+1);//获取要下载的文件名</span><br><span class="line">        //设置content-disposition响应头控制浏览器以下载的形式打开文件，中文文件名要使用URLEncoder.encode方法进行编码，否则会出现文件名乱码</span><br><span class="line">        response.setHeader(&quot;content-disposition&quot;, &quot;attachment;filename=&quot;+ URLEncoder.encode(fileName, &quot;UTF-8&quot;));</span><br><span class="line">        InputStream in = new FileInputStream(realPath);//获取文件输入流</span><br><span class="line">        int len = 0;</span><br><span class="line">        byte[] buffer = new byte[1024];</span><br><span class="line">        OutputStream out = response.getOutputStream();</span><br><span class="line">        while ((len = in.read(buffer)) &gt; 0) &#123;</span><br><span class="line">            out.write(buffer,0,len);//将缓冲区的数据输出到客户端浏览器</span><br><span class="line">        &#125;</span><br><span class="line">        in.close();</span><br><span class="line">        out.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载中文文件时，需要注意的地方就是中文文件名要使用URLEncoder.encode方法进行编码(URLEncoder.encode(fileName, “字符编码”))，否则会出现文件名乱码。</p>
+</li>
+<li>文件下载注意事项：编写文件下载功能时推荐使用OutputStream流，避免使用PrintWriter流，因为OutputStream流是字节流，可以处理任意类型的数据，而PrintWriter流是字符流，只能处理字符数据，如果用字符流处理字节数据，会导致数据丢失。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/常见集合的实现细节/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/常见集合的实现细节/" itemprop="url">
+                  java基础知识(三)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="常见集合的实现细节"><a href="#常见集合的实现细节" class="headerlink" title="常见集合的实现细节"></a>常见集合的实现细节</h3><h4 id="java集合框架类图"><a href="#java集合框架类图" class="headerlink" title="java集合框架类图"></a>java集合框架类图</h4><h2 id=""><a href="#" class="headerlink" title=""></a><img src="/img/Java集合框架类图.jpg" alt=""></h2><h4 id="Set-和-Map"><a href="#Set-和-Map" class="headerlink" title="Set 和 Map"></a>Set 和 Map</h4><ul>
+<li>Set 代表一种集合元素无序、集合元素不可重复的集合，Map 则代表一种由多个 key-value 对组合的集合，Map 集合类似于传统的关联数组。</li>
+<li>Map 集合中的 key 不能重复且没有顺序。将这些 key 组合起来就是一个 Set 集合。所以有一个 Set<k> keySet() 方法来返回所有 key 组成的 Set 集合。</k></li>
+<li>Set 也可以转换成 Map。（在 Set 中将 每一对 key 和 value 存放在一起）<h4 id="HashMap-和-HashSet"><a href="#HashMap-和-HashSet" class="headerlink" title="HashMap 和 HashSet"></a>HashMap 和 HashSet</h4></li>
+<li>HashSet：系统采用 Hash 算法决定集合元素的存储位置。（基于 HashMap 实现的）</li>
+<li>HashMap：系统将 value 当成 key 的附属，系统根据 Hash 算法决定 key 的存储位置。</li>
+<li>HashSet 的绝大部分方法都是通过调用 HashMap 的方法实现的，因此 HashSet 和 HashMap 两个集合在实现本质上是相同的。<h4 id="TreeMap-和-TreeSet"><a href="#TreeMap-和-TreeSet" class="headerlink" title="TreeMap 和 TreeSet"></a>TreeMap 和 TreeSet</h4></li>
+<li>TreeSet 底层使用 TreeMap 来包含 Set 集合中的所有元素。</li>
+<li>TreeMap 采用的是一种“红黑树”的排序二叉树来保存 Map 中每个 Entry —— 每个 Entry 都被当成 “红黑树” 的一个节点对待。<h4 id="Map-和-List"><a href="#Map-和-List" class="headerlink" title="Map 和 List"></a>Map 和 List</h4></li>
+<li>1 Map的values()方法<ul>
+<li>不管是 HashMap 还是 TreeMap ，它们的 values() 方法都可以返回其所有 value 组成的 Collection 集合，其实是一个不存储元素的 Collection 集合，当程序遍历 Collection 集合时，实际上就是遍历 Map 对象的 value。</li>
+<li>HashMap 和 TreeMap 的 values() 方法并未把 Map 中的 values 重新组合成一个包含元素的集合对象，这样就可以降低系统内存开销。</li>
+</ul>
+</li>
+<li>2 Map 和 List的关系<ul>
+<li>Map 接口提供 get(K key) 方法允许 Map 对象根据 key 来取得 value；</li>
+<li>List 接口提供了 get(int index) 方法允许 List 对象根据元素索引来取得 value；</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="ArrayList-和-LinkedList"><a href="#ArrayList-和-LinkedList" class="headerlink" title="ArrayList 和 LinkedList"></a>ArrayList 和 LinkedList</h4><p>List的实现类，主要有ArrayList、Vector和LinkedList</p>
+<ul>
+<li>ArrayList 是一个可改变大小的数组.当更多的元素加入到 ArrayList 中时, 其大小将会动态地增长. 内部的元素可以直接通过 get 与 set 方法进行访问, 因为 ArrayList 本质上就是一个数组。</li>
+<li>LinkedList 是一个双链表, 在添加和删除元素时具有比 ArrayList 更好的性能. 但在 get 与 set 方面弱于ArrayList. 当然, 这些对比都是指数据量很大或者操作很频繁的情况下的对比, 如果数据和运算量很小,那么对比将失去意义。</li>
+<li>Vector 和 ArrayList 类似, 但属于强同步类。如果你的程序本身是线程安全的(thread-safe,没有在多个线程之间共享同一个集合/对象),那么使用 ArrayList 是更好的选择。</li>
+</ul>
+<p>Vector 和 ArrayList 在更多元素添加进来时会请求更大的空间。Vector 每次请求其大小的双倍空间，而 ArrayList每次对 size 增长 50%。<br>而 LinkedList 还实现了 Queue 接口, 该接口比 List 提供了更多的方法,包括 offer(), peek(), poll()等.<br>注意: 默认情况下 ArrayList 的初始容量非常小, 所以如果可以预估数据量的话, 分配一个较大的初始值属于最佳实践, 这样可以减少调整大小的开销。</p>
+<h4 id="ArrayList与LinkedList性能对比"><a href="#ArrayList与LinkedList性能对比" class="headerlink" title="ArrayList与LinkedList性能对比"></a>ArrayList与LinkedList性能对比</h4><p>时间复杂度对比如下:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">函数</th>
+<th style="text-align:center">ArrayList</th>
+<th style="text-align:center">LinkedList</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">get()</td>
+<td style="text-align:center">O(1)</td>
+<td style="text-align:center">O(n)</td>
+</tr>
+<tr>
+<td style="text-align:center">add()</td>
+<td style="text-align:center">O(1)</td>
+<td style="text-align:center">O(1) amortized</td>
+</tr>
+<tr>
+<td style="text-align:center">remove()</td>
+<td style="text-align:center">O(n)</td>
+<td style="text-align:center">O(n)</td>
+</tr>
+</tbody>
+</table>
+<p>LinkedList 更适用于:</p>
+<ul>
+<li>没有大规模的随机读取</li>
+<li>大量的增加/删除操作    <h4 id="Iterator-迭代器"><a href="#Iterator-迭代器" class="headerlink" title="Iterator 迭代器"></a>Iterator 迭代器</h4>是一个迭代器接口，专门用于迭代各种 Collection 集合，包括 Set 集合和 List 集合。      </li>
+</ul>
+
           
         
       
@@ -1318,538 +1938,6 @@ s = (Student)person ;
 
 3、 组合模式虽然能够非常好地处理层次结构，也使得客户端程序变得简单，但是它也使得设计变得更加抽象，而且也很难对容器中的构件类型进行限制，这会导致在增加新的构件时会产生一些问题。
 </code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Spring Boot 常用注解/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/Spring Boot 常用注解/" itemprop="url">
-                  Spring Boot(二)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Spring-Boot-常用注解"><a href="#Spring-Boot-常用注解" class="headerlink" title="Spring Boot 常用注解"></a>Spring Boot 常用注解</h3><h4 id="RestController和-RequestMapping"><a href="#RestController和-RequestMapping" class="headerlink" title="@RestController和@RequestMapping"></a>@RestController和@RequestMapping</h4><p>@RestController被称为一个构造型（stereotype）注解。它为阅读代码的开发人员提供建议。对于Spring，该类扮演了一个特殊角色。它继承自@Controller注解。4.0之前的版本，spring MVC的组件都使用@Controller来标识当前类是一个控制器servlet。</p>
-<p>使用这个特性，我们可以开发REST服务的时候不需要使用@Controller而专门的@RestController。</p>
-<p>实例：在本实例中，Example的类是一个web @Controller，所以当处理进来的web请求时，Spring会询问它。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.boot.*;</span><br><span class="line">import org.springframework.boot.autoconfigure.*;</span><br><span class="line">import org.springframework.stereotype.*;</span><br><span class="line">import org.springframework.web.bind.annotation.*;</span><br><span class="line">@RestController</span><br><span class="line">@EnableAutoConfiguration</span><br><span class="line">public class Example &#123;    </span><br><span class="line">    @RequestMapping(&quot;/&quot;)    </span><br><span class="line">    String home() &#123;        </span><br><span class="line">        return &quot;Hello World!&quot;;</span><br><span class="line">    &#125;    </span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">        SpringApplication.run(Example.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>@RequestMapping：</strong>注解提供路由信息。它告诉Spring任何来自”/“路径的HTTP请求都应该被映射到home方法。</p>
-<p><strong>@RestController</strong>注解告诉Spring以字符串的形式渲染结果，并直接返回给调用者。该注解有六个属性： </p>
-<p><strong>params：</strong>指定request中必须包含某些参数值是，才让该方法处理。</p>
-<p><strong>headers：</strong>指定request中必须包含某些指定的header值，才能让该方法处理请求。</p>
-<p><strong>value：</strong>指定请求的实际地址，指定的地址可以是URI Template 模式。</p>
-<p><strong>method：</strong>指定请求的method类型， GET、POST、PUT、DELETE等。</p>
-<p><strong>consumes：</strong>指定处理请求的提交内容类型（Content-Type），如application/json,text/html。</p>
-<p><strong>produces：</strong>指定返回的内容类型，仅当request请求头中的(Accept)类型中包含该指定类型才返回。<br>实例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@RequestMapping(“/test”) </span><br><span class="line">@ResponseBody </span><br><span class="line">public String test()&#123; </span><br><span class="line">    return ”ok”; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>注意：</strong>@RestController和@RequestMapping注解是Spring MVC注解（它们不是Spring Boot的特定部分）</p>
-<p><strong>@EnableAutoConfiguration</strong><br>第二个类级别的注解是@EnableAutoConfiguration。这个注解告诉Spring Boot根据添加的jar依赖猜测你想如何配置Spring。由于spring-boot-starter-web添加了Tomcat和Spring MVC，所以auto-configuration将假定正在开发一个web应用并相应地对Spring进行设置。</p>
-<p><strong>Starter POMs</strong>和<strong>Auto-Configuration</strong>设计auto-configuration的目的是更好的使用”Starter POMs”，但这两个概念没有直接的联系。可以自由地挑选starter POMs以外的jar依赖，并且Spring Boot将仍旧尽最大努力去自动配置你的应用。</p>
-<p>你可以通过将@EnableAutoConfiguration或@SpringBootApplication注解添加到一个@Configuration类上来选择自动配置。</p>
-<p>注意：只需要添加一个@EnableAutoConfiguration注解。建议将它添加到主@Configuration类上，如果发现应用不想要的特定自动配置类，可以使用@EnableAutoConfiguration注解的排除属性来禁用它们。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.boot.autoconfigure.*;  </span><br><span class="line">import org.springframework.boot.autoconfigure.jdbc.*;  </span><br><span class="line">import org.springframework.context.annotation.*;  </span><br><span class="line">@Configuration  </span><br><span class="line">@EnableAutoConfiguration(exclude=&#123;DataSourceAutoConfiguration.class&#125;)  </span><br><span class="line">public class MyConfiguration &#123;  </span><br><span class="line">    // ...  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>@Configuration<br>Spring Boot提倡基于Java的配置。尽管可以使用一个XML源来调用SpringApplication.run()，但官方建议使用@Configuration类作为主要源。一般定义main方法的类也是主要@Configuration的一个很好候选。</p>
-<p>不需要将所有的@Configuration放进一个单独的类。@Import注解可以用来导入其他配置类。另外也可以使用@ComponentScan注解自动收集所有的Spring组件，包括@Configuration类。</p>
-<p>如果需要使用基于XML的配置，官方建议仍旧从一个@Configuration类开始。可以使用附加的@ImportResource注解加载XML配置文件。</p>
-<p>@Configuration注解该类，等价与XML中配置beans；用@Bean标注方法等价于XML中配置bean。<br>@ComponentScan(basePackages = “com.yoodb.blog”,includeFilters = <a href="mailto:{@ComponentScan.Filter" target="_blank" rel="noopener">{@ComponentScan.Filter</a>(Aspect.class)})</p>
-<p>@ComponentScan：表示将该类自动发现扫描组件。如果扫描到有@Component、<br>@Controller、@Service等这些注解的类，并注册为Bean，可以自动收集所有的Spring组件，包括@Configuration类。</p>
-<p>使用@ComponentScan注解搜索beans，并结合@Autowired注解导入。可以自动收集所有的Spring组件，包括@Configuration类。如果没有配置，Spring Boot会扫描启动类所在包下以及子包下的使用了@Service,@Repository等注解的类。</p>
-<p>@SpringBootApplication<br>很多Spring Boot开发者总是使用@Configuration，@EnableAutoConfiguration和@ComponentScan注解他们的main类。由于这些注解被如此频繁地一块使用（特别是你遵循以上最佳实践时），Spring Boot提供一个方便的@SpringBootApplication选择。</p>
-<p>该@SpringBootApplication注解等价于以默认属性使用@Configuration，@EnableAutoConfiguration和@ComponentScan。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.boot.SpringApplication;  </span><br><span class="line">import org.springframework.boot.autoconfigure.SpringBootApplication;  </span><br><span class="line">@SpringBootApplication </span><br><span class="line">// 等同于@Configuration @EnableAutoConfiguration @ComponentScan  </span><br><span class="line"></span><br><span class="line">public class Application &#123;  </span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line">        SpringApplication.run(Application.class, args);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Spring Boot将尝试校验外部的配置，默认使用JSR-303（如果在classpath路径中）。可以轻松的为@ConfigurationProperties类添加JSR-303 javax.validation约束注解：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Component  </span><br><span class="line">@ConfigurationProperties(prefix=&quot;connection&quot;)  </span><br><span class="line">public class ConnectionSettings &#123;  </span><br><span class="line">    @NotNull  </span><br><span class="line">    private InetAddress remoteAddress;  </span><br><span class="line">        // ... getters and setters  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>@Profiles</strong><br>Spring Profiles提供了一种隔离应用程序配置的方式，并让这些配置只能在特定的环境下生效。任何@Component或@Configuration都能被@Profile标记，从而限制加载它的时机。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Configuration  </span><br><span class="line">@Profile(&quot;production&quot;)  </span><br><span class="line">public class ProductionConfiguration &#123;  </span><br><span class="line">    // ...  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>全局异常处理<br><strong>@ControllerAdvice：</strong>包含@Component。可以被扫描到。统一处理异常。<br><strong>@ExceptionHandler（Exception.class）：</strong>用在方法上面表示遇到这个异常就执行以下方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/** </span><br><span class="line"> * 全局异常处理 </span><br><span class="line"> */  @ControllerAdvice  public class GlobalDefaultExceptionHandler &#123;  </span><br><span class="line">    public static final String DEFAULT_ERROR_VIEW = &quot;error&quot;;  </span><br><span class="line">    @ExceptionHandler(&#123;TypeMismatchException.class,NumberFormatException.class&#125;)  </span><br><span class="line">    public ModelAndView formatErrorHandler(HttpServletRequest req, Exception e) throws Exception &#123;  </span><br><span class="line">        ModelAndView mav = new ModelAndView();  </span><br><span class="line">        mav.addObject(&quot;error&quot;,&quot;参数类型错误&quot;);  </span><br><span class="line">        mav.addObject(&quot;exception&quot;, e);  </span><br><span class="line">        mav.addObject(&quot;url&quot;, RequestUtils.getCompleteRequestUrl(req));  </span><br><span class="line">        mav.addObject(&quot;timestamp&quot;, new Date());  </span><br><span class="line">        mav.setViewName(DEFAULT_ERROR_VIEW);  </span><br><span class="line">        return mav;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">通过@value注解来读取application.properties里面的配置，使用实例参考：</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//************** application.properties *************//</span><br><span class="line"></span><br><span class="line">qq_api_key=********1***********</span><br><span class="line">qq_api_secrt=******2***********</span><br><span class="line"></span><br><span class="line">/************* Java **************/</span><br><span class="line">@Value(&quot;$&#123;qq_api_key&#125;&quot;)  </span><br><span class="line">private String API_KEY;  </span><br><span class="line">@Value(&quot;$&#123;qq_api_secrt&#125;&quot;)  </span><br><span class="line">private String API_SECRET;</span><br></pre></td></tr></table></figure>
-<p>注意：使用@Value注解的时其使用的类如果被其他类作为对象引用，必须要使用注入的方式而不能new，一般常用的配置在application.properties文件。</p>
-<p>其他注解<br><strong>@ResponseBody：</strong>表示该方法的返回结果直接写入HTTP response body中一般在异步获取数据时使用，在使用@RequestMapping后，返回值通常解析为跳转路径，加上@Responsebody后返回结果不会被解析为跳转路径，而是直接写入HTTP response body中。如异步获取json数据，加上@Responsebody后，会直接返回json数据。</p>
-<p><strong>@Component：</strong>泛指组件，当组件不好归类时，可以使用这个注解进行标注。一般公共的方法会用上这个注解。</p>
-<p><strong>@RequestParam：</strong>用在方法的参数前面，实例：<br>@RequestParam String a =request.getParameter(“a”);</p>
-<p><strong>@PathVariable:</strong>路径变量注解，其参数与大括号里的名字一样要保持一致，实例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RequestMapping(&quot;yoodb/detail/&#123;id&#125;&quot;)  </span><br><span class="line">public String getByMacAddress(@PathVariable String id)&#123;  </span><br><span class="line">//do something;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>@Inject：</strong>等价于默认的@Autowired，只是没有required属性。</p>
-<p><strong>@Bean:</strong>相当于XML中的,放在方法的上面，而不是类，意思是产生一个bean,并交给spring管理。</p>
-<p><strong>@AutoWired：</strong>自动导入依赖的bean。byType方式。把配置好的Bean拿来用，完成属性、方法的组装，它可以对类成员变量、方法及构造函数进行标注，完成自动装配的工作。当加上（required=false）时，就算找不到bean也不报错。</p>
-<p><strong>@Qualifier：</strong>当有多个同一类型的Bean时，可以用@Qualifier(“name”)来指定。与@Autowired配合使用。@Qualifier限定描述符除了能根据名字进行注入，但能进行更细粒度的控制如何选择候选者，具体使用方式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Autowired </span><br><span class="line">@Qualifier(value = &quot;demoInfoService&quot;) </span><br><span class="line">private DemoInfoService demoInfoService;</span><br><span class="line">@Resource(name=&quot;name&quot;,type=&quot;type&quot;)：没有括号内内容的话，默认byName。与@Autowired类似。</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/集合框架二/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/集合框架二/" itemprop="url">
-                  java 基础知识
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="集合框架二"><a href="#集合框架二" class="headerlink" title="集合框架二"></a>集合框架二</h3><h4 id="7、集合类各容器方法："><a href="#7、集合类各容器方法：" class="headerlink" title="7、集合类各容器方法："></a>7、集合类各容器方法：</h4><p>接口Collection方法摘要(没有构造方法)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">a)添加：</span><br><span class="line">i.  boolean add(E e)</span><br><span class="line"></span><br><span class="line">j.  boolean addAll(Collection c)</span><br><span class="line">b)删除：</span><br><span class="line">i.  void clear():清空容器</span><br><span class="line">j.  boolean remove(Objec object):</span><br><span class="line">k.  boolean removeAll(Collection c):</span><br><span class="line">c)判断：</span><br><span class="line">i.  boolean contains(Object object):判断是否包含此元素</span><br><span class="line">j.  boolean containsAll(Collection c):判断是否包含一堆元素</span><br><span class="line">k.  boolean equals(Object object):比较此collection与指定对象是否相等</span><br><span class="line">m.  boolean isEmpty():判断是否集合为空</span><br><span class="line">d)获取：</span><br><span class="line">h.  Iterator iterator():取出</span><br><span class="line">i.  int hashCode():返回此collection的哈希值</span><br><span class="line">j.  int size():返回此collection中元素的个数</span><br><span class="line">k.  boolean retainAll(Collection c):取交集</span><br><span class="line">m.  Object toArray():返回此collection中所有元素的数组</span><br><span class="line">n.  T[] toArray(T[] a):返回包含此collection中所有元素的数值。</span><br></pre></td></tr></table></figure></p>
-<h4 id="List集合子类及其方法"><a href="#List集合子类及其方法" class="headerlink" title="List集合子类及其方法"></a>List集合子类及其方法</h4><ul>
-<li>(1)List接口是Collection接口的一个子接口。</li>
-<li>(2)List接口中的元素有如下特点(对角标的操作都是特有方法，因为有序)：<br>A:元素有序(存储顺序和取出顺序一致)<br>B:元素可以重复</li>
-<li>(3)List接口中的特有方法<br>A:add(int index,Object obj):在指定位置加入元素<br>B:remove(int index):移除指定位置的元素<br>C:set(int index,Object obj):修改指定位置的元素<br>D:get(int index):获取指定位置的元素<br>E:indexOf(Object obj):获取指定元素的位置<br>F:subList(int start,int end):从一个大的List中截取一个小的List<br>G:listIterator():返回一个List接口特有的迭代器</li>
-</ul>
-<h4 id="1-、ArrayList："><a href="#1-、ArrayList：" class="headerlink" title="(1)、ArrayList："></a>(1)、ArrayList：</h4><p>构造方法摘要：(少用，不是重点)<br>ArrayList()：构造一个初始容量为 10 的空列表。<br>ArrayList(Collection&lt;? extends E&gt; c)： 构造一个包含指定 collection 的元素的列表，</p>
-<p>ArrayList(int initialCapacity)： 构造一个具有指定初始容量的空列表。<br>    方法摘要：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">添加：</span><br><span class="line">boolean add(E e)： 将指定的元素添加到此列表的尾部。</span><br><span class="line">void add(int index, E element)： 将指定的元素插入此列表中的指定位置。</span><br><span class="line">boolean addAll(Collection&lt;? extends E&gt; c):按照指定 collection 的迭代器所返回的元素顺序，</span><br><span class="line">将该 collection 中的所有元素添加到此列表的尾部 </span><br><span class="line">boolean addAll(int index, Collection&lt;? extends E&gt; c)： 从指定的位置开始，将指定 collection</span><br><span class="line">      中的所有元素插入到此列表中。 </span><br><span class="line">删除：</span><br><span class="line">void clear(): 移除此列表中的所有元素。</span><br><span class="line"> remove(int index): 移除此列表中指定位置上的元素。 </span><br><span class="line">boolean remove(Object o): 移除此列表中首次出现的指定元素（如果存在）。</span><br><span class="line">protected  void removeRange(int fromIndex, int toIndex): </span><br><span class="line">移除列表中索引在 fromIndex（包括）和 toIndex（不包括）之间的所有元素。</span><br><span class="line">boolean removeAll(Collection&lt;?&gt; c): 从列表中移除指定 collection 中包含的其所有元素 </span><br><span class="line">|获取：</span><br><span class="line"> get(int index): 返回此列表中指定位置上的元素。</span><br><span class="line">int indexOf(Object o): 返回此列表中首次出现的指定元素的索引，或如果此列表不包含元素，则返回 -1。</span><br><span class="line">int lastIndexOf(Object o) 返回此列表中最后一次出现的指定元素的索引，或如果此列表不包含索引，则返回 -1。   </span><br><span class="line">public List&lt;E&gt; subList(int fromIndex,int toIndex): 返回列表中指定的 fromIndex（包括 ）和 toIndex（不包括）之间的部分视图。</span><br><span class="line">Iterator&lt;E&gt; iterator(): 返回按适当顺序在列表的元素上进行迭代的迭代器。</span><br><span class="line">ListIterator&lt;E&gt; listIterator(int index):返回列表中元素的列表迭代器(按适当顺序),从列表的指定位置开始。</span><br><span class="line">修改：(特有方法！！)</span><br><span class="line"> set(int index, E element): 用指定的元素替代此列表中指定位置上的元素。</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-LinkedList"><a href="#2-LinkedList" class="headerlink" title="(2)LinkedList:"></a>(2)LinkedList:</h4><p>构造方法摘要：<br>LinkedList(): 构造一个空列表。<br>LinkedList(Collection&lt;? extends E&gt; c): 构造一个包含指定 collection 中的元素的列表，<br>      这些元素按其 collection 的迭代器返回的顺序排列。<br>方法摘要:(特有的)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">添加</span><br><span class="line">void addFirst(E e): 将指定元素插入此列表的开头。 </span><br><span class="line">void addLast(E e): 将指定元素添加到此列表的结尾。 </span><br><span class="line">获取元素，但不删除元素</span><br><span class="line"> get(int index): 返回此列表中指定位置处的元素。           </span><br><span class="line"> getFirst(): 返回此列表的第一个元素。          </span><br><span class="line"> getLast(): 返回此列表的最后一个元素。</span><br><span class="line">获取元素且删除元素</span><br><span class="line"> remove()： 获取并移除此列表的头（第一个元素）。          </span><br><span class="line"> remove(int index)： 移除此列表中指定位置处的元素。         </span><br><span class="line">boolean remove(Object o)： 从此列表中移除首次出现的指定元素（如果存在）。         </span><br><span class="line"> removeFirst()： 移除并返回此列表的第一个元素。 </span><br><span class="line"> removeLast(): 移除并返回此列表的最后一个元素。</span><br><span class="line">修改</span><br><span class="line"> set(int index, E element) 将此列表中指定位置的元素替换为指定的元素。 </span><br><span class="line">#### (3)Vector</span><br><span class="line">构造方法摘要：</span><br><span class="line">Vector(): 构造一个空向量，使其内部数据数组的大小为 10，其标准容量增量为零。          </span><br><span class="line">Vector(Collection&lt;? extends E&gt; c):  构造一个包含指定 collection 中的元素的向量，</span><br><span class="line">   这些元素按其 collection 的迭代器返回元素的顺序排列。</span><br></pre></td></tr></table></figure></p>
-<p>方法摘要：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">添加：</span><br><span class="line">boolean add(E e): 将指定元素添加到此向量的末尾。</span><br><span class="line">void add(int index, E element): 在此向量的指定位置插入指定的元素。         </span><br><span class="line">boolean addAll(Collection&lt;? extends E&gt; c):</span><br><span class="line">将指定 Collection 中的所有元素添加到此向量的末尾， </span><br><span class="line">按照指定 collection 的迭代器所返回的顺序添加这些元素。 </span><br><span class="line">boolean addAll(int index, Collection&lt;? extends E&gt; c): 在指定位置将指定 Collection 中的所有元素插入到此向量中。</span><br><span class="line">获取:</span><br><span class="line">Enumeration&lt;E&gt; elements(): 返回此向量的组件的枚举。</span><br><span class="line">  Vector特有的取出方式:</span><br><span class="line">  枚举和迭代器很像，其实枚举和迭代器是一样的，只是因为枚举的名称和方法的名称</span><br><span class="line">  名字都过长，所以枚举被迭代器取代了。</span><br><span class="line">枚举Enumeration的方法摘要：</span><br><span class="line">boolean hasMoreElements(): 测试此枚举是否包含更多的元素。 </span><br><span class="line"> nextElement(): 如果此枚举对象至少还有一个可提供的元素，</span><br><span class="line"> 则返回此枚举的下一个元素。</span><br></pre></td></tr></table></figure></p>
-<h4 id="Set集合子类及其方法"><a href="#Set集合子类及其方法" class="headerlink" title="Set集合子类及其方法"></a>Set集合子类及其方法</h4><p>(1)HashSet:它不保证set的迭代顺序;特别是它不保证该顺序恒久不变.此类允许使用null元素。<br>构造方法：<br>HashSet() 构造一个新的空 set，其底层 HashMap 实例的默认初始容量是 16，加载因子是 0.75。<br>HashSet(Collection&lt;? extends E&gt; c) 构造一个包含指定 collection 中的元素的新 set。<br>方法摘要：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">boolean add(E e) 如果此 set 中尚未包含指定元素，则添加指定元素。   </span><br><span class="line">void clear() 从此 set 中移除所有元素。</span><br><span class="line"> </span><br><span class="line">Object clone() 返回此 HashSet 实例的浅表副本：并没有复制这些元素本身。  </span><br><span class="line">boolean contains(Object o) 如果此 set 包含指定元素，则返回 true。  </span><br><span class="line">boolean isEmpty() 如果此 set 不包含任何元素，则返回 true。 </span><br><span class="line"> </span><br><span class="line">Iterator&lt;E&gt; iterator() 返回对此 set 中元素进行迭代的迭代器。  </span><br><span class="line">boolean remove(Object o) 如果指定元素存在于此 set 中，则将其移除。</span><br><span class="line">  </span><br><span class="line">int size() 返回此 set 中的元素的数量（set 的容量）。  </span><br><span class="line">(2)TreeSet:使用元素的自然顺序对元素进行排序，或者根据创建 set 时提供的 Comparator 进行排序.</span><br><span class="line">构造方法：</span><br><span class="line">TreeSet() 构造一个新的空 set，该set根据其元素的自然顺序进行排序。          </span><br><span class="line">TreeSet(Collection&lt;? extends E&gt; c) </span><br><span class="line">构造一个包含指定 collection 元素的新 TreeSet，它按照其元素的自然顺序进行排序。 </span><br><span class="line">TreeSet(Comparator&lt;? super E&gt; comparator)  构造一个新的空 TreeSet，它根据指定比较器进行排序。</span><br></pre></td></tr></table></figure></p>
-<p>方法摘要：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">添加：</span><br><span class="line">boolean add(E e)  将指定的元素添加到此 set（如果该元素尚未存在于 set 中）。</span><br><span class="line">boolean addAll(Collection&lt;? extends E&gt; c) 将指定 collection 中的所有元素添加到此 set 中。</span><br><span class="line">删除：</span><br><span class="line"> void clear() 移除此 set 中的所有元素。 </span><br><span class="line"> boolean remove(Object o)  将指定的元素从 set 中移除（如果该元素存在于此 set 中）。 </span><br><span class="line">  pollFirst() 获取并移除第一个（最低）元素；如果此 set 为空，则返回 null。 </span><br><span class="line">  pollLast() 获取并移除最后一个（最高）元素；如果此 set 为空，则返回 null。 </span><br><span class="line">获取：</span><br><span class="line"> Iterator&lt;E&gt; iterator()  返回在此 set 中的元素上按升序进行迭代的迭代器。</span><br><span class="line"> first() 返回此 set 中当前第一个（最低）元素。</span><br><span class="line">  last() 返回此 set 中当前最后一个（最高）元素。</span><br><span class="line"> int size()  返回 set 中的元素数（set 的容量）。</span><br><span class="line">判断：</span><br><span class="line">boolean isEmpty()  如果此 set 不包含任何元素，则返回 true。 </span><br><span class="line">boolean contains(Object o) 如果此 set 包含指定的元素，则返回 true。 </span><br><span class="line">Map:将键映射到值的对象。Map集合没有迭代器！Map集合特点：该集合存储键值对。而且键是唯一的。</span><br><span class="line">方法摘要：</span><br></pre></td></tr></table></figure></p>
-<p>   添加：<br>     V put(K key, V value) 将指定的值与此映射中的指定键关联（可选操作）。<br>     void putAll(Map&lt;? extends K,? extends V&gt; m) 从指定映射中将所有映射关系复制到此映射中<br>   删除：<br>              void clear()  从此映射中移除所有映射关系（可选操作）。<br>     V remove(Object key) 如果存在一个键的映射关系，则将其从此映射中移除（可选操作）。<br>   判断<br>     boolean containsKey(Object key) 如果此映射包含指定键的映射关系，则返回 true。<br>              boolean containsValue(Object value) 如果此映射将一个或多个键映射到指定值，则返回 true。<br>              boolean isEmpty() 如果此映射未包含键-值映射关系，则返回 true。<br>           获取<br>     int size() 返回此映射中的键-值映射关系数。<br>              Collection<v> values()  返回此映射中包含的值的 Collection 视图。<br><code>`</code></v></p>
-<h5 id="重点：Map集合没有迭代器，以下是Map的两种取出方式："><a href="#重点：Map集合没有迭代器，以下是Map的两种取出方式：" class="headerlink" title="重点：Map集合没有迭代器，以下是Map的两种取出方式："></a>重点：Map集合没有迭代器，以下是Map的两种取出方式：</h5><ul>
-<li>第一种：Set<k> keySet()<br>返回此映射中包含的键的Set视图，将Map集合中所有的键存入Set集合，然后再通过Set集合的<br>迭代器取出所有的键，再根据get方法获取每个键的值；</k></li>
-<li>第二种：Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet()<br>返回此映射中包含的映射关系的Set视图，将Map集合中的映射关系存入到Set集合中，<br>这个映射关系的数据类型是Map.entry,再通过Map.Entry类的方法再要取出关系里面的键和值<br>Map.Entry的方法摘要：<br>boolean equals(Object o)  比较指定对象与此项的相等性。</li>
-</ul>
-<p>K getKey()  返回与此项对应的键。</p>
-<p>V getValue() 返回与此项对应的值。</p>
-<p>int hashCode() 返回此映射项的哈希码值。<br>V setValue(V value) 用指定的值替换与此项对应的值(特有！！！)。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/文件下载/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/文件下载/" itemprop="url">
-                  javaweb (六 )
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="文件下载"><a href="#文件下载" class="headerlink" title="文件下载"></a>文件下载</h3><p>文件下载功能是web开发中经常使用到的功能，使用HttpServletResponse对象就可以实现文件的下载<br>文件下载功能的实现思路：</p>
-<ul>
-<li>1.获取要下载的文件的绝对路径</li>
-<li>2.获取要下载的文件名</li>
-<li>3.设置content-disposition响应头控制浏览器以下载的形式打开文件</li>
-<li>4.获取要下载的文件输入流</li>
-<li>5.创建数据缓冲区</li>
-<li>6.通过response对象获取OutputStream流</li>
-<li>7.将FileInputStream流写入到buffer缓冲区</li>
-<li><p>8.使用OutputStream将缓冲区的数据输出到客户端浏览器<br>范例：使用Response实现文件下载</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.*;</span><br><span class="line">import java.net.URLEncoder;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo2&quot;)</span><br><span class="line">public class ResponseDemo2 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        downloadChineseFileByOutputStream(response);//下载中文文件</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void downloadChineseFileByOutputStream(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        String realPath = this.getServletContext().getRealPath(&quot;/download/自由.jpg&quot;);//获取要下载的文件的绝对路径</span><br><span class="line">        String fileName = realPath.substring(realPath.lastIndexOf(&quot;\\&quot;)+1);//获取要下载的文件名</span><br><span class="line">        //设置content-disposition响应头控制浏览器以下载的形式打开文件，中文文件名要使用URLEncoder.encode方法进行编码，否则会出现文件名乱码</span><br><span class="line">        response.setHeader(&quot;content-disposition&quot;, &quot;attachment;filename=&quot;+ URLEncoder.encode(fileName, &quot;UTF-8&quot;));</span><br><span class="line">        InputStream in = new FileInputStream(realPath);//获取文件输入流</span><br><span class="line">        int len = 0;</span><br><span class="line">        byte[] buffer = new byte[1024];</span><br><span class="line">        OutputStream out = response.getOutputStream();</span><br><span class="line">        while ((len = in.read(buffer)) &gt; 0) &#123;</span><br><span class="line">            out.write(buffer,0,len);//将缓冲区的数据输出到客户端浏览器</span><br><span class="line">        &#125;</span><br><span class="line">        in.close();</span><br><span class="line">        out.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>下载中文文件时，需要注意的地方就是中文文件名要使用URLEncoder.encode方法进行编码(URLEncoder.encode(fileName, “字符编码”))，否则会出现文件名乱码。</p>
-</li>
-<li>文件下载注意事项：编写文件下载功能时推荐使用OutputStream流，避免使用PrintWriter流，因为OutputStream流是字节流，可以处理任意类型的数据，而PrintWriter流是字符流，只能处理字符数据，如果用字符流处理字节数据，会导致数据丢失。</li>
-</ul>
-
           
         
       
@@ -2104,7 +2192,7 @@ s = (Student)person ;
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">87</span>
+                    <span class="site-state-item-count">88</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2270,7 +2358,9 @@ s = (Student)person ;
                     
                       
                     
-                    <span class="site-state-item-count">61</span>
+                      
+                    
+                    <span class="site-state-item-count">62</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

@@ -319,7 +319,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/apache和tomcat区别/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/利用ServletContext对象读取资源文件/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -338,8 +338,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/apache和tomcat区别/" itemprop="url">
-                  apache和tomcat区别
+                <a class="post-title-link" href="/2018/07/20/利用ServletContext对象读取资源文件/" itemprop="url">
+                  javaweb (四 )
                 </a>
               
             
@@ -419,17 +419,21 @@
       
         
           
-            <h3 id="apache和tomcat区别"><a href="#apache和tomcat区别" class="headerlink" title="apache和tomcat区别"></a>apache和tomcat区别</h3><p>经常在用apache和tomcat等这些服务器，可是总感觉还是不清楚他们之间有什么关系，在用tomcat的时候总出现apache，总感到迷惑，到底谁是主谁是次，因此特意在网上查询了一些这方面的资料，总结了一下： </p>
-<h4 id="解析一-："><a href="#解析一-：" class="headerlink" title="解析一 ："></a>解析一 ：</h4><p>apache支持静态页，tomcat支持动态的，比如servlet等，<br>一般使用apache+tomcat的话，apache只是作为一个转发，对jsp的处理是由tomcat来处理的。<br>apche可以支持php cgi perl,但是要使用java的话，你需要tomcat在apache后台支撑，将java请求由apache转发给tomcat处理。<br>apache是web服务器，tomcat是应用（java）服务器，它只是一个servlet(jsp也翻译成servlet)容器，可以认为是apache的扩展，但是可以独立于apache运行。 </p>
-<h5 id="这两个有以下几点可以比较的："><a href="#这两个有以下几点可以比较的：" class="headerlink" title="这两个有以下几点可以比较的："></a>这两个有以下几点可以比较的：</h5><p>1、两者都是apache组织开发的<br>2、两者都有HTTP服务的功能<br>3、两者都是免费的 </p>
-<h5 id="不同点："><a href="#不同点：" class="headerlink" title="不同点："></a>不同点：</h5><p>Apache是专门用了提供HTTP服务的，以及相关配置的（例如虚拟主机、URL转发等等）<br>Tomcat是Apache组织在符合J2EE的JSP、Servlet标准下开发的一个JSP服务器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Runtime r=Runtime.getRuntime(); </span><br><span class="line">Process p=null; </span><br><span class="line">try</span><br><span class="line">&#123; </span><br><span class="line">p=r.exec(&quot;notepad&quot;); </span><br><span class="line">&#125; </span><br><span class="line">catch(Exception ex) </span><br><span class="line">&#123; </span><br><span class="line">System.out.println(&quot;fffff&quot;); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="解析二："><a href="#解析二：" class="headerlink" title="解析二："></a>解析二：</h4><p>APACHE是一个web服务器环境程序 启用他可以作为web服务器使用 不过只支持静态网页 如(asp,php,cgi,jsp)等动态网页的就不行<br>如果要在APACHE环境下运行jsp 的话就需要一个解释器来执行jsp网页 而这个jsp解释器就是TOMCAT, 为什么还要JDK呢？因为jsp需要连接数据库的话 就要jdk来提供连接数据库的驱程，所以要运行jsp的web服务器平台就需要APACHE+TOMCAT+JDK </p>
-<h5 id="整合的好处是："><a href="#整合的好处是：" class="headerlink" title="整合的好处是："></a>整合的好处是：</h5><p>如果客户端请求的是静态页面，则只需要Apache服务器响应请求<br>如果客户端请求动态页面，则是Tomcat服务器响应请求<br>因为jsp是服务器端解释代码的，这样整合就可以减少Tomcat的服务开销<br>C是一个结构化语言，如谭老爷子所说：它的重点在于算法和数据结构。C程序的设计首要考虑的是如何通过一个过程，对输入（或环境条件）进行运算处理得到输出（或实现过程（事务）控制），而对于C++，首要考虑的是如何构造一个对象模型，让这个模型能够契合与之对应的问题域，这样就可以通过获取对象的状态信息得到输出或实现过程（事务）控制。 </p>
-<h4 id="解析三："><a href="#解析三：" class="headerlink" title="解析三："></a>解析三：</h4><ul>
-<li>apache:侧重于http server </li>
-<li>tomcat:侧重于servlet引擎，如果以standalone方式运行，功能上与apache等效 ， 支持JSP，但对静态网页不太理想； </li>
-<li>apache是web服务器，tomcat是应用（java）服务器，它只是一个servlet(jsp也翻译成servlet)容器，可以认为是apache的扩展，但是可以独立于apache运行。<br>换句话说，apache是一辆卡车，上面可以装一些东西如html等。但是不能装水，要装水必须要有容器（桶），而这个桶也可以不放在卡车上。</li>
+            <h3 id="利用ServletContext对象读取资源文件"><a href="#利用ServletContext对象读取资源文件" class="headerlink" title="利用ServletContext对象读取资源文件"></a>利用ServletContext对象读取资源文件</h3><p>项目目录结构如下：<br><img src="/img/Demo8.png" alt=""></p>
+<h4 id="代码范例：使用servletContext读取资源文件"><a href="#代码范例：使用servletContext读取资源文件" class="headerlink" title="代码范例：使用servletContext读取资源文件"></a>代码范例：使用servletContext读取资源文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.FileInputStream;</span><br><span class="line">import java.io.FileNotFoundException;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line">import java.text.MessageFormat;</span><br><span class="line">import java.util.Properties;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo7&quot;)</span><br><span class="line">public class ServletContextDemo7 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">/**</span><br><span class="line"> * response.setContentType(&quot;text/html;charset=UTF-8&quot;);目的是控制浏览器用UTF-8进行解码；</span><br><span class="line"> * 这样就不会出现中文乱码了</span><br><span class="line"> */</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        readSrcDirPropCfgFile(response);//读取src目录下的properties配置文件</span><br><span class="line">        response.getWriter().println(&quot;&lt;hr/&gt;&quot;);</span><br><span class="line">        readWebRootDirPropCfgFile(response);//读取WebRoot目录下的properties配置文件</span><br><span class="line">        response.getWriter().println(&quot;&lt;hr/&gt;&quot;);</span><br><span class="line">        readPropCfgFile(response);//读取src目录下的db.config包中的db3.properties配置文件</span><br><span class="line">        response.getWriter().println(&quot;&lt;hr/&gt;&quot;);</span><br><span class="line">        readPropCfgFile2(response);//读取src目录下的包中的db4.properties配置文件</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void readPropCfgFile2(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        InputStream in = this.getServletContext().getResourceAsStream(&quot;/WEB-INF/classes/db4.properties&quot;);</span><br><span class="line">        Properties prop = new Properties();</span><br><span class="line">        prop.load(in);</span><br><span class="line">        String driver = prop.getProperty(&quot;driver&quot;);</span><br><span class="line">        String url = prop.getProperty(&quot;url&quot;);</span><br><span class="line">        String username = prop.getProperty(&quot;username&quot;);</span><br><span class="line">        String password = prop.getProperty(&quot;password&quot;);</span><br><span class="line">        response.getWriter().println(&quot;读取src目录下的db.config包中的db3.properties配置文件：&quot;);</span><br><span class="line">        response.getWriter().print(</span><br><span class="line">                MessageFormat.format(</span><br><span class="line">                        &quot;driver=&#123;0&#125;,url=&#123;1&#125;,username=&#123;2&#125;,password=&#123;3&#125;&quot;,</span><br><span class="line">                        driver,url, username, password)</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 读取src目录下的db.config包中的db3.properties配置文件</span><br><span class="line">     * @param response</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    private void readPropCfgFile(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        //通过ServletContext获取web资源的绝对路径</span><br><span class="line">        String path = this.getServletContext().getRealPath(&quot;/WEB-INF/classes/db/config/db3.properties&quot;);</span><br><span class="line">        InputStream in = new FileInputStream(path);</span><br><span class="line">        Properties prop = new Properties();</span><br><span class="line">        prop.load(in);</span><br><span class="line">        String driver = prop.getProperty(&quot;driver&quot;);</span><br><span class="line">        String url = prop.getProperty(&quot;url&quot;);</span><br><span class="line">        String username = prop.getProperty(&quot;username&quot;);</span><br><span class="line">        String password = prop.getProperty(&quot;password&quot;);</span><br><span class="line">        response.getWriter().println(&quot;读取src目录下的db.config包中的db3.properties配置文件：&quot;);</span><br><span class="line">        response.getWriter().print(</span><br><span class="line">                MessageFormat.format(</span><br><span class="line">                        &quot;driver=&#123;0&#125;,url=&#123;1&#125;,username=&#123;2&#125;,password=&#123;3&#125;&quot;,</span><br><span class="line">                        driver,url, username, password)</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 通过ServletContext对象读取WebRoot目录下的properties配置文件</span><br><span class="line">     * “/”代表的是项目根目录</span><br><span class="line">     * @param response</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    private void readWebRootDirPropCfgFile(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        InputStream in = this.getServletContext().getResourceAsStream(&quot;/db2.properties&quot;);</span><br><span class="line">        Properties prop = new Properties();</span><br><span class="line">        prop.load(in);</span><br><span class="line">        String driver = prop.getProperty(&quot;driver&quot;);</span><br><span class="line">        String url = prop.getProperty(&quot;url&quot;);</span><br><span class="line">        String username = prop.getProperty(&quot;username&quot;);</span><br><span class="line">        String password = prop.getProperty(&quot;password&quot;);</span><br><span class="line">        response.getWriter().println(&quot;读取WebRoot目录下的db2.properties配置文件：&quot;);</span><br><span class="line">        response.getWriter().print(</span><br><span class="line">                MessageFormat.format(</span><br><span class="line">                        &quot;driver=&#123;0&#125;,url=&#123;1&#125;,username=&#123;2&#125;,password=&#123;3&#125;&quot;,</span><br><span class="line">                        driver,url, username, password)</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 读取src目录下的db.config包中的db3.properties配置文件</span><br><span class="line">     *</span><br><span class="line">     * @param response</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    private void readSrcDirPropCfgFile(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        //通过ServletContext获取web资源的绝对路径</span><br><span class="line">        String path = this.getServletContext().getRealPath(&quot;/WEB-INF/classes/db/config/db3.properties&quot;);</span><br><span class="line">        InputStream in = new FileInputStream(path);</span><br><span class="line">        Properties prop = new Properties();</span><br><span class="line">        prop.load(in);</span><br><span class="line">        String driver = prop.getProperty(&quot;driver&quot;);</span><br><span class="line">        String url = prop.getProperty(&quot;url&quot;);</span><br><span class="line">        String username = prop.getProperty(&quot;username&quot;);</span><br><span class="line">        String password = prop.getProperty(&quot;password&quot;);</span><br><span class="line">        response.getWriter().println(&quot;读取src目录下的db.config包中的db3.properties配置文件：&quot;);</span><br><span class="line">        response.getWriter().println(</span><br><span class="line">                MessageFormat.format(&quot;driver=&#123;0&#125;,url=&#123;1&#125;,username=&#123;2&#125;,password=&#123;3&#125;&quot;, driver, url, username, password)</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过ServletContext对象读取src目录下的db1.properties配置文件<br>InputStream in = this.getServletContext().getResourceAsStream(“/WEB-INF/classes/db1.properties”);<ul>
+<li>通过ServletContext对象读取WebRoot目录下的properties配置文件<br>InputStream in = this.getServletContext().getResourceAsStream(“/db2.properties”);</li>
+<li>读取src目录下的db.config包中的db3.properties配置文件<br>String path = this.getServletContext().getRealPath(“/WEB-INF/classes/db/config/db3.properties”);<br>InputStream in = new FileInputStream(path);</li>
 </ul>
+</li>
+<li>读取src目录下的gacl.servlet.study包中的db4.properties配置文件<br>InputStream in = this.getServletContext().getResourceAsStream(“/WEB-INF/db4.properties”);</li>
+</ul>
+<p>运行结果：<br><img src="/img/Demo7.png" alt=""></p>
+<h4 id="代码范例：使用类装载器读取资源文件"><a href="#代码范例：使用类装载器读取资源文件" class="headerlink" title="代码范例：使用类装载器读取资源文件"></a>代码范例：使用类装载器读取资源文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.*;</span><br><span class="line">import java.text.MessageFormat;</span><br><span class="line">import java.util.Properties;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo8&quot;)</span><br><span class="line">public class ServletContextDemo8 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        response.setContentType(&quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        //response.setHeader(&quot;content-type&quot;,&quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">   test1(response);</span><br><span class="line">        response.getWriter().println(&quot;&lt;hr/&gt;&quot;);</span><br><span class="line">        test2(response);</span><br><span class="line">        response.getWriter().println(&quot;&lt;hr/&gt;&quot;);</span><br><span class="line">        //test3();//并没有成功</span><br><span class="line">        test4();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void test4() throws IOException &#123;</span><br><span class="line">        String path = this.getServletContext().getRealPath(&quot;/WEB-INF/classes/01.avi&quot;);</span><br><span class="line">        String filename = path.substring(path.lastIndexOf(&quot;\\&quot;) + 1);//获取文件名</span><br><span class="line">        InputStream in = this.getServletContext().getResourceAsStream(&quot;/WEB-INF/classes/01.avi&quot;);</span><br><span class="line">        byte buffer[] = new byte[1024];</span><br><span class="line">        int len = 0;</span><br><span class="line">        OutputStream out = new FileOutputStream(&quot;e:\\&quot; + filename);</span><br><span class="line">        while ((len = in.read(buffer))&gt;0)&#123;</span><br><span class="line">            out.write(buffer,0,len);</span><br><span class="line">        &#125;</span><br><span class="line">        out.close();</span><br><span class="line">        in.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     *  通过类装载器读取资源文件的注意事项:不适合装载大文件，否则会导致jvm内存溢出</span><br><span class="line">     */</span><br><span class="line">    private void test3() &#123;</span><br><span class="line">        /**</span><br><span class="line">         * 01.avi是一个60多M的文件，使用类加载器去读取这个大文件时会导致内存溢出：</span><br><span class="line">         * 01.pdf 是一个200多M的文件，</span><br><span class="line">         * java.lang.OutOfMemoryError: Java heap space</span><br><span class="line">         */</span><br><span class="line">        InputStream in = ServletContextDemo8.class.getClassLoader().getResourceAsStream(&quot;01.pdf&quot;);</span><br><span class="line">        System.out.println(in);</span><br><span class="line">        //并没有试验成功</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 读取类路径下面、包下面的资源文件</span><br><span class="line">     * @param response</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    private void test2(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        //获取到装载当前类的类装载器</span><br><span class="line">        ClassLoader loader = ServletContextDemo8.class.getClassLoader();</span><br><span class="line">        //用类装载器读取src目录下的db1.properties配置文件</span><br><span class="line">        InputStream in = loader.getResourceAsStream(&quot;db4.properties&quot;);</span><br><span class="line">        Properties prop = new Properties();</span><br><span class="line">        prop.load(in);</span><br><span class="line">        String driver = prop.getProperty(&quot;driver&quot;);</span><br><span class="line">        String url = prop.getProperty(&quot;url&quot;);</span><br><span class="line">        String username = prop.getProperty(&quot;username&quot;);</span><br><span class="line">        String password = prop.getProperty(&quot;password&quot;);</span><br><span class="line">        response.getWriter().println(&quot;用类装载器读取src目录下的db4.properties配置文件：&quot;);</span><br><span class="line">        response.getWriter().print(</span><br><span class="line">                MessageFormat.format(</span><br><span class="line">                        &quot;driver=&#123;0&#125;,url=&#123;1&#125;,username=&#123;2&#125;,password=&#123;3&#125;&quot;,</span><br><span class="line">                        driver,url, username, password)</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 读取类路径下的资源文件</span><br><span class="line">     * @param response</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    private void test1(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        //获取到装载当前类的类装载器</span><br><span class="line">        ClassLoader loader = ServletContextDemo8.class.getClassLoader();</span><br><span class="line">        //用类装载器读取src目录下的db1.properties配置文件</span><br><span class="line">        InputStream in = loader.getResourceAsStream(&quot;db1.properties&quot;);</span><br><span class="line">        Properties prop = new Properties();</span><br><span class="line">        prop.load(in);</span><br><span class="line">        String driver = prop.getProperty(&quot;driver&quot;);</span><br><span class="line">        String url = prop.getProperty(&quot;url&quot;);</span><br><span class="line">        String username = prop.getProperty(&quot;username&quot;);</span><br><span class="line">        String password = prop.getProperty(&quot;password&quot;);</span><br><span class="line">        response.getWriter().println(&quot;用类装载器读取src目录下的db1.properties配置文件：&quot;);</span><br><span class="line">        response.getWriter().print(</span><br><span class="line">                MessageFormat.format(</span><br><span class="line">                        &quot;driver=&#123;0&#125;,url=&#123;1&#125;,username=&#123;2&#125;,password=&#123;3&#125;&quot;,</span><br><span class="line">                        driver,url, username, password)</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/img/Demo81.png" alt=""></p>
+<h3 id="在客户端缓存Servlet的输出"><a href="#在客户端缓存Servlet的输出" class="headerlink" title="在客户端缓存Servlet的输出"></a>在客户端缓存Servlet的输出</h3><p>对于不经常变化的数据，在servlet中可以为其设置合理的缓存时间值，以避免浏览器频繁向服务器发送请求，提升服务器的性能。例如在ServletContextDemo5的doGet()方法<br>添加如下代码：</p>
+<p> response.setDateHeader(“expires”,System.currentTimeMillis() + 24 <em> 3600 </em> 1000);<br> 找到浏览器缓存如图<br> <img src="/img/Demo82.png" alt=""></p>
 
           
         
@@ -686,7 +690,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/代理模式/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/装饰者模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -705,8 +709,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/代理模式/" itemprop="url">
-                  代理模式
+                <a class="post-title-link" href="/2018/07/20/装饰者模式/" itemprop="url">
+                  装饰者模式
                 </a>
               
             
@@ -786,21 +790,28 @@
       
         
           
-            <h3 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>   为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用</p>
-<h4 id="角色："><a href="#角色：" class="headerlink" title="角色："></a>角色：</h4><h5 id="1、抽象角色："><a href="#1、抽象角色：" class="headerlink" title="1、抽象角色："></a>1、抽象角色：</h5><p>声明真实对象和代理对象的共同接口。</p>
-<h5 id="2、-代理角色："><a href="#2、-代理角色：" class="headerlink" title="2、 代理角色："></a>2、 代理角色：</h5><p>代理对象角色内部含有对真实对象的引用，从而可以操作真实对象，同时代理对象提供与真实对象相同的接口以便在任何时刻都能代替真实对象。同时，代理对象可以在执行真实对象操作时，附加其他的操作，相当于对真实对象进行封装。</p>
-<h5 id="3、真实角色："><a href="#3、真实角色：" class="headerlink" title="3、真实角色："></a>3、真实角色：</h5><p>代理角色所代表的真实对象，是我们最终要引用的对象。</p>
-<h4 id="分类："><a href="#分类：" class="headerlink" title="分类："></a>分类：</h4><h5 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h5><p>静态代理也就是在程序运行前就已经存在代理类的字节码文件，代理类和委托类的关系在运行前就确定了。</p>
-<h5 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h5><h6 id="抽象角色，真实对象和代理对象共同的接口"><a href="#抽象角色，真实对象和代理对象共同的接口" class="headerlink" title="抽象角色，真实对象和代理对象共同的接口"></a>抽象角色，真实对象和代理对象共同的接口</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface UserInfo&#123;    </span><br><span class="line">       public void queryUser ();    </span><br><span class="line">       public void updateUser ();      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="真实角色"><a href="#真实角色" class="headerlink" title="真实角色"></a>真实角色</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class UserImpl implementsUserInfo&#123;    </span><br><span class="line"></span><br><span class="line">       @Override    </span><br><span class="line">       public void queryUser() &#123;    </span><br><span class="line">           //查询方法略...          </span><br><span class="line">       &#125;    </span><br><span class="line"></span><br><span class="line">       @Override    </span><br><span class="line">       public void updateUser() &#123;    </span><br><span class="line">            //修改方法略...          </span><br><span class="line">       &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="代理角色"><a href="#代理角色" class="headerlink" title="代理角色"></a>代理角色</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public class UserProxy implements UserInfo&#123;    </span><br><span class="line">   private UserInfo userImpl;    </span><br><span class="line"></span><br><span class="line">   public UserProxy(UserInfo userImpl) &#123;    </span><br><span class="line">       this.userImpl = userImpl;    </span><br><span class="line">   &#125;    </span><br><span class="line"></span><br><span class="line">   @Override    </span><br><span class="line">   public void queryUser() &#123; </span><br><span class="line">         //这里可以扩展，增加一些查询之前需要执行的方法   </span><br><span class="line">       //查询方法略...   </span><br><span class="line">         //这里可以扩展，增加一些查询之后需要执行的方法         </span><br><span class="line">   &#125;    </span><br><span class="line"></span><br><span class="line">   @Override    </span><br><span class="line">   public void updateUser() &#123;  </span><br><span class="line">         //这里可以扩展，增加一些修改之前需要执行的方法    </span><br><span class="line">       //修改方法略...   </span><br><span class="line">         //这里可以扩展，增加一些修改之后需要执行的方法         </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">使用代理之后如何调用他的方法？</span><br><span class="line">public class Test &#123;    </span><br><span class="line">   public static void main(String[] args) &#123;    </span><br><span class="line">       UserInfo userImpl = new UserImpl();     </span><br><span class="line">       UserInfo userProxy = new UserProxy(userImpl);     </span><br><span class="line">             userProxy.queryUser(); </span><br><span class="line">       userProxy.updateUser();        </span><br><span class="line">   &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h4><p>动态代理类的源码是程序在运行期间由JVM根据反射等机制动态生成的，所以不存在代理类的字节码文件。代理角色和真实角色的联系在程序运行时确定。</p>
-<h5 id="示例：-1"><a href="#示例：-1" class="headerlink" title="示例："></a>示例：</h5><h5 id="抽象角色，真实对象和代理对象共同的接口-1"><a href="#抽象角色，真实对象和代理对象共同的接口-1" class="headerlink" title="抽象角色，真实对象和代理对象共同的接口"></a>抽象角色，真实对象和代理对象共同的接口</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface UserInfo&#123;    </span><br><span class="line">       public void queryUser ();    </span><br><span class="line">       public void updateUser ();      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="真实角色-1"><a href="#真实角色-1" class="headerlink" title="真实角色"></a>真实角色</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class UserImpl implements UserInfo&#123;    </span><br><span class="line"></span><br><span class="line">       @Override    </span><br><span class="line">       public void queryUser() &#123;    </span><br><span class="line">           //查询方法略...          </span><br><span class="line">       &#125;    </span><br><span class="line"></span><br><span class="line">       @Override    </span><br><span class="line">       public void updateUser() &#123;    </span><br><span class="line">            //修改方法略...          </span><br><span class="line">       &#125;    </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="代理角色处理器："><a href="#代理角色处理器：" class="headerlink" title="代理角色处理器："></a>代理角色处理器：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public class UserHandler implements InvocationHandler&#123;</span><br><span class="line"></span><br><span class="line">         privateUserInfo userImpl;</span><br><span class="line">         publicUserHandler(UserInfo userImpl2)&#123;</span><br><span class="line">                   this.userImpl= userImpl2;</span><br><span class="line">         &#125;</span><br><span class="line">         @Override</span><br><span class="line">         publicObject invoke(Object proxy, Method method, Object[] args) </span><br><span class="line">                                        throws Throwable &#123;</span><br><span class="line">                   Objectobject = null;</span><br><span class="line">       //方法开始前做一些事情</span><br><span class="line">       if (method.getName().equals(&quot;queryUser&quot;)) &#123;</span><br><span class="line">           object = method.invoke(userImpl, args);</span><br><span class="line">            //激活调用的方法   </span><br><span class="line">       &#125;</span><br><span class="line">       //方法结束后做一些事情</span><br><span class="line">       return object;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">如何调用（和静态代理略有不同）</span><br><span class="line">public class Test &#123;         </span><br><span class="line">   public static void main(String[] args) &#123;</span><br><span class="line">         UserInfouserImpl =new UserImpl();</span><br><span class="line">         UserHandlerhandler = new UserHandler(userImpl);</span><br><span class="line">         UserInfouserProxy = (UserInfo)Proxy.newProxyInstance</span><br><span class="line">                      (ClassLoader.getSystemClassLoader(),</span><br><span class="line">                        newClass[]&#123;UserInfo.class&#125;, handler);</span><br><span class="line">         userProxy.queryUser();</span><br><span class="line">         &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><p>   业务类只需要关注业务逻辑本身，保证了业务类的重用性。这是代理的共有优点。<br>   能够协调调用者和被调用者，在一定程度上降低了系统的耦合度。</p>
-<h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><p>   由于在客户端和真实主题之间增加了代理对象，因此有些类型的代理模式可能会造成请求的处理速度变慢，例如保护代理。<br>         实现代理模式需要额外的工作，而且有些代理模式的实现过程较为复杂，例如远程代理。</p>
-
+            <h3 id="装饰者模式"><a href="#装饰者模式" class="headerlink" title="装饰者模式"></a>装饰者模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><pre><code>在不必改变原类文件和原类使用的继承的情况下，动态地扩展一个对象的功能。
+它是通过创建一个包装对象，也就是用装饰来包裹真实的对象来实现。
+</code></pre><h4 id="角色："><a href="#角色：" class="headerlink" title="角色："></a>角色：</h4><p>######抽象构件角色（Project）：<br>给出一个接口，以规范准备接收附加责任的对象。</p>
+<h5 id="具体构件角色（Employe）："><a href="#具体构件角色（Employe）：" class="headerlink" title="具体构件角色（Employe）："></a>具体构件角色（Employe）：</h5><p>定义一个将要接收附加责任的类。</p>
+<h5 id="装饰角色（Manager）："><a href="#装饰角色（Manager）：" class="headerlink" title="装饰角色（Manager）："></a>装饰角色（Manager）：</h5><p>持有一个构件对象的实例，并定义一个与抽象构件接口一致的接口。</p>
+<h5 id="具体装饰角色（ManagerA、ManagerB）："><a href="#具体装饰角色（ManagerA、ManagerB）：" class="headerlink" title="具体装饰角色（ManagerA、ManagerB）："></a>具体装饰角色（ManagerA、ManagerB）：</h5><p>负责给构件对象“贴上”附加的责任。</p>
+<h4 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h4><h4 id="公共接口："><a href="#公共接口：" class="headerlink" title="公共接口："></a>公共接口：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public interface Person &#123;  </span><br><span class="line">    void eat();  </span><br><span class="line">&#125;</span><br><span class="line">被装饰对象：</span><br><span class="line">public class OldPerson implements Person &#123;  </span><br><span class="line">    @Override  </span><br><span class="line">    public void eat() &#123;  </span><br><span class="line">        System.out.println(&quot;吃饭&quot;);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125; </span><br><span class="line">装饰对象：</span><br><span class="line">public class NewPerson implements Person &#123;  </span><br><span class="line">    private OldPerson p;  </span><br><span class="line"></span><br><span class="line">    NewPerson(OldPerson p) &#123;  </span><br><span class="line">        this.p = p;  </span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    @Override  </span><br><span class="line">    public void eat() &#123;  </span><br><span class="line">        System.out.println(&quot;生火&quot;);  </span><br><span class="line">        System.out.println(&quot;做饭&quot;);  </span><br><span class="line">        p.eat();  </span><br><span class="line">        System.out.println(&quot;刷碗&quot;);   </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class PersonDemo &#123;  </span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line">        OldPerson old = new OldPerson();  </span><br><span class="line">        //old.eat(); </span><br><span class="line">        NewPerson np = new NewPerson(old);  </span><br><span class="line">        np.eat();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<pre><code>通过例子可以看到，没有改变原来的OldPerson类，同时也没有定义他的子类而实现了Person的扩展，这就是装饰者模式的作用。
+</code></pre><h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><pre><code>1，使用装饰者模式比使用继承更加灵活，因为它选择通过一种动态的方式来扩展一个对象的功能，在运行时可以选择不同的装饰器，从而实现不同的行为。
+2，通过使用不同的具体装饰类以及这些装饰类的排列组合，可以创造出很多不同行为的组合。可以使用多个具体装饰类来装饰同一对象，得到功能更为强大的对象。
+3，具体构件类与具体装饰类可以独立变化，他能是低耦合的。用户可以根据需要来增加新的具体构件类和具体装饰类，在使用时再对其进行各种组合，原有代码无须改变，符合“开闭原则”。
+</code></pre><h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><pre><code>1，会产生很多的小对象，增加了系统的复杂性
+2，这种比继承更加灵活机动的特性，也同时意味着装饰模式比继承更加易于出错，排错也很困难，对于多次装饰的对象，调试时寻找错误可能需要逐级排查，较为烦琐。
+</code></pre><h4 id="装饰者与适配者模式的区别："><a href="#装饰者与适配者模式的区别：" class="headerlink" title="装饰者与适配者模式的区别："></a>装饰者与适配者模式的区别：</h4><p>   1，适配器模式主要用来兼容那些不能在一起工作的类，使他们转化为可以兼容目标接口，虽然也可以实现和装饰者一样的增加新职责，但目的不在此。<br>        装饰者模式主要是给被装饰者增加新职责的。<br>   2，适配器模式是用新接口来调用原接口，原接口对新系统是不可见或者说不可用的。<br>        装饰者模式原封不动的使用原接口，系统对装饰的对象也通过原接口来完成使用。<br>   3，适配器是知道被适配者的详细情况的（就是那个类或那个接口）。<br>        装饰者只知道其接口是什么，至于其具体类型（是基类还是其他派生类）只有在运行期间才知道。</p>
+<h4 id="装饰者和继承的区别："><a href="#装饰者和继承的区别：" class="headerlink" title="装饰者和继承的区别："></a>装饰者和继承的区别：</h4><h5 id="继承："><a href="#继承：" class="headerlink" title="继承："></a>继承：</h5><p>　　优点：代码结构清晰，而且实现简单<br>　　缺点：对于每一个的需要增强的类都要创建具体的子类来帮助其增强，这样会导致继承体系过于庞大。</p>
+<h5 id="装饰者："><a href="#装饰者：" class="headerlink" title="装饰者："></a>装饰者：</h5><p>　　优点：内部可以通过多态技术对多个需要增强的类进行增强<br>       缺点：需要内部通过多态技术维护需要增强的类的实例。进而使得代码稍微复杂。</p>
+<h5 id="使用场景："><a href="#使用场景：" class="headerlink" title="使用场景："></a>使用场景：</h5><pre><code>1，需要扩展一个类的功能，或给一个类添加附加职责。
+2，需要动态的给一个对象添加功能，这些功能可能不明确或者暂时的，可以随时很方便的动态撤销掉。
+3，需要增加由一些基本功能的排列组合而产生的非常大量的功能，从而使继承关系变的不现实。
+      4. 当不能采用生成子类的方法进行扩充时。一种情况是，可能有大量独立的扩展，为支持每一种组合将产生大量的子类，使得子类数目呈爆炸性增长。另一种情况可能是因为类定义被隐藏，或类定义不能用于生成子类。
+</code></pre>
           
         
       
@@ -853,7 +864,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/对象和变量的并发访问/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/深入理解Tomcat系列之一：系统架构/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -872,8 +883,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/对象和变量的并发访问/" itemprop="url">
-                  java 多线程
+                <a class="post-title-link" href="/2018/07/20/深入理解Tomcat系列之一：系统架构/" itemprop="url">
+                  深入理解Tomcat系列之一
                 </a>
               
             
@@ -917,7 +928,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java-并发知识/" itemprop="url" rel="index"><span itemprop="name">java 并发知识</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
 
                 
                 
@@ -953,584 +964,26 @@
       
         
           
-            <h3 id="对象和变量的并发访问"><a href="#对象和变量的并发访问" class="headerlink" title="对象和变量的并发访问"></a>对象和变量的并发访问</h3><h4 id="技术点："><a href="#技术点：" class="headerlink" title="技术点："></a>技术点：</h4><ul>
-<li>synchronized 对象监视器为 Object 时的使用</li>
-<li>synchronized 对象监视器为 Class 时的使用</li>
-<li>非线程安全是如何出现的</li>
-<li>关键字 volatile 的主要作用</li>
-<li>关键字 volatile 与 synchronized 的区别及使用情况<h4 id="synchronized-同步方法"><a href="#synchronized-同步方法" class="headerlink" title="synchronized 同步方法"></a>synchronized 同步方法</h4><h5 id="方法内的变量为线程安全"><a href="#方法内的变量为线程安全" class="headerlink" title="方法内的变量为线程安全"></a>方法内的变量为线程安全</h5>“非线程安全”问题存在于“实例变量”中，如果是方法内部的私有变量，则不存在“非线程安全”问题，所得结果也就是“线程安全”了<h5 id="实例变量非线程安全"><a href="#实例变量非线程安全" class="headerlink" title="实例变量非线程安全"></a>实例变量非线程安全</h5></li>
-<li>如果多线程共同访问一个对象中的实例变量，则有可能出现“非线程安全”问题</li>
-<li>在两个线程访问同一个对象中的同步方法时一定时线程安全的。<h5 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h5>发生脏读的情况是在读取实例变量时，此值已经被其他线程更改过了。<br>如下例子就可以说明，如果不加 synchronized 关键字在 setValue 和 getValue 方法上，就会出现数据脏读。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">class VarName</span><br><span class="line">&#123;</span><br><span class="line">private String userName = &quot;A&quot;;</span><br><span class="line">private String password = &quot;AA&quot;;</span><br><span class="line">synchronized public void setValue(String userName, String password) &#123;</span><br><span class="line">try &#123;</span><br><span class="line">this.userName = userName;</span><br><span class="line">Thread.sleep(500);</span><br><span class="line">this.password = password;</span><br><span class="line">System.out.println(&quot;setValue method Thread name is : &quot; + Thread.currentThread().getName() + &quot; userName = &quot; + userName + &quot; password = &quot; + password);</span><br><span class="line">&#125; catch (InterruptedException e) &#123;</span><br><span class="line">e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">//synchronized</span><br><span class="line">public void getValue() &#123;</span><br><span class="line">System.out.println(&quot;getValue method Thread name is : &quot; + Thread.currentThread().getName() + &quot; userName = &quot; + userName + &quot; password = &quot; + password);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Thread1 extends Thread</span><br><span class="line">&#123;</span><br><span class="line">private VarName varName;</span><br><span class="line">public Thread1(VarName varName) &#123;</span><br><span class="line">this.varName = varName;</span><br><span class="line">&#125;</span><br><span class="line">@Override</span><br><span class="line">public void run() &#123;</span><br><span class="line">varName.setValue(&quot;B&quot;, &quot;BB&quot;);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Test</span><br><span class="line">&#123;</span><br><span class="line">public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">VarName v = new VarName();</span><br><span class="line">Thread1 thread1 = new Thread1(v);</span><br><span class="line">thread1.start();</span><br><span class="line">Thread.sleep(200);//打印结果受睡眠时间的影响</span><br><span class="line">v.getValue();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h5 id="synchronized-锁重入关键字"><a href="#synchronized-锁重入关键字" class="headerlink" title="synchronized 锁重入关键字"></a>synchronized 锁重入关键字</h5><p>synchronized 拥有锁重入的功能，也就是在使用 synchronized 时，当一个线程得到一个对象锁后，再次请求此对象锁是可以再次得到该对象的锁的。这也证明了在一个 synchronized 方法/块的内部调用本类的其他 synchronized 方法/块时，是永远可以得到锁的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">class Service</span><br><span class="line">&#123;</span><br><span class="line">synchronized public void service1() &#123;</span><br><span class="line">System.out.println(&quot;service 1&quot;);</span><br><span class="line">service2();</span><br><span class="line">&#125;</span><br><span class="line">synchronized public void service2() &#123;</span><br><span class="line">System.out.println(&quot;service 2&quot;);</span><br><span class="line">service3();</span><br><span class="line">&#125;</span><br><span class="line">synchronized public void service3() &#123;</span><br><span class="line">System.out.println(&quot;service 3&quot;);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Thread2 extends Thread</span><br><span class="line">&#123;</span><br><span class="line">@Override</span><br><span class="line">public void run() &#123;</span><br><span class="line">Service s = new Service();</span><br><span class="line">s.service1();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Test2</span><br><span class="line">&#123;</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">Thread2 t2 = new Thread2();</span><br><span class="line">t2.start();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service 1</span><br><span class="line">service 2</span><br><span class="line">service 3</span><br></pre></td></tr></table></figure></p>
-<h5 id="同步不具有继承性"><a href="#同步不具有继承性" class="headerlink" title="同步不具有继承性"></a>同步不具有继承性</h5><p>同步不可以继承。</p>
-<h4 id="synchronized-同步语句块"><a href="#synchronized-同步语句块" class="headerlink" title="synchronized 同步语句块"></a>synchronized 同步语句块</h4><p>当一个线程访问 object 的一个 synchronized(this) 同步代码块时，其他线程对同一个 object 中所有其他 synchronized(this) 同步代码块的访问将被阻塞，这说明 synchronized 使用的 “对象监视器” 是一个。</p>
-<h5 id="将任意对象作为对象监视器"><a href="#将任意对象作为对象监视器" class="headerlink" title="将任意对象作为对象监视器"></a>将任意对象作为对象监视器</h5><p>多个线程调用同一个对象中的不同名称的 synchronized 同步方法或者 synchronized(this) 同步代码块时，调用的效果就是按顺序执行，也就是同步的，阻塞的。</p>
-<h5 id="静态同步-synchronized-方法与-synchronized-class-代码块"><a href="#静态同步-synchronized-方法与-synchronized-class-代码块" class="headerlink" title="静态同步 synchronized 方法与 synchronized(class) 代码块"></a>静态同步 synchronized 方法与 synchronized(class) 代码块</h5><p>关键字 synchronized 还可以应用在 static 静态方法上，如果这样写就是对当前的 *.java 文件对应的 Class 类进行加锁。而 synchronized 关键字加到非 static 静态方法上就是给对象加锁。</p>
-<h5 id="多线程的死锁"><a href="#多线程的死锁" class="headerlink" title="多线程的死锁"></a>多线程的死锁</h5><h4 id="volatile-关键字"><a href="#volatile-关键字" class="headerlink" title="volatile 关键字"></a>volatile 关键字</h4><h5 id="作用：使变量在多个线程间可见。"><a href="#作用：使变量在多个线程间可见。" class="headerlink" title="作用：使变量在多个线程间可见。"></a>作用：使变量在多个线程间可见。</h5><p>通过使用 volatile 关键字，强制的从公共内存中读取变量的值。使用 volatile 关键字增加了实例变量在多个线程之间的可见性，但 volatile 关键字最致命的缺点就是不支持原子性。</p>
-<h5 id="关键字-synchronized-和-volatile-比较："><a href="#关键字-synchronized-和-volatile-比较：" class="headerlink" title="关键字 synchronized 和 volatile 比较："></a>关键字 synchronized 和 volatile 比较：</h5><ul>
-<li>关键字 volatile 是线程同步的轻量实现，所以 volatile 性能肯定要比 synchronized 要好，并且 volatile 只能修饰于变量，而 synchronized 可以修饰方法，以及代码块。</li>
-<li>多线程访问 volatile 不会发生阻塞，而 synchronized 会出现阻塞。</li>
-<li>volatile 能保证数据的可见性，但不能保证原子性；而 synchronized 可以保证原子性，也可以间接保证可见性，因为它会将私有内存和公有内存中的数据做同步。</li>
-<li>关键字 volatile 解决的是变量在多个线程之间的可见性；而 synchronized 关键字解决的是多个线程之间访问资源的同步性。</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/数组和内存控制/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/数组和内存控制/" itemprop="url">
-                  java基础知识(二)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="数组和内存控制"><a href="#数组和内存控制" class="headerlink" title="数组和内存控制"></a>数组和内存控制</h2><h3 id="Java的数组是静态的"><a href="#Java的数组是静态的" class="headerlink" title="Java的数组是静态的"></a>Java的数组是静态的</h3><ul>
-<li>初始化方式：<pre><code>-1：静态初始化
-    a：String[] S = new String[]{}
-    b：String[] S = {       }
-- 2：动态初始化
-    String[] S = new String[5];&apos;
-</code></pre><h3 id="动态初始化由系统分配初始值"><a href="#动态初始化由系统分配初始值" class="headerlink" title="动态初始化由系统分配初始值"></a>动态初始化由系统分配初始值</h3><pre><code>类型                                             初始化值
-整型（int short byte long)                          0
-浮点（float double)                                 0.0
-字符(char)                                        &apos;\u0000&apos;
-布尔（boolean)                                      false
-引用类型（类  接口  数组）                              null
-</code></pre></li>
-<li>Java 的数组变量是引用类型的变量，它并不是数组对象本身，只要让数组变量指向有效的数组对象，程序中即可使用该数组变量。</li>
-<li>对数组的初始化并不是对数组变量实行初始化，而是要对数组对象初始化—–也就是为该数组对象分配一块连续的内存空间。</li>
-<li>所有局部变量都是放在栈内存里保存的，不管是基本类型的变量，还是引用类型的变量，都是存储各自的方法栈里，但引用类型变量所引用的对象【包括数组、普通Java对象】则都是存储在堆内存里面。</li>
-<li>对于Java语言来说，堆内存中的对象【不管是数组对象还是普通的Java对象】通常不允许直接访问，为了访问堆内存中的对象，通常智能通过引用变量。</li>
-<li>引用变量本质上就是一个指针，只要程序通过引用变量访问属性，或者通过引用变量来调用方法，该引用变量将会被它所引用的对象代替。<h3 id="Runtime异常-NullPointerException（空指针异常）"><a href="#Runtime异常-NullPointerException（空指针异常）" class="headerlink" title="Runtime异常 NullPointerException（空指针异常）"></a>Runtime异常 NullPointerException（空指针异常）</h3></li>
-<li>当通过引用变量来访问实例属性或者调用静态方法时，如果该引用变量还未引用一个有效的对象，程序就会引发空指针异常$ 引用数组类型的数组元素依然是引用类型，因此数组元素里存储的还是引用，它指向另一块内存，这块内存存储了该引用变量所引用的对象。<ul>
-<li>Java语言避免直接访问堆内存里面的数据可以保证程序的健壮性，如果程序直接访问并修改堆内存中的数据，可能破坏内存中数据的完整性，导致程序Crash<h3 id="数组元素就是变量"><a href="#数组元素就是变量" class="headerlink" title="数组元素就是变量"></a>数组元素就是变量</h3><h3 id="没有多维数组"><a href="#没有多维数组" class="headerlink" title="没有多维数组"></a>没有多维数组</h3></li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/关于字符串的陷阱/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/关于字符串的陷阱/" itemprop="url">
-                  java 表达式中的陷阱
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="关于字符串的陷阱"><a href="#关于字符串的陷阱" class="headerlink" title="关于字符串的陷阱"></a>关于字符串的陷阱</h3><h4 id="JVM-对字符串的处理"><a href="#JVM-对字符串的处理" class="headerlink" title="JVM 对字符串的处理"></a>JVM 对字符串的处理</h4><p>String java = new String(“Java”) 这句创建了两个字符串对象，一个是 “Java” 这个直接量对应的字符串对象，另外一个是 new String() 构造器返回的字符串对象。<br><strong>Java 程序中创建对象的方法：</strong></p>
+            <h2 id="深入理解Tomcat系列之一：系统架构"><a href="#深入理解Tomcat系列之一：系统架构" class="headerlink" title="深入理解Tomcat系列之一：系统架构"></a>深入理解Tomcat系列之一：系统架构</h2><h3 id="Tomcat的系统架构"><a href="#Tomcat的系统架构" class="headerlink" title="Tomcat的系统架构"></a>Tomcat的系统架构</h3><p><img src="/img/tomcat_architect.jpg" alt=""><br>首先我们从一个宏观的角度来看一下Tomcat的系统的架构：从这张图中可以看到，Tomcat的核心组件就两个Connector和Container（后面还有详细说明），一个Connector+一个Container构成一个Service，Service就是对外提供服务的组件，有了Service组件Tomcat就可以对外提供服务了，但是光有服务还不行，还得有环境让你提供服务才行，所以最外层的Server就为Service提供了生存的土壤。那么这些个组件到底是干嘛用的呢？Connector是一个连接器，主要负责接收请求并把请求交给Container，Container就是一个容器，主要装的是具体处理请求的组件。Service主要是为了关联Container与Connector，一个单独的Container或者一个单独的Connector都不能完整处理一个请求，只有两个结合在一起才能完成一个请求的处理。Server这是负责管理Service集合，从图中我们看到一个Tomcat可以提供多种服务，那么这些Serice就是由Server来管理的，具体的工作包括：对外提供一个接口访问Service，对内维护Service集合，维护Service集合又包括管理Service的生命周期、寻找一个请求的Service、结束一个Service等。以上就是对Tomcat的核心组件的简要说明，下面我们详细看看每一个组件的执行流程：</p>
+<h3 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h3><p>上面说Server是管理Service接口的，Server是Tomcat的顶级容器，是一个接口，Server接口的标准实现类是StandardServer类，在Server接口中有许多方法，我们重点关注两个方法：addService()和findService(String)。我们先来看看Server接口的全貌：<br><img src="/img/Server2.jpg" alt=""><br>接着看看addService()和findService(String)的实现代码：<br>代码清单1-1:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Add a new Service to the set of defined Services.</span><br><span class="line"> *</span><br><span class="line"> * @param service The Service to be added</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">public void addService(Service service) &#123;</span><br><span class="line"></span><br><span class="line">    service.setServer(this);</span><br><span class="line"></span><br><span class="line">    synchronized (services) &#123;</span><br><span class="line">        Service results[] = new Service[services.length + 1];</span><br><span class="line">        System.arraycopy(services, 0, results, 0, services.length);</span><br><span class="line">        results[services.length] = service;</span><br><span class="line">        services = results;</span><br><span class="line"></span><br><span class="line">        if (getState().isAvailable()) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                service.start();</span><br><span class="line">            &#125; catch (LifecycleException e) &#123;</span><br><span class="line">                // Ignore</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Report this property change to interested listeners</span><br><span class="line">        support.firePropertyChange(&quot;service&quot;, null, service);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，Server使用一个数组来管理Service的，每添加一个Service就把原来的Service拷贝到一个新的数组中，再把新的Service放入Service数组中。所以Server与Service是关联在一起的，那么后面的getState().isAvailable()是干嘛的呢？判断状态是否无效，从而决定是否执行service方法。这里说到了状态，就不得不说Tomcat管理各组件生命周期的Lifecycle接口了：</p>
+<h4 id="Lifecycle接口"><a href="#Lifecycle接口" class="headerlink" title="Lifecycle接口"></a>Lifecycle接口</h4><p>Tomcat中的组件都交给这个接口管理，但是具体组件的生命周期是由包含组件的父容器来管理的，Tomcat中顶级容器管理着Service的生命周期，Service容器又是Connector和Container的父容器，所以这两个组件的生命周期是由Service管理的，Container也有子容器，所以管理着这些子容器的生命周期。这样，只要所有组件都实现了Lifecycle接口，从顶层容器Server开始，就可以控制所有容器的生命周期了。Lifecycle接口中定义了很多状态，在api中详细说明了调用不同方法后的状态转变，同时定义了不同的方法，这些方法在执行后状态会发生相应的改变，在Lifecycle接口中定义了如下方法：<br><img src="/img/Lifecycle.jpg" alt=""><br>在StandServer中实现了startInernal()方法，就是循环启动StandServer管理的Service的过程，Tomcat的Service都实现了Lifecycle接口，所以被管理的Service都将被通知到，从而执行start()方法，startIntenal()方法是这样的：<br>代码清单1-2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Start nested components (&#123;@link Service&#125;s) and implement the requirements</span><br><span class="line"> * of &#123;@link org.apache.catalina.util.LifecycleBase#startInternal()&#125;.</span><br><span class="line"> *</span><br><span class="line"> * @exception LifecycleException if this component detects a fatal error</span><br><span class="line"> *  that prevents this component from being used</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">protected void startInternal() throws LifecycleException &#123;</span><br><span class="line"></span><br><span class="line">    fireLifecycleEvent(CONFIGURE_START_EVENT, null);</span><br><span class="line">    setState(LifecycleState.STARTING);</span><br><span class="line"></span><br><span class="line">    globalNamingResources.start();</span><br><span class="line"></span><br><span class="line">    // Start our defined Services</span><br><span class="line">    synchronized (services) &#123;</span><br><span class="line">        for (int i = 0; i &lt; services.length; i++) &#123;</span><br><span class="line">            services[i].start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>现在所有的Service就会收到通知继而执行start方法。如果一个Service不允许被使用将会抛出一个LifecycleException异常。</p>
+<p>stopIntenal()会通知所有Service执行stop方法，具体处理流程与startIntenal()方法类似。这个执行过程涉及一个非常重要的设计模式，就是观察者模式。</p>
+<p>现在我们已经能够知道了容器通过Lifecycle接口管理容器的生命周期，那么在父容器的状态改变具体是怎么样通知给子容器的呢？回到代码清单1-2，我们注意到有一个fireLifecycleEvent()方法，fireLifecycleEvent()的执行流程如下：</p>
 <ul>
-<li>通过 new 调用构造器创建 Java 对象</li>
-<li>通过 Class 对象的 newInstance() 方法调用构造器创建 Java 对象</li>
-<li>通过 Java 的反序列化机制从 IO 流中恢复 Java 对象</li>
-<li>通过 Java 对象提供的 clone() 方法复制一个新的 Java 对象<br>对于字符串以及 Byte、Short、Int、Long、Character、Float、Double 和 Boolean 这些基本类型的包装类<br>直接量的方式来创建 Java 对象 Integer in = 5；</li>
-<li>通过简单的算法表达式，连接运算来创建 Java 对象 String str = “a” + “b”; （如果这个字符串表达式的值在编译时确定下来，那么 JVM 会在编译时计算该字符串变量的值，并让它指向字符串池中对应的字符串。如果这些算法表达式都是字符串直接量、整数直接量，没有变量和方法参与，那么就可以在编译期就可以确定字符串的值；如果使用了变量、调用了方法，那么只有等到运行时才能确定字符串表达式的值；如果字符串连接运算所有的变量都可执行 “宏替换”（使用 final 修饰的变量），那在编译时期也能确定字符串连接表达式的值）</li>
+<li>调用LifecycleBase的fireLifecycleEvent(LifecycleListener listener)方法，LifecycleBase是一个抽象类，实现了Lifecycle接口</li>
+<li>继续调用LifecycleSupport（是一个辅助完成对已经注册监听器的事件通知类，不可被继承，使用final)的fireLifecycleEvent(String type, Object data)方法</li>
+<li>完成事件通知</li>
 </ul>
-<p>对于 Java 程序的字符直接量，JVM 会使用一个字符串池来保护它们；当第一次使用某个字符串直接量时，JVM 会将它放入字符串池进行缓存。在一般的情况下，字符串池中的字符串对象不会被垃圾回收器回收，当程序再次需要使用该字符串时，无需重新创建一个新的字符串，而是直接让引用变量指向字符串池中已有的字符串。</p>
-<h4 id="不可变的字符串"><a href="#不可变的字符串" class="headerlink" title="不可变的字符串"></a>不可变的字符串</h4><ul>
-<li>String 类是一个不可变类，当一个 String 对象创建完成后，该 String 类里包含的字符序列就被固定下来，以后永远不能修改。</li>
-<li>如果程序需要一个字符序列会发生改变的字符串，那么建议使用 StringBuilder （效率比 StringBuffer 高）<h4 id="字符串比较"><a href="#字符串比较" class="headerlink" title="字符串比较"></a>字符串比较</h4></li>
-<li><p>如果要比较两个字符串是否相同，用 == 进行判断就行，但如果要判断两个字符串所包含的字符序列是否相同，则应该用 String 重写过的 equals() 方法进行比较。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public boolean equals(Object anObject) &#123;</span><br><span class="line">//如果两个字符串相同</span><br><span class="line">if (this == anObject) &#123;</span><br><span class="line">return true;</span><br><span class="line">&#125;</span><br><span class="line">//如果anObject是String类型</span><br><span class="line">if (anObject instanceof String) &#123;</span><br><span class="line">String anotherString = (String)anObject;</span><br><span class="line">//n代表字符串的长度</span><br><span class="line">int n = value.length;</span><br><span class="line">//如果两个字符串长度相等</span><br><span class="line">if (n == anotherString.value.length) &#123;</span><br><span class="line">//获取当前字符串、anotherString底层封装的字符数组</span><br><span class="line">char v1[] = value;</span><br><span class="line">char v2[] = anotherString.value;</span><br><span class="line">int i = 0;</span><br><span class="line">//逐一比较v1 和 v2数组中的每个字符</span><br><span class="line">while (n-- != 0) &#123;</span><br><span class="line">if (v1[i] != v2[i])</span><br><span class="line">return false;</span><br><span class="line">i++;</span><br><span class="line">&#125;</span><br><span class="line">return true;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>还可以使用 String 提供的 compareTo() 方法返回两个字符串的大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public int compareTo(String anotherString) &#123;</span><br><span class="line">int len1 = value.length;</span><br><span class="line">int len2 = anotherString.value.length;</span><br><span class="line">int lim = Math.min(len1, len2);</span><br><span class="line">char v1[] = value;</span><br><span class="line">char v2[] = anotherString.value;</span><br><span class="line"></span><br><span class="line">int k = 0;</span><br><span class="line">while (k &lt; lim) &#123;</span><br><span class="line">char c1 = v1[k];</span><br><span class="line">char c2 = v2[k];</span><br><span class="line">if (c1 != c2) &#123;</span><br><span class="line">return c1 - c2;</span><br><span class="line">&#125;</span><br><span class="line">k++;</span><br><span class="line">&#125;</span><br><span class="line">return len1 - len2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="表达式类型的陷阱"><a href="#表达式类型的陷阱" class="headerlink" title="表达式类型的陷阱"></a>表达式类型的陷阱</h3><h4 id="表达式类型的自动提升"><a href="#表达式类型的自动提升" class="headerlink" title="表达式类型的自动提升"></a>表达式类型的自动提升</h4><ul>
-<li>所有 byte、short、char类型将被提升到 int 类型参与运算</li>
-<li>整个算术表达式的数据类型自动提升到与表达式中最高等级操作数同样的类型，操作数的等级排列如下：char -&gt; int -&gt; long -&gt;float -&gt; double</li>
-<li>byte -&gt; short -&gt; int -&gt; long -&gt;float -&gt; double<h4 id="复合赋值运算符的陷阱"><a href="#复合赋值运算符的陷阱" class="headerlink" title="复合赋值运算符的陷阱"></a>复合赋值运算符的陷阱</h4>Java 语言允许所有的双目运算符和 = 一起结合组成复合赋值运算符，如 +=、-=、*=、/=、%= 、&amp;= 等，复合赋值运算符包含了一个隐式的类型转换。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//下面这两条语句不等价</span><br><span class="line">a = a + 5; //</span><br><span class="line">a += 5; //实际上等价于 a = (a的类型) (a + 5);</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>复合赋值运算符会自动的将它计算的结果值强制转换为其左侧变量的类型。</p>
-<h3 id="输入法导致的陷阱"><a href="#输入法导致的陷阱" class="headerlink" title="输入法导致的陷阱"></a>输入法导致的陷阱</h3><h3 id="注释的字符必须合法"><a href="#注释的字符必须合法" class="headerlink" title="注释的字符必须合法"></a>注释的字符必须合法</h3><h3 id="转义字符的陷阱"><a href="#转义字符的陷阱" class="headerlink" title="转义字符的陷阱"></a>转义字符的陷阱</h3><ul>
-<li>慎用字符的 Unicode 转义形式</li>
-<li>中止行注释的转义字符<h3 id="泛型可能引起的错误"><a href="#泛型可能引起的错误" class="headerlink" title="泛型可能引起的错误"></a>泛型可能引起的错误</h3><h4 id="原始类型变量的赋值"><a href="#原始类型变量的赋值" class="headerlink" title="原始类型变量的赋值"></a>原始类型变量的赋值</h4></li>
-<li>当程序把一个原始类型的变量赋给一个带有泛型信息的变量时，总是可以通过编译（只是会提示警告信息）</li>
-<li>当程序试图访问带泛型声明的集合的集合元素时，编译器总是把集合元素 当成泛型类型处理（它并不关心集合里集合元素的实际类型）</li>
-<li>当程序试图访问带泛型声明的集合的集合元素时，JVM会遍历每个集合元素自动执行强制转型，如果集合元素的实际类型与集合所带的泛型信息不匹配，运行时将引发 ClassCastException<h4 id="原始类型带来的擦除"><a href="#原始类型带来的擦除" class="headerlink" title="原始类型带来的擦除"></a>原始类型带来的擦除</h4>当把一个具有泛型信息的对象赋给另一个没有泛型信息的变量时，所有在尖括号之间的类型信息都会丢弃。<h4 id="创建泛型数组的陷阱"><a href="#创建泛型数组的陷阱" class="headerlink" title="创建泛型数组的陷阱"></a>创建泛型数组的陷阱</h4>Java 中不允许创建泛型数组<h4 id="正则表达式的陷阱"><a href="#正则表达式的陷阱" class="headerlink" title="正则表达式的陷阱"></a>正则表达式的陷阱</h4>有些符号本身就是正则表达式，我们需要对符号做转义运算。<h3 id="多线程的陷阱"><a href="#多线程的陷阱" class="headerlink" title="多线程的陷阱"></a>多线程的陷阱</h3><h4 id="不要调用-run-方法"><a href="#不要调用-run-方法" class="headerlink" title="不要调用 run 方法"></a>不要调用 run 方法</h4>开启线程是用 start() 方法，而不是 run() 方法。<h4 id="静态的同步方法"><a href="#静态的同步方法" class="headerlink" title="静态的同步方法"></a>静态的同步方法</h4>对于同步代码块而言，程序必须显式为它指定同步监视器；对于同步非静态方法而言，该方法的同步监视器是 this —— 即调用该方法的 Java 对象；对于静态的同步方法而言，该方法的同步监视器不是 this，而是该类本身。</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/java的内存回收/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/java的内存回收/" itemprop="url">
-                  java 基础知识(四)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="java的内存回收"><a href="#java的内存回收" class="headerlink" title="java的内存回收"></a>java的内存回收</h2><h3 id="Java-引用的种类"><a href="#Java-引用的种类" class="headerlink" title="Java 引用的种类"></a>Java 引用的种类</h3><p>   JVM 垃圾回收机制，是否回收一个对象的标准在于：是否还有引用变量引用该对象？只要有引用变量引用该对象，垃圾回收机制就不会回收它。<br>Java 语言对对象的引用有：</p>
-<ul>
-<li>强引用</li>
-<li>软引用</li>
-<li>弱引用</li>
-<li><p>虚引用</p>
-<ul>
-<li>强引用：程序创建一个对象，并把这个对象赋给一个引用变量，这个引用变量就是强引用。当一个对象被一个或者一个以上的强引用变量所引用时，它处于可达状态，它是不会被系统的垃圾回收机制回收。软引用</li>
-<li>软引用：需要通过 SoftReference 类来实现，当一个对象只具有软引用时，它有可能会被垃圾回收机制回收。对于只有软引用的对象而言，当系统内存空间足够时，它不会被系统回收，程序也可使用该对象；当系统内存空间不足时，系统将会回收它。</li>
-<li>弱引用：和软引用有点相似，区别在于弱引用所引用对象的生存期更短。</li>
-<li>虚引用：主要用于跟踪对象被垃圾回收的状态，虚引用不能单独使用，虚引用必须和引用队列联合使用。</li>
-</ul>
-</li>
-</ul>
-<h3 id="Java-的内存泄漏"><a href="#Java-的内存泄漏" class="headerlink" title="Java 的内存泄漏"></a>Java 的内存泄漏</h3><p>ArrayList.java 中的 remove 方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public E remove(int index) &#123;</span><br><span class="line">rangeCheck(index);</span><br><span class="line">modCount++;</span><br><span class="line">E oldValue = elementData(index);</span><br><span class="line">int numMoved = size - index - 1;</span><br><span class="line">if (numMoved &gt; 0)</span><br><span class="line">System.arraycopy(elementData, index+1, elementData, index,</span><br><span class="line">numMoved);</span><br><span class="line">elementData[--size] = null; // clear to let GC do its work</span><br><span class="line">return oldValue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>其中 elementData[–size] = null; // clear to let GC do its work 语句是清除数组元素的引用，避免内存的泄漏，如果没有这句的话，那么就是只有两个作用：<br>修饰 Stack 的属性，也就是将值减 1；<br>返回索引为 size -1 的值。</p>
-<h3 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h3><ul>
-<li>跟踪并监控每个 Java 对象，当某个对象处于不可达状态时，回收该对象所占用的内存。</li>
-<li>清理内存分配，回收过程中产生的内存碎片。<h4 id="垃圾回收机制的基本算法"><a href="#垃圾回收机制的基本算法" class="headerlink" title="垃圾回收机制的基本算法"></a>垃圾回收机制的基本算法</h4>对于一个垃圾回收器的设计算法来说，大概有如下几个设计：     </li>
-<li><p>串行回收 和 并行回收</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">串行回收：不管系统有多少个 CPU，始终使用一个 CPU 来执行垃圾回收操作</span><br><span class="line">并行回收：把整个回收工作拆分成多部分，每个部分由一个 CPU 负责，从而让多个 CPU 并行回收</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>并发执行 和 应用程序停止</p>
-</li>
-<li>压缩 和 不压缩 和 复制<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">   复制：将堆内分成两个相同的空间，从根开始访问每一个关联的可达对象，将空间A的可达对象全部复制到空间B，然后一次性回收整个空间A。</span><br><span class="line">标记清除：也就是 不压缩 的回收方式。垃圾回收器先从根开始访问所有可达对象，将它们标记为可达状态，然后再遍历一次整个内存区域，把所有没有标记为可达的对象进行回收处理。</span><br><span class="line">   标记压缩：这是压缩方式，这种方式充分利用上述两种算法的优点，垃圾回收器先从根开始访问所有可达对象，将他们标记为可达状态，接下来垃圾回收器会将这些活动对象搬迁在一起，这个过程叫做内存压缩，然后垃圾回收机制再次回收那些不可达对象所占用的内存空间，这样就避免了回收产生的内存碎片。</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="堆内存的分代回收"><a href="#堆内存的分代回收" class="headerlink" title="堆内存的分代回收"></a>堆内存的分代回收</h4><ul>
-<li>Young 代</li>
-<li>Old 代</li>
-<li>Permanent 代<h3 id="内存管理小技巧"><a href="#内存管理小技巧" class="headerlink" title="内存管理小技巧"></a>内存管理小技巧</h3></li>
-<li>尽量使用直接量</li>
-<li>使用 StringBuilder 和 StringBuffer 进行字符串拼接</li>
-<li>尽早释放无用对象的引用</li>
-<li>尽量少用静态变量</li>
-<li>避免在经常调用的方法、循环中创建 Java 对象</li>
-<li>缓存经常使用的对象</li>
-<li>尽量不要使用 finalize 方法</li>
-<li>考虑使用 SoftReference</li>
-</ul>
+<p>fireLifecycleEvent(String type, Object data)的方法如下：</p>
+<p>代码清单1-3：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Notify all lifecycle event listeners that a particular event has</span><br><span class="line"> * occurred for this Container.  The default implementation performs</span><br><span class="line"> * this notification synchronously using the calling thread.</span><br><span class="line"> *</span><br><span class="line"> * @param type Event type</span><br><span class="line"> * @param data Event data</span><br><span class="line"> */</span><br><span class="line">public void fireLifecycleEvent(String type, Object data) &#123;</span><br><span class="line"></span><br><span class="line">    LifecycleEvent event = new LifecycleEvent(lifecycle, type, data);</span><br><span class="line">    LifecycleListener interested[] = listeners;</span><br><span class="line">    for (int i = 0; i &lt; interested.length; i++)</span><br><span class="line">        interested[i].lifecycleEvent(event);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>所以，具体事件的通知是由LifecycleListener接口的lifecycleEvent方法完成的，各实现类可以根据不同的情况实现不同的事件监听逻辑</p>
+<h3 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h3><p>Service是具体提供服务的接口，一个Service包装了Connector和一个Container，在Tomcat中这点是如何实现的呢？Service是一个接口，其标准实现类是StandardService，下面是这两个类的鸟瞰图：<br><img src="/img/Service.jpg" alt=""><br><img src="/img/StandardService.jpg" alt=""><br>这里，我们只关心与Connector和Container最紧密的方法：setContainer()和addConnector()方法，先看一下setContainer()方法的源码：<br>代码清单2-1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Set the &lt;code&gt;Container&lt;/code&gt; that handles requests for all</span><br><span class="line"> * &lt;code&gt;Connectors&lt;/code&gt; associated with this Service.</span><br><span class="line"> *</span><br><span class="line"> * @param container The new Container</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">public void setContainer(Container container) &#123;</span><br><span class="line"></span><br><span class="line">    Container oldContainer = this.container;</span><br><span class="line">    if ((oldContainer != null) &amp;&amp; (oldContainer instanceof Engine))</span><br><span class="line">        ((Engine) oldContainer).setService(null);</span><br><span class="line">    this.container = container;</span><br><span class="line">    if ((this.container != null) &amp;&amp; (this.container instanceof Engine))</span><br><span class="line">        ((Engine) this.container).setService(this);</span><br><span class="line">    if (getState().isAvailable() &amp;&amp; (this.container != null)) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            this.container.start();</span><br><span class="line">        &#125; catch (LifecycleException e) &#123;</span><br><span class="line">            // Ignore</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if (getState().isAvailable() &amp;&amp; (oldContainer != null)) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            oldContainer.stop();</span><br><span class="line">        &#125; catch (LifecycleException e) &#123;</span><br><span class="line">            // Ignore</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Report this property change to interested listeners</span><br><span class="line">    support.firePropertyChange(&quot;container&quot;, oldContainer, this.container);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从代码中可以看到这个方法主要的任务是设置一个Container容器来处理一个或者多个Connector传送过来的请求。首先判断当前的Service是否已经关联了Container容器，如果已经关联了就去除这个关联关系。如果原来的Container容器已经启动了就终止其生命周期，结束运行并设置新的关联关系，这个新的Container容器开始新的生命周期。最后把这个过程通知给感兴趣的事件监听程序。</p>
+<p>下面看看addConnector的方法：</p>
+<p>代码清单2-2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Add a new Connector to the set of defined Connectors, and associate it</span><br><span class="line"> * with this Service&apos;s Container.</span><br><span class="line"> *</span><br><span class="line"> * @param connector The Connector to be added</span><br><span class="line"> */</span><br><span class="line">@Override</span><br><span class="line">public void addConnector(Connector connector) &#123;</span><br><span class="line"></span><br><span class="line">    synchronized (connectors) &#123;</span><br><span class="line">        connector.setService(this);</span><br><span class="line">        Connector results[] = new Connector[connectors.length + 1];</span><br><span class="line">        System.arraycopy(connectors, 0, results, 0, connectors.length);</span><br><span class="line">        results[connectors.length] = connector;</span><br><span class="line">        connectors = results;</span><br><span class="line"></span><br><span class="line">        if (getState().isAvailable()) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                connector.start();</span><br><span class="line">            &#125; catch (LifecycleException e) &#123;</span><br><span class="line">                log.error(sm.getString(</span><br><span class="line">                        &quot;standardService.connector.startFailed&quot;,</span><br><span class="line">                        connector), e);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Report this property change to interested listeners</span><br><span class="line">        support.firePropertyChange(&quot;connector&quot;, null, connector);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行过程也比较清楚：用一个同步代码块包住connectors数组，首先设置connector与container和service的关联关系，然后让connector开始新的生命周期，最后通知感兴趣的事件监听程序。注意到Connector的管理和Server管理Service一样都使用了数组拷贝并把新的数组赋给当前的数组，从而间接实现了动态数组。之所以使用数组我想可能是出于性能的考虑吧。</p>
 
           
         
@@ -1714,6 +1167,182 @@
 <p>Book类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">public class Book extends DataSupport &#123;</span><br><span class="line">    private  int id;</span><br><span class="line">    private String name;</span><br><span class="line">    private String author;</span><br><span class="line">    private int pages;</span><br><span class="line">    private double price;</span><br><span class="line"></span><br><span class="line">    public int getId() &#123;</span><br><span class="line">        return id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setId(int id) &#123;</span><br><span class="line">        this.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getAuthor() &#123;</span><br><span class="line">        return author;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setAuthor(String author) &#123;</span><br><span class="line">        this.author = author;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int getPages() &#123;</span><br><span class="line">        return pages;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setPages(int pages) &#123;</span><br><span class="line">        this.pages = pages;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public double getPrice() &#123;</span><br><span class="line">        return price;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setPrice(double price) &#123;</span><br><span class="line">        this.price = price;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>MainActivity<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">ublic class MainActivity extends AppCompatActivity &#123;</span><br><span class="line">    private Button create_database = null;</span><br><span class="line">    private Button add_data = null;</span><br><span class="line">    private Button detele_data = null;</span><br><span class="line">    private Button update_data = null;</span><br><span class="line">    private Button query_data = null;</span><br><span class="line">    private LinearLayout title = null;</span><br><span class="line">    private ListView listViewcontent =null;</span><br><span class="line">    private EditText et_id = null;</span><br><span class="line">    private EditText et_name = null;</span><br><span class="line">    private EditText et_author = null;</span><br><span class="line">    private EditText et_pages = null;</span><br><span class="line">    private EditText et_price = null;</span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        findViewById();</span><br><span class="line">        listener();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">private void listener()&#123;</span><br><span class="line">    create_database.setOnClickListener(</span><br><span class="line">            new View.OnClickListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onClick(View view) &#123;</span><br><span class="line">                    Connector.getDatabase();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">    add_data.setOnClickListener(</span><br><span class="line">            new View.OnClickListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onClick(View view) &#123;</span><br><span class="line">                    Book book = new Book();</span><br><span class="line">                    book.setName(et_name.getText().toString().trim());</span><br><span class="line">                    book.setAuthor(et_author.getText().toString().trim());</span><br><span class="line">                    book.setPages(Integer.parseInt(et_pages.getText().toString().trim()));</span><br><span class="line">                    book.setPrice(Integer.parseInt(et_price.getText().toString().trim()));</span><br><span class="line">                    book.save();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">    detele_data.setOnClickListener(</span><br><span class="line">            new View.OnClickListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onClick(View view) &#123;</span><br><span class="line">                    DataSupport.deleteAll(Book.class, &quot;name = ?&quot;, et_name.getText().toString().trim());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">    update_data.setOnClickListener(</span><br><span class="line">            new View.OnClickListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onClick(View view) &#123;</span><br><span class="line">                    Book book = new Book();</span><br><span class="line">                    book.setPrice(Double.parseDouble(et_price.getText().toString().trim()));</span><br><span class="line">                    book.updateAll(&quot;name = ? and author = ?&quot;, et_name.getText().toString().trim(),et_author.toString().trim());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">    query_data.setOnClickListener(</span><br><span class="line">            new View.OnClickListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onClick(View view) &#123;</span><br><span class="line">                    List&lt;Book&gt; books = DataSupport.findAll(Book.class);</span><br><span class="line">                    Log.d(&quot;qgx&quot;, &quot;onClick: &quot;+books.toString());</span><br><span class="line">                listViewcontent.setAdapter(</span><br><span class="line">            new MyAdapter(books,MainActivity.this));</span><br><span class="line">                    for (Book book : books) &#123;</span><br><span class="line">                        Log.d(&quot;MainActivity&quot;, &quot;book name is&quot; + book.getName());</span><br><span class="line">                        Log.d(&quot;MainActivity&quot;, &quot;book author is&quot; + book.getAuthor());</span><br><span class="line">                        Log.d(&quot;MainActivity&quot;, &quot;book pages is&quot; + book.getPages());</span><br><span class="line">                        Log.d(&quot;MainActivity&quot;, &quot;book price is&quot; + book.getPrice());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line">    //关联控件</span><br><span class="line">    private void findViewById() &#123;</span><br><span class="line">        create_database = (Button) findViewById(R.id.create_database);</span><br><span class="line">        add_data = (Button)  findViewById(R.id.add_data);</span><br><span class="line">        update_data =  (Button) findViewById(R.id.update_data);</span><br><span class="line">        query_data = (Button)  findViewById(R.id.query_data);</span><br><span class="line">        detele_data =  (Button) findViewById(R.id.detele_data);</span><br><span class="line">        et_id =(EditText) findViewById(R.id.et_id);</span><br><span class="line">        et_name =(EditText) findViewById(R.id.et_name);</span><br><span class="line">        et_author =(EditText) findViewById(R.id.et_author);</span><br><span class="line">        et_pages =(EditText) findViewById(R.id.et_pages);</span><br><span class="line">        et_price =(EditText) findViewById(R.id.et_price);</span><br><span class="line">        title = (LinearLayout) findViewById(R.id.title);</span><br><span class="line">        listViewcontent =(ListView) findViewById(R.id.content);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>MyAdapter<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public class MyAdapter  extends BaseAdapter&#123;</span><br><span class="line">    private List&lt;Book&gt; books;</span><br><span class="line">    private LayoutInflater inflater;</span><br><span class="line">    public MyAdapter(List&lt;Book&gt; books,Context context) &#123;</span><br><span class="line">        this.books = books;</span><br><span class="line">        this.inflater=LayoutInflater.from(context);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public int getCount() &#123;</span><br><span class="line">        return books==null?0:books.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Object getItem(int i) &#123;</span><br><span class="line">        return books.get(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public long getItemId(int i) &#123;</span><br><span class="line">        return i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public View getView(int i, View view, ViewGroup viewGroup) &#123;</span><br><span class="line">        //加载布局为一个视图</span><br><span class="line">       view=inflater.inflate(R.layout.item_book,null);</span><br><span class="line">       Book book = (Book)getItem(i) ;</span><br><span class="line">        TextView et_id2 = view.findViewById(R.id.et_id2);</span><br><span class="line">        TextView et_name2 = view.findViewById(R.id.et_name2);</span><br><span class="line">        TextView et_author2 = view.findViewById(R.id.et_author2);</span><br><span class="line">        TextView et_pages2 = view.findViewById(R.id.et_pages2);</span><br><span class="line">        TextView et_price2 = view.findViewById(R.id.et_price2);</span><br><span class="line">       et_id2.setText(book.getId()+&quot;&quot;);</span><br><span class="line">       et_author2.setText(book.getAuthor());</span><br><span class="line">       et_name2.setText(book.getName());</span><br><span class="line">       et_pages2.setText(book.getPages()+&quot;&quot;);</span><br><span class="line">       et_price2.setText(book.getPrice()+&quot;&quot;);</span><br><span class="line">        return view;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/数组和内存控制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/数组和内存控制/" itemprop="url">
+                  java基础知识(二)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="数组和内存控制"><a href="#数组和内存控制" class="headerlink" title="数组和内存控制"></a>数组和内存控制</h2><h3 id="Java的数组是静态的"><a href="#Java的数组是静态的" class="headerlink" title="Java的数组是静态的"></a>Java的数组是静态的</h3><ul>
+<li>初始化方式：<pre><code>-1：静态初始化
+    a：String[] S = new String[]{}
+    b：String[] S = {       }
+- 2：动态初始化
+    String[] S = new String[5];&apos;
+</code></pre><h3 id="动态初始化由系统分配初始值"><a href="#动态初始化由系统分配初始值" class="headerlink" title="动态初始化由系统分配初始值"></a>动态初始化由系统分配初始值</h3><pre><code>类型                                             初始化值
+整型（int short byte long)                          0
+浮点（float double)                                 0.0
+字符(char)                                        &apos;\u0000&apos;
+布尔（boolean)                                      false
+引用类型（类  接口  数组）                              null
+</code></pre></li>
+<li>Java 的数组变量是引用类型的变量，它并不是数组对象本身，只要让数组变量指向有效的数组对象，程序中即可使用该数组变量。</li>
+<li>对数组的初始化并不是对数组变量实行初始化，而是要对数组对象初始化—–也就是为该数组对象分配一块连续的内存空间。</li>
+<li>所有局部变量都是放在栈内存里保存的，不管是基本类型的变量，还是引用类型的变量，都是存储各自的方法栈里，但引用类型变量所引用的对象【包括数组、普通Java对象】则都是存储在堆内存里面。</li>
+<li>对于Java语言来说，堆内存中的对象【不管是数组对象还是普通的Java对象】通常不允许直接访问，为了访问堆内存中的对象，通常智能通过引用变量。</li>
+<li>引用变量本质上就是一个指针，只要程序通过引用变量访问属性，或者通过引用变量来调用方法，该引用变量将会被它所引用的对象代替。<h3 id="Runtime异常-NullPointerException（空指针异常）"><a href="#Runtime异常-NullPointerException（空指针异常）" class="headerlink" title="Runtime异常 NullPointerException（空指针异常）"></a>Runtime异常 NullPointerException（空指针异常）</h3></li>
+<li>当通过引用变量来访问实例属性或者调用静态方法时，如果该引用变量还未引用一个有效的对象，程序就会引发空指针异常$ 引用数组类型的数组元素依然是引用类型，因此数组元素里存储的还是引用，它指向另一块内存，这块内存存储了该引用变量所引用的对象。<ul>
+<li>Java语言避免直接访问堆内存里面的数据可以保证程序的健壮性，如果程序直接访问并修改堆内存中的数据，可能破坏内存中数据的完整性，导致程序Crash<h3 id="数组元素就是变量"><a href="#数组元素就是变量" class="headerlink" title="数组元素就是变量"></a>数组元素就是变量</h3><h3 id="没有多维数组"><a href="#没有多维数组" class="headerlink" title="没有多维数组"></a>没有多维数组</h3></li>
+</ul>
+</li>
+</ul>
 
           
         
@@ -2101,6 +1730,375 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/对象和变量的并发访问/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/对象和变量的并发访问/" itemprop="url">
+                  java 多线程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java-并发知识/" itemprop="url" rel="index"><span itemprop="name">java 并发知识</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="对象和变量的并发访问"><a href="#对象和变量的并发访问" class="headerlink" title="对象和变量的并发访问"></a>对象和变量的并发访问</h3><h4 id="技术点："><a href="#技术点：" class="headerlink" title="技术点："></a>技术点：</h4><ul>
+<li>synchronized 对象监视器为 Object 时的使用</li>
+<li>synchronized 对象监视器为 Class 时的使用</li>
+<li>非线程安全是如何出现的</li>
+<li>关键字 volatile 的主要作用</li>
+<li>关键字 volatile 与 synchronized 的区别及使用情况<h4 id="synchronized-同步方法"><a href="#synchronized-同步方法" class="headerlink" title="synchronized 同步方法"></a>synchronized 同步方法</h4><h5 id="方法内的变量为线程安全"><a href="#方法内的变量为线程安全" class="headerlink" title="方法内的变量为线程安全"></a>方法内的变量为线程安全</h5>“非线程安全”问题存在于“实例变量”中，如果是方法内部的私有变量，则不存在“非线程安全”问题，所得结果也就是“线程安全”了<h5 id="实例变量非线程安全"><a href="#实例变量非线程安全" class="headerlink" title="实例变量非线程安全"></a>实例变量非线程安全</h5></li>
+<li>如果多线程共同访问一个对象中的实例变量，则有可能出现“非线程安全”问题</li>
+<li>在两个线程访问同一个对象中的同步方法时一定时线程安全的。<h5 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h5>发生脏读的情况是在读取实例变量时，此值已经被其他线程更改过了。<br>如下例子就可以说明，如果不加 synchronized 关键字在 setValue 和 getValue 方法上，就会出现数据脏读。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">class VarName</span><br><span class="line">&#123;</span><br><span class="line">private String userName = &quot;A&quot;;</span><br><span class="line">private String password = &quot;AA&quot;;</span><br><span class="line">synchronized public void setValue(String userName, String password) &#123;</span><br><span class="line">try &#123;</span><br><span class="line">this.userName = userName;</span><br><span class="line">Thread.sleep(500);</span><br><span class="line">this.password = password;</span><br><span class="line">System.out.println(&quot;setValue method Thread name is : &quot; + Thread.currentThread().getName() + &quot; userName = &quot; + userName + &quot; password = &quot; + password);</span><br><span class="line">&#125; catch (InterruptedException e) &#123;</span><br><span class="line">e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">//synchronized</span><br><span class="line">public void getValue() &#123;</span><br><span class="line">System.out.println(&quot;getValue method Thread name is : &quot; + Thread.currentThread().getName() + &quot; userName = &quot; + userName + &quot; password = &quot; + password);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Thread1 extends Thread</span><br><span class="line">&#123;</span><br><span class="line">private VarName varName;</span><br><span class="line">public Thread1(VarName varName) &#123;</span><br><span class="line">this.varName = varName;</span><br><span class="line">&#125;</span><br><span class="line">@Override</span><br><span class="line">public void run() &#123;</span><br><span class="line">varName.setValue(&quot;B&quot;, &quot;BB&quot;);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Test</span><br><span class="line">&#123;</span><br><span class="line">public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">VarName v = new VarName();</span><br><span class="line">Thread1 thread1 = new Thread1(v);</span><br><span class="line">thread1.start();</span><br><span class="line">Thread.sleep(200);//打印结果受睡眠时间的影响</span><br><span class="line">v.getValue();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="synchronized-锁重入关键字"><a href="#synchronized-锁重入关键字" class="headerlink" title="synchronized 锁重入关键字"></a>synchronized 锁重入关键字</h5><p>synchronized 拥有锁重入的功能，也就是在使用 synchronized 时，当一个线程得到一个对象锁后，再次请求此对象锁是可以再次得到该对象的锁的。这也证明了在一个 synchronized 方法/块的内部调用本类的其他 synchronized 方法/块时，是永远可以得到锁的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">class Service</span><br><span class="line">&#123;</span><br><span class="line">synchronized public void service1() &#123;</span><br><span class="line">System.out.println(&quot;service 1&quot;);</span><br><span class="line">service2();</span><br><span class="line">&#125;</span><br><span class="line">synchronized public void service2() &#123;</span><br><span class="line">System.out.println(&quot;service 2&quot;);</span><br><span class="line">service3();</span><br><span class="line">&#125;</span><br><span class="line">synchronized public void service3() &#123;</span><br><span class="line">System.out.println(&quot;service 3&quot;);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Thread2 extends Thread</span><br><span class="line">&#123;</span><br><span class="line">@Override</span><br><span class="line">public void run() &#123;</span><br><span class="line">Service s = new Service();</span><br><span class="line">s.service1();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Test2</span><br><span class="line">&#123;</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">Thread2 t2 = new Thread2();</span><br><span class="line">t2.start();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service 1</span><br><span class="line">service 2</span><br><span class="line">service 3</span><br></pre></td></tr></table></figure></p>
+<h5 id="同步不具有继承性"><a href="#同步不具有继承性" class="headerlink" title="同步不具有继承性"></a>同步不具有继承性</h5><p>同步不可以继承。</p>
+<h4 id="synchronized-同步语句块"><a href="#synchronized-同步语句块" class="headerlink" title="synchronized 同步语句块"></a>synchronized 同步语句块</h4><p>当一个线程访问 object 的一个 synchronized(this) 同步代码块时，其他线程对同一个 object 中所有其他 synchronized(this) 同步代码块的访问将被阻塞，这说明 synchronized 使用的 “对象监视器” 是一个。</p>
+<h5 id="将任意对象作为对象监视器"><a href="#将任意对象作为对象监视器" class="headerlink" title="将任意对象作为对象监视器"></a>将任意对象作为对象监视器</h5><p>多个线程调用同一个对象中的不同名称的 synchronized 同步方法或者 synchronized(this) 同步代码块时，调用的效果就是按顺序执行，也就是同步的，阻塞的。</p>
+<h5 id="静态同步-synchronized-方法与-synchronized-class-代码块"><a href="#静态同步-synchronized-方法与-synchronized-class-代码块" class="headerlink" title="静态同步 synchronized 方法与 synchronized(class) 代码块"></a>静态同步 synchronized 方法与 synchronized(class) 代码块</h5><p>关键字 synchronized 还可以应用在 static 静态方法上，如果这样写就是对当前的 *.java 文件对应的 Class 类进行加锁。而 synchronized 关键字加到非 static 静态方法上就是给对象加锁。</p>
+<h5 id="多线程的死锁"><a href="#多线程的死锁" class="headerlink" title="多线程的死锁"></a>多线程的死锁</h5><h4 id="volatile-关键字"><a href="#volatile-关键字" class="headerlink" title="volatile 关键字"></a>volatile 关键字</h4><h5 id="作用：使变量在多个线程间可见。"><a href="#作用：使变量在多个线程间可见。" class="headerlink" title="作用：使变量在多个线程间可见。"></a>作用：使变量在多个线程间可见。</h5><p>通过使用 volatile 关键字，强制的从公共内存中读取变量的值。使用 volatile 关键字增加了实例变量在多个线程之间的可见性，但 volatile 关键字最致命的缺点就是不支持原子性。</p>
+<h5 id="关键字-synchronized-和-volatile-比较："><a href="#关键字-synchronized-和-volatile-比较：" class="headerlink" title="关键字 synchronized 和 volatile 比较："></a>关键字 synchronized 和 volatile 比较：</h5><ul>
+<li>关键字 volatile 是线程同步的轻量实现，所以 volatile 性能肯定要比 synchronized 要好，并且 volatile 只能修饰于变量，而 synchronized 可以修饰方法，以及代码块。</li>
+<li>多线程访问 volatile 不会发生阻塞，而 synchronized 会出现阻塞。</li>
+<li>volatile 能保证数据的可见性，但不能保证原子性；而 synchronized 可以保证原子性，也可以间接保证可见性，因为它会将私有内存和公有内存中的数据做同步。</li>
+<li>关键字 volatile 解决的是变量在多个线程之间的可见性；而 synchronized 关键字解决的是多个线程之间访问资源的同步性。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/java的内存回收/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/java的内存回收/" itemprop="url">
+                  java 基础知识(四)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="java的内存回收"><a href="#java的内存回收" class="headerlink" title="java的内存回收"></a>java的内存回收</h2><h3 id="Java-引用的种类"><a href="#Java-引用的种类" class="headerlink" title="Java 引用的种类"></a>Java 引用的种类</h3><p>   JVM 垃圾回收机制，是否回收一个对象的标准在于：是否还有引用变量引用该对象？只要有引用变量引用该对象，垃圾回收机制就不会回收它。<br>Java 语言对对象的引用有：</p>
+<ul>
+<li>强引用</li>
+<li>软引用</li>
+<li>弱引用</li>
+<li><p>虚引用</p>
+<ul>
+<li>强引用：程序创建一个对象，并把这个对象赋给一个引用变量，这个引用变量就是强引用。当一个对象被一个或者一个以上的强引用变量所引用时，它处于可达状态，它是不会被系统的垃圾回收机制回收。软引用</li>
+<li>软引用：需要通过 SoftReference 类来实现，当一个对象只具有软引用时，它有可能会被垃圾回收机制回收。对于只有软引用的对象而言，当系统内存空间足够时，它不会被系统回收，程序也可使用该对象；当系统内存空间不足时，系统将会回收它。</li>
+<li>弱引用：和软引用有点相似，区别在于弱引用所引用对象的生存期更短。</li>
+<li>虚引用：主要用于跟踪对象被垃圾回收的状态，虚引用不能单独使用，虚引用必须和引用队列联合使用。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Java-的内存泄漏"><a href="#Java-的内存泄漏" class="headerlink" title="Java 的内存泄漏"></a>Java 的内存泄漏</h3><p>ArrayList.java 中的 remove 方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public E remove(int index) &#123;</span><br><span class="line">rangeCheck(index);</span><br><span class="line">modCount++;</span><br><span class="line">E oldValue = elementData(index);</span><br><span class="line">int numMoved = size - index - 1;</span><br><span class="line">if (numMoved &gt; 0)</span><br><span class="line">System.arraycopy(elementData, index+1, elementData, index,</span><br><span class="line">numMoved);</span><br><span class="line">elementData[--size] = null; // clear to let GC do its work</span><br><span class="line">return oldValue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>其中 elementData[–size] = null; // clear to let GC do its work 语句是清除数组元素的引用，避免内存的泄漏，如果没有这句的话，那么就是只有两个作用：<br>修饰 Stack 的属性，也就是将值减 1；<br>返回索引为 size -1 的值。</p>
+<h3 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h3><ul>
+<li>跟踪并监控每个 Java 对象，当某个对象处于不可达状态时，回收该对象所占用的内存。</li>
+<li>清理内存分配，回收过程中产生的内存碎片。<h4 id="垃圾回收机制的基本算法"><a href="#垃圾回收机制的基本算法" class="headerlink" title="垃圾回收机制的基本算法"></a>垃圾回收机制的基本算法</h4>对于一个垃圾回收器的设计算法来说，大概有如下几个设计：     </li>
+<li><p>串行回收 和 并行回收</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">串行回收：不管系统有多少个 CPU，始终使用一个 CPU 来执行垃圾回收操作</span><br><span class="line">并行回收：把整个回收工作拆分成多部分，每个部分由一个 CPU 负责，从而让多个 CPU 并行回收</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>并发执行 和 应用程序停止</p>
+</li>
+<li>压缩 和 不压缩 和 复制<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">   复制：将堆内分成两个相同的空间，从根开始访问每一个关联的可达对象，将空间A的可达对象全部复制到空间B，然后一次性回收整个空间A。</span><br><span class="line">标记清除：也就是 不压缩 的回收方式。垃圾回收器先从根开始访问所有可达对象，将它们标记为可达状态，然后再遍历一次整个内存区域，把所有没有标记为可达的对象进行回收处理。</span><br><span class="line">   标记压缩：这是压缩方式，这种方式充分利用上述两种算法的优点，垃圾回收器先从根开始访问所有可达对象，将他们标记为可达状态，接下来垃圾回收器会将这些活动对象搬迁在一起，这个过程叫做内存压缩，然后垃圾回收机制再次回收那些不可达对象所占用的内存空间，这样就避免了回收产生的内存碎片。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="堆内存的分代回收"><a href="#堆内存的分代回收" class="headerlink" title="堆内存的分代回收"></a>堆内存的分代回收</h4><ul>
+<li>Young 代</li>
+<li>Old 代</li>
+<li>Permanent 代<h3 id="内存管理小技巧"><a href="#内存管理小技巧" class="headerlink" title="内存管理小技巧"></a>内存管理小技巧</h3></li>
+<li>尽量使用直接量</li>
+<li>使用 StringBuilder 和 StringBuffer 进行字符串拼接</li>
+<li>尽早释放无用对象的引用</li>
+<li>尽量少用静态变量</li>
+<li>避免在经常调用的方法、循环中创建 Java 对象</li>
+<li>缓存经常使用的对象</li>
+<li>尽量不要使用 finalize 方法</li>
+<li>考虑使用 SoftReference</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -2152,7 +2150,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">87</span>
+                    <span class="site-state-item-count">88</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2318,7 +2316,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">61</span>
+                      
+                    
+                    <span class="site-state-item-count">62</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
