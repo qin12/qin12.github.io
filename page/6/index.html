@@ -319,7 +319,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Spring Boot中使用JdbcTemplate访问数据库/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/OkHttp中 response.body().string()只能调用一次分析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -338,173 +338,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/Spring Boot中使用JdbcTemplate访问数据库/" itemprop="url">
-                  Spring Boot(六)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Spring-Boot中使用JdbcTemplate访问数据库"><a href="#Spring-Boot中使用JdbcTemplate访问数据库" class="headerlink" title="Spring Boot中使用JdbcTemplate访问数据库"></a>Spring Boot中使用JdbcTemplate访问数据库</h3><h4 id="数据源配置"><a href="#数据源配置" class="headerlink" title="数据源配置"></a>数据源配置</h4><p>在我们访问数据库的时候，需要先配置一个数据源，下面分别介绍一下几种不同的数据库配置方式。</p>
-<p>首先，为了连接数据库需要引入jdbc支持，在pom.xml中引入如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
-<h4 id="嵌入式数据库支持"><a href="#嵌入式数据库支持" class="headerlink" title="嵌入式数据库支持"></a>嵌入式数据库支持</h4><p>嵌入式数据库通常用于开发和测试环境，不推荐用于生产环境。Spring Boot提供自动配置的嵌入式数据库有H2、HSQL、Derby，你不需要提供任何连接配置就能使用。</p>
-<p>比如，我们可以在pom.xml中引入如下配置使用HSQL<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.hsqldb&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;hsqldb&lt;/artifactId&gt;</span><br><span class="line">    &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
-<h4 id="连接生产数据源"><a href="#连接生产数据源" class="headerlink" title="连接生产数据源"></a>连接生产数据源</h4><p>以MySQL数据库为例，先引入MySQL连接的依赖包，在pom.xml中加入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;5.1.21&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
-<p>在src/main/resources/application.properties中配置数据源信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spring.datasource.url=jdbc:mysql://localhost:3306/test</span><br><span class="line">spring.datasource.username=root</span><br><span class="line">spring.datasource.password=</span><br><span class="line">spring.datasource.driver-class-name=com.mysql.jdbc.Driver</span><br></pre></td></tr></table></figure></p>
-<h4 id="连接JNDI数据源"><a href="#连接JNDI数据源" class="headerlink" title="连接JNDI数据源"></a>连接JNDI数据源</h4><p>当你将应用部署于应用服务器上的时候想让数据源由应用服务器管理，那么可以使用如下配置方式引入JNDI数据源。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spring.datasource.jndi-name=java:jboss/datasources/customers</span><br></pre></td></tr></table></figure></p>
-<h4 id="使用JdbcTemplate操作数据库"><a href="#使用JdbcTemplate操作数据库" class="headerlink" title="使用JdbcTemplate操作数据库"></a>使用JdbcTemplate操作数据库</h4><p>Spring的JdbcTemplate是自动配置的，你可以直接使用@Autowired来注入到你自己的bean中来使用。</p>
-<p>举例：我们在创建User表，包含属性name、age，下面来编写数据访问对象和单元测试用例。</p>
-<p>定义包含有插入、删除、查询的抽象接口UserService<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public interface UserService &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 新增一个用户</span><br><span class="line">     * @param name</span><br><span class="line">     * @param age</span><br><span class="line">     */</span><br><span class="line">    void create(String name, Integer age);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 根据name删除一个用户高</span><br><span class="line">     * @param name</span><br><span class="line">     */</span><br><span class="line">    void deleteByName(String name);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取用户总量</span><br><span class="line">     */</span><br><span class="line">    Integer getAllUsers();</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 删除所有用户</span><br><span class="line">     */</span><br><span class="line">    void deleteAllUsers();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>通过JdbcTemplate实现UserService中定义的数据访问操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class UserServiceImpl implements UserService &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private JdbcTemplate jdbcTemplate;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void create(String name, Integer age) &#123;</span><br><span class="line">        jdbcTemplate.update(&quot;insert into USER(NAME, AGE) values(?, ?)&quot;, name, age);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void deleteByName(String name) &#123;</span><br><span class="line">        jdbcTemplate.update(&quot;delete from USER where NAME = ?&quot;, name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Integer getAllUsers() &#123;</span><br><span class="line">        return jdbcTemplate.queryForObject(&quot;select count(1) from USER&quot;, Integer.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void deleteAllUsers() &#123;</span><br><span class="line">        jdbcTemplate.update(&quot;delete from USER&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>创建对UserService的单元测试用例，通过创建、删除和查询来验证数据库操作的正确性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">@RunWith(SpringJUnit4ClassRunner.class)</span><br><span class="line">@SpringApplicationConfiguration(Application.class)</span><br><span class="line">public class ApplicationTests &#123;</span><br><span class="line"></span><br><span class="line">	@Autowired</span><br><span class="line">	private UserService userSerivce;</span><br><span class="line"></span><br><span class="line">	@Before</span><br><span class="line">	public void setUp() &#123;</span><br><span class="line">		// 准备，清空user表</span><br><span class="line">		userSerivce.deleteAllUsers();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Test</span><br><span class="line">	public void test() throws Exception &#123;</span><br><span class="line">		// 插入5个用户</span><br><span class="line">		userSerivce.create(&quot;a&quot;, 1);</span><br><span class="line">		userSerivce.create(&quot;b&quot;, 2);</span><br><span class="line">		userSerivce.create(&quot;c&quot;, 3);</span><br><span class="line">		userSerivce.create(&quot;d&quot;, 4);</span><br><span class="line">		userSerivce.create(&quot;e&quot;, 5);</span><br><span class="line"></span><br><span class="line">		// 查数据库，应该有5个用户</span><br><span class="line">		Assert.assertEquals(5, userSerivce.getAllUsers().intValue());</span><br><span class="line"></span><br><span class="line">		// 删除两个用户</span><br><span class="line">		userSerivce.deleteByName(&quot;a&quot;);</span><br><span class="line">		userSerivce.deleteByName(&quot;e&quot;);</span><br><span class="line"></span><br><span class="line">		// 查数据库，应该有5个用户</span><br><span class="line">		Assert.assertEquals(3, userSerivce.getAllUsers().intValue());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Handler/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/Handler/" itemprop="url">
-                  Handler
+                <a class="post-title-link" href="/2018/07/20/OkHttp中 response.body().string()只能调用一次分析/" itemprop="url">
+                  我的第一个Android设计第二天（二）
                 </a>
               
             
@@ -584,372 +419,13 @@
       
         
           
-            <h3 id="Handler"><a href="#Handler" class="headerlink" title="Handler"></a>Handler</h3><p>作者博客：<a href="https://blog.csdn.net/ClAndEllen/article/details/79343538" target="_blank" rel="noopener">https://blog.csdn.net/ClAndEllen/article/details/79343538</a></p>
-<h4 id="1-什么是Handler？"><a href="#1-什么是Handler？" class="headerlink" title="1.什么是Handler？"></a>1.什么是Handler？</h4><p>  Handler是可以通过发送和处理Message和Runnable对象来关联相应线程的MessageQueue。通常我们认为它是一种异步机制。</p>
-<ul>
-<li>a.可以让对应的Message和Runnable在未来的某个时间点进行相应的处理。</li>
-<li>b.让自己想要的耗时操作在子线程中完成，让更新UI的操作在主线程中完成，而子线程与主线程之间的通信就是靠Handler来完成。</li>
-</ul>
-<h4 id="2-Handler的使用方法"><a href="#2-Handler的使用方法" class="headerlink" title="2.Handler的使用方法"></a>2.Handler的使用方法</h4><ul>
-<li><p>a.post(Runnable)</p>
-</li>
-<li><p>b.sendMessage(Message)</p>
-</li>
-</ul>
-<h4 id="3-Handler内部的实现机制"><a href="#3-Handler内部的实现机制" class="headerlink" title="3.Handler内部的实现机制"></a>3.Handler内部的实现机制</h4><p>  Handler机制也可叫异步消息机制，它主要由4个部分组成：<strong>Message,Handler,MessageQueue,Looper,</strong>在上面我们已经接触到了Message和Handler,接下来我们对4个成员进行着重的了解：</p>
-<p><strong>1.Message</strong><br>  Message是在线程之间传递的消息，它可以在内部携带少量的信息，用于在不同线程之间交换数据。使用Message的arg1和arg2便可携带int数据，使用obj便可携带Object类型数据。</p>
-<p><strong>2.Handler</strong><br>  Handler顾名思义就是处理者的意思，它只要用于在子线程发送消息对象Message,在UI线程处理消息对象Message，在子线程调用sendMessage方法发送消息对象Message，而发送的消息经过一系列地辗转之后最终会被传递到Handler的handleMessage方法中,最终在handleMessage方法中消息对象Message被处理。</p>
-<p><strong>3.MessageQueue</strong><br>  MessageQueue就是消息队列的意思,它只要用于存放所有通过Handler发送过来的消息。这部分消息会一直存放于消息队列当中，等待被处理。每个线程中只会有一个MessageQueue对象，请牢记这句话。其实从字面上就可以看出，MessageQueue底层数据结构是队列，而且这个队列只存放Message对象。</p>
-<p><strong>4.Looper</strong><br>  Looper是每个线程中的MessageQueue的管家，调用Looper的loop()方法后，就会进入到一个无限循环当中，然后每当MesssageQueue中存在一条消息，Looper就会将这条消息取出，并将它传递到Handler的handleMessage()方法中。每个线程只有一个Looper对象。</p>
-<p>  了解了上述Handler机制的4个成员后，我们再来把思路理一遍：首先在UI线程我们创建了一个Handler实例对象，无论是匿名内部类还是自定义类生成的Handler实例对象，我们都需要对handleMessage方法进行重写，在handleMessage方法中我们可以通过参数msg来写接受消息过后UIi线程的逻辑处理，接着我们创建子线程，在子线程中需要更新UI的时候，新建一个Message对象，并且将消息的数据记录在这个消息对象Message的内部，比如arg1,arg2,obj等，然后通过前面的Handler实例对象调用sendMessge方法把这个Message实例对象发送出去，之后这个消息会被存放于MessageQueue中等待被处理，此时MessageQueue的管家Looper正在不停的把MessageQueue存在的消息取出来，通过回调dispatchMessage方法将消息传递给Handler的handleMessage方法，最终前面提到的消息会被Looper从MessageQueue中取出来传递给handleMessage方法，最终得到处理。这就是Handler机制整个的工作流程，怎么样？你懂了吗？看看下面的图你就更懂了：<br><img src="/img/handler1.png" alt=""></p>
-<h4 id="4-Handler引起的内存泄漏以及解决方法"><a href="#4-Handler引起的内存泄漏以及解决方法" class="headerlink" title="4.Handler引起的内存泄漏以及解决方法"></a>4.Handler引起的内存泄漏以及解决方法</h4><p>原因：<strong>非静态内部类持有外部类的匿名引用，导致外部activity无法得到释放。</strong></p>
-<p>解决方法：handler内部持有外部的弱引用，并把handler改为<strong>静态内部类</strong>，<strong>在activity的onDestory()中调用handler的removeCallback()方法。</strong></p>
-<h4 id="Handler的产生背景"><a href="#Handler的产生背景" class="headerlink" title="Handler的产生背景"></a>Handler的产生背景</h4><p>  开启子线程进行耗时操作，多次创建和销毁子线程是很耗费资源的，但是木有关系，谷歌考虑了这点为我们专门开发出了HandlerThread机制，那么它有什么特点呢？请看下面：</p>
-<h4 id="HandlerThread是什么？"><a href="#HandlerThread是什么？" class="headerlink" title="HandlerThread是什么？"></a>HandlerThread是什么？</h4><p>  本质：Handler + Thread + Looper，是一个Thread内部有Looper。当你被面试官问道HandlerThread是什么，有何特点，那么你应该这么回答：</p>
-<p>  a.HandlerThread本质上是一个线程类，它继承了Thread。</p>
-<p>  b.HandlerThread有自己内部的Looper对象，可以进行Looper循环。</p>
-<p>  c.通过获取HandlerThread的Looper对象传递给Handler对象，可以在handlerMessage方法中执行异步任务。</p>
-<p>  d.优点是不会有堵塞，减少对性能的消耗，缺点是不能进行多任务的处理，需要等待进行处理，处理效率较低。</p>
-<p>  e.与线程池注重并发不同，HandlerThread是一个串行队列，HandlerThread背后只有一个线程。</p>
+            <h3 id="OkHttp中-response-body-string-只能调用一次分析"><a href="#OkHttp中-response-body-string-只能调用一次分析" class="headerlink" title="OkHttp中 response.body().string()只能调用一次分析"></a>OkHttp中 response.body().string()只能调用一次分析</h3><p>我们第一次调用response.body().string(); 的时候可以正确拿到数据，第二次就返回了null<br>日志可以打出来，在程序里面不能运行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public void onResponse(Response response) throws IOException &#123;</span><br><span class="line">    String result = response.body().string();</span><br><span class="line">// response.body().string();只能调用一次</span><br></pre></td></tr></table></figure>
+<p><strong>因为response.body()也是挺大的，OkHttp不把它存储在内存中，就是你需要的时候就去读一次 只给你了内容，没有给引用，所以一次请求读一次</strong></p>
+<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><p>string()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public final String string() throws IOException &#123;</span><br><span class="line">   return new String(bytes(), charset().name());</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>bytes()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public final byte[] bytes() throws IOException &#123;</span><br><span class="line">    long contentLength = contentLength();</span><br><span class="line">    if (contentLength &gt; Integer.MAX_VALUE) &#123;</span><br><span class="line">      throw new IOException(&quot;Cannot buffer entire body for content length: &quot; + contentLength);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    BufferedSource source = source();</span><br><span class="line">    byte[] bytes;</span><br><span class="line">    try &#123;</span><br><span class="line">      bytes = source.readByteArray();</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">      Util.closeQuietly(source);</span><br><span class="line">    &#125;</span><br><span class="line">    if (contentLength != -1 &amp;&amp; contentLength != bytes.length) &#123;</span><br><span class="line">      throw new IOException(&quot;Content-Length and stream length disagree&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    return bytes;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>finally中的代码肯定会调用这里执行  Util.closeQuietly(source)</strong><br>closeQuietly方法可以运用到各类可关闭的对象中<br>就是因为在拿过之后就把资源关闭了<br>所以就获取不到了，所以只能拿一次。</p>
 
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="298" height="52" src="https://music.163.com/outchain/player?type=2&id=531533335&auto=1&height=32"></iframe>
-
-
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/HttpServletResponse对象介绍/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/HttpServletResponse对象介绍/" itemprop="url">
-                  javaweb (五 )
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>Web服务器收到客户端的http请求，会针对每一次请求，分别创建一个用于代表请求的request对象、和代表响应的response对象。</li>
-<li>request和response对象即然代表请求和响应，那我们要获取客户机提交过来的数据，只需要找request对象就行了。要向客户机输出数据，只需要找response对象就行了。</li>
-</ul>
-<h3 id="HttpServletResponse对象介绍"><a href="#HttpServletResponse对象介绍" class="headerlink" title="HttpServletResponse对象介绍"></a>HttpServletResponse对象介绍</h3><p>HttpServletResponse对象代表服务器的响应。这个对象中封装了向客户端发送数据、发送响应头，发送响应状态码的方法。查看HttpServletResponse的API，可以看到这些相关的方法。</p>
-<h4 id="负责向客户端-浏览器-发送数据的相关方法"><a href="#负责向客户端-浏览器-发送数据的相关方法" class="headerlink" title="负责向客户端(浏览器)发送数据的相关方法"></a>负责向客户端(浏览器)发送数据的相关方法</h4><p><img src="/img/response.png" alt=""></p>
-<h4 id="负责向客户端-浏览器-发送响应头的相关方法"><a href="#负责向客户端-浏览器-发送响应头的相关方法" class="headerlink" title="负责向客户端(浏览器)发送响应头的相关方法"></a>负责向客户端(浏览器)发送响应头的相关方法</h4><p><img src="/img/response1.png" alt=""><br><img src="/img/response2.png" alt=""></p>
-<h4 id="负责向客户端-浏览器-发送响应状态码的相关方法"><a href="#负责向客户端-浏览器-发送响应状态码的相关方法" class="headerlink" title="负责向客户端(浏览器)发送响应状态码的相关方法"></a>负责向客户端(浏览器)发送响应状态码的相关方法</h4><p><img src="/img/response3.png" alt=""></p>
-<h4 id="响应状态码的常量"><a href="#响应状态码的常量" class="headerlink" title="响应状态码的常量"></a>响应状态码的常量</h4><p>　HttpServletResponse定义了很多状态码的常量(具体可以查看Servlet的API)，当需要向客户端发送响应状态码时，可以使用这些常量，避免了直接写数字，常见的状态码对应的常量：<br><em>状态码404对应的常量</em><br><img src="/img/response4.png" alt=""><br><em>状态码200对应的常量</em><br><img src="/img/response5.png" alt=""><br><em>状态码500对应的常量</em><br><img src="/img/response6.png" alt=""></p>
-<h3 id="HttpServletResponse对象常见应用"><a href="#HttpServletResponse对象常见应用" class="headerlink" title="HttpServletResponse对象常见应用"></a>HttpServletResponse对象常见应用</h3><h4 id="使用OutputStream流向客户端浏览器输出中文数据"><a href="#使用OutputStream流向客户端浏览器输出中文数据" class="headerlink" title="使用OutputStream流向客户端浏览器输出中文数据"></a>使用OutputStream流向客户端浏览器输出中文数据</h4><p>使用OutputStream流输出中文注意问题：在服务器端，数据是以哪个码表输出的，那么就要控制客户端浏览器以相应的码表打开，比如：outputStream.write(“刘俭梅”.getBytes(“UTF-8”));使用OutputStream流向客户端浏览器输出中文，以UTF-8的编码进行输出，此时就要控制客户端浏览器以UTF-8的编码打开，否则显示的时候就会出现中文乱码，那么在服务器端如何控制客户端浏览器以以UTF-8的编码显示数据呢？可以通过设置响应头控制浏览器的行为，例如：response.setHeader(“content-type”, “text/html;charset=UTF-8”);通过设置响应头控制浏览器以UTF-8的编码显示数据。<br>范例：使用OutputStream流向客户端浏览器输出”刘俭梅”这三个汉字<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo1&quot;)</span><br><span class="line">public class ResponseDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;刘俭梅&quot;;</span><br><span class="line">        //获取OutputStream输出流</span><br><span class="line">        OutputStream outputStream = response.getOutputStream();</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        //将字符转换成字节数组，指定以UTF-8编码进行转换</span><br><span class="line">        byte[] dataByteArr = data.getBytes(&quot;UTF-8&quot;);</span><br><span class="line">        outputStream.write(dataByteArr);//使用OutputStream流向客户端输出字节数组</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>运行结果：<br><img src="/img/ResponseDemo.png" alt=""></p>
-<h4 id="使用PrintWriter流向客户端浏览器输出中文数据"><a href="#使用PrintWriter流向客户端浏览器输出中文数据" class="headerlink" title="使用PrintWriter流向客户端浏览器输出中文数据"></a>使用PrintWriter流向客户端浏览器输出中文数据</h4><p>2.2、使用PrintWriter流向客户端浏览器输出中文数据<br>使用PrintWriter流输出中文注意问题：<br>　　在获取PrintWriter输出流之前首先使用”response.setCharacterEncoding(charset)”设置字符以什么样的编码输出到浏览器，如：response.setCharacterEncoding(“UTF-8”);设置将字符以”UTF-8”编码输出到客户端浏览器，然后再使用response.getWriter();获取PrintWriter输出流，这两个步骤不能颠倒，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">response.setCharacterEncoding(&quot;UTF-8&quot;);//设置将字符以&quot;UTF-8&quot;编码输出到客户端浏览器</span><br><span class="line">PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">/**PrintWriter out = response.getWriter();这句代码必须放在*response.setCharacterEncoding(&quot;UTF-8&quot;);之后</span><br><span class="line">*否则response.setCharacterEncoding(&quot;UTF-8&quot;)这行代码的设置将无效，浏览器显示的时候还是乱码*/</span><br></pre></td></tr></table></figure></p>
-<p>然后再使用response.setHeader(“content-type”, “text/html;charset=字符编码”);设置响应头，控制浏览器以指定的字符编码编码进行显示，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br></pre></td></tr></table></figure></p>
-<p>复制代码<br>范例：使用PrintWriter流向客户端浏览器输出”刘俭梅”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo1&quot;)</span><br><span class="line">public class ResponseDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;刘俭梅&quot;;</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);//设置将字符以&quot;UTF-8&quot;编码输出到客户端浏览器</span><br><span class="line">        PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">        out.write(data);//使用PrintWriter流向客户端输出字符</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>当需要向浏览器输出字符数据时，使用PrintWriter比较方便，省去了将字符转换成字节数组那一步。</p>
-<h4 id="使用OutputStream或者PrintWriter向客户端浏览器输出数字"><a href="#使用OutputStream或者PrintWriter向客户端浏览器输出数字" class="headerlink" title="使用OutputStream或者PrintWriter向客户端浏览器输出数字"></a>使用OutputStream或者PrintWriter向客户端浏览器输出数字</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo1&quot;)</span><br><span class="line">public class ResponseDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        outputOneByOutputStream(response);//使用OutputStream输出1到客户端浏览器</span><br><span class="line">        outputOneByPrintWriter(response);//使用PrintWriter输出1到客户端浏览器</span><br><span class="line">        String data = &quot;刘俭梅&quot;;</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);//设置将字符以&quot;UTF-8&quot;编码输出到客户端浏览器</span><br><span class="line">        PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">        out.write(data);//使用PrintWriter流向客户端输出字符</span><br><span class="line">        //获取OutputStream输出流</span><br><span class="line">        OutputStream outputStream = response.getOutputStream();</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        //将字符转换成字节数组，指定以UTF-8编码进行转换</span><br><span class="line">        byte[] dataByteArr = data.getBytes(&quot;UTF-8&quot;);</span><br><span class="line">        outputStream.write(dataByteArr);//使用OutputStream流向客户端输出字节数组</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 使用PrintWriter流输出数字1</span><br><span class="line">     * @param response</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    private void outputOneByPrintWriter(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span><br><span class="line">        PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">        out.write(&quot;使用PrintWriter流输出数字1：&quot;);</span><br><span class="line">        out.write(1 + &quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 使用OutputStream流输出数字1</span><br><span class="line">     *</span><br><span class="line">     * @param response</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    private void outputOneByOutputStream(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        OutputStream outputStream = response.getOutputStream();</span><br><span class="line">        outputStream.write(&quot;使用OutputStream流输出数字1：&quot;.getBytes(&quot;UTF-8&quot;));</span><br><span class="line">        outputStream.write((1 + &quot;&quot;).getBytes());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>1+””这一步是将数字1和一个空字符串相加，这样处理之后，数字1就变成了字符串1了，然后再将字符串1转换成字节数组使用OutputStream进行输出</li>
-</ul>
-<h5 id="在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。"><a href="#在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。" class="headerlink" title="在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。"></a>在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。</h5><h5 id="如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出"><a href="#如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出" class="headerlink" title="如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出"></a>如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出</h5>
           
         
       
@@ -1375,6 +851,171 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Spring Boot中使用JdbcTemplate访问数据库/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/Spring Boot中使用JdbcTemplate访问数据库/" itemprop="url">
+                  Spring Boot(六)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Spring-Boot中使用JdbcTemplate访问数据库"><a href="#Spring-Boot中使用JdbcTemplate访问数据库" class="headerlink" title="Spring Boot中使用JdbcTemplate访问数据库"></a>Spring Boot中使用JdbcTemplate访问数据库</h3><h4 id="数据源配置"><a href="#数据源配置" class="headerlink" title="数据源配置"></a>数据源配置</h4><p>在我们访问数据库的时候，需要先配置一个数据源，下面分别介绍一下几种不同的数据库配置方式。</p>
+<p>首先，为了连接数据库需要引入jdbc支持，在pom.xml中引入如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="嵌入式数据库支持"><a href="#嵌入式数据库支持" class="headerlink" title="嵌入式数据库支持"></a>嵌入式数据库支持</h4><p>嵌入式数据库通常用于开发和测试环境，不推荐用于生产环境。Spring Boot提供自动配置的嵌入式数据库有H2、HSQL、Derby，你不需要提供任何连接配置就能使用。</p>
+<p>比如，我们可以在pom.xml中引入如下配置使用HSQL<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.hsqldb&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;hsqldb&lt;/artifactId&gt;</span><br><span class="line">    &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="连接生产数据源"><a href="#连接生产数据源" class="headerlink" title="连接生产数据源"></a>连接生产数据源</h4><p>以MySQL数据库为例，先引入MySQL连接的依赖包，在pom.xml中加入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;5.1.21&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>在src/main/resources/application.properties中配置数据源信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spring.datasource.url=jdbc:mysql://localhost:3306/test</span><br><span class="line">spring.datasource.username=root</span><br><span class="line">spring.datasource.password=</span><br><span class="line">spring.datasource.driver-class-name=com.mysql.jdbc.Driver</span><br></pre></td></tr></table></figure></p>
+<h4 id="连接JNDI数据源"><a href="#连接JNDI数据源" class="headerlink" title="连接JNDI数据源"></a>连接JNDI数据源</h4><p>当你将应用部署于应用服务器上的时候想让数据源由应用服务器管理，那么可以使用如下配置方式引入JNDI数据源。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spring.datasource.jndi-name=java:jboss/datasources/customers</span><br></pre></td></tr></table></figure></p>
+<h4 id="使用JdbcTemplate操作数据库"><a href="#使用JdbcTemplate操作数据库" class="headerlink" title="使用JdbcTemplate操作数据库"></a>使用JdbcTemplate操作数据库</h4><p>Spring的JdbcTemplate是自动配置的，你可以直接使用@Autowired来注入到你自己的bean中来使用。</p>
+<p>举例：我们在创建User表，包含属性name、age，下面来编写数据访问对象和单元测试用例。</p>
+<p>定义包含有插入、删除、查询的抽象接口UserService<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public interface UserService &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 新增一个用户</span><br><span class="line">     * @param name</span><br><span class="line">     * @param age</span><br><span class="line">     */</span><br><span class="line">    void create(String name, Integer age);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 根据name删除一个用户高</span><br><span class="line">     * @param name</span><br><span class="line">     */</span><br><span class="line">    void deleteByName(String name);</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取用户总量</span><br><span class="line">     */</span><br><span class="line">    Integer getAllUsers();</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 删除所有用户</span><br><span class="line">     */</span><br><span class="line">    void deleteAllUsers();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过JdbcTemplate实现UserService中定义的数据访问操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class UserServiceImpl implements UserService &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private JdbcTemplate jdbcTemplate;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void create(String name, Integer age) &#123;</span><br><span class="line">        jdbcTemplate.update(&quot;insert into USER(NAME, AGE) values(?, ?)&quot;, name, age);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void deleteByName(String name) &#123;</span><br><span class="line">        jdbcTemplate.update(&quot;delete from USER where NAME = ?&quot;, name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Integer getAllUsers() &#123;</span><br><span class="line">        return jdbcTemplate.queryForObject(&quot;select count(1) from USER&quot;, Integer.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void deleteAllUsers() &#123;</span><br><span class="line">        jdbcTemplate.update(&quot;delete from USER&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建对UserService的单元测试用例，通过创建、删除和查询来验证数据库操作的正确性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">@RunWith(SpringJUnit4ClassRunner.class)</span><br><span class="line">@SpringApplicationConfiguration(Application.class)</span><br><span class="line">public class ApplicationTests &#123;</span><br><span class="line"></span><br><span class="line">	@Autowired</span><br><span class="line">	private UserService userSerivce;</span><br><span class="line"></span><br><span class="line">	@Before</span><br><span class="line">	public void setUp() &#123;</span><br><span class="line">		// 准备，清空user表</span><br><span class="line">		userSerivce.deleteAllUsers();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Test</span><br><span class="line">	public void test() throws Exception &#123;</span><br><span class="line">		// 插入5个用户</span><br><span class="line">		userSerivce.create(&quot;a&quot;, 1);</span><br><span class="line">		userSerivce.create(&quot;b&quot;, 2);</span><br><span class="line">		userSerivce.create(&quot;c&quot;, 3);</span><br><span class="line">		userSerivce.create(&quot;d&quot;, 4);</span><br><span class="line">		userSerivce.create(&quot;e&quot;, 5);</span><br><span class="line"></span><br><span class="line">		// 查数据库，应该有5个用户</span><br><span class="line">		Assert.assertEquals(5, userSerivce.getAllUsers().intValue());</span><br><span class="line"></span><br><span class="line">		// 删除两个用户</span><br><span class="line">		userSerivce.deleteByName(&quot;a&quot;);</span><br><span class="line">		userSerivce.deleteByName(&quot;e&quot;);</span><br><span class="line"></span><br><span class="line">		// 查数据库，应该有5个用户</span><br><span class="line">		Assert.assertEquals(3, userSerivce.getAllUsers().intValue());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/FastJSON 简单使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1587,7 +1228,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Toast为什么不可以在子线程里面运行/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/HttpServletResponse对象介绍/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -1606,8 +1247,346 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/Toast为什么不可以在子线程里面运行/" itemprop="url">
-                  我的第一个Android设计——登录和注册
+                <a class="post-title-link" href="/2018/07/20/HttpServletResponse对象介绍/" itemprop="url">
+                  javaweb (五 )
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>Web服务器收到客户端的http请求，会针对每一次请求，分别创建一个用于代表请求的request对象、和代表响应的response对象。</li>
+<li>request和response对象即然代表请求和响应，那我们要获取客户机提交过来的数据，只需要找request对象就行了。要向客户机输出数据，只需要找response对象就行了。</li>
+</ul>
+<h3 id="HttpServletResponse对象介绍"><a href="#HttpServletResponse对象介绍" class="headerlink" title="HttpServletResponse对象介绍"></a>HttpServletResponse对象介绍</h3><p>HttpServletResponse对象代表服务器的响应。这个对象中封装了向客户端发送数据、发送响应头，发送响应状态码的方法。查看HttpServletResponse的API，可以看到这些相关的方法。</p>
+<h4 id="负责向客户端-浏览器-发送数据的相关方法"><a href="#负责向客户端-浏览器-发送数据的相关方法" class="headerlink" title="负责向客户端(浏览器)发送数据的相关方法"></a>负责向客户端(浏览器)发送数据的相关方法</h4><p><img src="/img/response.png" alt=""></p>
+<h4 id="负责向客户端-浏览器-发送响应头的相关方法"><a href="#负责向客户端-浏览器-发送响应头的相关方法" class="headerlink" title="负责向客户端(浏览器)发送响应头的相关方法"></a>负责向客户端(浏览器)发送响应头的相关方法</h4><p><img src="/img/response1.png" alt=""><br><img src="/img/response2.png" alt=""></p>
+<h4 id="负责向客户端-浏览器-发送响应状态码的相关方法"><a href="#负责向客户端-浏览器-发送响应状态码的相关方法" class="headerlink" title="负责向客户端(浏览器)发送响应状态码的相关方法"></a>负责向客户端(浏览器)发送响应状态码的相关方法</h4><p><img src="/img/response3.png" alt=""></p>
+<h4 id="响应状态码的常量"><a href="#响应状态码的常量" class="headerlink" title="响应状态码的常量"></a>响应状态码的常量</h4><p>　HttpServletResponse定义了很多状态码的常量(具体可以查看Servlet的API)，当需要向客户端发送响应状态码时，可以使用这些常量，避免了直接写数字，常见的状态码对应的常量：<br><em>状态码404对应的常量</em><br><img src="/img/response4.png" alt=""><br><em>状态码200对应的常量</em><br><img src="/img/response5.png" alt=""><br><em>状态码500对应的常量</em><br><img src="/img/response6.png" alt=""></p>
+<h3 id="HttpServletResponse对象常见应用"><a href="#HttpServletResponse对象常见应用" class="headerlink" title="HttpServletResponse对象常见应用"></a>HttpServletResponse对象常见应用</h3><h4 id="使用OutputStream流向客户端浏览器输出中文数据"><a href="#使用OutputStream流向客户端浏览器输出中文数据" class="headerlink" title="使用OutputStream流向客户端浏览器输出中文数据"></a>使用OutputStream流向客户端浏览器输出中文数据</h4><p>使用OutputStream流输出中文注意问题：在服务器端，数据是以哪个码表输出的，那么就要控制客户端浏览器以相应的码表打开，比如：outputStream.write(“刘俭梅”.getBytes(“UTF-8”));使用OutputStream流向客户端浏览器输出中文，以UTF-8的编码进行输出，此时就要控制客户端浏览器以UTF-8的编码打开，否则显示的时候就会出现中文乱码，那么在服务器端如何控制客户端浏览器以以UTF-8的编码显示数据呢？可以通过设置响应头控制浏览器的行为，例如：response.setHeader(“content-type”, “text/html;charset=UTF-8”);通过设置响应头控制浏览器以UTF-8的编码显示数据。<br>范例：使用OutputStream流向客户端浏览器输出”刘俭梅”这三个汉字<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo1&quot;)</span><br><span class="line">public class ResponseDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;刘俭梅&quot;;</span><br><span class="line">        //获取OutputStream输出流</span><br><span class="line">        OutputStream outputStream = response.getOutputStream();</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        //将字符转换成字节数组，指定以UTF-8编码进行转换</span><br><span class="line">        byte[] dataByteArr = data.getBytes(&quot;UTF-8&quot;);</span><br><span class="line">        outputStream.write(dataByteArr);//使用OutputStream流向客户端输出字节数组</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><img src="/img/ResponseDemo.png" alt=""></p>
+<h4 id="使用PrintWriter流向客户端浏览器输出中文数据"><a href="#使用PrintWriter流向客户端浏览器输出中文数据" class="headerlink" title="使用PrintWriter流向客户端浏览器输出中文数据"></a>使用PrintWriter流向客户端浏览器输出中文数据</h4><p>2.2、使用PrintWriter流向客户端浏览器输出中文数据<br>使用PrintWriter流输出中文注意问题：<br>　　在获取PrintWriter输出流之前首先使用”response.setCharacterEncoding(charset)”设置字符以什么样的编码输出到浏览器，如：response.setCharacterEncoding(“UTF-8”);设置将字符以”UTF-8”编码输出到客户端浏览器，然后再使用response.getWriter();获取PrintWriter输出流，这两个步骤不能颠倒，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">response.setCharacterEncoding(&quot;UTF-8&quot;);//设置将字符以&quot;UTF-8&quot;编码输出到客户端浏览器</span><br><span class="line">PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">/**PrintWriter out = response.getWriter();这句代码必须放在*response.setCharacterEncoding(&quot;UTF-8&quot;);之后</span><br><span class="line">*否则response.setCharacterEncoding(&quot;UTF-8&quot;)这行代码的设置将无效，浏览器显示的时候还是乱码*/</span><br></pre></td></tr></table></figure></p>
+<p>然后再使用response.setHeader(“content-type”, “text/html;charset=字符编码”);设置响应头，控制浏览器以指定的字符编码编码进行显示，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>复制代码<br>范例：使用PrintWriter流向客户端浏览器输出”刘俭梅”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo1&quot;)</span><br><span class="line">public class ResponseDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;刘俭梅&quot;;</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);//设置将字符以&quot;UTF-8&quot;编码输出到客户端浏览器</span><br><span class="line">        PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">        out.write(data);//使用PrintWriter流向客户端输出字符</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当需要向浏览器输出字符数据时，使用PrintWriter比较方便，省去了将字符转换成字节数组那一步。</p>
+<h4 id="使用OutputStream或者PrintWriter向客户端浏览器输出数字"><a href="#使用OutputStream或者PrintWriter向客户端浏览器输出数字" class="headerlink" title="使用OutputStream或者PrintWriter向客户端浏览器输出数字"></a>使用OutputStream或者PrintWriter向客户端浏览器输出数字</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">package qgx.response.study;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.io.PrintWriter;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ResponseDemo1&quot;)</span><br><span class="line">public class ResponseDemo1 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        outputOneByOutputStream(response);//使用OutputStream输出1到客户端浏览器</span><br><span class="line">        outputOneByPrintWriter(response);//使用PrintWriter输出1到客户端浏览器</span><br><span class="line">        String data = &quot;刘俭梅&quot;;</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);//设置将字符以&quot;UTF-8&quot;编码输出到客户端浏览器</span><br><span class="line">        PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">        out.write(data);//使用PrintWriter流向客户端输出字符</span><br><span class="line">        //获取OutputStream输出流</span><br><span class="line">        OutputStream outputStream = response.getOutputStream();</span><br><span class="line">        //通过设置响应头控制浏览器以UTF-8的编码显示数据，如果不加这句话，那么浏览器显示的将是乱码</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        //将字符转换成字节数组，指定以UTF-8编码进行转换</span><br><span class="line">        byte[] dataByteArr = data.getBytes(&quot;UTF-8&quot;);</span><br><span class="line">        outputStream.write(dataByteArr);//使用OutputStream流向客户端输出字节数组</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 使用PrintWriter流输出数字1</span><br><span class="line">     * @param response</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    private void outputOneByPrintWriter(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span><br><span class="line">        PrintWriter out = response.getWriter();//获取PrintWriter输出流</span><br><span class="line">        out.write(&quot;使用PrintWriter流输出数字1：&quot;);</span><br><span class="line">        out.write(1 + &quot;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 使用OutputStream流输出数字1</span><br><span class="line">     *</span><br><span class="line">     * @param response</span><br><span class="line">     * @throws IOException</span><br><span class="line">     */</span><br><span class="line">    private void outputOneByOutputStream(HttpServletResponse response) throws IOException &#123;</span><br><span class="line">        response.setHeader(&quot;content-type&quot;, &quot;text/html;charset=UTF-8&quot;);</span><br><span class="line">        OutputStream outputStream = response.getOutputStream();</span><br><span class="line">        outputStream.write(&quot;使用OutputStream流输出数字1：&quot;.getBytes(&quot;UTF-8&quot;));</span><br><span class="line">        outputStream.write((1 + &quot;&quot;).getBytes());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>1+””这一步是将数字1和一个空字符串相加，这样处理之后，数字1就变成了字符串1了，然后再将字符串1转换成字节数组使用OutputStream进行输出</li>
+</ul>
+<h5 id="在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。"><a href="#在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。" class="headerlink" title="在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。"></a>在开发过程中，如果希望服务器输出什么浏览器就能看到什么，那么在服务器端都要以字符串的形式进行输出。</h5><h5 id="如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出"><a href="#如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出" class="headerlink" title="如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出"></a>如果使用PrintWriter流输出数字，那么也要先将数字转换成字符串后再输出</h5>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/hello-world/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/hello-world/" itemprop="url">
+                  Hello World
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="298" height="52" src="https://music.163.com/outchain/player?type=2&id=531533335&auto=1&height=32"></iframe>
+
+
+
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Handler/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/Handler/" itemprop="url">
+                  Handler
                 </a>
               
             
@@ -1687,13 +1666,33 @@
       
         
           
-            <h3 id="Toast为什么不可以在子线程里面运行"><a href="#Toast为什么不可以在子线程里面运行" class="headerlink" title="Toast为什么不可以在子线程里面运行"></a>Toast为什么不可以在子线程里面运行</h3><p>Handler不能再子线程里运行的 因为子线程没有创建Looper.prepare(); 所以就报错了。主线程不需要调用，是因为主线程已经默认帮你调用了。</p>
-<p>可以看到一个Toast的创建需要依赖Handler。那么 我不要 我不要 我一定要在子线程使用Toast那怎么办。<br>其实很简单，它却什么就给它什么。</p>
-<h4 id="第一种方法"><a href="#第一种方法" class="headerlink" title="第一种方法"></a>第一种方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">new Thread()&#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            super.run();</span><br><span class="line">            Looper.prepare();</span><br><span class="line">            try &#123;</span><br><span class="line">                Toast.makeText(LoginActivity.this,&quot;keshe&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">            &#125;catch (Exception e) &#123;</span><br><span class="line">                Logger.e(&quot;error&quot;,e.toString());</span><br><span class="line">            &#125;</span><br><span class="line">            Looper.loop();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;.start();</span><br></pre></td></tr></table></figure>
-<p>因为除了Activity ui线程默认创建之外，其他线程不会自动创建调用 Looper.prepare()来给线程创建消息循环，然后再通过，Looper.loop()来使消息循环起作用。</p>
-<h4 id="第二种方法"><a href="#第二种方法" class="headerlink" title="第二种方法"></a>第二种方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">runOnUiThread(new Runnable() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            Toast.makeText(MainActivity.this,&quot;keshe23333&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    new Thread()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;.start();</span><br></pre></td></tr></table></figure>
-<p>Toast的代码创建在Runnable中，然后在需要Toast时，把这个Runnable对象传给runOnUiThread(Runnable)。 这样Runnable对像就能在ui程序中被调用。如果当前线程是UI线程,那么行动是立即执行</p>
-<h4 id="第三种方法"><a href="#第三种方法" class="headerlink" title="第三种方法"></a>第三种方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Handler mHandler = new Handler()&#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void handleMessage(Message msg) &#123;</span><br><span class="line">            super.handleMessage(msg);</span><br><span class="line">     //这里写你的Toast代码Toast.makeText(MainActivity.this,&quot;keshe23333&quot;,Toast.LENGTH_SHORT).show();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    new Thread()&#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            super.run();</span><br><span class="line">          mHandler.sendEmptyMessage(0);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;.start();</span><br></pre></td></tr></table></figure>
+            <h3 id="Handler"><a href="#Handler" class="headerlink" title="Handler"></a>Handler</h3><p>作者博客：<a href="https://blog.csdn.net/ClAndEllen/article/details/79343538" target="_blank" rel="noopener">https://blog.csdn.net/ClAndEllen/article/details/79343538</a></p>
+<h4 id="1-什么是Handler？"><a href="#1-什么是Handler？" class="headerlink" title="1.什么是Handler？"></a>1.什么是Handler？</h4><p>  Handler是可以通过发送和处理Message和Runnable对象来关联相应线程的MessageQueue。通常我们认为它是一种异步机制。</p>
+<ul>
+<li>a.可以让对应的Message和Runnable在未来的某个时间点进行相应的处理。</li>
+<li>b.让自己想要的耗时操作在子线程中完成，让更新UI的操作在主线程中完成，而子线程与主线程之间的通信就是靠Handler来完成。</li>
+</ul>
+<h4 id="2-Handler的使用方法"><a href="#2-Handler的使用方法" class="headerlink" title="2.Handler的使用方法"></a>2.Handler的使用方法</h4><ul>
+<li><p>a.post(Runnable)</p>
+</li>
+<li><p>b.sendMessage(Message)</p>
+</li>
+</ul>
+<h4 id="3-Handler内部的实现机制"><a href="#3-Handler内部的实现机制" class="headerlink" title="3.Handler内部的实现机制"></a>3.Handler内部的实现机制</h4><p>  Handler机制也可叫异步消息机制，它主要由4个部分组成：<strong>Message,Handler,MessageQueue,Looper,</strong>在上面我们已经接触到了Message和Handler,接下来我们对4个成员进行着重的了解：</p>
+<p><strong>1.Message</strong><br>  Message是在线程之间传递的消息，它可以在内部携带少量的信息，用于在不同线程之间交换数据。使用Message的arg1和arg2便可携带int数据，使用obj便可携带Object类型数据。</p>
+<p><strong>2.Handler</strong><br>  Handler顾名思义就是处理者的意思，它只要用于在子线程发送消息对象Message,在UI线程处理消息对象Message，在子线程调用sendMessage方法发送消息对象Message，而发送的消息经过一系列地辗转之后最终会被传递到Handler的handleMessage方法中,最终在handleMessage方法中消息对象Message被处理。</p>
+<p><strong>3.MessageQueue</strong><br>  MessageQueue就是消息队列的意思,它只要用于存放所有通过Handler发送过来的消息。这部分消息会一直存放于消息队列当中，等待被处理。每个线程中只会有一个MessageQueue对象，请牢记这句话。其实从字面上就可以看出，MessageQueue底层数据结构是队列，而且这个队列只存放Message对象。</p>
+<p><strong>4.Looper</strong><br>  Looper是每个线程中的MessageQueue的管家，调用Looper的loop()方法后，就会进入到一个无限循环当中，然后每当MesssageQueue中存在一条消息，Looper就会将这条消息取出，并将它传递到Handler的handleMessage()方法中。每个线程只有一个Looper对象。</p>
+<p>  了解了上述Handler机制的4个成员后，我们再来把思路理一遍：首先在UI线程我们创建了一个Handler实例对象，无论是匿名内部类还是自定义类生成的Handler实例对象，我们都需要对handleMessage方法进行重写，在handleMessage方法中我们可以通过参数msg来写接受消息过后UIi线程的逻辑处理，接着我们创建子线程，在子线程中需要更新UI的时候，新建一个Message对象，并且将消息的数据记录在这个消息对象Message的内部，比如arg1,arg2,obj等，然后通过前面的Handler实例对象调用sendMessge方法把这个Message实例对象发送出去，之后这个消息会被存放于MessageQueue中等待被处理，此时MessageQueue的管家Looper正在不停的把MessageQueue存在的消息取出来，通过回调dispatchMessage方法将消息传递给Handler的handleMessage方法，最终前面提到的消息会被Looper从MessageQueue中取出来传递给handleMessage方法，最终得到处理。这就是Handler机制整个的工作流程，怎么样？你懂了吗？看看下面的图你就更懂了：<br><img src="/img/handler1.png" alt=""></p>
+<h4 id="4-Handler引起的内存泄漏以及解决方法"><a href="#4-Handler引起的内存泄漏以及解决方法" class="headerlink" title="4.Handler引起的内存泄漏以及解决方法"></a>4.Handler引起的内存泄漏以及解决方法</h4><p>原因：<strong>非静态内部类持有外部类的匿名引用，导致外部activity无法得到释放。</strong></p>
+<p>解决方法：handler内部持有外部的弱引用，并把handler改为<strong>静态内部类</strong>，<strong>在activity的onDestory()中调用handler的removeCallback()方法。</strong></p>
+<h4 id="Handler的产生背景"><a href="#Handler的产生背景" class="headerlink" title="Handler的产生背景"></a>Handler的产生背景</h4><p>  开启子线程进行耗时操作，多次创建和销毁子线程是很耗费资源的，但是木有关系，谷歌考虑了这点为我们专门开发出了HandlerThread机制，那么它有什么特点呢？请看下面：</p>
+<h4 id="HandlerThread是什么？"><a href="#HandlerThread是什么？" class="headerlink" title="HandlerThread是什么？"></a>HandlerThread是什么？</h4><p>  本质：Handler + Thread + Looper，是一个Thread内部有Looper。当你被面试官问道HandlerThread是什么，有何特点，那么你应该这么回答：</p>
+<p>  a.HandlerThread本质上是一个线程类，它继承了Thread。</p>
+<p>  b.HandlerThread有自己内部的Looper对象，可以进行Looper循环。</p>
+<p>  c.通过获取HandlerThread的Looper对象传递给Handler对象，可以在handlerMessage方法中执行异步任务。</p>
+<p>  d.优点是不会有堵塞，减少对性能的消耗，缺点是不能进行多任务的处理，需要等待进行处理，处理效率较低。</p>
+<p>  e.与线程池注重并发不同，HandlerThread是一个串行队列，HandlerThread背后只有一个线程。</p>
 
           
         
@@ -1747,7 +1746,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/工厂模式/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/原型模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -1766,8 +1765,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/工厂模式/" itemprop="url">
-                  工厂模式
+                <a class="post-title-link" href="/2018/07/20/原型模式/" itemprop="url">
+                  原型模式
                 </a>
               
             
@@ -1847,47 +1846,22 @@
       
         
           
-            <h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><ul>
-<li>工厂模式是 Java 中最常用的设计模式之一。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。</li>
-<li>工厂模式主要是为创建对象提供过渡接口，以便将创建对象的具体过程屏蔽隔离起来，达到提高灵活性的目的。</li>
-</ul>
-<h4 id="工厂模式根据抽象程度的不同分为三种："><a href="#工厂模式根据抽象程度的不同分为三种：" class="headerlink" title="工厂模式根据抽象程度的不同分为三种："></a>工厂模式根据抽象程度的不同分为三种：</h4><ul>
-<li>简单工厂模式（也叫静态工厂模式）</li>
-<li>工厂方法模式（也叫多形性工厂）</li>
-<li>抽象工厂模式（也叫工具箱）</li>
-</ul>
-<h5 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h5><ul>
-<li>实质是由一个工厂类根据传入的参数，动态决定应该创建哪一个产品类（这些产品类继承自一个父类或接口）的实例。简单工厂模式的创建目标，所有创建的对象都是充当这个角色的某个具体类的实例。</li>
-</ul>
-<h5 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h5><ul>
-<li>工厂方法是粒度很小的设计模式，因为模式的表现只是一个抽象的方法。 提前定义用于创建对象的接口，让子类决定实例化具体的某一个类，即在工厂和产品中间增加接口，工厂不再负责产品的创建，由接口针对不同条件返回具体的类实例，由具体类实例去实现。</li>
-</ul>
-<h5 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h5><ul>
-<li>当有多个抽象角色时使用的一种工厂模式。抽象工厂模式可以向客户端提供一个接口，使客户端在不必指定产品的具体的情况下，创建多个产品对象。它有多个抽象产品类，每个抽象产品类可以派生出多个具体产品类，一个抽象工厂类，可以派生出多个具体工厂类，每个具体工厂类可以创建多个具体产品类的实例。</li>
-</ul>
-<p>工厂方法模式应该在实际中用的较多，我们以工厂方法模式举例<br>（例子来源百度，帮助理解）</p>
-<h5 id="抽象的产品类：定义car-交通工具类"><a href="#抽象的产品类：定义car-交通工具类" class="headerlink" title="抽象的产品类：定义car  交通工具类"></a>抽象的产品类：定义car  交通工具类</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface Car &#123;    </span><br><span class="line">    void gotowork();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="定义实际的产品类，总共定义两个，bike-和bus-分别表示不同的交通工具类"><a href="#定义实际的产品类，总共定义两个，bike-和bus-分别表示不同的交通工具类" class="headerlink" title="定义实际的产品类，总共定义两个，bike 和bus 分别表示不同的交通工具类"></a>定义实际的产品类，总共定义两个，bike 和bus 分别表示不同的交通工具类</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class Bike implements Car &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void gotowork() &#123;</span><br><span class="line">        System.out.println(&quot;骑自行车去上班！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class Bus implements Car &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void gotowork() &#123;</span><br><span class="line">        System.out.println(&quot;坐公交车去上班！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="定义抽象的工厂接口"><a href="#定义抽象的工厂接口" class="headerlink" title="定义抽象的工厂接口"></a>定义抽象的工厂接口</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface ICarFactory &#123;</span><br><span class="line">    Car getCar();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>具体的工厂子类，分别为每个具体的产品类创建不同的工厂子类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class BikeFactory implements ICarFactory &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public Car getCar() &#123;</span><br><span class="line">        return new Bike();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class BusFactory implements ICarFactory &#123;    </span><br><span class="line">@Override</span><br><span class="line">    public Car getCar() &#123;        </span><br><span class="line">        return new Bus();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="简单的测试类，来验证不同的工厂能够产生不同的产品对象"><a href="#简单的测试类，来验证不同的工厂能够产生不同的产品对象" class="headerlink" title="简单的测试类，来验证不同的工厂能够产生不同的产品对象"></a>简单的测试类，来验证不同的工厂能够产生不同的产品对象</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class TestFactory &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void test() &#123;</span><br><span class="line">        ICarFactory factory = null;</span><br><span class="line">        // bike</span><br><span class="line">        factory = new BikeFactory();</span><br><span class="line">        Car bike = factory.getCar();</span><br><span class="line">        bike.gotowork();</span><br><span class="line"></span><br><span class="line">        // bus</span><br><span class="line">        factory = new BusFactory();</span><br><span class="line">        Car bus = factory.getCar();</span><br><span class="line">        bus.gotowork();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="工厂模式的优点："><a href="#工厂模式的优点：" class="headerlink" title="工厂模式的优点："></a>工厂模式的优点：</h4><pre><code>1、一个调用者想创建一个对象，只要知道其名称就可以了，降低了耦合度。
-2、扩展性高，如果想增加一个产品，只要扩展一个工厂类就可以。使得代码结构更加清晰。
-3、屏蔽产品的具体实现，调用者只关心产品的接口。
-</code></pre><h4 id="工厂模式的缺点："><a href="#工厂模式的缺点：" class="headerlink" title="工厂模式的缺点："></a>工厂模式的缺点：</h4><pre><code>每次增加一个产品时，都需要增加一个具体类和对象实现工厂（这里可以使用反射机制来避免），使得系统中类的个数成倍增加，在一定程度上增加了系统的复杂度，同时也增加了系统具体类的依赖。所以对于简单对象来说，使用工厂模式反而增加了复杂度。
-</code></pre><h4 id="工厂模式的适用场景："><a href="#工厂模式的适用场景：" class="headerlink" title="工厂模式的适用场景："></a>工厂模式的适用场景：</h4><pre><code>1、  一个对象拥有很多子类。
-2、  创建某个对象时需要进行许多额外的操作。
-3、  系统后期需要经常扩展，它把对象实例化的任务交由实现类完成，扩展性好。
-</code></pre><h4 id="关于Java中的工厂模式的一些常见问题："><a href="#关于Java中的工厂模式的一些常见问题：" class="headerlink" title="关于Java中的工厂模式的一些常见问题："></a>关于Java中的工厂模式的一些常见问题：</h4><pre><code>    利用父类的向下转型（使用父类类型的引用指向子类的对象）是可以达到类似于工厂模式的效果的，那为什么还要用工厂模式呢？
-    把指向子类对象的父类引用赋给子类引用叫做向下转型，如：
-
-Class Student extends Person     
-Person s = new Student();    
-s = (Student)person ;
-</code></pre><p>使用向下转型在客户端实例化子类的时候，严重依赖具体的子类的名字。当我们需要更改子类的构造方法的时候，比如增加一个参数，或者更改了子类的类名，所有的new出来的子类都需要跟着更改。<br>        但如果我们使用工厂模式，我们仅仅需要在工厂中修改一下new的代码，其余项目中用到此实例的都会跟着改，而不需要我们手动去操作。 </p>
-<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><pre><code>无论是简单工厂模式、工厂模式还是抽象工厂模式，它们本质上都是将不变的部分提取出来，将可变的部分留作接口，以达到最大程度上的复用。究竟用哪种设计模式更适合，这要根据具体的业务需求来决定。
+            <h3 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>通过复制现有的对象实例来创建新的对象实例。</p>
+<h4 id="实现："><a href="#实现：" class="headerlink" title="实现："></a>实现：</h4><h5 id="实现Cloneable接口："><a href="#实现Cloneable接口：" class="headerlink" title="实现Cloneable接口："></a>实现Cloneable接口：</h5><pre><code>Cloneable接口的作用是在运行时通知虚拟机可以安全地在实现了此接口的类上使用clone方法。在java虚拟机中，只有实现了这个接口的类才可以被拷贝，否则在运行时会抛出CloneNotSupportedException异常。
+</code></pre><h5 id="重写Object类中的clone方法："><a href="#重写Object类中的clone方法：" class="headerlink" title="重写Object类中的clone方法："></a>重写Object类中的clone方法：</h5><pre><code>Java中，所有类的父类都是Object类，Object类中有一个clone方法，作用是返回对象的一个拷贝，但是其作用域protected类型的，一般的类无法调用，因此，原型类需要将clone方法的作用域修改为public类型。
+</code></pre><h5 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h5><p>例如，对于拿邮件发邀请函，邮件类大部分内容都是一样的：邀请原由、相邀地点，相聚时间等等，但对于被邀请者的名称和发送的邮件地址是不同的。</p>
+<h5 id="定义Mail类："><a href="#定义Mail类：" class="headerlink" title="定义Mail类："></a>定义Mail类：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">public class Mail implements Cloneable &#123;    </span><br><span class="line">    private String receiver;    </span><br><span class="line">    private String subject;    </span><br><span class="line">    private String content;    </span><br><span class="line">    private String tail;    </span><br><span class="line">    public Mail(EventTemplate et) &#123;        </span><br><span class="line">        this.tail = et.geteventContent();        </span><br><span class="line">        this.subject = et.geteventSubject();</span><br><span class="line">    &#125;    </span><br><span class="line">    @Override</span><br><span class="line">    public Mail clone() &#123;</span><br><span class="line">        Mail mail = null;        </span><br><span class="line">    try &#123;</span><br><span class="line">            mail = (Mail) super.clone();            </span><br><span class="line">        &#125; catch (CloneNotSupportedException e) &#123;            </span><br><span class="line">        // TODO Auto-generated catch block</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;        return mail;</span><br><span class="line">    &#125;</span><br><span class="line">//get、set.....</span><br><span class="line">&#125;</span><br><span class="line">测试方法：</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    int i = 0;</span><br><span class="line">    int MAX_COUNT = 10;</span><br><span class="line">    EventTemplate et = </span><br><span class="line">new EventTemplate(&quot;邀请函（不变）&quot;, &quot;婚嫁生日啥的....（不变部分）&quot;);</span><br><span class="line">    Mail mail = new Mail(et);    </span><br><span class="line">    while (i &lt; MAX_COUNT) &#123;</span><br><span class="line">        Mail cloneMail = mail.clone();</span><br><span class="line">        cloneMail.setContent(&quot;XXX先生（女士）（变化部分）&quot;</span><br><span class="line">     + mail.getTail());</span><br><span class="line">        cloneMail.setReceiver(&quot;每个人的邮箱地址...com（变化部分）&quot;);</span><br><span class="line">        sendMail(cloneMail);</span><br><span class="line">        i++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h5><pre><code>1、使用原型模型创建一个对象比直接new一个对象更有效率，因为它直接操作内存中的二进制流，特别是复制大对象时，性能的差别非常明显。
+2、隐藏了制造新实例的复杂性，使得创建对象就像我们在编辑文档时的复制粘贴一样简单。
+</code></pre><h5 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h5><pre><code>1、由于使用原型模式复制对象时不会调用类的构造方法，所以原型模式无法和单例模式组合使用，因为原型类需要将clone方法的作用域修改为public类型，那么单例模式的条件就无法满足了。
+2、使用原型模式时不能有final对象。
+3、Object类的clone方法只会拷贝对象中的基本数据类型，对于数组，引用对象等只能另行拷贝。这里涉及到深拷贝和浅拷贝的概念。
+</code></pre><h4 id="深拷贝与浅拷贝："><a href="#深拷贝与浅拷贝：" class="headerlink" title="深拷贝与浅拷贝："></a>深拷贝与浅拷贝：</h4><h5 id="浅拷贝："><a href="#浅拷贝：" class="headerlink" title="浅拷贝："></a>浅拷贝：</h5><pre><code>将一个对象复制后，基本数据类型的变量都会重新创建，而引用类型，指向的还是原对象所指向的（这样不安全）。
+</code></pre><h5 id="深拷贝："><a href="#深拷贝：" class="headerlink" title="深拷贝："></a>深拷贝：</h5><pre><code>将一个对象复制后，不论是基本数据类型还有引用类型，都是重新创建的。
+</code></pre><p>那么深拷贝如何具体实现呢？<br>继续上面的例子，增加了一个ArrayList属性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private String receiver;</span><br><span class="line">private String subject;</span><br><span class="line">private String content;</span><br><span class="line">private String tail;</span><br><span class="line">private ArrayList&lt;String&gt; ars;</span><br><span class="line">此时，单mail = (Mail) super.clone();无法将ars指向的地址区域改变，必须另行拷贝：</span><br><span class="line">try &#123;</span><br><span class="line">       mail = (Mail) super.clone();       </span><br><span class="line">       mail.ars = (ArrayList&lt;String&gt;)this.ars.clone();</span><br><span class="line">      &#125; catch (CloneNotSupportedException e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="适用场景："><a href="#适用场景：" class="headerlink" title="适用场景："></a>适用场景：</h4><pre><code>1、复制对象的结构和数据。
+2、希望对目标对象的修改不影响既有的原型对象。
+3、创建一个对象的成本比较大。
 </code></pre>
           
         
@@ -1941,7 +1915,7 @@ s = (Student)person ;
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/单例模式/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/单一职责原则/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -1960,8 +1934,8 @@ s = (Student)person ;
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/单例模式/" itemprop="url">
-                  单例模式
+                <a class="post-title-link" href="/2018/07/20/单一职责原则/" itemprop="url">
+                  单一职责原则
                 </a>
               
             
@@ -2041,51 +2015,14 @@ s = (Student)person ;
       
         
           
-            <h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>单例模式，是一种常用的软件设计模式。在它的核心结构中只包含一个被称为单例的特殊类。通过单例模式可以保证系统中一个类只有一个实例。即一个类只有一个对象实例。</p>
-<h4 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h4><ul>
-<li>1、单例类只能有一个实例。</li>
-<li>2、单例类必须自己自己创建自己的唯一实例。</li>
-<li>3、单例类必须给所有其他对象提供这一实例</li>
-</ul>
-<h4 id="单例模式的要点："><a href="#单例模式的要点：" class="headerlink" title="单例模式的要点："></a>单例模式的要点：</h4><ul>
-<li>1、私有的构造方法</li>
-<li>2、指向自己实例的私有静态引用</li>
-<li>3、以自己实例为返回值的静态的公有的方法</li>
-</ul>
-<h4 id="单例模式根据实例化对象时机的不同分为两种："><a href="#单例模式根据实例化对象时机的不同分为两种：" class="headerlink" title="单例模式根据实例化对象时机的不同分为两种："></a>单例模式根据实例化对象时机的不同分为两种：</h4><ul>
-<li>一种是饿汉式单例，一种是懒汉式单例。</li>
-<li>饿汉式单例在单例类被加载时候，就实例化一个对象交给自己的引用；而懒汉式在调用取得实例方法的时候才会实例化对象。<br>代码如下：<h5 id="饿汉式单例："><a href="#饿汉式单例：" class="headerlink" title="饿汉式单例："></a>饿汉式单例：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi;</span><br><span class="line">//饿汉式单例</span><br><span class="line">public class Singleton &#123;</span><br><span class="line">    private static Singleton singleton = new Singleton();</span><br><span class="line">    private Singleton()&#123;&#125;</span><br><span class="line">    public  static Singleton getSingletonInstance()&#123;</span><br><span class="line">        return singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h5 id="懒汉式单例"><a href="#懒汉式单例" class="headerlink" title="懒汉式单例"></a>懒汉式单例</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi;</span><br><span class="line"></span><br><span class="line">//懒汉式单例</span><br><span class="line">public class Singleton2 &#123;</span><br><span class="line">    private static Singleton2 singleton2;</span><br><span class="line">    private Singleton2()&#123;&#125;</span><br><span class="line">    public static synchronized Singleton2 getSingleton2()&#123;</span><br><span class="line">        if (singleton2 == null)&#123;</span><br><span class="line">            singleton2 = new Singleton2();</span><br><span class="line">        &#125;</span><br><span class="line">        return singleton2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="单例模式还有一种比较常见的形式：双重锁的形式"><a href="#单例模式还有一种比较常见的形式：双重锁的形式" class="headerlink" title="单例模式还有一种比较常见的形式：双重锁的形式"></a>单例模式还有一种比较常见的形式：双重锁的形式</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi;</span><br><span class="line">//双重锁的形式单例</span><br><span class="line">public class Singleton3 &#123;</span><br><span class="line">    private static volatile Singleton3 singleton3 =null;</span><br><span class="line">    private Singleton3()&#123;&#125;</span><br><span class="line">    public static Singleton3 getSingleton3()&#123;</span><br><span class="line">        if (singleton3 == null)&#123;</span><br><span class="line">            synchronized (Singleton3.class)&#123;</span><br><span class="line">                if (singleton3 == null)&#123;</span><br><span class="line">                    singleton3 = new Singleton3();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return singleton3;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个模式将同步内容下方到if内部，提高了执行的效率，不必每次获取对象时都进行同步，只有第一次才同步，创建了以后就没必要了。<br>        这种模式中双重判断加同步的方式，比第一个例子中的效率大大提升，因为如果单层if判断，在服务器允许的情况下，假设有一百个线程，耗费的时间为100*（同步判断时间+if判断时间），而如果双重if判断，100的线程可以同时if判断，理论消耗的时间只有一个if判断的时间。<br>        所以如果面对高并发的情况，而且采用的是懒汉模式，最好的选择就是双重判断加同步的方式。</p>
-<h4 id="单例模式的优点："><a href="#单例模式的优点：" class="headerlink" title="单例模式的优点："></a>单例模式的优点：</h4><ul>
-<li>1、在内存中只有一个对象，节省内存空间。</li>
-<li>2、避免频繁的创建销毁对象，可以提高性能。</li>
-<li>3、避免对共享资源的多重占用。</li>
-<li>4、可以全局访问。</li>
-</ul>
-<h4 id="单例模式的缺点："><a href="#单例模式的缺点：" class="headerlink" title="单例模式的缺点："></a>单例模式的缺点：</h4><ul>
-<li>1、扩展困难，由于getInstance静态函数没有办法生成子类的实例。如果要拓展，只有重写那个类。</li>
-<li>2、隐式使用引起类结构不清晰。</li>
-<li>3、导致程序内存泄露的问题。</li>
-</ul>
-<h4 id="适用场景："><a href="#适用场景：" class="headerlink" title="适用场景："></a>适用场景：</h4><p>   由于单例模式的以上优点，所以是编程中用的比较多的一种设计模式。以下为使用单例模式的场景：</p>
-<ul>
-<li>1、需要频繁实例化然后销毁的对象。</li>
-<li>2、创建对象时耗时过多或者耗资源过多，但又经常用到的对象。</li>
-<li>3、资源共享的情况下，避免由于资源操作时导致的性能或损耗等</li>
-<li>4、控制资源的情况下，方便资源之间的互相通信。</li>
-</ul>
-<h4 id="单例模式注意事项："><a href="#单例模式注意事项：" class="headerlink" title="单例模式注意事项："></a>单例模式注意事项：</h4><pre><code>只能使用单例类提供的方法得到单例对象，不要使用反射，否则将会实例化一个新对象。
-    不要做断开单例类对象与类中静态引用的危险操作。
-    多线程使用单例使用共享资源时，注意线程安全问题。
-</code></pre><h4 id="关于Java中单例模式的一些常见问题："><a href="#关于Java中单例模式的一些常见问题：" class="headerlink" title="关于Java中单例模式的一些常见问题："></a>关于Java中单例模式的一些常见问题：</h4><h5 id="单例模式的对象长时间不用会被jvm垃圾收集器收集吗？"><a href="#单例模式的对象长时间不用会被jvm垃圾收集器收集吗？" class="headerlink" title="单例模式的对象长时间不用会被jvm垃圾收集器收集吗？"></a>单例模式的对象长时间不用会被jvm垃圾收集器收集吗？</h5><p> 除非人为地断开单例中静态引用到单例对象的联接，否则jvm垃圾收集器是不会回收单例对象的。<br>jvm卸载类的判定条件如下：<br>        1、该类所有的实例都已经被回收，也就是java堆中不存在该类的任何实例。<br>        2、加载该类的ClassLoader已经被回收。<br>        3、该类对应的java.lang.Class对象没有任何地方被引用，无法在任何地方通过反射访问该类的方法。<br>        只有三个条件都满足，jvm才会在垃圾收集的时候卸载类。显然，单例的类不满足条件一，因此单例类也不会被回收。</p>
-<h5 id="在一个jvm中会出现多个单例吗"><a href="#在一个jvm中会出现多个单例吗" class="headerlink" title="在一个jvm中会出现多个单例吗"></a>在一个jvm中会出现多个单例吗</h5><p>在分布式系统、多个类加载器、以及序列化的的情况下，会产生多个单例，这一点是无庸置疑的。那么在同一个jvm中，会不会产生单例呢？使用单例提供的getInstance()方法只能得到同一个单例，除非是使用反射方式，将会得到新的单例。<br>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Class c = Class.forName(Singleton.class.getName());  </span><br><span class="line">Constructor ct = c.getDeclaredConstructor();  </span><br><span class="line">ct.setAccessible(true);  </span><br><span class="line">Singleton singleton = (Singleton)ct.newInstance();</span><br></pre></td></tr></table></figure></p>
-<p>这样，每次运行都会产生新的单例对象。所以运用单例模式时，一定注意不要使用反射产生新的单例对象。</p>
-<h5 id="在getInstance-方法上同步有优势还是仅同步必要的块更优优势？"><a href="#在getInstance-方法上同步有优势还是仅同步必要的块更优优势？" class="headerlink" title="在getInstance()方法上同步有优势还是仅同步必要的块更优优势？"></a>在getInstance()方法上同步有优势还是仅同步必要的块更优优势？</h5><p> 因为锁定仅仅在创建实例时才有意义，然后其他时候实例仅仅是只读访问的，因此只同步必要的块的性能更优，并且是更好的选择。<br>        缺点：只有在第一次调用的时候，才会出现生成2个对象，才必须要求同步。而一旦singleton 不为null，系统依旧花费同步锁开销，有点得不偿失。</p>
-<h5 id="单例类可以被继承吗"><a href="#单例类可以被继承吗" class="headerlink" title="单例类可以被继承吗"></a>单例类可以被继承吗</h5><p> 根据单例实例构造的时机和方式不同，单例模式还可以分成几种。但对于这种通过私有化构造函数，静态方法提供实例的单例类而言，是不支持继承的。<br>        这种模式的单例实现要求每个具体的单例类自身来维护单例实例和限制多个实例的生成。但可以采用另外一种实现单例的思路：登记式单例，来使得单例对继承开放。</p>
+            <h3 id="单一职责原则"><a href="#单一职责原则" class="headerlink" title="单一职责原则"></a>单一职责原则</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>不要存在多于一个导致类变更的原因。通俗的说，即一个类只负责一项职责。</p>
+<h4 id="问题由来："><a href="#问题由来：" class="headerlink" title="问题由来："></a>问题由来：</h4><p>类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2功能发生故障。</p>
+<h4 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h4><p>遵循单一职责原则。分别建立两个类T1、T2，使T1完成职责P1功能，T2完成职责P2功能。这样，当修改类T1时，不会使职责P2发生故障风险；同理，当修改T2时，也不会使职责P1发生故障风险。<br>举例说明，用一个类描述动物呼吸这个场景：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Animal&#123;  </span><br><span class="line">       public void breathe(String animal)&#123;  </span><br><span class="line">           System.out.println(animal+&quot;呼吸空气&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;  </span><br><span class="line">   public class Client&#123;  </span><br><span class="line">       public static void main(String[] args)&#123;  </span><br><span class="line">           Animal animal = new Animal();  </span><br><span class="line">           animal.breathe(&quot;牛&quot;);  </span><br><span class="line">           animal.breathe(&quot;羊&quot;);  </span><br><span class="line">           animal.breathe(&quot;猪&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">运行结果：</span><br><span class="line">牛呼吸空气</span><br><span class="line">羊呼吸空气</span><br><span class="line">猪呼吸空气</span><br></pre></td></tr></table></figure></p>
+<p>   程序上线后，发现问题了，并不是所有的动物都呼吸空气的，比如鱼就是呼吸水的。修改时如果遵循单一职责原则，需要将Animal类细分为陆生动物类Terrestrial，水生动物Aquatic，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class Terrestrial&#123;  </span><br><span class="line">   public void breathe(String animal)&#123;  </span><br><span class="line">       System.out.println(animal+&quot;呼吸空气&quot;);  </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">class Aquatic&#123;  </span><br><span class="line">   public void breathe(String animal)&#123;  </span><br><span class="line">       System.out.println(animal+&quot;呼吸水&quot;);  </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"> </span><br><span class="line">public class Client&#123;  </span><br><span class="line">   public static void main(String[] args)&#123;  </span><br><span class="line">       Terrestrial terrestrial = new Terrestrial();  </span><br><span class="line">       terrestrial.breathe(&quot;牛&quot;);  </span><br><span class="line">       terrestrial.breathe(&quot;羊&quot;);  </span><br><span class="line">       terrestrial.breathe(&quot;猪&quot;);  </span><br><span class="line">         </span><br><span class="line">       Aquatic aquatic = new Aquatic();  </span><br><span class="line">       aquatic.breathe(&quot;鱼&quot;);  </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">运行结果：</span><br><span class="line">牛呼吸空气</span><br><span class="line">羊呼吸空气</span><br><span class="line">猪呼吸空气</span><br><span class="line">鱼呼吸水</span><br></pre></td></tr></table></figure></p>
+<p>我们会发现如果这样修改花销是很大的，除了将原来的类分解之外，还需要修改客户端。而直接修改类Animal来达成目的虽然违背了单一职责原则，但花销却小的多，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Animal&#123;  </span><br><span class="line">       public void breathe(String animal)&#123;  </span><br><span class="line">           if(&quot;鱼&quot;.equals(animal))&#123;  </span><br><span class="line">               System.out.println(animal+&quot;呼吸水&quot;);  </span><br><span class="line">           &#125;else&#123;  </span><br><span class="line">               System.out.println(animal+&quot;呼吸空气&quot;);  </span><br><span class="line">           &#125;  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;  </span><br><span class="line">     </span><br><span class="line">   public class Client&#123;  </span><br><span class="line">       public static void main(String[] args)&#123;  </span><br><span class="line">           Animal animal = new Animal();  </span><br><span class="line">           animal.breathe(&quot;牛&quot;);  </span><br><span class="line">           animal.breathe(&quot;羊&quot;);  </span><br><span class="line">           animal.breathe(&quot;猪&quot;);  </span><br><span class="line">           animal.breathe(&quot;鱼&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，这种修改方式要简单的多。但是却存在着隐患：有一天需要将鱼分为呼吸淡水的鱼和呼吸海水的鱼，则又需要修改Animal类的breathe方法，而对原有代码的修改会对调用“猪”“牛”“羊”等相关功能带来风险，也许某一天你会发现程序运行的结果变为“牛呼吸水”了。这种修改方式直接在代码级别上违背了单一职责原则，虽然修改起来最简单，但隐患却是最大的。还有一种修改方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Animal&#123;  </span><br><span class="line">       public void breathe(String animal)&#123;  </span><br><span class="line">           System.out.println(animal+&quot;呼吸空气&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">     </span><br><span class="line">       public void breathe2(String animal)&#123;  </span><br><span class="line">           System.out.println(animal+&quot;呼吸水&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;  </span><br><span class="line">     </span><br><span class="line">   public class Client&#123;  </span><br><span class="line">       public static void main(String[] args)&#123;  </span><br><span class="line">           Animal animal = new Animal();  </span><br><span class="line">           animal.breathe(&quot;牛&quot;);  </span><br><span class="line">           animal.breathe(&quot;羊&quot;);  </span><br><span class="line">           animal.breathe(&quot;猪&quot;);  </span><br><span class="line">           animal.breathe2(&quot;鱼&quot;);  </span><br><span class="line">       &#125;  </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，这种修改方式没有改动原来的方法，而是在类中新加了一个方法，这样虽然也违背了单一职责原则，但在方法级别上却是符合单一职责原则的，因为它并没有动原来方法的代码。这三种方式各有优缺点，那么在实际编程中，采用哪一中呢？其实这真的比较难说，需要根据实际情况来确定。我的原则是：只有逻辑足够简单，才可以在代码级别上违反单一职责原则；只有类中方法数量足够少，才可以在方法级别上违反单一职责原则；<br>        例如本文所举的这个例子，它太简单了，它只有一个方法，所以，无论是在代码级别上违反单一职责原则，还是在方法级别上违反，都不会造成太大的影响。实际应用中的类都要复杂的多，一旦发生职责扩散而需要修改类时，除非这个类本身非常简单，否则还是遵循单一职责原则的好。</p>
+<h4 id="遵循单一职责原的优点有："><a href="#遵循单一职责原的优点有：" class="headerlink" title="遵循单一职责原的优点有："></a>遵循单一职责原的优点有：</h4><p>1、可以降低类的复杂度，一个类只负责一项职责，其逻辑肯定要比负责多项职责简单的多；<br>2、提高类的可读性，提高系统的可维护性；<br>3、变更引起的风险降低，变更是必然的，如果单一职责原则遵守的好，当修改一个功能时，可以显著降低对其他功能的影响。<br>        需要说明的一点是单一职责原则不只是面向对象编程思想所特有的，只要是模块化的程序设计，都适用单一职责原则。</p>
 
           
         
@@ -2175,7 +2112,7 @@ s = (Student)person ;
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">88</span>
+                    <span class="site-state-item-count">89</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2343,7 +2280,9 @@ s = (Student)person ;
                     
                       
                     
-                    <span class="site-state-item-count">62</span>
+                      
+                    
+                    <span class="site-state-item-count">63</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

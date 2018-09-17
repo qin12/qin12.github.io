@@ -489,7 +489,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/关于字符串的陷阱/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Intellij IDEA 快捷键整理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Qgx">
@@ -508,8 +508,8 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/20/关于字符串的陷阱/" itemprop="url">
-                  java 表达式中的陷阱
+                <a class="post-title-link" href="/2018/07/20/Intellij IDEA 快捷键整理/" itemprop="url">
+                  Intellij IDEA 快捷键整理
                 </a>
               
             
@@ -553,7 +553,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/杂七杂八/" itemprop="url" rel="index"><span itemprop="name">杂七杂八</span></a></span>
 
                 
                 
@@ -589,39 +589,1021 @@
       
         
           
-            <h3 id="关于字符串的陷阱"><a href="#关于字符串的陷阱" class="headerlink" title="关于字符串的陷阱"></a>关于字符串的陷阱</h3><h4 id="JVM-对字符串的处理"><a href="#JVM-对字符串的处理" class="headerlink" title="JVM 对字符串的处理"></a>JVM 对字符串的处理</h4><p>String java = new String(“Java”) 这句创建了两个字符串对象，一个是 “Java” 这个直接量对应的字符串对象，另外一个是 new String() 构造器返回的字符串对象。<br><strong>Java 程序中创建对象的方法：</strong></p>
-<ul>
-<li>通过 new 调用构造器创建 Java 对象</li>
-<li>通过 Class 对象的 newInstance() 方法调用构造器创建 Java 对象</li>
-<li>通过 Java 的反序列化机制从 IO 流中恢复 Java 对象</li>
-<li>通过 Java 对象提供的 clone() 方法复制一个新的 Java 对象<br>对于字符串以及 Byte、Short、Int、Long、Character、Float、Double 和 Boolean 这些基本类型的包装类<br>直接量的方式来创建 Java 对象 Integer in = 5；</li>
-<li>通过简单的算法表达式，连接运算来创建 Java 对象 String str = “a” + “b”; （如果这个字符串表达式的值在编译时确定下来，那么 JVM 会在编译时计算该字符串变量的值，并让它指向字符串池中对应的字符串。如果这些算法表达式都是字符串直接量、整数直接量，没有变量和方法参与，那么就可以在编译期就可以确定字符串的值；如果使用了变量、调用了方法，那么只有等到运行时才能确定字符串表达式的值；如果字符串连接运算所有的变量都可执行 “宏替换”（使用 final 修饰的变量），那在编译时期也能确定字符串连接表达式的值）</li>
-</ul>
-<p>对于 Java 程序的字符直接量，JVM 会使用一个字符串池来保护它们；当第一次使用某个字符串直接量时，JVM 会将它放入字符串池进行缓存。在一般的情况下，字符串池中的字符串对象不会被垃圾回收器回收，当程序再次需要使用该字符串时，无需重新创建一个新的字符串，而是直接让引用变量指向字符串池中已有的字符串。</p>
-<h4 id="不可变的字符串"><a href="#不可变的字符串" class="headerlink" title="不可变的字符串"></a>不可变的字符串</h4><ul>
-<li>String 类是一个不可变类，当一个 String 对象创建完成后，该 String 类里包含的字符序列就被固定下来，以后永远不能修改。</li>
-<li>如果程序需要一个字符序列会发生改变的字符串，那么建议使用 StringBuilder （效率比 StringBuffer 高）<h4 id="字符串比较"><a href="#字符串比较" class="headerlink" title="字符串比较"></a>字符串比较</h4></li>
-<li><p>如果要比较两个字符串是否相同，用 == 进行判断就行，但如果要判断两个字符串所包含的字符序列是否相同，则应该用 String 重写过的 equals() 方法进行比较。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public boolean equals(Object anObject) &#123;</span><br><span class="line">//如果两个字符串相同</span><br><span class="line">if (this == anObject) &#123;</span><br><span class="line">return true;</span><br><span class="line">&#125;</span><br><span class="line">//如果anObject是String类型</span><br><span class="line">if (anObject instanceof String) &#123;</span><br><span class="line">String anotherString = (String)anObject;</span><br><span class="line">//n代表字符串的长度</span><br><span class="line">int n = value.length;</span><br><span class="line">//如果两个字符串长度相等</span><br><span class="line">if (n == anotherString.value.length) &#123;</span><br><span class="line">//获取当前字符串、anotherString底层封装的字符数组</span><br><span class="line">char v1[] = value;</span><br><span class="line">char v2[] = anotherString.value;</span><br><span class="line">int i = 0;</span><br><span class="line">//逐一比较v1 和 v2数组中的每个字符</span><br><span class="line">while (n-- != 0) &#123;</span><br><span class="line">if (v1[i] != v2[i])</span><br><span class="line">return false;</span><br><span class="line">i++;</span><br><span class="line">&#125;</span><br><span class="line">return true;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">return false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <h3 id="Intellij-IDEA-快捷键整理"><a href="#Intellij-IDEA-快捷键整理" class="headerlink" title="Intellij IDEA 快捷键整理"></a>Intellij IDEA 快捷键整理</h3><p>####【常规】<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">Ctrl+Shift + Enter，语句完成</span><br><span class="line">“！”，否定完成，输入表达式时按 “！”键</span><br><span class="line">Ctrl+E，最近的文件</span><br><span class="line">Ctrl+Shift+E，最近更改的文件</span><br><span class="line">Shift+Click，可以关闭文件</span><br><span class="line">Ctrl+[ OR ]，可以跑到大括号的开头与结尾</span><br><span class="line">Ctrl+F12，可以显示当前文件的结构</span><br><span class="line">Ctrl+F7，可以查询当前元素在当前文件中的引用，然后按 F3 可以选择</span><br><span class="line">Ctrl+N，可以快速打开类</span><br><span class="line">Ctrl+Shift+N，可以快速打开文件</span><br><span class="line">Alt+Q，可以看到当前方法的声明</span><br><span class="line">Ctrl+P，可以显示参数信息</span><br><span class="line">Ctrl+Shift+Insert，可以选择剪贴板内容并插入</span><br><span class="line">Alt+Insert，可以生成构造器/Getter/Setter等</span><br><span class="line">Ctrl+Alt+V，可以引入变量。例如：new String();  自动导入变量定义</span><br><span class="line">Ctrl+Alt+T，可以把代码包在一个块内，例如：try/catch</span><br><span class="line">Ctrl+Enter，导入包，自动修正</span><br><span class="line">Ctrl+Alt+L，格式化代码</span><br><span class="line">Ctrl+Alt+I，将选中的代码进行自动缩进编排，这个功能在编辑 JSP 文件时也可以工作</span><br><span class="line">Ctrl+Alt+O，优化导入的类和包</span><br><span class="line">Ctrl+R，替换文本</span><br><span class="line">Ctrl+F，查找文本</span><br><span class="line">Ctrl+Shift+Space，自动补全代码</span><br><span class="line">Ctrl+空格，代码提示（与系统输入法快捷键冲突）</span><br><span class="line">Ctrl+Shift+Alt+N，查找类中的方法或变量</span><br><span class="line">Alt+Shift+C，最近的更改</span><br><span class="line">Alt+Shift+Up/Down，上/下移一行</span><br><span class="line">Shift+F6，重构 - 重命名</span><br><span class="line">Ctrl+X，删除行</span><br><span class="line">Ctrl+D，复制行</span><br><span class="line">Ctrl+/或Ctrl+Shift+/，注释（//或者/**/）</span><br><span class="line">Ctrl+J，自动代码（例如：serr）</span><br><span class="line">Ctrl+Alt+J，用动态模板环绕</span><br><span class="line">Ctrl+H，显示类结构图（类的继承层次）</span><br><span class="line">Ctrl+Q，显示注释文档</span><br><span class="line">Alt+F1，查找代码所在位置</span><br><span class="line">Alt+1，快速打开或隐藏工程面板</span><br><span class="line">Ctrl+Alt+left/right，返回至上次浏览的位置</span><br><span class="line">Alt+left/right，切换代码视图</span><br><span class="line">Alt+Up/Down，在方法间快速移动定位</span><br><span class="line">Ctrl+Shift+Up/Down，向上/下移动语句</span><br><span class="line">F2 或 Shift+F2，高亮错误或警告快速定位</span><br><span class="line">Tab，代码标签输入完成后，按 Tab，生成代码</span><br><span class="line">Ctrl+Shift+F7，高亮显示所有该文本，按 Esc 高亮消失</span><br><span class="line">Alt+F3，逐个往下查找相同文本，并高亮显示</span><br><span class="line">Ctrl+Up/Down，光标中转到第一行或最后一行下</span><br><span class="line">Ctrl+B/Ctrl+Click，快速打开光标处的类或方法（跳转到定义处）</span><br><span class="line">Ctrl+Alt+B，跳转到方法实现处</span><br><span class="line">Ctrl+Shift+Backspace，跳转到上次编辑的地方</span><br><span class="line">Ctrl+O，重写方法</span><br><span class="line">Ctrl+Alt+Space，类名自动完成</span><br><span class="line">Ctrl+Alt+Up/Down，快速跳转搜索结果</span><br><span class="line">Ctrl+Shift+J，整合两行</span><br><span class="line">Alt+F8，计算变量值</span><br><span class="line">Ctrl+Shift+V，可以将最近使用的剪贴板内容选择插入到文本</span><br><span class="line">Ctrl+Alt+Shift+V，简单粘贴</span><br><span class="line">Shift+Esc，不仅可以把焦点移到编辑器上，而且还可以隐藏当前（或最后活动的）工具窗口</span><br><span class="line">F12，把焦点从编辑器移到最近使用的工具窗口</span><br><span class="line">Shift+F1，要打开编辑器光标字符处使用的类或者方法 Java 文档的浏览器</span><br><span class="line">Ctrl+W，可以选择单词继而语句继而行继而函数</span><br><span class="line">Ctrl+Shift+W，取消选择光标所在词</span><br><span class="line">Alt+F7，查找整个工程中使用地某一个类、方法或者变量的位置</span><br><span class="line">Ctrl+I，实现方法</span><br><span class="line">Ctrl+Shift+U，大小写转化</span><br><span class="line">Ctrl+Y，删除当前行</span><br><span class="line">Shift+Enter，向下插入新行</span><br><span class="line">psvm/sout，main/System.out.println(); Ctrl+J，查看更多</span><br><span class="line">Ctrl+Shift+F，全局查找</span><br><span class="line">Ctrl+F，查找/Shift+F3，向上查找/F3，向下查找</span><br><span class="line">Ctrl+Shift+S，高级搜索</span><br><span class="line">Ctrl+U，转到父类</span><br><span class="line">Ctrl+Alt+S，打开设置对话框</span><br><span class="line">Alt+Shift+Inert，开启/关闭列选择模式</span><br><span class="line">Ctrl+Alt+Shift+S，打开当前项目/模块属性</span><br><span class="line">Ctrl+G，定位行</span><br><span class="line">Alt+Home，跳转到导航栏</span><br><span class="line">Ctrl+Enter，上插一行</span><br><span class="line">Ctrl+Backspace，按单词删除</span><br><span class="line">Ctrl+&quot;+/-&quot;，当前方法展开、折叠</span><br><span class="line">Ctrl+Shift+&quot;+/-&quot;，全部展开、折叠</span><br></pre></td></tr></table></figure></p>
+<h4 id="【调试部分、编译】"><a href="#【调试部分、编译】" class="headerlink" title="【调试部分、编译】"></a>【调试部分、编译】</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">Ctrl+F2，停止</span><br><span class="line">Alt+Shift+F9，选择 Debug</span><br><span class="line">Alt+Shift+F10，选择 Run</span><br><span class="line">Ctrl+Shift+F9，编译</span><br><span class="line">Ctrl+Shift+F10，运行</span><br><span class="line">Ctrl+Shift+F8，查看断点</span><br><span class="line">F8，步过</span><br><span class="line">F7，步入</span><br><span class="line">Shift+F7，智能步入</span><br><span class="line">Shift+F8，步出</span><br><span class="line">Alt+Shift+F8，强制步过</span><br><span class="line">Alt+Shift+F7，强制步入</span><br><span class="line">Alt+F9，运行至光标处</span><br><span class="line">Ctrl+Alt+F9，强制运行至光标处</span><br><span class="line">F9，恢复程序</span><br><span class="line">Alt+F10，定位到断点</span><br><span class="line">Ctrl+F8，切换行断点</span><br><span class="line">Ctrl+F9，生成项目</span><br><span class="line">Alt+1，项目</span><br><span class="line">Alt+2，收藏</span><br><span class="line">Alt+6，TODO</span><br><span class="line">Alt+7，结构</span><br><span class="line">Ctrl+Shift+C，复制路径</span><br><span class="line">Ctrl+Alt+Shift+C，复制引用，必须选择类名</span><br><span class="line">Ctrl+Alt+Y，同步</span><br><span class="line">Ctrl+~，快速切换方案（界面外观、代码风格、快捷键映射等菜单）</span><br><span class="line">Shift+F12，还原默认布局</span><br><span class="line">Ctrl+Shift+F12，隐藏/恢复所有窗口</span><br><span class="line">Ctrl+F4，关闭</span><br><span class="line">Ctrl+Shift+F4，关闭活动选项卡</span><br><span class="line">Ctrl+Tab，转到下一个拆分器</span><br><span class="line">Ctrl+Shift+Tab，转到上一个拆分器</span><br></pre></td></tr></table></figure>
+<h4 id="【重构】"><a href="#【重构】" class="headerlink" title="【重构】"></a>【重构】</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Ctrl+Alt+Shift+T，弹出重构菜单</span><br><span class="line">Shift+F6，重命名</span><br><span class="line">F6，移动</span><br><span class="line">F5，复制</span><br><span class="line">Alt+Delete，安全删除</span><br><span class="line">Ctrl+Alt+N，内联</span><br></pre></td></tr></table></figure>
+<p>####【查找】<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Ctrl+F，查找</span><br><span class="line">Ctrl+R，替换</span><br><span class="line">F3，查找下一个</span><br><span class="line">Shift+F3，查找上一个</span><br><span class="line">Ctrl+Shift+F，在路径中查找</span><br><span class="line">Ctrl+Shift+R，在路径中替换</span><br><span class="line">Ctrl+Shift+S，搜索结构</span><br><span class="line">Ctrl+Shift+M，替换结构</span><br><span class="line">Alt+F7，查找用法</span><br><span class="line">Ctrl+Alt+F7，显示用法</span><br><span class="line">Ctrl+F7，在文件中查找用法</span><br><span class="line">Ctrl+Shift+F7，在文件中高亮显示用法</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/对象和变量的并发访问/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/对象和变量的并发访问/" itemprop="url">
+                  java 多线程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java-并发知识/" itemprop="url" rel="index"><span itemprop="name">java 并发知识</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="对象和变量的并发访问"><a href="#对象和变量的并发访问" class="headerlink" title="对象和变量的并发访问"></a>对象和变量的并发访问</h3><h4 id="技术点："><a href="#技术点：" class="headerlink" title="技术点："></a>技术点：</h4><ul>
+<li>synchronized 对象监视器为 Object 时的使用</li>
+<li>synchronized 对象监视器为 Class 时的使用</li>
+<li>非线程安全是如何出现的</li>
+<li>关键字 volatile 的主要作用</li>
+<li>关键字 volatile 与 synchronized 的区别及使用情况<h4 id="synchronized-同步方法"><a href="#synchronized-同步方法" class="headerlink" title="synchronized 同步方法"></a>synchronized 同步方法</h4><h5 id="方法内的变量为线程安全"><a href="#方法内的变量为线程安全" class="headerlink" title="方法内的变量为线程安全"></a>方法内的变量为线程安全</h5>“非线程安全”问题存在于“实例变量”中，如果是方法内部的私有变量，则不存在“非线程安全”问题，所得结果也就是“线程安全”了<h5 id="实例变量非线程安全"><a href="#实例变量非线程安全" class="headerlink" title="实例变量非线程安全"></a>实例变量非线程安全</h5></li>
+<li>如果多线程共同访问一个对象中的实例变量，则有可能出现“非线程安全”问题</li>
+<li>在两个线程访问同一个对象中的同步方法时一定时线程安全的。<h5 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h5>发生脏读的情况是在读取实例变量时，此值已经被其他线程更改过了。<br>如下例子就可以说明，如果不加 synchronized 关键字在 setValue 和 getValue 方法上，就会出现数据脏读。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">class VarName</span><br><span class="line">&#123;</span><br><span class="line">private String userName = &quot;A&quot;;</span><br><span class="line">private String password = &quot;AA&quot;;</span><br><span class="line">synchronized public void setValue(String userName, String password) &#123;</span><br><span class="line">try &#123;</span><br><span class="line">this.userName = userName;</span><br><span class="line">Thread.sleep(500);</span><br><span class="line">this.password = password;</span><br><span class="line">System.out.println(&quot;setValue method Thread name is : &quot; + Thread.currentThread().getName() + &quot; userName = &quot; + userName + &quot; password = &quot; + password);</span><br><span class="line">&#125; catch (InterruptedException e) &#123;</span><br><span class="line">e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">//synchronized</span><br><span class="line">public void getValue() &#123;</span><br><span class="line">System.out.println(&quot;getValue method Thread name is : &quot; + Thread.currentThread().getName() + &quot; userName = &quot; + userName + &quot; password = &quot; + password);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Thread1 extends Thread</span><br><span class="line">&#123;</span><br><span class="line">private VarName varName;</span><br><span class="line">public Thread1(VarName varName) &#123;</span><br><span class="line">this.varName = varName;</span><br><span class="line">&#125;</span><br><span class="line">@Override</span><br><span class="line">public void run() &#123;</span><br><span class="line">varName.setValue(&quot;B&quot;, &quot;BB&quot;);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Test</span><br><span class="line">&#123;</span><br><span class="line">public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">VarName v = new VarName();</span><br><span class="line">Thread1 thread1 = new Thread1(v);</span><br><span class="line">thread1.start();</span><br><span class="line">Thread.sleep(200);//打印结果受睡眠时间的影响</span><br><span class="line">v.getValue();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>还可以使用 String 提供的 compareTo() 方法返回两个字符串的大小</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public int compareTo(String anotherString) &#123;</span><br><span class="line">int len1 = value.length;</span><br><span class="line">int len2 = anotherString.value.length;</span><br><span class="line">int lim = Math.min(len1, len2);</span><br><span class="line">char v1[] = value;</span><br><span class="line">char v2[] = anotherString.value;</span><br><span class="line"></span><br><span class="line">int k = 0;</span><br><span class="line">while (k &lt; lim) &#123;</span><br><span class="line">char c1 = v1[k];</span><br><span class="line">char c2 = v2[k];</span><br><span class="line">if (c1 != c2) &#123;</span><br><span class="line">return c1 - c2;</span><br><span class="line">&#125;</span><br><span class="line">k++;</span><br><span class="line">&#125;</span><br><span class="line">return len1 - len2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
 </ul>
-<h3 id="表达式类型的陷阱"><a href="#表达式类型的陷阱" class="headerlink" title="表达式类型的陷阱"></a>表达式类型的陷阱</h3><h4 id="表达式类型的自动提升"><a href="#表达式类型的自动提升" class="headerlink" title="表达式类型的自动提升"></a>表达式类型的自动提升</h4><ul>
-<li>所有 byte、short、char类型将被提升到 int 类型参与运算</li>
-<li>整个算术表达式的数据类型自动提升到与表达式中最高等级操作数同样的类型，操作数的等级排列如下：char -&gt; int -&gt; long -&gt;float -&gt; double</li>
-<li>byte -&gt; short -&gt; int -&gt; long -&gt;float -&gt; double<h4 id="复合赋值运算符的陷阱"><a href="#复合赋值运算符的陷阱" class="headerlink" title="复合赋值运算符的陷阱"></a>复合赋值运算符的陷阱</h4>Java 语言允许所有的双目运算符和 = 一起结合组成复合赋值运算符，如 +=、-=、*=、/=、%= 、&amp;= 等，复合赋值运算符包含了一个隐式的类型转换。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//下面这两条语句不等价</span><br><span class="line">a = a + 5; //</span><br><span class="line">a += 5; //实际上等价于 a = (a的类型) (a + 5);</span><br></pre></td></tr></table></figure>
-</li>
+<h5 id="synchronized-锁重入关键字"><a href="#synchronized-锁重入关键字" class="headerlink" title="synchronized 锁重入关键字"></a>synchronized 锁重入关键字</h5><p>synchronized 拥有锁重入的功能，也就是在使用 synchronized 时，当一个线程得到一个对象锁后，再次请求此对象锁是可以再次得到该对象的锁的。这也证明了在一个 synchronized 方法/块的内部调用本类的其他 synchronized 方法/块时，是永远可以得到锁的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">class Service</span><br><span class="line">&#123;</span><br><span class="line">synchronized public void service1() &#123;</span><br><span class="line">System.out.println(&quot;service 1&quot;);</span><br><span class="line">service2();</span><br><span class="line">&#125;</span><br><span class="line">synchronized public void service2() &#123;</span><br><span class="line">System.out.println(&quot;service 2&quot;);</span><br><span class="line">service3();</span><br><span class="line">&#125;</span><br><span class="line">synchronized public void service3() &#123;</span><br><span class="line">System.out.println(&quot;service 3&quot;);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Thread2 extends Thread</span><br><span class="line">&#123;</span><br><span class="line">@Override</span><br><span class="line">public void run() &#123;</span><br><span class="line">Service s = new Service();</span><br><span class="line">s.service1();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Test2</span><br><span class="line">&#123;</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">Thread2 t2 = new Thread2();</span><br><span class="line">t2.start();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service 1</span><br><span class="line">service 2</span><br><span class="line">service 3</span><br></pre></td></tr></table></figure></p>
+<h5 id="同步不具有继承性"><a href="#同步不具有继承性" class="headerlink" title="同步不具有继承性"></a>同步不具有继承性</h5><p>同步不可以继承。</p>
+<h4 id="synchronized-同步语句块"><a href="#synchronized-同步语句块" class="headerlink" title="synchronized 同步语句块"></a>synchronized 同步语句块</h4><p>当一个线程访问 object 的一个 synchronized(this) 同步代码块时，其他线程对同一个 object 中所有其他 synchronized(this) 同步代码块的访问将被阻塞，这说明 synchronized 使用的 “对象监视器” 是一个。</p>
+<h5 id="将任意对象作为对象监视器"><a href="#将任意对象作为对象监视器" class="headerlink" title="将任意对象作为对象监视器"></a>将任意对象作为对象监视器</h5><p>多个线程调用同一个对象中的不同名称的 synchronized 同步方法或者 synchronized(this) 同步代码块时，调用的效果就是按顺序执行，也就是同步的，阻塞的。</p>
+<h5 id="静态同步-synchronized-方法与-synchronized-class-代码块"><a href="#静态同步-synchronized-方法与-synchronized-class-代码块" class="headerlink" title="静态同步 synchronized 方法与 synchronized(class) 代码块"></a>静态同步 synchronized 方法与 synchronized(class) 代码块</h5><p>关键字 synchronized 还可以应用在 static 静态方法上，如果这样写就是对当前的 *.java 文件对应的 Class 类进行加锁。而 synchronized 关键字加到非 static 静态方法上就是给对象加锁。</p>
+<h5 id="多线程的死锁"><a href="#多线程的死锁" class="headerlink" title="多线程的死锁"></a>多线程的死锁</h5><h4 id="volatile-关键字"><a href="#volatile-关键字" class="headerlink" title="volatile 关键字"></a>volatile 关键字</h4><h5 id="作用：使变量在多个线程间可见。"><a href="#作用：使变量在多个线程间可见。" class="headerlink" title="作用：使变量在多个线程间可见。"></a>作用：使变量在多个线程间可见。</h5><p>通过使用 volatile 关键字，强制的从公共内存中读取变量的值。使用 volatile 关键字增加了实例变量在多个线程之间的可见性，但 volatile 关键字最致命的缺点就是不支持原子性。</p>
+<h5 id="关键字-synchronized-和-volatile-比较："><a href="#关键字-synchronized-和-volatile-比较：" class="headerlink" title="关键字 synchronized 和 volatile 比较："></a>关键字 synchronized 和 volatile 比较：</h5><ul>
+<li>关键字 volatile 是线程同步的轻量实现，所以 volatile 性能肯定要比 synchronized 要好，并且 volatile 只能修饰于变量，而 synchronized 可以修饰方法，以及代码块。</li>
+<li>多线程访问 volatile 不会发生阻塞，而 synchronized 会出现阻塞。</li>
+<li>volatile 能保证数据的可见性，但不能保证原子性；而 synchronized 可以保证原子性，也可以间接保证可见性，因为它会将私有内存和公有内存中的数据做同步。</li>
+<li>关键字 volatile 解决的是变量在多个线程之间的可见性；而 synchronized 关键字解决的是多个线程之间访问资源的同步性。</li>
 </ul>
-<p>复合赋值运算符会自动的将它计算的结果值强制转换为其左侧变量的类型。</p>
-<h3 id="输入法导致的陷阱"><a href="#输入法导致的陷阱" class="headerlink" title="输入法导致的陷阱"></a>输入法导致的陷阱</h3><h3 id="注释的字符必须合法"><a href="#注释的字符必须合法" class="headerlink" title="注释的字符必须合法"></a>注释的字符必须合法</h3><h3 id="转义字符的陷阱"><a href="#转义字符的陷阱" class="headerlink" title="转义字符的陷阱"></a>转义字符的陷阱</h3><ul>
-<li>慎用字符的 Unicode 转义形式</li>
-<li>中止行注释的转义字符<h3 id="泛型可能引起的错误"><a href="#泛型可能引起的错误" class="headerlink" title="泛型可能引起的错误"></a>泛型可能引起的错误</h3><h4 id="原始类型变量的赋值"><a href="#原始类型变量的赋值" class="headerlink" title="原始类型变量的赋值"></a>原始类型变量的赋值</h4></li>
-<li>当程序把一个原始类型的变量赋给一个带有泛型信息的变量时，总是可以通过编译（只是会提示警告信息）</li>
-<li>当程序试图访问带泛型声明的集合的集合元素时，编译器总是把集合元素 当成泛型类型处理（它并不关心集合里集合元素的实际类型）</li>
-<li>当程序试图访问带泛型声明的集合的集合元素时，JVM会遍历每个集合元素自动执行强制转型，如果集合元素的实际类型与集合所带的泛型信息不匹配，运行时将引发 ClassCastException<h4 id="原始类型带来的擦除"><a href="#原始类型带来的擦除" class="headerlink" title="原始类型带来的擦除"></a>原始类型带来的擦除</h4>当把一个具有泛型信息的对象赋给另一个没有泛型信息的变量时，所有在尖括号之间的类型信息都会丢弃。<h4 id="创建泛型数组的陷阱"><a href="#创建泛型数组的陷阱" class="headerlink" title="创建泛型数组的陷阱"></a>创建泛型数组的陷阱</h4>Java 中不允许创建泛型数组<h4 id="正则表达式的陷阱"><a href="#正则表达式的陷阱" class="headerlink" title="正则表达式的陷阱"></a>正则表达式的陷阱</h4>有些符号本身就是正则表达式，我们需要对符号做转义运算。<h3 id="多线程的陷阱"><a href="#多线程的陷阱" class="headerlink" title="多线程的陷阱"></a>多线程的陷阱</h3><h4 id="不要调用-run-方法"><a href="#不要调用-run-方法" class="headerlink" title="不要调用 run 方法"></a>不要调用 run 方法</h4>开启线程是用 start() 方法，而不是 run() 方法。<h4 id="静态的同步方法"><a href="#静态的同步方法" class="headerlink" title="静态的同步方法"></a>静态的同步方法</h4>对于同步代码块而言，程序必须显式为它指定同步监视器；对于同步非静态方法而言，该方法的同步监视器是 this —— 即调用该方法的 Java 对象；对于静态的同步方法而言，该方法的同步监视器不是 this，而是该类本身。</li>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/生成器模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/生成器模式/" itemprop="url">
+                  生成器模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="生成器模式"><a href="#生成器模式" class="headerlink" title="生成器模式"></a>生成器模式</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>  将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。生成器模式利用一个导演者对象和具体建造者对象一个一个地建造出所有的零件，从而建造出完整的对象。</p>
+<h4 id="四个要素："><a href="#四个要素：" class="headerlink" title="四个要素："></a>四个要素：</h4><ul>
+<li>Builder：生成器接口，定义创建一个Product对象所需要的各个部件的操作。</li>
+<li>ConcreteBuilder：具体的生成器实现，实现各个部件的创建，并负责组装Product对象的各个部件，同时还提供一个让用户获取组装完成后的产品对象的方法。</li>
+<li>Director：指导者，也被称导向者，主要用来使用Builder接口，以一个统一的过程来构建所需要的Product对象</li>
+<li>Product：产品，表示被生成器构建的复杂对象，包含多个部件。</li>
 </ul>
+<p><img src="/img/product.png" alt=""></p>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p> 网上有用KFC的例子来描述生成器模式，比较通俗易懂。<br>        假设KFC推出两种套餐：奥尔良鸡腿堡套餐和香辣鸡腿堡套餐。<br>        奥尔良套餐包括：一个奥尔良鸡腿堡、一个炸鸡翅、一杯雪碧。<br>        鸡腿堡套餐包括：一个香辣鸡腿堡、一份薯条、一杯可乐。<br>        每份套餐都是：主食、副食、饮料。<br>        KFC服务员要根据顾客的要求来提供套餐，那这个需求里面什么是固定的，什么是变化的呢？很明显顾客都是要的套餐，顾客的目的是一样的。 套餐里面都是主食、副食、饮料，这也是固定的。至于主食是什么、副食是什么、饮料是什么，这个是变化的。<br>        在实际的软件开发过程中，有时候面临着“一个复杂对象”的创建工作，其通常由各个部分的子对象采用一定的组合构成，由于需求的变化，这个复杂对象的各个部分或者其子对象经常要变化（例如，鸡腿堡套餐的顾客不喜欢可乐，要换奶茶），但是他们的结构却相对稳定（套餐都得是一份主食，副食及饮料）。当遇到这种场景时，使用生成器模式比较合适。</p>
+<h5 id="定义一个产品类："><a href="#定义一个产品类：" class="headerlink" title="定义一个产品类："></a>定义一个产品类：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi.生产器模式;</span><br><span class="line"></span><br><span class="line">public class Entity1 &#123;</span><br><span class="line">    private String name ;//主食</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">public class Entity2 &#123;</span><br><span class="line">    private String name ;//副食</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class Entity3 &#123;</span><br><span class="line">    private String name ;//饮料</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Product &#123;</span><br><span class="line">    Entity1 entity1;</span><br><span class="line">    Entity2 entity2;</span><br><span class="line">    Entity3 entity3;</span><br><span class="line">    public  void  getProduct()&#123;</span><br><span class="line">        System.out.println(entity1.getName()+entity2.getName()+entity3.getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>产品类中的各个小模块是不一样的，由他们建造组成产品。</p>
+<h5 id="根据具体场景要求，定义n个生成器类："><a href="#根据具体场景要求，定义n个生成器类：" class="headerlink" title="根据具体场景要求，定义n个生成器类："></a>根据具体场景要求，定义n个生成器类：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi.生产器模式;</span><br><span class="line"></span><br><span class="line">public interface IBuild &#123;</span><br><span class="line">    public void createEntity1(Entity1 entity1);</span><br><span class="line">    public void createEntity2( Entity2 entity2);</span><br><span class="line">    public void createEntity3(Entity3 entity3);</span><br><span class="line">    public Product composite(Entity1 entity1,Entity2 entity2,Entity3 entity3);//合成</span><br><span class="line">    public Product create(Entity1 entity1,Entity2 entity2,Entity3 entity3);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">package SheJiMoShi.生产器模式;</span><br><span class="line"></span><br><span class="line">public class BuildProduct implements IBuild &#123;</span><br><span class="line">    Product p = new Product();</span><br><span class="line">    @Override</span><br><span class="line">    public void createEntity1(Entity1 entity1) &#123;</span><br><span class="line">     p.entity1=entity1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void createEntity2(Entity2 entity2) &#123;</span><br><span class="line">        p.entity2= entity2;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void createEntity3(Entity3 entity3) &#123;</span><br><span class="line">        p.entity3=entity3;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Product composite(Entity1 entity1 ,Entity2 entity2,Entity3 entity3) &#123;</span><br><span class="line">        createEntity1(entity1);</span><br><span class="line">        createEntity2(entity2);</span><br><span class="line">        createEntity3(entity3);</span><br><span class="line">        return p;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Product create(Entity1 entity1 ,Entity2 entity2,Entity3 entity3) &#123;</span><br><span class="line">        return composite(entity1,entity2,entity3);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="定义一个指挥者类，统一调度project："><a href="#定义一个指挥者类，统一调度project：" class="headerlink" title="定义一个指挥者类，统一调度project："></a>定义一个指挥者类，统一调度project：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi.生产器模式;</span><br><span class="line"></span><br><span class="line">public class Director &#123;</span><br><span class="line">    private IBuild iBuild;</span><br><span class="line">    public Director(IBuild iBuild)&#123;</span><br><span class="line">        this.iBuild= iBuild;</span><br><span class="line">    &#125;</span><br><span class="line">    public Product build(Entity1 entity1,Entity2 entity2,Entity3 entity3)&#123;</span><br><span class="line">         return iBuild.create(entity1,entity2,entity3);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>建造者模式可以让一个产品的内部表象和产品的生产过程分离开，从而可以生成具有不同内部表象的产品。 </p>
+<h4 id="主要角色介绍"><a href="#主要角色介绍" class="headerlink" title="主要角色介绍"></a>主要角色介绍</h4><h5 id="抽象建造者-Builder-角色："><a href="#抽象建造者-Builder-角色：" class="headerlink" title="抽象建造者(Builder)角色："></a>抽象建造者(Builder)角色：</h5><p>定义一个抽象接口，规范产品各个组成成分的建造（即规范具体建造者的方法实现）。其中所规范的方法中必须包括建造方法和结果返回方法。 </p>
+<h5 id="具体建造者-ConcreteBuilder-角色"><a href="#具体建造者-ConcreteBuilder-角色" class="headerlink" title="具体建造者(ConcreteBuilder)角色:"></a>具体建造者(ConcreteBuilder)角色:</h5><p>实现抽象建造者角色定义的方法。具体建造者与业务逻辑关联性比较大，应用程序最终会通过，调用此角色中的建造方法按照业务逻辑创建产品，在建造完成后通过结果返回产品实例。 </p>
+<h5 id="导演者-Diretor-角色"><a href="#导演者-Diretor-角色" class="headerlink" title="导演者(Diretor)角色:"></a>导演者(Diretor)角色:</h5><p>此角色的作用是调用具体的创建者角色创造产品。导演者与产品类没直接关系。 </p>
+<h5 id="产品-product-角色"><a href="#产品-product-角色" class="headerlink" title="产品(product)角色:"></a>产品(product)角色:</h5><p>在导演者指导下由具体建造者所创建的那个复杂的对象。<br> 导演者角色与客户端直接打交道，它理解客户端的业务逻辑，将客户端创建产品的请求拆分成部分请求，然后调用具体产品角色执行建造操作。它分离了客户端与具体建造者。 </p>
+<h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><pre><code>1、建造者模式可以很好的将一个对象的实现与相关的“业务”逻辑分离开来，从而可以在不改变事件逻辑的前提下，是添加(或改变)实现变得非常容易。 
+2、允许对象通过多个步骤来创建，并且可以改变过程（这和只有一个步骤的工厂模式不同）。 
+3、向客户隐藏产品内部的表现。 
+4、产品的实现可以被替换，因为客户只能看到一个抽象接口。 
+</code></pre><h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><p>建造者接口的修改会导致所有执行类的修改。 </p>
+<h4 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h4><p>1、需要生产的产品对象有复杂的内部结构。比如，汽车、电脑。<br>  2、需要生成的产品对象的属性互相依赖，建造者模式可以强迫生产顺序。 </p>
+<h4 id="和其他模式的区别"><a href="#和其他模式的区别" class="headerlink" title="和其他模式的区别"></a>和其他模式的区别</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、抽象工厂模式：Builder模式返回完成的一个产品，而abstractFactory返回一系列有关系的产品。在抽象工厂模式中，客户采用abstractFactory生成自己要的 </span><br><span class="line"> 对象，而在Builder模式中，客户端指导（diretor）builder类如何去生成对象。获知如何合成一些类来构成建造类，侧重于一步一步构造一个复杂对象，然后返回结果。 </span><br><span class="line">   2、原型模式：克隆，对象已经存在。 </span><br><span class="line">   3、工厂方法：强调的是对象的变化，类实例推迟到子类。 </span><br><span class="line">   4、单例：对象的唯一性。</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/LIstView 联动(一)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/LIstView 联动(一)/" itemprop="url">
+                  Android ListView联动
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="LIstView-联动-一"><a href="#LIstView-联动-一" class="headerlink" title="LIstView 联动(一)"></a>LIstView 联动(一)</h3><h4 id="大体思路"><a href="#大体思路" class="headerlink" title="大体思路"></a>大体思路</h4><p>两个listView的联动效果，类似于美团点菜和城市选择效果，在布局的左侧使用了平常的listview，在右侧用到了stickyheaderlistview，这是实现该效果的一个关键组件。<br>activity 布局<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout</span><br><span class="line">       android:layout_width=&quot;match_parent&quot;</span><br><span class="line">       android:layout_height=&quot;match_parent&quot;</span><br><span class="line">       android:orientation=&quot;horizontal&quot; &gt;</span><br><span class="line"></span><br><span class="line">       &lt;ListView</span><br><span class="line">           android:id=&quot;@+id/lv_left&quot;</span><br><span class="line">           android:layout_width=&quot;100dp&quot;</span><br><span class="line">           android:layout_height=&quot;match_parent&quot;</span><br><span class="line">           android:cacheColorHint=&quot;#00000000&quot; &gt;</span><br><span class="line">       &lt;/ListView&gt;</span><br><span class="line"></span><br><span class="line">       &lt;se.emilsjolander.stickylistheaders.StickyListHeadersListView</span><br><span class="line">           android:id=&quot;@+id/list&quot;</span><br><span class="line">           android:layout_width=&quot;match_parent&quot;</span><br><span class="line">           android:layout_height=&quot;match_parent&quot;</span><br><span class="line">           android:cacheColorHint=&quot;#00000000&quot;</span><br><span class="line">           android:clipToPadding=&quot;false&quot;</span><br><span class="line">           android:footerDividersEnabled=&quot;false&quot;</span><br><span class="line">           android:drawSelectorOnTop=&quot;true&quot;</span><br><span class="line">           android:fastScrollEnabled=&quot;true&quot;</span><br><span class="line">           android:padding=&quot;16dp&quot;</span><br><span class="line">           android:scrollbarStyle=&quot;outsideOverlay&quot; /&gt;</span><br><span class="line">   &lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="模拟数据"><a href="#模拟数据" class="headerlink" title="模拟数据"></a>模拟数据</h4><p>模拟两边的数据，需要注意的是左边listview数据中的id要和右边listview数据中的id产生一对多的关系，否则无法实现联动效果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line">	 * 模拟右边adapter的数据</span><br><span class="line">	 * </span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	private List&lt;DishBean&gt; initDishData() &#123;</span><br><span class="line">		List&lt;DishBean&gt; dishBeanList = new ArrayList&lt;DishBean&gt;();</span><br><span class="line">		for (int i = 0; i &lt; 100; i++) &#123;</span><br><span class="line">			DishBean dishBean = new DishBean();</span><br><span class="line">			long id = i / 10;</span><br><span class="line">			dishBean.id = id;</span><br><span class="line">			dishBean.content = &quot;content&quot; + i;</span><br><span class="line">			dishBeanList.add(dishBean);</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line">		return dishBeanList;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">	 * 模拟左边adapter数据</span><br><span class="line">	 * </span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	private List&lt;CategoryBean&gt; initCateData() &#123;</span><br><span class="line">		List&lt;CategoryBean&gt; categoryBeanList = new ArrayList&lt;CategoryBean&gt;();</span><br><span class="line">		for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">			CategoryBean categoryBean = new CategoryBean();</span><br><span class="line">			if (i == 0) &#123;</span><br><span class="line">				categoryBean.isSelected = true;</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				categoryBean.isSelected = false;</span><br><span class="line">			&#125;</span><br><span class="line">			categoryBean.id = i;</span><br><span class="line">			categoryBean.name = &quot;cate&quot; + i;</span><br><span class="line">			categoryBeanList.add(categoryBean);</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line">		return categoryBeanList;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="左边对右边的联动"><a href="#左边对右边的联动" class="headerlink" title="左边对右边的联动"></a>左边对右边的联动</h4><p>设置左边listview的点击事件让右边的listview滚动到相应的位置，这算是完成了一半的任务。（根据CategoryBean 中的id值查找右边lsitview相对应的item，然后记录下位置进行setSelection操作）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@Override</span><br><span class="line">	public void onItemClick(AdapterView&lt;?&gt; parent, View view, int position, long id) &#123;</span><br><span class="line">		// 点击类别item，右侧菜品跳转到相应的位置</span><br><span class="line">		CategoryBean categoryBean = cateList.get(position);</span><br><span class="line">		for (int i = 0; i &lt; dishList.size(); i++) &#123;</span><br><span class="line">			DishBean dishBean = dishList.get(i);</span><br><span class="line">			if (categoryBean.id == dishBean.id) &#123;</span><br><span class="line">				lv_right.setSelection(i);</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="右侧对左侧的联动"><a href="#右侧对左侧的联动" class="headerlink" title="右侧对左侧的联动"></a>右侧对左侧的联动</h4><p>下面是右侧对左侧的联动效果实现。首先在activity中实现StickyListHeadersListView.OnStickyHeaderChangedListener接口（该接口来源于StickyListHeadersListView类），相对应的会实现onStickyHeaderChanged方法。</p>
+<p>该方法会在header改变时调用（header的改变意味着一组新的类别数据出现在屏幕上），这时相对应的也需要改变左侧listview的选中状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">	public void onStickyHeaderChanged(StickyListHeadersListView l, View header, int itemPosition, long headerId) &#123;</span><br><span class="line">		DishBean dishBean = dishList.get(itemPosition);</span><br><span class="line">		long id = dishBean.id;</span><br><span class="line">		int position = getCateId(id);</span><br><span class="line">		if (position != -1) &#123;</span><br><span class="line">			lv_left.setSelection(position);</span><br><span class="line">			//更新左侧listview选中状态</span><br><span class="line">			notifyLeftAdapter(position);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">	 * 获取dishbean id对应的类别所在position</span><br><span class="line">	 * </span><br><span class="line">	 * @param id</span><br><span class="line">	 *            dishbean id</span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	private int getCateId(long id) &#123;</span><br><span class="line">		int position = 0;</span><br><span class="line">		for (int i = 0; i &lt; cateList.size(); i++) &#123;</span><br><span class="line">			position = i;</span><br><span class="line">			if (id == cateList.get(i).id) &#123;</span><br><span class="line">				return position;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/适配器模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/适配器模式/" itemprop="url">
+                  适配器模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>将一个类的接口转换成客户希望的另外一个接口。适配器模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。</p>
+<h4 id="角色："><a href="#角色：" class="headerlink" title="角色："></a>角色：</h4><p>目标(Target)角色：这就是所期待得到的接口，也就是这类的接口是符合我们要求的。</p>
+<h4 id="源-Adapee-角色："><a href="#源-Adapee-角色：" class="headerlink" title="源(Adapee)角色："></a>源(Adapee)角色：</h4><p>我们要使用的接口，但是这个接口不符合我们的要求，也就是现在需要适配的接口。</p>
+<h4 id="适配器-Adaper-角色："><a href="#适配器-Adaper-角色：" class="headerlink" title="适配器(Adaper)角色："></a>适配器(Adaper)角色：</h4><p>适配器类是适配器模式的核心。适配器把源接口转换成目标接口。显然，这一角色不可以是接口，而必须是具体类。</p>
+<h4 id="分类："><a href="#分类：" class="headerlink" title="分类："></a>分类：</h4><h5 id="1、-类适配器模式"><a href="#1、-类适配器模式" class="headerlink" title="1、  类适配器模式"></a>1、  类适配器模式</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Adaptee &#123;         </span><br><span class="line">    publicvoid specificRequest() &#123;</span><br><span class="line">         System.out.println(&quot;特殊请求，这个是源角色&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">/*这个是目标角色，所期待的接口*/</span><br><span class="line"></span><br><span class="line">interface Target &#123;         </span><br><span class="line">    publicvoid request();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在想要实现这个Target接口，但是不想重构，想要用上已有的Adaptee类，这时可以定义一个适配器类，继承想要使用的类，并且实现期待的接口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class Adapter extends Adaptee implementsTarget&#123;</span><br><span class="line">         publicvoid request() &#123;                   super.specificRequest();</span><br><span class="line">         &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样，使用适配器类和实现目标接口就完成了计划，测试：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class Test&#123;</span><br><span class="line">         publicstatic void main(String[] args) &#123;</span><br><span class="line">                   //使用特殊功能类，即适配类</span><br><span class="line">                   Targetadapter = new Adapter();</span><br><span class="line">                   adapter.request();</span><br><span class="line">         &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="2、-对象适配器模式"><a href="#2、-对象适配器模式" class="headerlink" title="2、 对象适配器模式"></a>2、 对象适配器模式</h5><p>适配器类关联已有的Adaptee类，并且实现标准接口，这样做的好处是不再需要继承。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Adapter implements Target&#123;</span><br><span class="line">         privateAdaptee adaptee;</span><br><span class="line"></span><br><span class="line">         publicAdapter (Adaptee adaptee) &#123;</span><br><span class="line">                   this.adaptee= adaptee;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         publicvoid request() &#123;</span><br><span class="line">                   this.adaptee.specificRequest();</span><br><span class="line">         &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们可以想到，此时输出结果和类适配器模式是相同的，测试：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class Test&#123;</span><br><span class="line">         publicstatic void main(String[] args) &#123;</span><br><span class="line">                   Targetadapter = new Adapter(new Adaptee());</span><br><span class="line">                   adapter.request();</span><br><span class="line">         &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="区别："><a href="#区别：" class="headerlink" title="区别："></a>区别：</h4><ul>
+<li>类适配器：对象继承的方式，静态的定义。</li>
+<li>对象适配器：依赖于对象的组合，都是采用对象组合的方式，也就是对象适配器实现的方式。</li>
+<li>对象的适配器模式不是使用继承关系连接到Adaptee类，而是使用委派关系连接到Adaptee类。</li>
+</ul>
+<h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><h5 id="复用性"><a href="#复用性" class="headerlink" title="复用性"></a>复用性</h5><p>系统需要使用现有的类，而此类的接口不符合系统的需要。那么通过适配器模式就可以让这些功能得到更好的复用。</p>
+<h5 id="扩展性"><a href="#扩展性" class="headerlink" title="扩展性"></a>扩展性</h5><p>在实现适配器功能的时候，可以自由调用自己开发的功能，从而自然地扩展系统的功能。</p>
+<h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><p> 过多的使用适配器，会让系统非常零乱，不易整体进行把握。比如，明明看到调用的是A接口，其实内部被适配成了B接口的实现。所以适配器模式不适合在详细设计阶段使用它，它是一种补偿模式，专用来在系统后期扩展、修改时所用。</p>
+<h4 id="适用场景："><a href="#适用场景：" class="headerlink" title="适用场景："></a>适用场景：</h4><p>1、已经存在的类的接口不符合我们的需求；</p>
+<p>2、创建一个可以复用的类，使得该类可以与其他不相关的类或不可预见的类协同工作；</p>
+<p>3、使用一些已经存在的子类而不需要对其进行子类化来匹配接口。</p>
+<p>4、旧的系统开发的类已经实现了一些功能，但是客户端却只能以另外接口的形式访问，但我们不希望手动更改原有类的时候。</p>
+<h4 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h4><p>适配器模式不适合在详细设计阶段使用它，它是一种补偿模式，专用来在系统后期扩展、修改时所用，适配器模式更像是一种补救措施。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/ServletConfig讲解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/ServletConfig讲解/" itemprop="url">
+                  javaweb (三 )
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="ServletConfig讲解"><a href="#ServletConfig讲解" class="headerlink" title="ServletConfig讲解"></a>ServletConfig讲解</h3><h4 id="配置Servlet初始化参数"><a href="#配置Servlet初始化参数" class="headerlink" title="配置Servlet初始化参数"></a>配置Servlet初始化参数</h4><p>在Servlet的配置文件web.xml中，可以使用一个或多个<init-param>标签为servlet配置一些初始化参数。</init-param></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">        &lt;servlet-name&gt;ServletConfigDemo1&lt;/servlet-name&gt;</span><br><span class="line">        &lt;servlet-class&gt;ServletConfigDemo1&lt;/servlet-class&gt;</span><br><span class="line">        &lt;!--配置ServletConfigDemo1的初始化参数 --&gt;</span><br><span class="line">        &lt;init-param&gt;</span><br><span class="line">            &lt;param-name&gt;name&lt;/param-name&gt;</span><br><span class="line">            &lt;param-value&gt;qgx&lt;/param-value&gt;</span><br><span class="line">        &lt;/init-param&gt;</span><br><span class="line">        &lt;init-param&gt;</span><br><span class="line">            &lt;param-name&gt;password&lt;/param-name&gt;</span><br><span class="line">            &lt;param-value&gt;123&lt;/param-value&gt;</span><br><span class="line">        &lt;/init-param&gt;</span><br><span class="line">        &lt;init-param&gt;</span><br><span class="line">            &lt;param-name&gt;charset&lt;/param-name&gt;</span><br><span class="line">            &lt;param-value&gt;UTF-8&lt;/param-value&gt;</span><br><span class="line">        &lt;/init-param&gt;</span><br><span class="line">    &lt;/servlet&gt;</span><br><span class="line">    &lt;servlet-mapping&gt;</span><br><span class="line">        &lt;servlet-name&gt;ServletConfigDemo1&lt;/servlet-name&gt;</span><br><span class="line">        &lt;url-pattern&gt;/ServletConfigDemo1&lt;/url-pattern&gt;</span><br><span class="line">    &lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="通过ServletConfig获取Servlet的初始化参数"><a href="#通过ServletConfig获取Servlet的初始化参数" class="headerlink" title="通过ServletConfig获取Servlet的初始化参数"></a>通过ServletConfig获取Servlet的初始化参数</h4><p>当servlet配置了初始化参数后，web容器在创建servlet实例对象时，会自动将这些初始化参数封装到ServletConfig对象中，并在调用servlet的init方法时，将ServletConfig对象传递给servlet。进而，我们通过ServletConfig对象就可以得到当前servlet的初始化参数信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletConfig;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.Enumeration;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletConfigDemo1&quot;)</span><br><span class="line">public class ServletConfigDemo1 extends HttpServlet &#123;</span><br><span class="line">    /*</span><br><span class="line">     *</span><br><span class="line">     * 定义ServletConfig对象来接收配置的初始化参数</span><br><span class="line">     */</span><br><span class="line">   private ServletConfig config;</span><br><span class="line">    /**</span><br><span class="line">           * 当servlet配置了初始化参数后，web容器在创建servlet实例对象时，</span><br><span class="line">           * 会自动将这些初始化参数封装到ServletConfig对象中，并在调用servlet的init方法时，</span><br><span class="line">           * 将ServletConfig对象传递给servlet。进而，程序员通过ServletConfig对象就可以</span><br><span class="line">           * 得到当前servlet的初始化参数信息。</span><br><span class="line">           */</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void init(ServletConfig config) throws ServletException &#123;</span><br><span class="line">        super.init(config);</span><br><span class="line">        this.config = config;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">                //获取在web.xml中配置的初始化参数</span><br><span class="line">        response.setContentType(&quot;text/html&quot;);</span><br><span class="line">        String paramVal = this.config.getInitParameter(&quot;name&quot;);</span><br><span class="line">        //获取指定的初始化参数</span><br><span class="line">        response.getWriter().print(paramVal);</span><br><span class="line">        response.getWriter().print(&quot;&lt;hr/&gt;&quot;);</span><br><span class="line">        //获取所有的初始化参数</span><br><span class="line">        Enumeration&lt;String&gt; e = config.getInitParameterNames();</span><br><span class="line">        while(e.hasMoreElements())&#123;</span><br><span class="line">            String name = e.nextElement();</span><br><span class="line">            String value = config.getInitParameter(name);</span><br><span class="line">            response.getWriter().print(name + &quot;=&quot; + value + &quot;&lt;br/&gt;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果如下：<br><img src="/img/ServletConfigDemo1结果.png" alt=""></p>
+<h3 id="ServletContext对象"><a href="#ServletContext对象" class="headerlink" title="ServletContext对象"></a>ServletContext对象</h3><p>WEB容器在启动时，它会为每个WEB应用程序都创建一个对应的ServletContext对象，它代表当前web应用。<br>　　ServletConfig对象中维护了ServletContext对象的引用，开发人员在编写servlet时，可以通过ServletConfig.getServletContext方法获得ServletContext对象。<br>　　由于一个WEB应用中的所有Servlet共享同一个ServletContext对象，因此Servlet对象之间可以通过ServletContext对象来实现通讯。ServletContext对象通常也被称之为context域对象。</p>
+<h3 id="ServletContext的应用"><a href="#ServletContext的应用" class="headerlink" title="ServletContext的应用"></a>ServletContext的应用</h3><h4 id="多个Servlet通过ServletContext对象实现数据共享"><a href="#多个Servlet通过ServletContext对象实现数据共享" class="headerlink" title="多个Servlet通过ServletContext对象实现数据共享"></a>多个Servlet通过ServletContext对象实现数据共享</h4><p>范例：ServletContextDemo2和ServletContextDemo3通过ServletContext对象实现数据共享<br>ServletContextDemo2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletContext;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo2&quot;)</span><br><span class="line">public class ServletContextDemo2 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">            doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;qgx&quot;;</span><br><span class="line">        /**</span><br><span class="line">         *ServletConfig对象中维护了ServletContext对象的引用，开发人员在编写servlet时，</span><br><span class="line">         *可以通过ServletConfig.getServletContext方法获得ServletContext对象。</span><br><span class="line">         */</span><br><span class="line">        ServletContext context = this.getServletConfig().getServletContext();</span><br><span class="line">        //获得ServletContext对象     context.setAttribute(&quot;data&quot;, data);  //将data存储到ServletContext对象中</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>ServletContextDemo3<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletContext;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo3&quot;)</span><br><span class="line">public class ServletContextDemo3 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">            doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        ServletContext context = this.getServletContext();</span><br><span class="line">        String data = (String) context.getAttribute(&quot;data&quot;);//从ServletContext对象中取出数据</span><br><span class="line">        response.getWriter().print(&quot;data=&quot;+data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>先运行ServletContextDemo2，将数据data存储到ServletContext对象中，然后运行ServletContextDemo3就可以从ServletContext对象中取出数据了，这样就实现了数据共享，如下图所示：<br><img src="/img/ServletContextDemo.png" alt=""></p>
+<h4 id="获取WEB应用的初始化参数"><a href="#获取WEB应用的初始化参数" class="headerlink" title="获取WEB应用的初始化参数"></a>获取WEB应用的初始化参数</h4><p>在web.xml文件中使用<context-param>标签配置WEB应用的初始化参数，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;display-name&gt;&lt;/display-name&gt;</span><br><span class="line">        &lt;!-- 配置WEB应用的初始化参数 --&gt;</span><br><span class="line">         &lt;context-param&gt;</span><br><span class="line">             &lt;param-name&gt;url&lt;/param-name&gt;</span><br><span class="line">             &lt;param-value&gt;jdbc:mysql://localhost:3306/test&lt;/param-value&gt;</span><br><span class="line">         &lt;/context-param&gt;</span><br><span class="line"></span><br><span class="line">         &lt;welcome-file-list&gt;</span><br><span class="line">             &lt;welcome-file&gt;index.jsp&lt;/welcome-file&gt;</span><br><span class="line">         &lt;/welcome-file-list&gt;</span><br></pre></td></tr></table></figure></context-param></p>
+<p>运行结果：<br><img src="/img/ServletContextDemo4.png" alt=""></p>
+<h4 id="用servletContext实现请求转发"><a href="#用servletContext实现请求转发" class="headerlink" title="用servletContext实现请求转发"></a>用servletContext实现请求转发</h4><p>ServletContextDemo5<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.RequestDispatcher;</span><br><span class="line">import javax.servlet.ServletContext;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo5&quot;)</span><br><span class="line">public class ServletContextDemo5 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;&lt;h1&gt;&lt;font color=&apos;red&apos;&gt;qgx@ljm&lt;/font&gt;&lt;/h1&gt;&quot;;</span><br><span class="line">        response.getOutputStream().write(data.getBytes());</span><br><span class="line">        ServletContext context = this.getServletContext();//获取ServletContext对象</span><br><span class="line">        RequestDispatcher rd = context.getRequestDispatcher(&quot;/ServletContextDemo6&quot;);//获取请求转发对象(RequestDispatcher)</span><br><span class="line">        rd.forward(request, response);//调用forward方法实现请求转发</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>ServletContextDemo6<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo6&quot;)</span><br><span class="line">public class ServletContextDemo6 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        response.getOutputStream().write(&quot;servletDemo6&quot;.getBytes());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><img src="/img/ServletDemo6.png" alt=""><br>　访问的是ServletContextDemo5，浏览器显示的却是ServletContextDemo6的内容，这就是使用ServletContext实现了请求转发</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/实现文件下载/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/20/实现文件下载/" itemprop="url">
+                  文件的上传和下载二
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="实现文件下载"><a href="#实现文件下载" class="headerlink" title="实现文件下载"></a>实现文件下载</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">package FileUploadAndDownLoad;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.File;</span><br><span class="line">import java.io.FileInputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.net.URLEncoder;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;DownLoadServlet&quot;)</span><br><span class="line">public class DownLoadServlet extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">//得到要下载的文件名</span><br><span class="line">        String fileName = request.getParameter(&quot;filename&quot;);</span><br><span class="line">//上传的文件都是保存在/WEB-INF/upload目录下的子目录当中</span><br><span class="line">        String fileSaveRootPath = this.getServletContext().getRealPath(&quot;/WEB-INF/upload&quot;);</span><br><span class="line">//通过文件名找出文件的所在目录</span><br><span class="line">        String path = findFileSavePathByFileName(fileName, fileSaveRootPath);</span><br><span class="line">        System.out.println(path);</span><br><span class="line">//得到要下载的文件</span><br><span class="line">        File file = new File(path + &quot;\\&quot; + fileName);</span><br><span class="line">//如果文件不存在</span><br><span class="line">        if (!file.exists()) &#123;</span><br><span class="line">            request.setAttribute(&quot;message&quot;, &quot;您要下载的资源已被删除！！&quot;);</span><br><span class="line">            request.getRequestDispatcher(&quot;/message.jsp&quot;).forward(request, response);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">//处理文件名</span><br><span class="line">        String realname = fileName.substring(fileName.indexOf(&quot;_&quot;) + 1);</span><br><span class="line">//设置响应头，控制浏览器下载该文件</span><br><span class="line">        response.setHeader(&quot;content-disposition&quot;, &quot;attachment;filename=&quot; + URLEncoder.encode(realname, &quot;UTF-8&quot;));</span><br><span class="line">//读取要下载的文件，保存到文件输入流</span><br><span class="line">        FileInputStream in = new FileInputStream(path + &quot;\\&quot; + fileName);</span><br><span class="line">//创建输出流</span><br><span class="line">        OutputStream out = response.getOutputStream();</span><br><span class="line">//创建缓冲区</span><br><span class="line">        byte buffer[] = new byte[1024];</span><br><span class="line">        int len = 0;</span><br><span class="line">//循环将输入流中的内容读取到缓冲区当中</span><br><span class="line">        while ((len = in.read(buffer)) &gt; 0) &#123;</span><br><span class="line">//输出缓冲区的内容到浏览器，实现文件下载</span><br><span class="line">            out.write(buffer, 0, len);</span><br><span class="line">        &#125;</span><br><span class="line">//关闭文件输入流</span><br><span class="line">        in.close();</span><br><span class="line">//关闭输出流</span><br><span class="line">        out.close();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String findFileSavePathByFileName(String filename,String saveRootPath) &#123;</span><br><span class="line">        int hashcode = filename.hashCode();</span><br><span class="line">               int dir1 = hashcode&amp;0xf;  //0--15</span><br><span class="line">                int dir2 = (hashcode&amp;0xf0)&gt;&gt;4;  //0-15</span><br><span class="line">                 String dir = saveRootPath + &quot;\\&quot; + dir1 + &quot;\\&quot; + dir2;  //upload\2\3  upload\3\5</span><br><span class="line">                File file = new File(dir);</span><br><span class="line">               if(!file.exists())&#123;</span><br><span class="line">                        //创建目录</span><br><span class="line">                         file.mkdirs();</span><br><span class="line">                   &#125;</span><br><span class="line">                return dir;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说明：0xf 是十六进制的15，转换成二进制是1111，和任何4位二进制进行&amp;运算后，最大值也还是1111，最小值是0，所以最多只能创建16个目录。</p>
 
           
         
@@ -797,167 +1779,6 @@
 <li>final方法不能被重写。</li>
 <li>执行”宏变量“的变量——final修饰的变量</li>
 </ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/LIstView 联动(一)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/LIstView 联动(一)/" itemprop="url">
-                  Android ListView联动
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="LIstView-联动-一"><a href="#LIstView-联动-一" class="headerlink" title="LIstView 联动(一)"></a>LIstView 联动(一)</h3><h4 id="大体思路"><a href="#大体思路" class="headerlink" title="大体思路"></a>大体思路</h4><p>两个listView的联动效果，类似于美团点菜和城市选择效果，在布局的左侧使用了平常的listview，在右侧用到了stickyheaderlistview，这是实现该效果的一个关键组件。<br>activity 布局<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;LinearLayout</span><br><span class="line">       android:layout_width=&quot;match_parent&quot;</span><br><span class="line">       android:layout_height=&quot;match_parent&quot;</span><br><span class="line">       android:orientation=&quot;horizontal&quot; &gt;</span><br><span class="line"></span><br><span class="line">       &lt;ListView</span><br><span class="line">           android:id=&quot;@+id/lv_left&quot;</span><br><span class="line">           android:layout_width=&quot;100dp&quot;</span><br><span class="line">           android:layout_height=&quot;match_parent&quot;</span><br><span class="line">           android:cacheColorHint=&quot;#00000000&quot; &gt;</span><br><span class="line">       &lt;/ListView&gt;</span><br><span class="line"></span><br><span class="line">       &lt;se.emilsjolander.stickylistheaders.StickyListHeadersListView</span><br><span class="line">           android:id=&quot;@+id/list&quot;</span><br><span class="line">           android:layout_width=&quot;match_parent&quot;</span><br><span class="line">           android:layout_height=&quot;match_parent&quot;</span><br><span class="line">           android:cacheColorHint=&quot;#00000000&quot;</span><br><span class="line">           android:clipToPadding=&quot;false&quot;</span><br><span class="line">           android:footerDividersEnabled=&quot;false&quot;</span><br><span class="line">           android:drawSelectorOnTop=&quot;true&quot;</span><br><span class="line">           android:fastScrollEnabled=&quot;true&quot;</span><br><span class="line">           android:padding=&quot;16dp&quot;</span><br><span class="line">           android:scrollbarStyle=&quot;outsideOverlay&quot; /&gt;</span><br><span class="line">   &lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure></p>
-<h4 id="模拟数据"><a href="#模拟数据" class="headerlink" title="模拟数据"></a>模拟数据</h4><p>模拟两边的数据，需要注意的是左边listview数据中的id要和右边listview数据中的id产生一对多的关系，否则无法实现联动效果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/**</span><br><span class="line">	 * 模拟右边adapter的数据</span><br><span class="line">	 * </span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	private List&lt;DishBean&gt; initDishData() &#123;</span><br><span class="line">		List&lt;DishBean&gt; dishBeanList = new ArrayList&lt;DishBean&gt;();</span><br><span class="line">		for (int i = 0; i &lt; 100; i++) &#123;</span><br><span class="line">			DishBean dishBean = new DishBean();</span><br><span class="line">			long id = i / 10;</span><br><span class="line">			dishBean.id = id;</span><br><span class="line">			dishBean.content = &quot;content&quot; + i;</span><br><span class="line">			dishBeanList.add(dishBean);</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line">		return dishBeanList;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">	 * 模拟左边adapter数据</span><br><span class="line">	 * </span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	private List&lt;CategoryBean&gt; initCateData() &#123;</span><br><span class="line">		List&lt;CategoryBean&gt; categoryBeanList = new ArrayList&lt;CategoryBean&gt;();</span><br><span class="line">		for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">			CategoryBean categoryBean = new CategoryBean();</span><br><span class="line">			if (i == 0) &#123;</span><br><span class="line">				categoryBean.isSelected = true;</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				categoryBean.isSelected = false;</span><br><span class="line">			&#125;</span><br><span class="line">			categoryBean.id = i;</span><br><span class="line">			categoryBean.name = &quot;cate&quot; + i;</span><br><span class="line">			categoryBeanList.add(categoryBean);</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line">		return categoryBeanList;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="左边对右边的联动"><a href="#左边对右边的联动" class="headerlink" title="左边对右边的联动"></a>左边对右边的联动</h4><p>设置左边listview的点击事件让右边的listview滚动到相应的位置，这算是完成了一半的任务。（根据CategoryBean 中的id值查找右边lsitview相对应的item，然后记录下位置进行setSelection操作）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@Override</span><br><span class="line">	public void onItemClick(AdapterView&lt;?&gt; parent, View view, int position, long id) &#123;</span><br><span class="line">		// 点击类别item，右侧菜品跳转到相应的位置</span><br><span class="line">		CategoryBean categoryBean = cateList.get(position);</span><br><span class="line">		for (int i = 0; i &lt; dishList.size(); i++) &#123;</span><br><span class="line">			DishBean dishBean = dishList.get(i);</span><br><span class="line">			if (categoryBean.id == dishBean.id) &#123;</span><br><span class="line">				lv_right.setSelection(i);</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="右侧对左侧的联动"><a href="#右侧对左侧的联动" class="headerlink" title="右侧对左侧的联动"></a>右侧对左侧的联动</h4><p>下面是右侧对左侧的联动效果实现。首先在activity中实现StickyListHeadersListView.OnStickyHeaderChangedListener接口（该接口来源于StickyListHeadersListView类），相对应的会实现onStickyHeaderChanged方法。</p>
-<p>该方法会在header改变时调用（header的改变意味着一组新的类别数据出现在屏幕上），这时相对应的也需要改变左侧listview的选中状态</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">	public void onStickyHeaderChanged(StickyListHeadersListView l, View header, int itemPosition, long headerId) &#123;</span><br><span class="line">		DishBean dishBean = dishList.get(itemPosition);</span><br><span class="line">		long id = dishBean.id;</span><br><span class="line">		int position = getCateId(id);</span><br><span class="line">		if (position != -1) &#123;</span><br><span class="line">			lv_left.setSelection(position);</span><br><span class="line">			//更新左侧listview选中状态</span><br><span class="line">			notifyLeftAdapter(position);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">	 * 获取dishbean id对应的类别所在position</span><br><span class="line">	 * </span><br><span class="line">	 * @param id</span><br><span class="line">	 *            dishbean id</span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	private int getCateId(long id) &#123;</span><br><span class="line">		int position = 0;</span><br><span class="line">		for (int i = 0; i &lt; cateList.size(); i++) &#123;</span><br><span class="line">			position = i;</span><br><span class="line">			if (id == cateList.get(i).id) &#123;</span><br><span class="line">				return position;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1225,839 +2046,6 @@ Overload对我们来说可能比较熟悉，可以翻译为重载，它是指我
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/ServletConfig讲解/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/ServletConfig讲解/" itemprop="url">
-                  javaweb (三 )
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="ServletConfig讲解"><a href="#ServletConfig讲解" class="headerlink" title="ServletConfig讲解"></a>ServletConfig讲解</h3><h4 id="配置Servlet初始化参数"><a href="#配置Servlet初始化参数" class="headerlink" title="配置Servlet初始化参数"></a>配置Servlet初始化参数</h4><p>在Servlet的配置文件web.xml中，可以使用一个或多个<init-param>标签为servlet配置一些初始化参数。</init-param></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">        &lt;servlet-name&gt;ServletConfigDemo1&lt;/servlet-name&gt;</span><br><span class="line">        &lt;servlet-class&gt;ServletConfigDemo1&lt;/servlet-class&gt;</span><br><span class="line">        &lt;!--配置ServletConfigDemo1的初始化参数 --&gt;</span><br><span class="line">        &lt;init-param&gt;</span><br><span class="line">            &lt;param-name&gt;name&lt;/param-name&gt;</span><br><span class="line">            &lt;param-value&gt;qgx&lt;/param-value&gt;</span><br><span class="line">        &lt;/init-param&gt;</span><br><span class="line">        &lt;init-param&gt;</span><br><span class="line">            &lt;param-name&gt;password&lt;/param-name&gt;</span><br><span class="line">            &lt;param-value&gt;123&lt;/param-value&gt;</span><br><span class="line">        &lt;/init-param&gt;</span><br><span class="line">        &lt;init-param&gt;</span><br><span class="line">            &lt;param-name&gt;charset&lt;/param-name&gt;</span><br><span class="line">            &lt;param-value&gt;UTF-8&lt;/param-value&gt;</span><br><span class="line">        &lt;/init-param&gt;</span><br><span class="line">    &lt;/servlet&gt;</span><br><span class="line">    &lt;servlet-mapping&gt;</span><br><span class="line">        &lt;servlet-name&gt;ServletConfigDemo1&lt;/servlet-name&gt;</span><br><span class="line">        &lt;url-pattern&gt;/ServletConfigDemo1&lt;/url-pattern&gt;</span><br><span class="line">    &lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="通过ServletConfig获取Servlet的初始化参数"><a href="#通过ServletConfig获取Servlet的初始化参数" class="headerlink" title="通过ServletConfig获取Servlet的初始化参数"></a>通过ServletConfig获取Servlet的初始化参数</h4><p>当servlet配置了初始化参数后，web容器在创建servlet实例对象时，会自动将这些初始化参数封装到ServletConfig对象中，并在调用servlet的init方法时，将ServletConfig对象传递给servlet。进而，我们通过ServletConfig对象就可以得到当前servlet的初始化参数信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletConfig;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.Enumeration;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletConfigDemo1&quot;)</span><br><span class="line">public class ServletConfigDemo1 extends HttpServlet &#123;</span><br><span class="line">    /*</span><br><span class="line">     *</span><br><span class="line">     * 定义ServletConfig对象来接收配置的初始化参数</span><br><span class="line">     */</span><br><span class="line">   private ServletConfig config;</span><br><span class="line">    /**</span><br><span class="line">           * 当servlet配置了初始化参数后，web容器在创建servlet实例对象时，</span><br><span class="line">           * 会自动将这些初始化参数封装到ServletConfig对象中，并在调用servlet的init方法时，</span><br><span class="line">           * 将ServletConfig对象传递给servlet。进而，程序员通过ServletConfig对象就可以</span><br><span class="line">           * 得到当前servlet的初始化参数信息。</span><br><span class="line">           */</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void init(ServletConfig config) throws ServletException &#123;</span><br><span class="line">        super.init(config);</span><br><span class="line">        this.config = config;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">                //获取在web.xml中配置的初始化参数</span><br><span class="line">        response.setContentType(&quot;text/html&quot;);</span><br><span class="line">        String paramVal = this.config.getInitParameter(&quot;name&quot;);</span><br><span class="line">        //获取指定的初始化参数</span><br><span class="line">        response.getWriter().print(paramVal);</span><br><span class="line">        response.getWriter().print(&quot;&lt;hr/&gt;&quot;);</span><br><span class="line">        //获取所有的初始化参数</span><br><span class="line">        Enumeration&lt;String&gt; e = config.getInitParameterNames();</span><br><span class="line">        while(e.hasMoreElements())&#123;</span><br><span class="line">            String name = e.nextElement();</span><br><span class="line">            String value = config.getInitParameter(name);</span><br><span class="line">            response.getWriter().print(name + &quot;=&quot; + value + &quot;&lt;br/&gt;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>运行结果如下：<br><img src="/img/ServletConfigDemo1结果.png" alt=""></p>
-<h3 id="ServletContext对象"><a href="#ServletContext对象" class="headerlink" title="ServletContext对象"></a>ServletContext对象</h3><p>WEB容器在启动时，它会为每个WEB应用程序都创建一个对应的ServletContext对象，它代表当前web应用。<br>　　ServletConfig对象中维护了ServletContext对象的引用，开发人员在编写servlet时，可以通过ServletConfig.getServletContext方法获得ServletContext对象。<br>　　由于一个WEB应用中的所有Servlet共享同一个ServletContext对象，因此Servlet对象之间可以通过ServletContext对象来实现通讯。ServletContext对象通常也被称之为context域对象。</p>
-<h3 id="ServletContext的应用"><a href="#ServletContext的应用" class="headerlink" title="ServletContext的应用"></a>ServletContext的应用</h3><h4 id="多个Servlet通过ServletContext对象实现数据共享"><a href="#多个Servlet通过ServletContext对象实现数据共享" class="headerlink" title="多个Servlet通过ServletContext对象实现数据共享"></a>多个Servlet通过ServletContext对象实现数据共享</h4><p>范例：ServletContextDemo2和ServletContextDemo3通过ServletContext对象实现数据共享<br>ServletContextDemo2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletContext;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo2&quot;)</span><br><span class="line">public class ServletContextDemo2 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">            doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;qgx&quot;;</span><br><span class="line">        /**</span><br><span class="line">         *ServletConfig对象中维护了ServletContext对象的引用，开发人员在编写servlet时，</span><br><span class="line">         *可以通过ServletConfig.getServletContext方法获得ServletContext对象。</span><br><span class="line">         */</span><br><span class="line">        ServletContext context = this.getServletConfig().getServletContext();</span><br><span class="line">        //获得ServletContext对象     context.setAttribute(&quot;data&quot;, data);  //将data存储到ServletContext对象中</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>ServletContextDemo3<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletContext;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo3&quot;)</span><br><span class="line">public class ServletContextDemo3 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">            doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        ServletContext context = this.getServletContext();</span><br><span class="line">        String data = (String) context.getAttribute(&quot;data&quot;);//从ServletContext对象中取出数据</span><br><span class="line">        response.getWriter().print(&quot;data=&quot;+data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>先运行ServletContextDemo2，将数据data存储到ServletContext对象中，然后运行ServletContextDemo3就可以从ServletContext对象中取出数据了，这样就实现了数据共享，如下图所示：<br><img src="/img/ServletContextDemo.png" alt=""></p>
-<h4 id="获取WEB应用的初始化参数"><a href="#获取WEB应用的初始化参数" class="headerlink" title="获取WEB应用的初始化参数"></a>获取WEB应用的初始化参数</h4><p>在web.xml文件中使用<context-param>标签配置WEB应用的初始化参数，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;display-name&gt;&lt;/display-name&gt;</span><br><span class="line">        &lt;!-- 配置WEB应用的初始化参数 --&gt;</span><br><span class="line">         &lt;context-param&gt;</span><br><span class="line">             &lt;param-name&gt;url&lt;/param-name&gt;</span><br><span class="line">             &lt;param-value&gt;jdbc:mysql://localhost:3306/test&lt;/param-value&gt;</span><br><span class="line">         &lt;/context-param&gt;</span><br><span class="line"></span><br><span class="line">         &lt;welcome-file-list&gt;</span><br><span class="line">             &lt;welcome-file&gt;index.jsp&lt;/welcome-file&gt;</span><br><span class="line">         &lt;/welcome-file-list&gt;</span><br></pre></td></tr></table></figure></context-param></p>
-<p>运行结果：<br><img src="/img/ServletContextDemo4.png" alt=""></p>
-<h4 id="用servletContext实现请求转发"><a href="#用servletContext实现请求转发" class="headerlink" title="用servletContext实现请求转发"></a>用servletContext实现请求转发</h4><p>ServletContextDemo5<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.RequestDispatcher;</span><br><span class="line">import javax.servlet.ServletContext;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo5&quot;)</span><br><span class="line">public class ServletContextDemo5 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        String data = &quot;&lt;h1&gt;&lt;font color=&apos;red&apos;&gt;qgx@ljm&lt;/font&gt;&lt;/h1&gt;&quot;;</span><br><span class="line">        response.getOutputStream().write(data.getBytes());</span><br><span class="line">        ServletContext context = this.getServletContext();//获取ServletContext对象</span><br><span class="line">        RequestDispatcher rd = context.getRequestDispatcher(&quot;/ServletContextDemo6&quot;);//获取请求转发对象(RequestDispatcher)</span><br><span class="line">        rd.forward(request, response);//调用forward方法实现请求转发</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>ServletContextDemo6<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;ServletContextDemo6&quot;)</span><br><span class="line">public class ServletContextDemo6 extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">doGet(request,response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        response.getOutputStream().write(&quot;servletDemo6&quot;.getBytes());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>运行结果：<br><img src="/img/ServletDemo6.png" alt=""><br>　访问的是ServletContextDemo5，浏览器显示的却是ServletContextDemo6的内容，这就是使用ServletContext实现了请求转发</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/生成器模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/生成器模式/" itemprop="url">
-                  生成器模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="生成器模式"><a href="#生成器模式" class="headerlink" title="生成器模式"></a>生成器模式</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>  将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。生成器模式利用一个导演者对象和具体建造者对象一个一个地建造出所有的零件，从而建造出完整的对象。</p>
-<h4 id="四个要素："><a href="#四个要素：" class="headerlink" title="四个要素："></a>四个要素：</h4><ul>
-<li>Builder：生成器接口，定义创建一个Product对象所需要的各个部件的操作。</li>
-<li>ConcreteBuilder：具体的生成器实现，实现各个部件的创建，并负责组装Product对象的各个部件，同时还提供一个让用户获取组装完成后的产品对象的方法。</li>
-<li>Director：指导者，也被称导向者，主要用来使用Builder接口，以一个统一的过程来构建所需要的Product对象</li>
-<li>Product：产品，表示被生成器构建的复杂对象，包含多个部件。</li>
-</ul>
-<p><img src="/img/product.png" alt=""></p>
-<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p> 网上有用KFC的例子来描述生成器模式，比较通俗易懂。<br>        假设KFC推出两种套餐：奥尔良鸡腿堡套餐和香辣鸡腿堡套餐。<br>        奥尔良套餐包括：一个奥尔良鸡腿堡、一个炸鸡翅、一杯雪碧。<br>        鸡腿堡套餐包括：一个香辣鸡腿堡、一份薯条、一杯可乐。<br>        每份套餐都是：主食、副食、饮料。<br>        KFC服务员要根据顾客的要求来提供套餐，那这个需求里面什么是固定的，什么是变化的呢？很明显顾客都是要的套餐，顾客的目的是一样的。 套餐里面都是主食、副食、饮料，这也是固定的。至于主食是什么、副食是什么、饮料是什么，这个是变化的。<br>        在实际的软件开发过程中，有时候面临着“一个复杂对象”的创建工作，其通常由各个部分的子对象采用一定的组合构成，由于需求的变化，这个复杂对象的各个部分或者其子对象经常要变化（例如，鸡腿堡套餐的顾客不喜欢可乐，要换奶茶），但是他们的结构却相对稳定（套餐都得是一份主食，副食及饮料）。当遇到这种场景时，使用生成器模式比较合适。</p>
-<h5 id="定义一个产品类："><a href="#定义一个产品类：" class="headerlink" title="定义一个产品类："></a>定义一个产品类：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi.生产器模式;</span><br><span class="line"></span><br><span class="line">public class Entity1 &#123;</span><br><span class="line">    private String name ;//主食</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">public class Entity2 &#123;</span><br><span class="line">    private String name ;//副食</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class Entity3 &#123;</span><br><span class="line">    private String name ;//饮料</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Product &#123;</span><br><span class="line">    Entity1 entity1;</span><br><span class="line">    Entity2 entity2;</span><br><span class="line">    Entity3 entity3;</span><br><span class="line">    public  void  getProduct()&#123;</span><br><span class="line">        System.out.println(entity1.getName()+entity2.getName()+entity3.getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>产品类中的各个小模块是不一样的，由他们建造组成产品。</p>
-<h5 id="根据具体场景要求，定义n个生成器类："><a href="#根据具体场景要求，定义n个生成器类：" class="headerlink" title="根据具体场景要求，定义n个生成器类："></a>根据具体场景要求，定义n个生成器类：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi.生产器模式;</span><br><span class="line"></span><br><span class="line">public interface IBuild &#123;</span><br><span class="line">    public void createEntity1(Entity1 entity1);</span><br><span class="line">    public void createEntity2( Entity2 entity2);</span><br><span class="line">    public void createEntity3(Entity3 entity3);</span><br><span class="line">    public Product composite(Entity1 entity1,Entity2 entity2,Entity3 entity3);//合成</span><br><span class="line">    public Product create(Entity1 entity1,Entity2 entity2,Entity3 entity3);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">package SheJiMoShi.生产器模式;</span><br><span class="line"></span><br><span class="line">public class BuildProduct implements IBuild &#123;</span><br><span class="line">    Product p = new Product();</span><br><span class="line">    @Override</span><br><span class="line">    public void createEntity1(Entity1 entity1) &#123;</span><br><span class="line">     p.entity1=entity1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void createEntity2(Entity2 entity2) &#123;</span><br><span class="line">        p.entity2= entity2;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void createEntity3(Entity3 entity3) &#123;</span><br><span class="line">        p.entity3=entity3;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Product composite(Entity1 entity1 ,Entity2 entity2,Entity3 entity3) &#123;</span><br><span class="line">        createEntity1(entity1);</span><br><span class="line">        createEntity2(entity2);</span><br><span class="line">        createEntity3(entity3);</span><br><span class="line">        return p;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Product create(Entity1 entity1 ,Entity2 entity2,Entity3 entity3) &#123;</span><br><span class="line">        return composite(entity1,entity2,entity3);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="定义一个指挥者类，统一调度project："><a href="#定义一个指挥者类，统一调度project：" class="headerlink" title="定义一个指挥者类，统一调度project："></a>定义一个指挥者类，统一调度project：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">package SheJiMoShi.生产器模式;</span><br><span class="line"></span><br><span class="line">public class Director &#123;</span><br><span class="line">    private IBuild iBuild;</span><br><span class="line">    public Director(IBuild iBuild)&#123;</span><br><span class="line">        this.iBuild= iBuild;</span><br><span class="line">    &#125;</span><br><span class="line">    public Product build(Entity1 entity1,Entity2 entity2,Entity3 entity3)&#123;</span><br><span class="line">         return iBuild.create(entity1,entity2,entity3);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>建造者模式可以让一个产品的内部表象和产品的生产过程分离开，从而可以生成具有不同内部表象的产品。 </p>
-<h4 id="主要角色介绍"><a href="#主要角色介绍" class="headerlink" title="主要角色介绍"></a>主要角色介绍</h4><h5 id="抽象建造者-Builder-角色："><a href="#抽象建造者-Builder-角色：" class="headerlink" title="抽象建造者(Builder)角色："></a>抽象建造者(Builder)角色：</h5><p>定义一个抽象接口，规范产品各个组成成分的建造（即规范具体建造者的方法实现）。其中所规范的方法中必须包括建造方法和结果返回方法。 </p>
-<h5 id="具体建造者-ConcreteBuilder-角色"><a href="#具体建造者-ConcreteBuilder-角色" class="headerlink" title="具体建造者(ConcreteBuilder)角色:"></a>具体建造者(ConcreteBuilder)角色:</h5><p>实现抽象建造者角色定义的方法。具体建造者与业务逻辑关联性比较大，应用程序最终会通过，调用此角色中的建造方法按照业务逻辑创建产品，在建造完成后通过结果返回产品实例。 </p>
-<h5 id="导演者-Diretor-角色"><a href="#导演者-Diretor-角色" class="headerlink" title="导演者(Diretor)角色:"></a>导演者(Diretor)角色:</h5><p>此角色的作用是调用具体的创建者角色创造产品。导演者与产品类没直接关系。 </p>
-<h5 id="产品-product-角色"><a href="#产品-product-角色" class="headerlink" title="产品(product)角色:"></a>产品(product)角色:</h5><p>在导演者指导下由具体建造者所创建的那个复杂的对象。<br> 导演者角色与客户端直接打交道，它理解客户端的业务逻辑，将客户端创建产品的请求拆分成部分请求，然后调用具体产品角色执行建造操作。它分离了客户端与具体建造者。 </p>
-<h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><pre><code>1、建造者模式可以很好的将一个对象的实现与相关的“业务”逻辑分离开来，从而可以在不改变事件逻辑的前提下，是添加(或改变)实现变得非常容易。 
-2、允许对象通过多个步骤来创建，并且可以改变过程（这和只有一个步骤的工厂模式不同）。 
-3、向客户隐藏产品内部的表现。 
-4、产品的实现可以被替换，因为客户只能看到一个抽象接口。 
-</code></pre><h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><p>建造者接口的修改会导致所有执行类的修改。 </p>
-<h4 id="适用性"><a href="#适用性" class="headerlink" title="适用性"></a>适用性</h4><p>1、需要生产的产品对象有复杂的内部结构。比如，汽车、电脑。<br>  2、需要生成的产品对象的属性互相依赖，建造者模式可以强迫生产顺序。 </p>
-<h4 id="和其他模式的区别"><a href="#和其他模式的区别" class="headerlink" title="和其他模式的区别"></a>和其他模式的区别</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、抽象工厂模式：Builder模式返回完成的一个产品，而abstractFactory返回一系列有关系的产品。在抽象工厂模式中，客户采用abstractFactory生成自己要的 </span><br><span class="line"> 对象，而在Builder模式中，客户端指导（diretor）builder类如何去生成对象。获知如何合成一些类来构成建造类，侧重于一步一步构造一个复杂对象，然后返回结果。 </span><br><span class="line">   2、原型模式：克隆，对象已经存在。 </span><br><span class="line">   3、工厂方法：强调的是对象的变化，类实例推迟到子类。 </span><br><span class="line">   4、单例：对象的唯一性。</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/实现文件下载/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/实现文件下载/" itemprop="url">
-                  文件的上传和下载二
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/javaEE/" itemprop="url" rel="index"><span itemprop="name">javaEE</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="实现文件下载"><a href="#实现文件下载" class="headerlink" title="实现文件下载"></a>实现文件下载</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">package FileUploadAndDownLoad;</span><br><span class="line"></span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.annotation.WebServlet;</span><br><span class="line">import javax.servlet.http.HttpServlet;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletResponse;</span><br><span class="line">import java.io.File;</span><br><span class="line">import java.io.FileInputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.net.URLEncoder;</span><br><span class="line"></span><br><span class="line">@WebServlet(name = &quot;DownLoadServlet&quot;)</span><br><span class="line">public class DownLoadServlet extends HttpServlet &#123;</span><br><span class="line">    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;</span><br><span class="line">//得到要下载的文件名</span><br><span class="line">        String fileName = request.getParameter(&quot;filename&quot;);</span><br><span class="line">//上传的文件都是保存在/WEB-INF/upload目录下的子目录当中</span><br><span class="line">        String fileSaveRootPath = this.getServletContext().getRealPath(&quot;/WEB-INF/upload&quot;);</span><br><span class="line">//通过文件名找出文件的所在目录</span><br><span class="line">        String path = findFileSavePathByFileName(fileName, fileSaveRootPath);</span><br><span class="line">        System.out.println(path);</span><br><span class="line">//得到要下载的文件</span><br><span class="line">        File file = new File(path + &quot;\\&quot; + fileName);</span><br><span class="line">//如果文件不存在</span><br><span class="line">        if (!file.exists()) &#123;</span><br><span class="line">            request.setAttribute(&quot;message&quot;, &quot;您要下载的资源已被删除！！&quot;);</span><br><span class="line">            request.getRequestDispatcher(&quot;/message.jsp&quot;).forward(request, response);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">//处理文件名</span><br><span class="line">        String realname = fileName.substring(fileName.indexOf(&quot;_&quot;) + 1);</span><br><span class="line">//设置响应头，控制浏览器下载该文件</span><br><span class="line">        response.setHeader(&quot;content-disposition&quot;, &quot;attachment;filename=&quot; + URLEncoder.encode(realname, &quot;UTF-8&quot;));</span><br><span class="line">//读取要下载的文件，保存到文件输入流</span><br><span class="line">        FileInputStream in = new FileInputStream(path + &quot;\\&quot; + fileName);</span><br><span class="line">//创建输出流</span><br><span class="line">        OutputStream out = response.getOutputStream();</span><br><span class="line">//创建缓冲区</span><br><span class="line">        byte buffer[] = new byte[1024];</span><br><span class="line">        int len = 0;</span><br><span class="line">//循环将输入流中的内容读取到缓冲区当中</span><br><span class="line">        while ((len = in.read(buffer)) &gt; 0) &#123;</span><br><span class="line">//输出缓冲区的内容到浏览器，实现文件下载</span><br><span class="line">            out.write(buffer, 0, len);</span><br><span class="line">        &#125;</span><br><span class="line">//关闭文件输入流</span><br><span class="line">        in.close();</span><br><span class="line">//关闭输出流</span><br><span class="line">        out.close();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String findFileSavePathByFileName(String filename,String saveRootPath) &#123;</span><br><span class="line">        int hashcode = filename.hashCode();</span><br><span class="line">               int dir1 = hashcode&amp;0xf;  //0--15</span><br><span class="line">                int dir2 = (hashcode&amp;0xf0)&gt;&gt;4;  //0-15</span><br><span class="line">                 String dir = saveRootPath + &quot;\\&quot; + dir1 + &quot;\\&quot; + dir2;  //upload\2\3  upload\3\5</span><br><span class="line">                File file = new File(dir);</span><br><span class="line">               if(!file.exists())&#123;</span><br><span class="line">                        //创建目录</span><br><span class="line">                         file.mkdirs();</span><br><span class="line">                   &#125;</span><br><span class="line">                return dir;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>说明：0xf 是十六进制的15，转换成二进制是1111，和任何4位二进制进行&amp;运算后，最大值也还是1111，最小值是0，所以最多只能创建16个目录。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/适配器模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/适配器模式/" itemprop="url">
-                  适配器模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><p>将一个类的接口转换成客户希望的另外一个接口。适配器模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。</p>
-<h4 id="角色："><a href="#角色：" class="headerlink" title="角色："></a>角色：</h4><p>目标(Target)角色：这就是所期待得到的接口，也就是这类的接口是符合我们要求的。</p>
-<h4 id="源-Adapee-角色："><a href="#源-Adapee-角色：" class="headerlink" title="源(Adapee)角色："></a>源(Adapee)角色：</h4><p>我们要使用的接口，但是这个接口不符合我们的要求，也就是现在需要适配的接口。</p>
-<h4 id="适配器-Adaper-角色："><a href="#适配器-Adaper-角色：" class="headerlink" title="适配器(Adaper)角色："></a>适配器(Adaper)角色：</h4><p>适配器类是适配器模式的核心。适配器把源接口转换成目标接口。显然，这一角色不可以是接口，而必须是具体类。</p>
-<h4 id="分类："><a href="#分类：" class="headerlink" title="分类："></a>分类：</h4><h5 id="1、-类适配器模式"><a href="#1、-类适配器模式" class="headerlink" title="1、  类适配器模式"></a>1、  类适配器模式</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Adaptee &#123;         </span><br><span class="line">    publicvoid specificRequest() &#123;</span><br><span class="line">         System.out.println(&quot;特殊请求，这个是源角色&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">/*这个是目标角色，所期待的接口*/</span><br><span class="line"></span><br><span class="line">interface Target &#123;         </span><br><span class="line">    publicvoid request();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>现在想要实现这个Target接口，但是不想重构，想要用上已有的Adaptee类，这时可以定义一个适配器类，继承想要使用的类，并且实现期待的接口。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class Adapter extends Adaptee implementsTarget&#123;</span><br><span class="line">         publicvoid request() &#123;                   super.specificRequest();</span><br><span class="line">         &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这样，使用适配器类和实现目标接口就完成了计划，测试：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class Test&#123;</span><br><span class="line">         publicstatic void main(String[] args) &#123;</span><br><span class="line">                   //使用特殊功能类，即适配类</span><br><span class="line">                   Targetadapter = new Adapter();</span><br><span class="line">                   adapter.request();</span><br><span class="line">         &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h5 id="2、-对象适配器模式"><a href="#2、-对象适配器模式" class="headerlink" title="2、 对象适配器模式"></a>2、 对象适配器模式</h5><p>适配器类关联已有的Adaptee类，并且实现标准接口，这样做的好处是不再需要继承。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Adapter implements Target&#123;</span><br><span class="line">         privateAdaptee adaptee;</span><br><span class="line"></span><br><span class="line">         publicAdapter (Adaptee adaptee) &#123;</span><br><span class="line">                   this.adaptee= adaptee;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         publicvoid request() &#123;</span><br><span class="line">                   this.adaptee.specificRequest();</span><br><span class="line">         &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>我们可以想到，此时输出结果和类适配器模式是相同的，测试：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class Test&#123;</span><br><span class="line">         publicstatic void main(String[] args) &#123;</span><br><span class="line">                   Targetadapter = new Adapter(new Adaptee());</span><br><span class="line">                   adapter.request();</span><br><span class="line">         &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="区别："><a href="#区别：" class="headerlink" title="区别："></a>区别：</h4><ul>
-<li>类适配器：对象继承的方式，静态的定义。</li>
-<li>对象适配器：依赖于对象的组合，都是采用对象组合的方式，也就是对象适配器实现的方式。</li>
-<li>对象的适配器模式不是使用继承关系连接到Adaptee类，而是使用委派关系连接到Adaptee类。</li>
-</ul>
-<h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4><h5 id="复用性"><a href="#复用性" class="headerlink" title="复用性"></a>复用性</h5><p>系统需要使用现有的类，而此类的接口不符合系统的需要。那么通过适配器模式就可以让这些功能得到更好的复用。</p>
-<h5 id="扩展性"><a href="#扩展性" class="headerlink" title="扩展性"></a>扩展性</h5><p>在实现适配器功能的时候，可以自由调用自己开发的功能，从而自然地扩展系统的功能。</p>
-<h4 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h4><p> 过多的使用适配器，会让系统非常零乱，不易整体进行把握。比如，明明看到调用的是A接口，其实内部被适配成了B接口的实现。所以适配器模式不适合在详细设计阶段使用它，它是一种补偿模式，专用来在系统后期扩展、修改时所用。</p>
-<h4 id="适用场景："><a href="#适用场景：" class="headerlink" title="适用场景："></a>适用场景：</h4><p>1、已经存在的类的接口不符合我们的需求；</p>
-<p>2、创建一个可以复用的类，使得该类可以与其他不相关的类或不可预见的类协同工作；</p>
-<p>3、使用一些已经存在的子类而不需要对其进行子类化来匹配接口。</p>
-<p>4、旧的系统开发的类已经实现了一些功能，但是客户端却只能以另外接口的形式访问，但我们不希望手动更改原有类的时候。</p>
-<h4 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h4><p>适配器模式不适合在详细设计阶段使用它，它是一种补偿模式，专用来在系统后期扩展、修改时所用，适配器模式更像是一种补救措施。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/OkHttp中 response.body().string()只能调用一次分析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/OkHttp中 response.body().string()只能调用一次分析/" itemprop="url">
-                  我的第一个Android设计第二天（二）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 12:10:37" itemprop="dateCreated datePublished" datetime="2018-07-20T12:10:37+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="OkHttp中-response-body-string-只能调用一次分析"><a href="#OkHttp中-response-body-string-只能调用一次分析" class="headerlink" title="OkHttp中 response.body().string()只能调用一次分析"></a>OkHttp中 response.body().string()只能调用一次分析</h3><p>我们第一次调用response.body().string(); 的时候可以正确拿到数据，第二次就返回了null<br>日志可以打出来，在程序里面不能运行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public void onResponse(Response response) throws IOException &#123;</span><br><span class="line">    String result = response.body().string();</span><br><span class="line">// response.body().string();只能调用一次</span><br></pre></td></tr></table></figure>
-<p><strong>因为response.body()也是挺大的，OkHttp不把它存储在内存中，就是你需要的时候就去读一次 只给你了内容，没有给引用，所以一次请求读一次</strong></p>
-<h4 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h4><p>string()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public final String string() throws IOException &#123;</span><br><span class="line">   return new String(bytes(), charset().name());</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
-<p>bytes()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public final byte[] bytes() throws IOException &#123;</span><br><span class="line">    long contentLength = contentLength();</span><br><span class="line">    if (contentLength &gt; Integer.MAX_VALUE) &#123;</span><br><span class="line">      throw new IOException(&quot;Cannot buffer entire body for content length: &quot; + contentLength);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    BufferedSource source = source();</span><br><span class="line">    byte[] bytes;</span><br><span class="line">    try &#123;</span><br><span class="line">      bytes = source.readByteArray();</span><br><span class="line">    &#125; finally &#123;</span><br><span class="line">      Util.closeQuietly(source);</span><br><span class="line">    &#125;</span><br><span class="line">    if (contentLength != -1 &amp;&amp; contentLength != bytes.length) &#123;</span><br><span class="line">      throw new IOException(&quot;Content-Length and stream length disagree&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    return bytes;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>finally中的代码肯定会调用这里执行  Util.closeQuietly(source)</strong><br>closeQuietly方法可以运用到各类可关闭的对象中<br>就是因为在拿过之后就把资源关闭了<br>所以就获取不到了，所以只能拿一次。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2109,7 +2097,7 @@ Overload对我们来说可能比较熟悉，可以翻译为重载，它是指我
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">88</span>
+                    <span class="site-state-item-count">89</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2277,7 +2265,9 @@ Overload对我们来说可能比较熟悉，可以翻译为重载，它是指我
                     
                       
                     
-                    <span class="site-state-item-count">62</span>
+                      
+                    
+                    <span class="site-state-item-count">63</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

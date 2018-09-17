@@ -319,6 +319,216 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/17/OpenCV入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/17/OpenCV入门/" itemprop="url">
+                  OpenCV入门
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-17 22:45:07" itemprop="dateCreated datePublished" datetime="2018-09-17T22:45:07+08:00">2018-09-17</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/大四/" itemprop="url" rel="index"><span itemprop="name">大四</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="OpenCV入门"><a href="#OpenCV入门" class="headerlink" title="OpenCV入门"></a>OpenCV入门</h1><h2 id="OpenCV-的图像读取显示及保存"><a href="#OpenCV-的图像读取显示及保存" class="headerlink" title="OpenCV 的图像读取显示及保存"></a>OpenCV 的图像读取显示及保存</h2><h3 id="1、cv2-imread-文件名，-标记-读入图像"><a href="#1、cv2-imread-文件名，-标记-读入图像" class="headerlink" title="1、cv2.imread(文件名， 标记)   读入图像"></a>1、cv2.imread(文件名， 标记)   读入图像</h3><pre><code>① 、cv2.IMREAD_COLOR() : 读入彩色图像；
+
+②、 cv2.IMREAD_GRAYSCALE() : 以灰色模式读入图像
+</code></pre><h3 id="2、cv2-imshow-显示图像"><a href="#2、cv2-imshow-显示图像" class="headerlink" title="2、cv2.imshow()显示图像"></a>2、cv2.imshow()显示图像</h3><ul>
+<li>cv2.waitkey() 等待键盘输入，为毫秒级</li>
+<li>cv2.destoryAllWindows() 可以轻易删除任何我们建立的窗口，括号内输入想删除的窗口名。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cv2.namedWindow(<span class="string">'image'</span>,cv2.WINDOW_NORMAL)</span><br><span class="line">cv2.imshow(<span class="string">'image'</span>,img)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line">cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+<h3 id="3、-cv2-imwrite-文件名-，-img-保存图像"><a href="#3、-cv2-imwrite-文件名-，-img-保存图像" class="headerlink" title="3、 cv2.imwrite(文件名 ， img) 保存图像"></a>3、 cv2.imwrite(文件名 ， img) 保存图像</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cv2.imwrite(<span class="string">'111.png'</span>,img)</span><br></pre></td></tr></table></figure>
+<h3 id="4、-练习加载一个灰度图，-显示图片，按下-’-s-‘-键保存后退出，或者按下ESC键退出不保存。"><a href="#4、-练习加载一个灰度图，-显示图片，按下-’-s-‘-键保存后退出，或者按下ESC键退出不保存。" class="headerlink" title="4、 练习加载一个灰度图， 显示图片，按下 ’ s ‘ 键保存后退出，或者按下ESC键退出不保存。"></a>4、 练习加载一个灰度图， 显示图片，按下 ’ s ‘ 键保存后退出，或者按下ESC键退出不保存。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line">img = cv2.imread(<span class="string">'111.png'</span>, cv2.IMREAD_GRAYSCALE())</span><br><span class="line">cv2.imshow(<span class="string">'111img'</span>,img)</span><br><span class="line">k = cv2.waitkey(<span class="number">0</span>)</span><br><span class="line"><span class="keyword">if</span> k==<span class="number">27</span>:</span><br><span class="line">    cv2.destoryAllWindows() <span class="comment"># wait for 'ESC' key to exit</span></span><br><span class="line"><span class="keyword">elif</span> k == ord(<span class="string">'s'</span>)</span><br><span class="line">	cv2.imwrite(<span class="string">'222.png'</span>,img) <span class="comment">#  wait for 's' key to save and exit</span></span><br><span class="line">    cv2.destoryAllWindows()</span><br></pre></td></tr></table></figure>
+<p><strong>如果用的是64位系统，需将key=cv2.waitKey(0)改为k=cv2.waitKey(0)&amp;0xFF @！！</strong></p>
+<h3 id="5、-Matplotlib绘图库"><a href="#5、-Matplotlib绘图库" class="headerlink" title="5、 Matplotlib绘图库"></a>5、 Matplotlib绘图库</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pyplot <span class="keyword">as</span> plt</span><br><span class="line">img = cv2.imread(<span class="string">'111.png'</span>,<span class="number">0</span>)</span><br><span class="line">plt.show(img, cmap=<span class="string">'gray'</span> , interpolation = <span class="string">'bicubic'</span>)</span><br><span class="line">plt.xticks([]),plt.yticks([]) <span class="comment">#to hide tick values on X and Y axis</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h2 id="OpenCV视频操作"><a href="#OpenCV视频操作" class="headerlink" title="OpenCV视频操作"></a>OpenCV视频操作</h2><h3 id="1、用摄像头来捕捉视频"><a href="#1、用摄像头来捕捉视频" class="headerlink" title="1、用摄像头来捕捉视频"></a>1、用摄像头来捕捉视频</h3><p>cv2.VideoCapture() : 0为默认摄像头， 1可以更换来源：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line">cap = cv2.VideoCapture(<span class="number">0</span>)</span><br><span class="line"><span class="keyword">while</span>(<span class="keyword">True</span>):</span><br><span class="line">    ret , frame = cap.read()</span><br><span class="line">    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GARY)</span><br><span class="line">    cv2.imshow(<span class="string">'frame'</span>,gray)</span><br><span class="line">    <span class="keyword">if</span> cv2.waitKey(<span class="number">1</span>)&amp;<span class="number">0xFF</span> == ord(<span class="string">'q'</span>):</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">cap.release()</span><br><span class="line">cv2.destoryAllWindows()</span><br></pre></td></tr></table></figure>
+<h3 id="2、从文件中播放视频"><a href="#2、从文件中播放视频" class="headerlink" title="2、从文件中播放视频"></a>2、从文件中播放视频</h3><p>把设备索引号改成文件名即可。在播放每一帧时，使用cv2.waitKey()适当持续时间，一般可以设置25ms。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line">cap=cv2.VideoCapture(<span class="string">'filename.avi'</span>)<span class="comment">#文件名及格式</span></span><br><span class="line"><span class="keyword">while</span>(<span class="keyword">True</span>):</span><br><span class="line">    ret , frame = cap.read()</span><br><span class="line">    gray = cv2.cvtColor(frame , cv2.COLOR_BGR2GRAY)</span><br><span class="line">    cv2.imshow(<span class="string">'frame'</span>,gray)</span><br><span class="line">    <span class="keyword">if</span> cv2.waitKey(<span class="number">1</span>) &amp;<span class="number">0xFF</span> ==ord(<span class="string">'q'</span>):  <span class="comment">#按q键退出</span></span><br><span class="line">    	<span class="keyword">break</span></span><br><span class="line">cap.release()</span><br><span class="line">cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+<p><img src="https://box.kancloud.cn/bfe1412f9928c24f3711d654682ee9ba_578x242.jpg" alt=""></p>
+<h3 id="3、保存视频"><a href="#3、保存视频" class="headerlink" title="3、保存视频"></a>3、保存视频</h3><ul>
+<li>创建一个VideoWrite的对象，确定输出文件名，指定FourCC编码，播放频率和帧的大小，最后是isColor标签True为彩色。</li>
+<li>FourCC是一个4字节码，用来确定视频的编码格式。<br>[1.In]  Fedora : DIVX , XVID , MJPG , X264 , WMV1 , WMV2<br>XVID是最好的，MJPG是高尺寸视频，X264得到小尺寸视频<br>[2.In]  Windows : DIVX<br>[3.In]   OSX :不知道用什么好</li>
+</ul>
+<p>设置FourCC格式时，原文里采用了cv2.VideoWriter_fourcc()这个函数，若运行程序的时候显示这个函数不存在，可以改用了cv2.cv.CV_FOURCC这个函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line">cap = cv2.VideoCapture(<span class="number">0</span>)</span><br><span class="line">fourcc = cv2.VideoWriter_fourcc(*<span class="string">'XVID'</span>)</span><br><span class="line">out = cv2.VideoWriter(<span class="string">'output.avi'</span>,fourcc, <span class="number">20.0</span>, (<span class="number">640</span>,<span class="number">480</span>))</span><br><span class="line"><span class="keyword">while</span>(cap.isOpened()):</span><br><span class="line">    ret, frame = cap.read()</span><br><span class="line">    <span class="keyword">if</span> ret==<span class="keyword">True</span>:</span><br><span class="line">        frame = cv2.flip(frame,<span class="number">0</span>)</span><br><span class="line">        out.write(frame)</span><br><span class="line">        cv2.imshow(<span class="string">'frame'</span>,frame)</span><br><span class="line">        <span class="keyword">if</span> cv2.waitKey(<span class="number">1</span>) &amp; <span class="number">0xFF</span> == ord(<span class="string">'q'</span>):</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">cap.release()</span><br><span class="line">out.release()</span><br><span class="line">cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+<h2 id="OpenCV中的绘图函数"><a href="#OpenCV中的绘图函数" class="headerlink" title="OpenCV中的绘图函数"></a>OpenCV中的绘图函数</h2><p>涉及的函数：cv2.line() , cv2.cicle() , cv2.rectangle() , cv2.ellipse() , cv2.putText()等<br>需要设置的参数：<br>img 你想要绘制的图形的那副图像<br>color 形状的颜色，以RGB为例，需要传入的元组，例（255,0,0）代表蓝色，对于灰度图只需传入灰度值<br>thickness 线条的粗细，如果给一个闭合图形设置为-1，那么这个图形就会被填充，默认值为1<br>linetype 线条的类型，8连接，抗锯齿等。默认是8连接。cv2.LINE_AA为抗锯齿</p>
+<h3 id="1、画线"><a href="#1、画线" class="headerlink" title="1、画线"></a>1、画线</h3><p>需要告诉函数这条线的起点和终点</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line">img= np.zeros((<span class="number">512</span>,<span class="number">512</span>,<span class="number">3</span>),np,uint8)</span><br><span class="line">cv2.line(img,(<span class="number">0</span>,<span class="number">0</span>),(<span class="number">260</span>,<span class="number">260</span>),(<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>),<span class="number">5</span>)</span><br><span class="line">cv2.nameWindows(<span class="string">'image'</span>,<span class="number">1000</span>,<span class="number">1000</span>)</span><br><span class="line">cv2.imshow(<span class="string">'image'</span>,img)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line">cv2.destoryAllWindows()</span><br></pre></td></tr></table></figure>
+<h3 id="2、画矩形"><a href="#2、画矩形" class="headerlink" title="2、画矩形"></a>2、画矩形</h3><p>需要告诉函数左上角顶点和右下角顶点</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line">img = np.zeros((<span class="number">512</span>,<span class="number">512</span>,<span class="number">3</span>),np.uint8)</span><br><span class="line">cv2.rectangle(img,(<span class="number">350</span>,<span class="number">0</span>),(<span class="number">500</span>,<span class="number">128</span>),(<span class="number">0</span>,<span class="number">255</span>,<span class="number">0</span>),<span class="number">3</span>)</span><br><span class="line">cv2.nameWindow(<span class="string">'image'</span>,cv2.WINDOW_NORMAL)</span><br><span class="line">cv2.resize(<span class="string">'image'</span>,<span class="number">1000</span>,<span class="number">1000</span>)</span><br><span class="line">cv2.imshow(<span class="string">'image'</span>,img)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line">cv2.destoryAllWindows()</span><br></pre></td></tr></table></figure>
+<h3 id="3、画圆"><a href="#3、画圆" class="headerlink" title="3、画圆"></a>3、画圆</h3><p>需要指定圆心坐标和半径大小，可以在上面矩形中画一个圆</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line">img = np.zeros((<span class="number">512</span>,<span class="number">512</span>,<span class="number">3</span>),np.uint8)</span><br><span class="line">cv2.rectangle(img,(<span class="number">350</span>,<span class="number">0</span>),(<span class="number">500</span>,<span class="number">128</span>),(<span class="number">0</span>,<span class="number">255</span>,<span class="number">0</span>),<span class="number">3</span>)</span><br><span class="line">cv2.circle(img,(<span class="number">425</span>,<span class="number">63</span>),<span class="number">63</span>,(<span class="number">0</span>,<span class="number">0</span>,<span class="number">255</span>),<span class="number">-1</span>)<span class="comment"># -1为内填充</span></span><br><span class="line">cv2.nameWindow(<span class="string">'image'</span>,cv2.WINDOW_NORMAL)</span><br><span class="line">cv2.resize(<span class="string">'image'</span>,<span class="number">1000</span>,<span class="number">1000</span>)</span><br><span class="line">cv2.imshow(<span class="string">'image'</span>,img)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line">cv2.destoryAllWindows()</span><br></pre></td></tr></table></figure>
+<h3 id="4、画椭圆"><a href="#4、画椭圆" class="headerlink" title="4、画椭圆"></a>4、画椭圆</h3><p>需要中心的坐标 和  和短的度。椭圆沿时针方向旋的度，圆弧演 时方向始的度和结束度如果是 0 很 360就是整个椭圆。查看 cv2.ellipse() 可以得到更多信息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np </span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line">img = np.zeros((<span class="number">512</span>,<span class="number">512</span>,<span class="number">3</span>),np.uint8)</span><br><span class="line">cv2.ellipse(img,(<span class="number">256</span>,<span class="number">256</span>),(<span class="number">100</span>,<span class="number">50</span>),<span class="number">0</span>,<span class="number">0</span>,<span class="number">360</span>,<span class="number">255</span>,<span class="number">-1</span>)</span><br><span class="line">cv2.nameWindow(<span class="string">'image'</span>,cv2.WINDOW_NORMAL)</span><br><span class="line">cv2.resize(<span class="string">'image'</span>,<span class="number">1000</span>,<span class="number">1000</span>)</span><br><span class="line">cv2.imshow(<span class="string">'image'</span>,img)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line">cv2.destoryAllWindows()</span><br></pre></td></tr></table></figure>
+<h3 id="5、画多边形"><a href="#5、画多边形" class="headerlink" title="5、画多边形"></a>5、画多边形</h3><p>需要指定每个顶点的坐标，构建一个大小相等于行数X1X2的数组，行数就是点的数目，这个数组必须为int32。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"><span class="comment">#Create a black image</span></span><br><span class="line">img = np.zeros((<span class="number">512</span>,<span class="number">512</span>,<span class="number">3</span>),np.uint8)</span><br><span class="line"></span><br><span class="line">pts=np.array([[<span class="number">10</span>,<span class="number">5</span>],[<span class="number">20</span>,<span class="number">30</span>],[<span class="number">70</span>,<span class="number">20</span>],[<span class="number">50</span>,<span class="number">10</span>]],np.int32)</span><br><span class="line">pts = pts.reshape((<span class="number">-1</span>,<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line"><span class="comment">#这里reshape的第一个参数为-1，表明这一维度的长度是根据后面的维度计算出来的</span></span><br><span class="line">cv2.polylines(img,[pts],<span class="keyword">True</span>,(<span class="number">0</span>,<span class="number">255</span>,<span class="number">255</span>)) </span><br><span class="line"><span class="comment">#注意第三个参数若是False，我们得到的是不闭合的线</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#为了演示，建窗口显示出来</span></span><br><span class="line">cv2.namedWindow(<span class="string">'image'</span>,cv2.WINDOW_NORMAL)</span><br><span class="line">cv2.resizeWindow(<span class="string">'image'</span>,<span class="number">1000</span>,<span class="number">1000</span>)<span class="comment">#定义frame的大小</span></span><br><span class="line">cv2.imshow(<span class="string">'image'</span>,img)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line">cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+<p>cv2.polylines() 可以用来画很多条线。只把想画的线放在一 个列中将个列传给函数就可以了。每条线会独立绘制。会比用 cv2.line() 一条一条的绘制快一些。</p>
+<h3 id="6、在图片上添加文字"><a href="#6、在图片上添加文字" class="headerlink" title="6、在图片上添加文字"></a>6、在图片上添加文字</h3><p>需要设置，文字内容，绘制的位置，字体类型、大小、颜色、粗细、类型等，这里推荐linetype=cv2.LINE_AA</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"><span class="comment">#Create a black image</span></span><br><span class="line">img = np.zeros((<span class="number">512</span>,<span class="number">512</span>,<span class="number">3</span>),np.uint8)</span><br><span class="line"></span><br><span class="line">font = cv2.FONT_HERSHEY_SIMPLEX  </span><br><span class="line">cv2.putText(img,<span class="string">'OpenCV'</span>,(<span class="number">10</span>,<span class="number">500</span>), font, <span class="number">4</span>,(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>),<span class="number">2</span>,cv2.LINE_AA)  </span><br><span class="line"></span><br><span class="line"><span class="comment">#为了演示，建窗口显示出来</span></span><br><span class="line">cv2.namedWindow(<span class="string">'image'</span>,cv2.WINDOW_NORMAL)</span><br><span class="line">cv2.resizeWindow(<span class="string">'image'</span>,<span class="number">1000</span>,<span class="number">1000</span>)<span class="comment">#定义frame的大小</span></span><br><span class="line">cv2.imshow(<span class="string">'image'</span>,img)</span><br><span class="line">cv2.waitKey(<span class="number">0</span>)</span><br><span class="line">cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+<h2 id="OpenCV-处理鼠标事件"><a href="#OpenCV-处理鼠标事件" class="headerlink" title="OpenCV 处理鼠标事件"></a>OpenCV 处理鼠标事件</h2><h3 id="1、图片上双击过的位置绘制一个圆圈"><a href="#1、图片上双击过的位置绘制一个圆圈" class="headerlink" title="1、图片上双击过的位置绘制一个圆圈"></a>1、图片上双击过的位置绘制一个圆圈</h3><p>创建鼠标事件回调函数，当鼠标事件发生时就会被执行。<br>比如左键按下，松开，左键双击等。可以通过鼠标事件获得相对应的图片上的坐标，根据这些信息可以做想做的事。所有鼠标事件回调函数都有一个统一的格式，不同的地方是被调用后的功能。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看所有被支持的鼠标事件</span></span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line">events = [i <span class="keyword">for</span> i <span class="keyword">in</span> dir(cv2) <span class="keyword">if</span> <span class="string">'EVENT'</span> <span class="keyword">in</span> i]</span><br><span class="line"><span class="keyword">print</span> (events)</span><br></pre></td></tr></table></figure>
+<p>功能实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># mouse callback function</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">draw_circle</span><span class="params">(event, x, y, flags, param)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> event == cv2.EVENT_LBUTTONDBLCLK:</span><br><span class="line">        cv2.circle(img, (x, y), <span class="number">100</span>, (<span class="number">255</span>, <span class="number">0</span>, <span class="number">0</span>), <span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建图像与窗口并将窗口与回调函数绑定</span></span><br><span class="line">img = np.zeros((<span class="number">500</span>, <span class="number">500</span>, <span class="number">3</span>), np.uint8)</span><br><span class="line">cv2.namedWindow(<span class="string">'image'</span>)</span><br><span class="line">cv2.setMouseCallback(<span class="string">'image'</span>, draw_circle)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (<span class="number">1</span>):</span><br><span class="line">    cv2.imshow(<span class="string">'image'</span>, img)</span><br><span class="line">    <span class="keyword">if</span> cv2.waitKey(<span class="number">1</span>)&amp;<span class="number">0xFF</span> == ord(<span class="string">'q'</span>):<span class="comment">#按q键退出</span></span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+<h3 id="2、在拖动鼠标时绘制矩形"><a href="#2、在拖动鼠标时绘制矩形" class="headerlink" title="2、在拖动鼠标时绘制矩形"></a>2、在拖动鼠标时绘制矩形</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="comment">#当鼠标按下时为True</span></span><br><span class="line">drawing = <span class="keyword">False</span></span><br><span class="line"><span class="comment">#如果mode为true时绘制矩形，按下'm'变成绘制曲线</span></span><br><span class="line">mode = <span class="keyword">True</span></span><br><span class="line">ix,iy = <span class="number">-1</span>,<span class="number">-1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#创建回调函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">draw_circle</span><span class="params">(event,x,y,flags,param)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> ix,iy,drawing,mode</span><br><span class="line">    <span class="comment">#当按下左键时返回起始位置坐标</span></span><br><span class="line">    <span class="keyword">if</span> event == cv2.EVENT_LBUTTONDOWN:</span><br><span class="line">        drawing = <span class="keyword">True</span></span><br><span class="line">        ix,iy=x,y</span><br><span class="line">    <span class="comment">#当左键按下并移动时绘制图形，event可以查看移动，flag查看是否按下</span></span><br><span class="line">    <span class="keyword">elif</span> event==cv2.EVENT_MOUSEMOVE <span class="keyword">and</span> flags==cv2.EVENT_FLAG_LBUTTON:</span><br><span class="line">        <span class="keyword">if</span> drawing == <span class="keyword">True</span>:</span><br><span class="line">            <span class="keyword">if</span> mode == <span class="keyword">True</span>:</span><br><span class="line">                cv2.rectangle(img,(ix,iy),(x,y),(<span class="number">0</span>,<span class="number">255</span>,<span class="number">0</span>),<span class="number">-1</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment">#绘制圆圈，小圆点连在一起就成了线，3代表笔画的粗细</span></span><br><span class="line">                cv2.circle(img,(x,y),<span class="number">3</span>,(<span class="number">0</span>,<span class="number">0</span>,<span class="number">255</span>),<span class="number">-1</span>)</span><br><span class="line">              </span><br><span class="line">    <span class="comment">#当鼠标松开时停止绘图</span></span><br><span class="line">    <span class="keyword">elif</span> event ==cv2.EVENT_LBUTTONUP:</span><br><span class="line">        drawing == <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">下面把回调函数与OpenCV窗口绑定在一起，在主循环中奖'm'键与模式转换绑定在一起</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">img = np.zeros((<span class="number">500</span>,<span class="number">500</span>,<span class="number">3</span>),np.uint8)</span><br><span class="line">cv2.namedWindow(<span class="string">'image'</span>)</span><br><span class="line">cv2.setMouseCallback(<span class="string">'image'</span>,draw_circle)</span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>):</span><br><span class="line">    cv2.imshow(<span class="string">'image'</span>,img)</span><br><span class="line">    k=cv2.waitKey(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">if</span> k ==ord(<span class="string">'m'</span>):</span><br><span class="line">        mode=<span class="keyword">not</span> mode</span><br><span class="line">    <span class="keyword">elif</span> k==ord(<span class="string">'q'</span>):</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+<h2 id="OpenCV图像的基本操作"><a href="#OpenCV图像的基本操作" class="headerlink" title="OpenCV图像的基本操作"></a>OpenCV图像的基本操作</h2><h3 id="1、获取并修改像素值"><a href="#1、获取并修改像素值" class="headerlink" title="1、获取并修改像素值"></a>1、获取并修改像素值</h3><p>读取一副图像，根据像素的行和列的坐标获取它的像素值，对于RGB图像而言，返回RGB的值，对于灰度图则返回灰度值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line">img = cv2.imread(<span class="string">'45.jpg'</span>)</span><br><span class="line">px = img[<span class="number">100</span>,<span class="number">100</span>]</span><br><span class="line">print(px)</span><br><span class="line">blue = img[<span class="number">100</span>,<span class="number">100</span>,<span class="number">0</span>]</span><br><span class="line">print(blue)</span><br><span class="line">img[<span class="number">101</span>,<span class="number">101</span>]=[<span class="number">255</span>,<span class="number">2555</span>,<span class="number">255</span>]</span><br><span class="line">print(img[<span class="number">101</span>,<span class="number">101</span>])</span><br></pre></td></tr></table></figure>
+<p>numpy是经过优化了的进行快速矩阵运算的包，所以不推荐逐个获取像素值并修改能矩阵运算就不要用循环。</p>
+<p>例如前5行的后3列，用numpy的array.item()和array.itemset()会更好。但是如果返回的是标量，如果想获得所有RGB的值，需要使用array.item()分割他们。</p>
+<p>更好的办法是</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy </span><br><span class="line">img = cv2.imread(<span class="string">"45.jpg"</span>)</span><br><span class="line">print(img.item(<span class="number">10</span>,<span class="number">10</span>,<span class="number">2</span>))</span><br><span class="line">img.itemset((<span class="number">10</span>,<span class="number">10</span>,<span class="number">2</span>),<span class="number">100</span>)</span><br><span class="line">print(img.item(<span class="number">10</span>,<span class="number">10</span>,<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+<h3 id="2、获取图像属性"><a href="#2、获取图像属性" class="headerlink" title="2、获取图像属性"></a>2、获取图像属性</h3><p>图像属性包括：行，列，通道，图像数据类型，像素数目等</p>
+<p>img.shape()可以获取图像的形状，返回值包含行数，列数，通道数的元组。</p>
+<p>img.size可以返回图像的像素数目</p>
+<p>img.dtype 可以返回图像的数据类型，因为OpenCV-python代码中经常出现数据类型的不一致。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line">img = cv2.imread(<span class="string">"45.jpg"</span>)</span><br><span class="line">print(img.shape)</span><br><span class="line">print(img.size)</span><br><span class="line">print(img.dtype)</span><br></pre></td></tr></table></figure>
+<h3 id="3、图像ROI"><a href="#3、图像ROI" class="headerlink" title="3、图像ROI"></a>3、图像ROI</h3><p>对于图像的特定区域操作，ROI是使用numpy索引来获得的。</p>
+<p>选择球的部分来拷贝到其他区域</p>
+<p><img src="https://box.kancloud.cn/0e93e1656483b21559045976353106ce_347x212.jpg" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy </span><br><span class="line">img = cv2.imread(<span class="string">'roi.jpg'</span>)</span><br><span class="line">ball = img[<span class="number">20</span>:<span class="number">30</span>,<span class="number">30</span>:<span class="number">30</span>]</span><br><span class="line">img[<span class="number">40</span>:<span class="number">40</span>,<span class="number">50</span>:<span class="number">50</span>] = ball</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/16/J2EE基础知识/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1226,6 +1436,222 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/27/关于Bean/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Qgx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="qin12的学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/27/关于Bean/" itemprop="url">
+                  JavaBean
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-27 23:26:01 / 修改时间：23:07:19" itemprop="dateCreated datePublished" datetime="2018-07-27T23:26:01+08:00">2018-07-27</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="关于Bean"><a href="#关于Bean" class="headerlink" title="关于Bean"></a>关于Bean</h3><h4 id="Bean的生命周期"><a href="#Bean的生命周期" class="headerlink" title="Bean的生命周期"></a>Bean的生命周期</h4><p>bean准备就绪之前，bean工厂执行了若干启动步骤</p>
+<ul>
+<li>Spring对bean进行实例化；</li>
+<li>Spring将值和bean的引用注入到bean对应的属性中；</li>
+<li>如果bean实现了BeanNameAware接口，Spring将bean的ID传递给setBean-Name()方法；<br>如果bean实现了BeanFactoryAware接口，Spring将调用setBeanFactory()方法，将BeanFactory容器实例传入；</li>
+<li>如果bean实现了ApplicationContextAware接口，Spring将调用setApplicationContext()方法，将bean所在的应用上下文的引用传入进来；</li>
+<li>如果bean实现了BeanPostProcessor接口，Spring将调用它们的post-ProcessBeforeInitialization()方法；</li>
+<li>如果bean实现了InitializingBean接口，Spring将调用它们的after-PropertiesSet()方法。类似地，如果bean使用init-method声明了初始化方法，该方法也会被调用；</li>
+<li>如果bean实现了BeanPostProcessor接口，Spring将调用它们的post-ProcessAfterInitialization()方法；</li>
+<li>此时，bean已经准备就绪，可以被应用程序使用了，它们将一直驻留在应用上下文中，直到该应用上下文被销毁；</li>
+<li>如果bean实现了DisposableBean接口，Spring将调用它的destroy()接口方法。同样，如果bean使用destroy-method声明了销毁方法，该方法也会被调用。</li>
+</ul>
+<p><img src="/img/spring_javabean.png" alt=""></p>
+<h4 id="Bean的作用域"><a href="#Bean的作用域" class="headerlink" title="Bean的作用域"></a>Bean的作用域</h4><p>Spring定义了多种Bean作用域，可以基于这些作用域创建bean，包括：</p>
+<p>单例（Singleton）：在整个应用中，只创建bean的一个实例。<br>原型（Prototype）：每次注入或者通过Spring应用上下文获取的时候，都会创建一个新的bean实例。<br>会话（Session）：在Web应用中，为每个会话创建一个bean实例。<br>请求（Rquest）：在Web应用中，为每个请求创建一个bean实例。<br>在默认情况下，Spring应用上下文中所有bean都是作为以单例（singleton）的形式创建的。也就是说，不管给定的一个bean被注入到其他bean多少次，每次所注入的都是同一个实例。</p>
+<p>在大多数情况下，单例bean是很理想的方案。初始化和垃圾回收对象实例所带来的成本只留给一些小规模任务，在这些任务中，让对象保持无状态并且在应用中反复重用这些对象可能并不合理。</p>
+<p>有时候，可能会发现，你所使用的类是易变的（mutable），它们会保持一些状态，因此重用是不安全的。在这种情况下，将class声明为单例的bean就不是什么好主意了，因为对象会被污染，稍后重用的时候会出现意想不到的问题。</p>
+<h4 id="声明Bean"><a href="#声明Bean" class="headerlink" title="声明Bean"></a>声明Bean</h4><p>以下是声明Bean的注解：</p>
+<p>@Component 组件，没有明确的角色<br>@Service 在业务逻辑层使用<br>@Repository 在数据访问层使用<br>@Controller 在展现层使用(MVC -&gt; Spring MVC)使用<br>在这里，可以指定bean的id名：Component(“yourBeanName”)<br>同时，Spring支持将@Named作为@Component注解的替代方案。两者之间有一些细微的差异，但是在大多数场景中，它们是可以互相替换的。</p>
+<h3 id="关于依赖注入"><a href="#关于依赖注入" class="headerlink" title="关于依赖注入"></a>关于依赖注入</h3><h4 id="注入Bean的注解"><a href="#注入Bean的注解" class="headerlink" title="注入Bean的注解"></a>注入Bean的注解</h4><p><strong>@Autowired Spring提供的注解</strong><br>不仅仅是对象，还有在构造器上，还能用在属性的Setter方法上。</p>
+<p>不管是构造器、Setter方法还是其他的方法，Spring都会尝试满足方法参数上所声明的依赖。假如有且只有一个bean匹配依赖需求的话，那么这个bean将会被装配进来。</p>
+<p>如果没有匹配的bean，那么在应用上下文创建的时候，Spring会抛出一个异常。为了避免异常的出现，你可以将@Autowired的required属性设置为false。</p>
+<p>将required属性设置为false时，Spring会尝试执行自动装配，但是如果没有匹配的bean的话，Spring将会让这个bean处于未装配的状态。但是，把required属性设置为false时，你需要谨慎对待。如果在你的代码中没有进行null检查的话，这个处于未装配状态的属性有可能会出现NullPointerException。</p>
+<p><strong>@Inject</strong>注解来源于Java依赖注入规范，该规范同时还为我们定义了@Named注解。在自动装配中，Spring同时支持@Inject和@Autowired。尽管@Inject和@Autowired之间有着一些细微的差别，但是在大多数场景下，它们都是可以互相替换的。</p>
+<p>@Autowired 是最常见的注解之一，但在老项目中，你可能会看到这些注解，它们的作用和@Autowired 相近：</p>
+<p><strong>@Inject</strong> 是JSR-330提供的注解<br><strong>@Resource</strong> 是JSR-250提供的注解</p>
+<h4 id="条件化的Bean"><a href="#条件化的Bean" class="headerlink" title="条件化的Bean"></a>条件化的Bean</h4><p>假设你希望一个或多个bean只有在应用的类路径下包含特定的库时才创建。或者我们希望某个bean只有当另外某个特定的bean也声明了之后才会创建。我们还可能要求只有某个特定的环境变量设置之后，才会创建某个bean。</p>
+<p>在Spring 4之前，很难实现这种级别的条件化配置，但是Spring 4引入了一个新的@Conditional注解，它可以用到带有@Bean注解的方法上。如果给定的条件计算结果为true，就会创建这个bean，否则的话，这个bean会被忽略。</p>
+<p>通过ConditionContext，我们可以做到如下几点：</p>
+<ul>
+<li>借助getRegistry()返回的BeanDefinitionRegistry检查bean定义；</li>
+<li>借助getBeanFactory()返回的ConfigurableListableBeanFactory检查bean是否存在，甚至探查bean的属性；</li>
+<li>借助getEnvironment()返回的Environment检查环境变量是否存在以及它的值是什么；</li>
+<li>读取并探查getResourceLoader()返回的ResourceLoader所加载的资源；</li>
+<li>借助getClassLoader()返回的ClassLoader加载并检查类是否存在。<h4 id="处理自动装配的歧义性"><a href="#处理自动装配的歧义性" class="headerlink" title="处理自动装配的歧义性"></a>处理自动装配的歧义性</h4><strong>标示首选的bean</strong><br>在声明bean的时候，通过将其中一个可选的bean设置为首选（primary）bean能够避免自动装配时的歧义性。当遇到歧义性的时候，Spring将会使用首选的bean，而不是其他可选的bean。实际上，你所声明就是“最喜欢”的bean。</li>
+</ul>
+<p><strong>限定自动装配的bean</strong><br>设置首选bean的局限性在于@Primary无法将可选方案的范围限定到唯一一个无歧义性的选项中。它只能标示一个优先的可选方案。当首选bean的数量超过一个时，我们并没有其他的方法进一步缩小可选范围。</p>
+<p>与之相反，Spring的限定符能够在所有可选的bean上进行缩小范围的操作，最终能够达到只有一个bean满足所规定的限制条件。如果将所有的限定符都用上后依然存在歧义性，那么你可以继续使用更多的限定符来缩小选择范围。</p>
+<p><strong>@Qualifier</strong>注解是使用限定符的主要方式。它可以与@Autowired和@Inject协同使用，在注入的时候指定想要注入进去的是哪个bean。例如，我们想要确保要将IceCream注入到setDessert()之中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">@Qualifier(&quot;iceCream&quot;)</span><br><span class="line">public void setDessert(Dessert dessert)&#123;</span><br><span class="line">  this.dessert = dessert;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这是使用限定符的最简单的例子。为@Qualifier注解所设置的参数就是想要注入的bean的ID。所有使用@Component注解声明的类都会创建为bean，并且bean的ID为首字母变为小写的类名。因此，@Qualifier(“iceCream”)指向的是组件扫描时所创建的bean，并且这个bean是IceCream类的实例。</p>
+<p>实际上，还有一点需要补充一下。更准确地讲，@Qualifier(“iceCream”)所引用的bean要具有String类型的“iceCream”作为限定符。如果没有指定其他的限定符的话，所有的bean都会给定一个默认的限定符，这个限定符与bean的ID相同。因此，框架会将具有“iceCream”限定符的bean注入到setDessert()方法中。这恰巧就是ID为iceCream的bean，它是IceCream类在组件扫描的时候创建的。</p>
+<p>基于默认的bean ID作为限定符是非常简单的，但这有可能会引入一些问题。如果你重构了IceCream类，将其重命名为Gelato的话，那此时会发生什么情况呢？如果这样的话，bean的ID和默认的限定符会变为gelato，这就无法匹配setDessert()方法中的限定符。自动装配会失败。</p>
+<p>这里的问题在于setDessert()方法上所指定的限定符与要注入的bean的名称是紧耦合的。对类名称的任意改动都会导致限定符失效。</p>
+<h4 id="SpringEL"><a href="#SpringEL" class="headerlink" title="SpringEL"></a>SpringEL</h4><p>Value实现资源的注入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vlaue=#&#123;user&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="Bean的初始化和销毁"><a href="#Bean的初始化和销毁" class="headerlink" title="Bean的初始化和销毁"></a>Bean的初始化和销毁</h4><ul>
+<li>Java配置方式：initMethod和destoryMethod</li>
+<li>注解：@PostConstruct和@PreDestory<h4 id="Profile"><a href="#Profile" class="headerlink" title="Profile"></a>Profile</h4>提供在不同的环境下使用不同的配置</li>
+</ul>
+<p><strong>激活Profile</strong><br>Spring在确定哪个profile处于激活状态时，需要依赖两个独立的属性：spring.profiles.active和spring.profiles.default。如果设置了spring.profiles.active属性的话，那么它的值就会用来确定哪个profile是激活的。但如果没有设置spring.profiles.active属性的话，那Spring将会查找spring.profiles.default的值。如果spring.profiles.active和spring.profiles.default均没有设置的话，那就没有激活的profile，因此只会创建那些没有定义在profile中的bean。</p>
+<p><strong>使用profile进行测试</strong><br>当运行集成测试时，通常会希望采用与生产环境（或者是生产环境的部分子集）相同的配置进行测试。但是，如果配置中的bean定义在了profile中，那么在运行测试时，我们就需要有一种方式来启用合适的profile。</p>
+<p>Spring提供了@ActiveProfiles注解，我们可以使用它来指定运行测试时要激活哪个profile。在集成测试时，通常想要激活的是开发环境的profile。</p>
+<p>比如Profile(“dev”)</p>
+<h4 id="Application-Event"><a href="#Application-Event" class="headerlink" title="Application Event"></a>Application Event</h4><p>使用Application Event可以做到Bean与Bean之间的通信</p>
+<p>Spring的事件需要遵循如下流程：</p>
+<ul>
+<li>自定义事件，集成ApplicationEvent</li>
+<li>定义事件监听器，实现ApplicationListener</li>
+<li>使用容器发布事件</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/27/关于AOP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1495,222 +1921,6 @@
 </tr>
 </tbody>
 </table>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/27/关于Bean/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/27/关于Bean/" itemprop="url">
-                  JavaBean
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-27 23:26:01 / 修改时间：23:07:19" itemprop="dateCreated datePublished" datetime="2018-07-27T23:26:01+08:00">2018-07-27</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="关于Bean"><a href="#关于Bean" class="headerlink" title="关于Bean"></a>关于Bean</h3><h4 id="Bean的生命周期"><a href="#Bean的生命周期" class="headerlink" title="Bean的生命周期"></a>Bean的生命周期</h4><p>bean准备就绪之前，bean工厂执行了若干启动步骤</p>
-<ul>
-<li>Spring对bean进行实例化；</li>
-<li>Spring将值和bean的引用注入到bean对应的属性中；</li>
-<li>如果bean实现了BeanNameAware接口，Spring将bean的ID传递给setBean-Name()方法；<br>如果bean实现了BeanFactoryAware接口，Spring将调用setBeanFactory()方法，将BeanFactory容器实例传入；</li>
-<li>如果bean实现了ApplicationContextAware接口，Spring将调用setApplicationContext()方法，将bean所在的应用上下文的引用传入进来；</li>
-<li>如果bean实现了BeanPostProcessor接口，Spring将调用它们的post-ProcessBeforeInitialization()方法；</li>
-<li>如果bean实现了InitializingBean接口，Spring将调用它们的after-PropertiesSet()方法。类似地，如果bean使用init-method声明了初始化方法，该方法也会被调用；</li>
-<li>如果bean实现了BeanPostProcessor接口，Spring将调用它们的post-ProcessAfterInitialization()方法；</li>
-<li>此时，bean已经准备就绪，可以被应用程序使用了，它们将一直驻留在应用上下文中，直到该应用上下文被销毁；</li>
-<li>如果bean实现了DisposableBean接口，Spring将调用它的destroy()接口方法。同样，如果bean使用destroy-method声明了销毁方法，该方法也会被调用。</li>
-</ul>
-<p><img src="/img/spring_javabean.png" alt=""></p>
-<h4 id="Bean的作用域"><a href="#Bean的作用域" class="headerlink" title="Bean的作用域"></a>Bean的作用域</h4><p>Spring定义了多种Bean作用域，可以基于这些作用域创建bean，包括：</p>
-<p>单例（Singleton）：在整个应用中，只创建bean的一个实例。<br>原型（Prototype）：每次注入或者通过Spring应用上下文获取的时候，都会创建一个新的bean实例。<br>会话（Session）：在Web应用中，为每个会话创建一个bean实例。<br>请求（Rquest）：在Web应用中，为每个请求创建一个bean实例。<br>在默认情况下，Spring应用上下文中所有bean都是作为以单例（singleton）的形式创建的。也就是说，不管给定的一个bean被注入到其他bean多少次，每次所注入的都是同一个实例。</p>
-<p>在大多数情况下，单例bean是很理想的方案。初始化和垃圾回收对象实例所带来的成本只留给一些小规模任务，在这些任务中，让对象保持无状态并且在应用中反复重用这些对象可能并不合理。</p>
-<p>有时候，可能会发现，你所使用的类是易变的（mutable），它们会保持一些状态，因此重用是不安全的。在这种情况下，将class声明为单例的bean就不是什么好主意了，因为对象会被污染，稍后重用的时候会出现意想不到的问题。</p>
-<h4 id="声明Bean"><a href="#声明Bean" class="headerlink" title="声明Bean"></a>声明Bean</h4><p>以下是声明Bean的注解：</p>
-<p>@Component 组件，没有明确的角色<br>@Service 在业务逻辑层使用<br>@Repository 在数据访问层使用<br>@Controller 在展现层使用(MVC -&gt; Spring MVC)使用<br>在这里，可以指定bean的id名：Component(“yourBeanName”)<br>同时，Spring支持将@Named作为@Component注解的替代方案。两者之间有一些细微的差异，但是在大多数场景中，它们是可以互相替换的。</p>
-<h3 id="关于依赖注入"><a href="#关于依赖注入" class="headerlink" title="关于依赖注入"></a>关于依赖注入</h3><h4 id="注入Bean的注解"><a href="#注入Bean的注解" class="headerlink" title="注入Bean的注解"></a>注入Bean的注解</h4><p><strong>@Autowired Spring提供的注解</strong><br>不仅仅是对象，还有在构造器上，还能用在属性的Setter方法上。</p>
-<p>不管是构造器、Setter方法还是其他的方法，Spring都会尝试满足方法参数上所声明的依赖。假如有且只有一个bean匹配依赖需求的话，那么这个bean将会被装配进来。</p>
-<p>如果没有匹配的bean，那么在应用上下文创建的时候，Spring会抛出一个异常。为了避免异常的出现，你可以将@Autowired的required属性设置为false。</p>
-<p>将required属性设置为false时，Spring会尝试执行自动装配，但是如果没有匹配的bean的话，Spring将会让这个bean处于未装配的状态。但是，把required属性设置为false时，你需要谨慎对待。如果在你的代码中没有进行null检查的话，这个处于未装配状态的属性有可能会出现NullPointerException。</p>
-<p><strong>@Inject</strong>注解来源于Java依赖注入规范，该规范同时还为我们定义了@Named注解。在自动装配中，Spring同时支持@Inject和@Autowired。尽管@Inject和@Autowired之间有着一些细微的差别，但是在大多数场景下，它们都是可以互相替换的。</p>
-<p>@Autowired 是最常见的注解之一，但在老项目中，你可能会看到这些注解，它们的作用和@Autowired 相近：</p>
-<p><strong>@Inject</strong> 是JSR-330提供的注解<br><strong>@Resource</strong> 是JSR-250提供的注解</p>
-<h4 id="条件化的Bean"><a href="#条件化的Bean" class="headerlink" title="条件化的Bean"></a>条件化的Bean</h4><p>假设你希望一个或多个bean只有在应用的类路径下包含特定的库时才创建。或者我们希望某个bean只有当另外某个特定的bean也声明了之后才会创建。我们还可能要求只有某个特定的环境变量设置之后，才会创建某个bean。</p>
-<p>在Spring 4之前，很难实现这种级别的条件化配置，但是Spring 4引入了一个新的@Conditional注解，它可以用到带有@Bean注解的方法上。如果给定的条件计算结果为true，就会创建这个bean，否则的话，这个bean会被忽略。</p>
-<p>通过ConditionContext，我们可以做到如下几点：</p>
-<ul>
-<li>借助getRegistry()返回的BeanDefinitionRegistry检查bean定义；</li>
-<li>借助getBeanFactory()返回的ConfigurableListableBeanFactory检查bean是否存在，甚至探查bean的属性；</li>
-<li>借助getEnvironment()返回的Environment检查环境变量是否存在以及它的值是什么；</li>
-<li>读取并探查getResourceLoader()返回的ResourceLoader所加载的资源；</li>
-<li>借助getClassLoader()返回的ClassLoader加载并检查类是否存在。<h4 id="处理自动装配的歧义性"><a href="#处理自动装配的歧义性" class="headerlink" title="处理自动装配的歧义性"></a>处理自动装配的歧义性</h4><strong>标示首选的bean</strong><br>在声明bean的时候，通过将其中一个可选的bean设置为首选（primary）bean能够避免自动装配时的歧义性。当遇到歧义性的时候，Spring将会使用首选的bean，而不是其他可选的bean。实际上，你所声明就是“最喜欢”的bean。</li>
-</ul>
-<p><strong>限定自动装配的bean</strong><br>设置首选bean的局限性在于@Primary无法将可选方案的范围限定到唯一一个无歧义性的选项中。它只能标示一个优先的可选方案。当首选bean的数量超过一个时，我们并没有其他的方法进一步缩小可选范围。</p>
-<p>与之相反，Spring的限定符能够在所有可选的bean上进行缩小范围的操作，最终能够达到只有一个bean满足所规定的限制条件。如果将所有的限定符都用上后依然存在歧义性，那么你可以继续使用更多的限定符来缩小选择范围。</p>
-<p><strong>@Qualifier</strong>注解是使用限定符的主要方式。它可以与@Autowired和@Inject协同使用，在注入的时候指定想要注入进去的是哪个bean。例如，我们想要确保要将IceCream注入到setDessert()之中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">@Qualifier(&quot;iceCream&quot;)</span><br><span class="line">public void setDessert(Dessert dessert)&#123;</span><br><span class="line">  this.dessert = dessert;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这是使用限定符的最简单的例子。为@Qualifier注解所设置的参数就是想要注入的bean的ID。所有使用@Component注解声明的类都会创建为bean，并且bean的ID为首字母变为小写的类名。因此，@Qualifier(“iceCream”)指向的是组件扫描时所创建的bean，并且这个bean是IceCream类的实例。</p>
-<p>实际上，还有一点需要补充一下。更准确地讲，@Qualifier(“iceCream”)所引用的bean要具有String类型的“iceCream”作为限定符。如果没有指定其他的限定符的话，所有的bean都会给定一个默认的限定符，这个限定符与bean的ID相同。因此，框架会将具有“iceCream”限定符的bean注入到setDessert()方法中。这恰巧就是ID为iceCream的bean，它是IceCream类在组件扫描的时候创建的。</p>
-<p>基于默认的bean ID作为限定符是非常简单的，但这有可能会引入一些问题。如果你重构了IceCream类，将其重命名为Gelato的话，那此时会发生什么情况呢？如果这样的话，bean的ID和默认的限定符会变为gelato，这就无法匹配setDessert()方法中的限定符。自动装配会失败。</p>
-<p>这里的问题在于setDessert()方法上所指定的限定符与要注入的bean的名称是紧耦合的。对类名称的任意改动都会导致限定符失效。</p>
-<h4 id="SpringEL"><a href="#SpringEL" class="headerlink" title="SpringEL"></a>SpringEL</h4><p>Value实现资源的注入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vlaue=#&#123;user&#125;</span><br></pre></td></tr></table></figure></p>
-<h4 id="Bean的初始化和销毁"><a href="#Bean的初始化和销毁" class="headerlink" title="Bean的初始化和销毁"></a>Bean的初始化和销毁</h4><ul>
-<li>Java配置方式：initMethod和destoryMethod</li>
-<li>注解：@PostConstruct和@PreDestory<h4 id="Profile"><a href="#Profile" class="headerlink" title="Profile"></a>Profile</h4>提供在不同的环境下使用不同的配置</li>
-</ul>
-<p><strong>激活Profile</strong><br>Spring在确定哪个profile处于激活状态时，需要依赖两个独立的属性：spring.profiles.active和spring.profiles.default。如果设置了spring.profiles.active属性的话，那么它的值就会用来确定哪个profile是激活的。但如果没有设置spring.profiles.active属性的话，那Spring将会查找spring.profiles.default的值。如果spring.profiles.active和spring.profiles.default均没有设置的话，那就没有激活的profile，因此只会创建那些没有定义在profile中的bean。</p>
-<p><strong>使用profile进行测试</strong><br>当运行集成测试时，通常会希望采用与生产环境（或者是生产环境的部分子集）相同的配置进行测试。但是，如果配置中的bean定义在了profile中，那么在运行测试时，我们就需要有一种方式来启用合适的profile。</p>
-<p>Spring提供了@ActiveProfiles注解，我们可以使用它来指定运行测试时要激活哪个profile。在集成测试时，通常想要激活的是开发环境的profile。</p>
-<p>比如Profile(“dev”)</p>
-<h4 id="Application-Event"><a href="#Application-Event" class="headerlink" title="Application Event"></a>Application Event</h4><p>使用Application Event可以做到Bean与Bean之间的通信</p>
-<p>Spring的事件需要遵循如下流程：</p>
-<ul>
-<li>自定义事件，集成ApplicationEvent</li>
-<li>定义事件监听器，实现ApplicationListener</li>
-<li>使用容器发布事件</li>
-</ul>
 
           
         
@@ -2431,161 +2641,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/20/Fragment  的嵌套使用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qgx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="qin12的学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/20/Fragment  的嵌套使用/" itemprop="url">
-                  我的第一个Android设计第三天
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-07-20 17:41:52" itemprop="dateCreated datePublished" datetime="2018-07-20T17:41:52+08:00">2018-07-20</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Fragment-的嵌套使用"><a href="#Fragment-的嵌套使用" class="headerlink" title="Fragment  的嵌套使用"></a>Fragment  的嵌套使用</h3><h4 id="Fragment管理类"><a href="#Fragment管理类" class="headerlink" title="Fragment管理类"></a>Fragment管理类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">package com.example.qgx.androidkeshe.Fragement;</span><br><span class="line"></span><br><span class="line">import android.support.v4.app.Fragment;</span><br><span class="line">import android.support.v4.app.FragmentManager;</span><br><span class="line">import android.support.v4.app.FragmentTransaction;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> *</span><br><span class="line"> * Created by qgx on 2018/6/22.</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">public class FragmentManagerHelper &#123;</span><br><span class="line">    private FragmentManager mFragmentManager;</span><br><span class="line">    private int mContainerViewId;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     *</span><br><span class="line">     * @param mFragmentManager  管理类</span><br><span class="line">     * @param mContainerViewId 容器布局的id</span><br><span class="line">     */</span><br><span class="line">    public FragmentManagerHelper(FragmentManager mFragmentManager, int mContainerViewId) &#123;</span><br><span class="line">        this.mFragmentManager = mFragmentManager;</span><br><span class="line">        this.mContainerViewId = mContainerViewId;</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 添加fragment</span><br><span class="line">     * @param fragment</span><br><span class="line">     */</span><br><span class="line">    public void add(Fragment fragment)&#123;</span><br><span class="line">        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();</span><br><span class="line"></span><br><span class="line">        fragmentTransaction.add(mContainerViewId,fragment);</span><br><span class="line">        fragmentTransaction.commit();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 切换显示fragment</span><br><span class="line">     * @param fragment</span><br><span class="line">     */</span><br><span class="line">    public void switchFragmnet(Fragment fragment) &#123;</span><br><span class="line">        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();</span><br><span class="line">        List&lt;Fragment&gt; childFragments = mFragmentManager.getFragments();</span><br><span class="line">        for (Fragment childFragment : childFragments) &#123;</span><br><span class="line">            fragmentTransaction.hide(childFragment);</span><br><span class="line">        &#125;</span><br><span class="line">        if (!childFragments.contains(fragment)) &#123;</span><br><span class="line">            fragmentTransaction.add(mContainerViewId, fragment);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            fragmentTransaction.show(fragment);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        fragmentTransaction.commit();</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>是重写Fragment的setUserVisibleHint（）方法，实现Fragment内部的懒加载机制。<br>懒加载Fragment<br>lazyLoadFragment.java<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line">package com.example.qgx.androidkeshe.Fragement;</span><br><span class="line"></span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.support.annotation.Nullable;</span><br><span class="line">import android.support.v4.app.Fragment;</span><br><span class="line">import android.view.LayoutInflater;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.view.ViewGroup;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by qgx on 2018/6/22.</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">public abstract class LazyLoadFragment extends Fragment &#123;</span><br><span class="line">    /**</span><br><span class="line">     * 视图是否已经初初始化</span><br><span class="line">     */</span><br><span class="line">    protected boolean isInit = false;</span><br><span class="line">    protected boolean isLoad = false;</span><br><span class="line">    protected final String TAG = &quot;LazyLoadFragment&quot;;</span><br><span class="line">    private View view;</span><br><span class="line">    /**</span><br><span class="line">     * 设置Fragment要显示的布局</span><br><span class="line">     *</span><br><span class="line">     * @return 布局的layoutId</span><br><span class="line">     */</span><br><span class="line">    protected abstract int setContentView();</span><br><span class="line">    public abstract void initView();</span><br><span class="line">    public abstract void setListener();</span><br><span class="line">    public abstract void initData();</span><br><span class="line">    /**</span><br><span class="line">     * 获取设置的布局</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    protected View getContentView() &#123;</span><br><span class="line">        return view;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 找出对应的控件</span><br><span class="line">     *</span><br><span class="line">     * @param id</span><br><span class="line">     * @param &lt;T&gt;</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    protected &lt;T extends View&gt; T findViewById(int id) &#123;</span><br><span class="line">        return (T) getContentView().findViewById(id);</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 当视图初始化并且对用户可见的时候去真正的加载数据</span><br><span class="line">     */</span><br><span class="line">    protected abstract void lazyLoad();</span><br><span class="line">    /**</span><br><span class="line">     * 当视图已经对用户不可见并且加载过数据，如果需要在切换到其他页面时停止加载数据，可以调用此方法</span><br><span class="line">     */</span><br><span class="line">    protected void stopLoad() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 视图销毁的时候讲Fragment是否初始化的状态变为false</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    public void onDestroyView() &#123;</span><br><span class="line">        super.onDestroyView();</span><br><span class="line">        isInit = false;</span><br><span class="line">        isLoad = false;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 是否可以加载数据</span><br><span class="line">     * 可以加载数据的条件：</span><br><span class="line">     * 1.视图已经初始化</span><br><span class="line">     * 2.视图对用户可见</span><br><span class="line">     */</span><br><span class="line">    private void isCanLoadData() &#123;</span><br><span class="line">        if (!isInit) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (getUserVisibleHint()) &#123;</span><br><span class="line">            lazyLoad();</span><br><span class="line">            isLoad = true;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            if (isLoad) &#123;</span><br><span class="line">                stopLoad();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">     * 视图是否已经对用户可见，系统的方法</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    public void setUserVisibleHint(boolean isVisibleToUser) &#123;</span><br><span class="line">        super.setUserVisibleHint(isVisibleToUser);</span><br><span class="line">        isCanLoadData();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Nullable</span><br><span class="line">    @Override</span><br><span class="line">    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) &#123;</span><br><span class="line">       view = inflater.inflate(setContentView(), container, false);</span><br><span class="line">        initView();</span><br><span class="line">        initData();</span><br><span class="line">        setListener();</span><br><span class="line">        isInit = true;</span><br><span class="line">        /**初始化的时候去加载数据**/</span><br><span class="line">        isCanLoadData();</span><br><span class="line">        return view;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2637,7 +2692,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">88</span>
+                    <span class="site-state-item-count">89</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2805,7 +2860,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">62</span>
+                      
+                    
+                    <span class="site-state-item-count">63</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
